@@ -15,11 +15,7 @@ Choppit will convert the ingredients and instructions to a clear, uncluttered fo
 * Family recipes can be preserved and shared.
 * Serious home chefs will also be able to tweak and perfect their meals and note suggestions for the next time they use a recipe.
 
-## User Stories
-
-As a foodie, I want to have a customized cookbook so that I can impress my friend with refined cuisine and perfect my recipes through trial and error.
-
-As a busy home chef, I need to get to my family's favorite recipes quickly, and refer to measurements on the fly as I cook.
+### [User Stories](./user-stories.md)
 
 ## External Services
 
