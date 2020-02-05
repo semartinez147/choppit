@@ -27,5 +27,10 @@ Choppit will convert the ingredients and instructions to a clear, uncluttered fo
 
 * [Food Network](http://www.foodnetwork.com).
   * Additional websites as they are supported.
-* [jSoup Java library](https://jsoup.org/) to parse HTML and extract relevant information.
+  * HTML will be retrieved from recipe sites and processed to extract ingredient and instruction details.
+  * The websites will not be needed once data is retrieved.
+* [jsoup Java library](https://jsoup.org/) to parse HTML and extract relevant information.
+  *jsoup is an offline service that will be fully integrated as Choppit will rely on jsoup to parse websites into recipes.
 * [USDA Agricultural Research Service](https://www.ars.usda.gov/northeast-area/beltsville-md-bhnrc/beltsville-human-nutrition-research-center/methods-and-application-of-food-composition-laboratory/mafcl-site-pages/sr17-sr28/)  database of unformatted ASCII "suitable for import to RDBMS system."
+  * This USDA dataset will be integral to Choppit's ingredient logic and necessary for the app to function properly.
+  * The database file is small enough (~1.3MB) to be used as an offline reference.  
