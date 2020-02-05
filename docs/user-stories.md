@@ -14,4 +14,4 @@
 
 ---
 
-[Go back](readme.md)	\|	[Wireframes](wireframe.md)	\|	[Entity-Relationship Diagram](erd.md)
+[Go back](README.md)	\|	[Wireframes](wireframe.md)	\|	[Entity-Relationship Diagram](erd.md)

@@ -4,4 +4,4 @@
 
 ----
 
-[Go back](readme.md)	\|	[Entity-Relationship Diagram](erd.md)	\|	[User Stories](user-stories.md)
+[Go back](README.md)	\|	[Entity-Relationship Diagram](erd.md)	\|	[User Stories](user-stories.md)
