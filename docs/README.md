@@ -25,8 +25,7 @@ Choppit will convert the ingredients and instructions to a clear, uncluttered fo
 
 ## External Services
 
-* [Food Network](www.foodnetwork.com).
+* [Food Network](http://www.foodnetwork.com).
   * Additional websites as they are supported.
 * [jSoup Java library](https://jsoup.org/) to parse HTML and extract relevant information.
-* Database of ingredients.
-  * [USDA Agricultural Research Service](https://www.ars.usda.gov/northeast-area/beltsville-md-bhnrc/beltsville-human-nutrition-research-center/methods-and-application-of-food-composition-laboratory/mafcl-site-pages/sr17-sr28/) offers a free database of unformatted ASCII "suitable for import to RDBMS system."
+* [USDA Agricultural Research Service](https://www.ars.usda.gov/northeast-area/beltsville-md-bhnrc/beltsville-human-nutrition-research-center/methods-and-application-of-food-composition-laboratory/mafcl-site-pages/sr17-sr28/)  database of unformatted ASCII "suitable for import to RDBMS system."
