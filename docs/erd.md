@@ -4,4 +4,4 @@
 
 ----
 
-[Go back](readme.md)	|	[Wireframes](wireframe.md)	|	[User Stories](user-stories.md)
+[Go back](readme.md)	\|	[Wireframes](wireframe.md)	\|	[User Stories](user-stories.md)
