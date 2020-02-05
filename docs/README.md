@@ -15,10 +15,17 @@ Choppit will convert the ingredients and instructions to a clear, uncluttered fo
 * Family recipes can be preserved and shared.
 * Serious home chefs will also be able to tweak and perfect their meals and note suggestions for the next time they use a recipe.
 
-### [User Stories](./user-stories.md)
+### [User Stories](user-stories.md)
+
+## Design Documentation
+
+### [Wireframe Diagram](wireframe.md)
+
+### [Entity-Relationship Diagram](erd.md)
 
 ## External Services
 
 * [Food Network](www.foodnetwork.com).
-  * Choppit will use keywords and HTML formatting clues to separate ingredients, Instructions, and Excess.
-* Connection to printing service?
+  * Additional websites as they are supported.
+* [jSoup Java library](https://jsoup.org/) to parse HTML and extract relevant information.
+* OAuth?
