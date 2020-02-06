@@ -4,7 +4,7 @@ Choppit is an app that easily saves and edits recipes from the internet.  The pu
 
 Recipes online are usually preceded by paragraph after paragraph of unnecessary text, followed by a comment section, and littered with ads. Choppit will extract only the ingredients and instructions and display them in an easy-to-read interface.
 
-The first iteration of Choppit will support recipes from [Food Network](www.foodnetwork.com).  A user will begin by finding an interesting recipe and using Android's "share" function to send the recipe to Choppit and save it locally.  
+The first iteration of Choppit will support recipes from [Food Network](www.foodnetwork.com).  A user will begin by finding an interesting recipe. Android's "share" function will send the recipe to Choppit, which will edit it and save the simplified version locally.  
 
 Choppit will convert the ingredients and instructions to a clear, uncluttered format, and support editing so that ingredients can be added/removed, measurements adjusted, and individual steps edited.  There will also be a "recipe from scratch" option to help digitize and preserve important family recipes.
 
