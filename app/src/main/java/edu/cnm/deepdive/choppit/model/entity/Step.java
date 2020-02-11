@@ -24,7 +24,7 @@ public class Step {
   @PrimaryKey(autoGenerate = true)
   private long stepId;
 
-  @ColumnInfo(name = "recipe_id")
+  @ColumnInfo(name = "recipe_id", index = true)
   private long recipeId;
 
   @ColumnInfo

@@ -33,7 +33,7 @@ public class Ingredient {
   @PrimaryKey(autoGenerate = true)
   private long ingredientId;
 
-  @ColumnInfo(name = "step_id")
+  @ColumnInfo(name = "step_id", index = true)
   private long stepId;
 
   @ColumnInfo(name = "item_id")

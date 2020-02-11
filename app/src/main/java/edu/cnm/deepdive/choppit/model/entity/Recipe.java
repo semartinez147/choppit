@@ -16,10 +16,10 @@ public class Recipe {
   @PrimaryKey(autoGenerate = true)
   private long id;
 
-  @ColumnInfo (name = "url", defaultValue = "null", collate = ColumnInfo.NOCASE) // does this default work?
+  @ColumnInfo (name = "url", defaultValue = "null", collate = ColumnInfo.NOCASE) // TODO find out if this default works
     private String url;
 
-  @ColumnInfo(name = "title", index = true, defaultValue = "Untitled Recipe", collate = ColumnInfo.NOCASE)
+  @ColumnInfo(name = "title", index = true, defaultValue = "Untitled Recipe", collate = ColumnInfo.NOCASE) // TODO what happens if you save multiple Untitled Recipes?
   private String title;
 
   @ColumnInfo(name = "edited", index = true, defaultValue = "false")
