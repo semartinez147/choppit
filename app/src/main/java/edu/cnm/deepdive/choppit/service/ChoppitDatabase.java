@@ -29,6 +29,8 @@ public abstract class ChoppitDatabase extends RoomDatabase {
     ChoppitDatabase.context = context;
   }
 
+
+  // TODO get getters to get something
   public static ChoppitDatabase getInstance() {
     return InstanceHolder.INSTANCE;
   }
