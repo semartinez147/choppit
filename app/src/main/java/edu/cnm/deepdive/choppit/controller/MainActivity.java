@@ -8,6 +8,9 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import edu.cnm.deepdive.choppit.R;
+import edu.cnm.deepdive.choppit.model.dao.RecipeDao;
+import edu.cnm.deepdive.choppit.model.entity.Recipe;
+import edu.cnm.deepdive.choppit.service.ChoppitDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,5 +28,4 @@ public class MainActivity extends AppCompatActivity {
     NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
     NavigationUI.setupWithNavController(navView, navController);
   }
-
 }

@@ -29,5 +29,5 @@ public interface StepDao {
   Single<Integer> delete(Step step);
 
   @Query("SELECT * FROM Step ORDER BY recipe_order")
-  LiveData<List<Item>> select();
+  LiveData<List<Step>> select();
 }

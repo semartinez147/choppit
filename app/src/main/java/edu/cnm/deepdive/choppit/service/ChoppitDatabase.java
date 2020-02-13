@@ -4,6 +4,8 @@ import android.app.Application;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
 import edu.cnm.deepdive.choppit.model.dao.IngredientDao;
 import edu.cnm.deepdive.choppit.model.dao.ItemDao;
 import edu.cnm.deepdive.choppit.model.dao.RecipeDao;
@@ -12,13 +14,16 @@ import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Item;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
+import edu.cnm.deepdive.choppit.service.ChoppitDatabase.Converters;
+import java.util.Date;
 
 @Database(
     entities = {Ingredient.class, Item.class, Recipe.class, Step.class},
     version = 1,
     exportSchema = true
 )
-// TODO TypeConverters annotation
+
+@TypeConverters({Converters.class, Ingredient.ItemUnit.class})
 public abstract class ChoppitDatabase extends RoomDatabase {
 
   private static final String DB_NAME = "choppit_db";
@@ -29,8 +34,6 @@ public abstract class ChoppitDatabase extends RoomDatabase {
     ChoppitDatabase.context = context;
   }
 
-
-  // TODO get getters to get something
   public static ChoppitDatabase getInstance() {
     return InstanceHolder.INSTANCE;
   }
@@ -51,6 +54,17 @@ public abstract class ChoppitDatabase extends RoomDatabase {
   }
 
   public static class Converters {
-    // TODO write converters
+
+    @TypeConverter
+    public static Long fromDate(Date date) {
+      return (date != null) ? date.getTime() : null;
+    }
+
+    @TypeConverter
+    public static Date fromLong(Long value) {
+      return (value != null) ? new Date(value) : null;
+    }
+
   }
+
 }

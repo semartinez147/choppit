@@ -3,9 +3,15 @@ package edu.cnm.deepdive.choppit.model.entity;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
 
 @Entity(
+    // FIXME fix indices
+//    indices = {
+//      @Index(value = "item_id, item_name")
+//    },
     foreignKeys = {
         @ForeignKey(
             entity = Step.class,
@@ -97,6 +103,24 @@ public class Ingredient {
   }
 
   public enum ItemUnit {
-    DASH, TSP, TBSP, CUP, PINT, QUART, GALLON, OZ, LB
+    DASH,
+    TSP,
+    TBSP,
+    CUP,
+    PINT,
+    QUART,
+    GALLON,
+    OZ,
+    LB;
+
+    @TypeConverter
+    public static Integer toInteger(ItemUnit value) {
+      return (value != null) ? value.ordinal() : null;
+    }
+
+    @TypeConverter
+    public static ItemUnit toItemUnit(Integer value) {
+      return (value != null) ? ItemUnit.values()[value] : null;
+    }
   }
 }
