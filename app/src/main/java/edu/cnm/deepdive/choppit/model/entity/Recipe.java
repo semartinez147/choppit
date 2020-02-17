@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(
     indices = {
-        @Index(value = {"title", "url"}, unique = true)
+        @Index(value = {"title", "url"}, unique = true),
     }
 )
 public class Recipe {
@@ -16,7 +16,7 @@ public class Recipe {
   @PrimaryKey(autoGenerate = true)
   private long id;
 
-  @ColumnInfo (name = "url", defaultValue = "null", collate = ColumnInfo.NOCASE) // TODO find out if this default works
+  @ColumnInfo (name = "url", collate = ColumnInfo.NOCASE)
     private String url;
 
   @ColumnInfo(name = "title", index = true, defaultValue = "Untitled Recipe", collate = ColumnInfo.NOCASE) // TODO what happens if you save multiple Untitled Recipes?

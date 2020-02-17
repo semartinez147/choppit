@@ -7,7 +7,6 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
-import edu.cnm.deepdive.choppit.model.entity.Item;
 import edu.cnm.deepdive.choppit.model.entity.Step;
 import io.reactivex.Single;
 import java.util.Collection;
@@ -28,6 +27,6 @@ public interface StepDao {
   @Delete
   Single<Integer> delete(Step step);
 
-  @Query("SELECT * FROM Step ORDER BY recipe_order")
-  LiveData<List<Step>> select();
+  @Query("SELECT * FROM Step WHERE recipe_id = recipe_id ORDER BY recipe_order")
+  LiveData<List<Step>> select(long recipe_id);
 }

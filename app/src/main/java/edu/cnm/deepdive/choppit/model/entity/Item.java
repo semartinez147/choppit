@@ -13,24 +13,24 @@ public class Item {
 
   @ColumnInfo(name = "item_id")
   @PrimaryKey(autoGenerate = true)
-  private long itemId;
+  private long id;
 
   @ColumnInfo(name = "item_name", collate = ColumnInfo.NOCASE)
-  private String itemName;
+  private String name;
 
-  public long getItemId() {
-    return itemId;
+  public long getId() {
+    return id;
   }
 
-  public void setItemId(long itemId) {
-    this.itemId = itemId;
+  public void setId(long id) {
+    this.id = id;
   }
 
-  public String getItemName() {
-    return itemName;
+  public String getName() {
+    return name;
   }
 
-  public void setItemName(String itemName) {
-    this.itemName = itemName;
+  public void setName(String name) {
+    this.name = name;
   }
 }

@@ -22,7 +22,6 @@ import java.util.Date;
     version = 1,
     exportSchema = true
 )
-
 @TypeConverters({Converters.class, Ingredient.ItemUnit.class})
 public abstract class ChoppitDatabase extends RoomDatabase {
 

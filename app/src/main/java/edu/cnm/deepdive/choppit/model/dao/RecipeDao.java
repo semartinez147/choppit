@@ -27,6 +27,6 @@ public interface RecipeDao {
   @Delete
   Single<Integer> delete(Recipe... recipes);
 
-  @Query("SELECT * FROM Recipe ORDER BY favorite AND title")
+  @Query("SELECT * FROM Recipe ORDER BY favorite DESC, title")
   LiveData<List<Recipe>> select();
 }

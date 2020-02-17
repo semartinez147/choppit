@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 
 @Entity(
     indices = {
-        @Index(value = "instructions", unique = true)
+        @Index(value = {"recipe_id", "recipe_order"}, unique = true)
     },
     foreignKeys = {
         @ForeignKey(
@@ -27,10 +27,10 @@ public class Step {
   @ColumnInfo(name = "recipe_id", index = true)
   private long recipeId;
 
-  @ColumnInfo
+  @ColumnInfo(collate = ColumnInfo.NOCASE)
   private String instructions;
 
-  @ColumnInfo (name = "recipe_order", index = true)
+  @ColumnInfo (name = "recipe_order")
   private int recipeOrder;
 
   public long getStepId() {
