@@ -11,6 +11,7 @@ import edu.cnm.deepdive.choppit.model.dao.ItemDao;
 import edu.cnm.deepdive.choppit.model.dao.RecipeDao;
 import edu.cnm.deepdive.choppit.model.dao.StepDao;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
+import edu.cnm.deepdive.choppit.model.entity.Ingredient.Unit;
 import edu.cnm.deepdive.choppit.model.entity.Item;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
@@ -22,7 +23,7 @@ import java.util.Date;
     version = 1,
     exportSchema = true
 )
-@TypeConverters({Converters.class, Ingredient.ItemUnit.class})
+@TypeConverters({Converters.class, Unit.class})
 public abstract class ChoppitDatabase extends RoomDatabase {
 
   private static final String DB_NAME = "choppit_db";

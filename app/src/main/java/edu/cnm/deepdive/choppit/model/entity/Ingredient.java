@@ -6,7 +6,6 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
-import androidx.room.TypeConverters;
 
 @Entity(
     indices = {
@@ -42,13 +41,13 @@ public class Ingredient {
   private long itemId;
 
   @ColumnInfo(name = "item_name", collate = ColumnInfo.NOCASE)
-  private String itemName;
+  private String name;
 
   @ColumnInfo(name = "item_quantity")
-  private long itemQuantity;
+  private long quantity;
 
   @ColumnInfo(name = "item_unit", typeAffinity = ColumnInfo.TEXT)
-  private ItemUnit itemUnit;
+  private Unit unit;
 
   public long getId() {
     return id;
@@ -74,31 +73,31 @@ public class Ingredient {
     this.itemId = itemId;
   }
 
-  public String getItemName() {
-    return itemName;
+  public String getName() {
+    return name;
   }
 
-  public void setItemName(String itemName) {
-    this.itemName = itemName;
+  public void setName(String name) {
+    this.name = name;
   }
 
-  public long getItemQuantity() {
-    return itemQuantity;
+  public long getQuantity() {
+    return quantity;
   }
 
-  public void setItemQuantity(long itemQuantity) {
-    this.itemQuantity = itemQuantity;
+  public void setQuantity(long quantity) {
+    this.quantity = quantity;
   }
 
-  public ItemUnit getItemUnit() {
-    return itemUnit;
+  public Unit getUnit() {
+    return unit;
   }
 
-  public void setItemUnit(ItemUnit itemUnit) {
-    this.itemUnit = itemUnit;
+  public void setUnit(Unit unit) {
+    this.unit = unit;
   }
 
-  public enum ItemUnit {
+  public enum Unit {
     DASH,
     TSP,
     TBSP,
@@ -107,26 +106,27 @@ public class Ingredient {
     QUART,
     GALLON,
     OZ,
-    LB;
+    LB,
+    OTHER; // Will generate a text field for things like "sprig" or "leg".
 
     @TypeConverter
-    public static Integer toInteger(ItemUnit value) {
+    public static Integer toInteger(Unit value) {
       return (value != null) ? value.ordinal() : null;
     }
 
     @TypeConverter
-    public static ItemUnit toItemUnit(Integer value) {
-      return (value != null) ? ItemUnit.values()[value] : null;
+    public static Unit toUnit(Integer value) {
+      return (value != null) ? Unit.values()[value] : null;
     }
 
     @TypeConverter
-    public static String toString(ItemUnit value) {
+    public static String toString(Unit value) {
       return (value != null) ? value.name() : null;
 
     }
     @TypeConverter
-    public static ItemUnit toItemUnit(String value) {
-      return (value != null) ? ItemUnit.valueOf(value) : null;
+    public static Unit toUnit(String value) {
+      return (value != null) ? Unit.valueOf(value) : null;
     }
   }
 }

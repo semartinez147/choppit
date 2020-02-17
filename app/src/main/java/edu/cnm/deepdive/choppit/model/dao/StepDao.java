@@ -27,6 +27,6 @@ public interface StepDao {
   @Delete
   Single<Integer> delete(Step step);
 
-  @Query("SELECT * FROM Step WHERE recipe_id = recipe_id ORDER BY recipe_order")
+  @Query("SELECT * FROM Step WHERE recipe_id = :recipe_id ORDER BY recipe_order")
   LiveData<List<Step>> select(long recipe_id);
 }
