@@ -12,7 +12,7 @@
 
 >"As a busy family chef, I cook big dinners several nights a week.  I need to access our favorite recipes quickly, and refer to measurements on the fly as I cook, so that everyone is happy with dinner and we have more family time in the evenings."
 
-<img src="harold.jpg" alt="small harold" width="150"/>
+<img src="harold.png" alt="small harold" width="150"/>
 
 
 ---
