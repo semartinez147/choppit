@@ -10,8 +10,7 @@ import androidx.room.TypeConverter;
 @Entity(
     indices = {
       @Index(value = "step_id"),
-      @Index(value = "item_id"),
-      @Index(value = "item_name")
+      @Index(value = "item_id")
     },
     foreignKeys = {
         @ForeignKey(
@@ -40,13 +39,10 @@ public class Ingredient {
   @ColumnInfo(name = "item_id")
   private long itemId;
 
-  @ColumnInfo(name = "item_name", collate = ColumnInfo.NOCASE)
-  private String name;
-
-  @ColumnInfo(name = "item_quantity")
+  @ColumnInfo(name = "quantity")
   private long quantity;
 
-  @ColumnInfo(name = "item_unit", typeAffinity = ColumnInfo.TEXT)
+  @ColumnInfo(name = "unit", typeAffinity = ColumnInfo.TEXT, collate = ColumnInfo.NOCASE)
   private Unit unit;
 
   public long getId() {
@@ -73,14 +69,6 @@ public class Ingredient {
     this.itemId = itemId;
   }
 
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
   public long getQuantity() {
     return quantity;
   }
@@ -100,24 +88,22 @@ public class Ingredient {
   public enum Unit {
     DASH,
     TSP,
+    TEASPOON,
     TBSP,
+    TABLESPOON,
+    C,
     CUP,
+    PT,
     PINT,
+    QT,
     QUART,
+    GAL,
     GALLON,
     OZ,
+    OUNCE,
     LB,
+    POUND,
     OTHER; // Will generate a text field for things like "sprig" or "leg".
-
-    @TypeConverter
-    public static Integer toInteger(Unit value) {
-      return (value != null) ? value.ordinal() : null;
-    }
-
-    @TypeConverter
-    public static Unit toUnit(Integer value) {
-      return (value != null) ? Unit.values()[value] : null;
-    }
 
     @TypeConverter
     public static String toString(Unit value) {

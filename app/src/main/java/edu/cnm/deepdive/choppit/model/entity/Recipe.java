@@ -19,7 +19,7 @@ public class Recipe {
   @ColumnInfo (name = "url", collate = ColumnInfo.NOCASE)
     private String url;
 
-  @ColumnInfo(name = "title", index = true, defaultValue = "Untitled Recipe", collate = ColumnInfo.NOCASE) // TODO what happens if you save multiple Untitled Recipes?
+  @ColumnInfo(name = "title", index = true, defaultValue = "Untitled Recipe", collate = ColumnInfo.NOCASE)
   private String title;
 
   @ColumnInfo(name = "edited", index = true, defaultValue = "false")

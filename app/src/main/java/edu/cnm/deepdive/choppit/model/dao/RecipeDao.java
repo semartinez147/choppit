@@ -8,6 +8,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
+import io.reactivex.Maybe;
 import io.reactivex.Single;
 import java.util.Collection;
 import java.util.List;
@@ -27,6 +28,12 @@ public interface RecipeDao {
   @Delete
   Single<Integer> delete(Recipe... recipes);
 
-  @Query("SELECT * FROM Recipe ORDER BY favorite DESC, title")
-  LiveData<List<Recipe>> select();
+  @Query("SELECT * FROM Recipe ORDER BY title")
+  List<Recipe> list();
+
+  @Query("SELECT * FROM Recipe WHERE Favorite = 1 ORDER BY title")
+  List<Recipe> favList();
+
+  @Query("SELECT * FROM Recipe WHERE title = :title")
+  Maybe<Recipe> select(String title);
 }

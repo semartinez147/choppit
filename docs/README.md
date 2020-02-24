@@ -23,6 +23,8 @@ Choppit will convert the ingredients and instructions to a clear, uncluttered fo
 
 ### [Entity-Relationship Diagram](erd.md)
 
+### [Data Implementation Models](data-models.md)
+
 ## External Services
 
 * [Food Network](http://www.foodnetwork.com).
