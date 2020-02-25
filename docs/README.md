@@ -8,6 +8,8 @@ The first iteration of Choppit will support recipes from [Food Network](www.food
 
 Choppit will convert the ingredients and instructions to a clear, uncluttered format, and support editing so that ingredients can be added/removed, measurements adjusted, and individual steps edited.  There will also be a "recipe from scratch" option to help digitize and preserve important family recipes.
 
+---
+
 ## Intended Users
 
 * Anybody who cooks will appreciate seeing ingredient amounts from the instructions without having to scroll.
@@ -17,6 +19,8 @@ Choppit will convert the ingredients and instructions to a clear, uncluttered fo
 
 ### [User Stories](user-stories.md)
 
+---
+
 ## Design Documentation
 
 ### [Wireframe Diagram](wireframe.md)
@@ -24,6 +28,8 @@ Choppit will convert the ingredients and instructions to a clear, uncluttered fo
 ### [Entity-Relationship Diagram](erd.md)
 
 ### [Data Implementation Models](data-models.md)
+
+---
 
 ## External Services
 
