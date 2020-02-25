@@ -26,14 +26,13 @@ Choppit will receive a recipe url, identify relevant text through user input and
 
 ### [Entity-Relationship Diagram](erd.md)
 
-### [Data Implementation Models](data-models.md)
+### [Data Model Implementation](data-models.md)
 
 ---
 
 ## External Services
 
-* [Food Network](http://www.foodnetwork.com).
-  * Additional websites as they are supported.
+* Any recipe website.
   * HTML will be retrieved from recipe sites and processed to extract ingredient and instruction details.
   * The websites will not be needed once data is retrieved.
 * [jsoup Java library](https://jsoup.org/) to parse HTML and extract relevant information.
