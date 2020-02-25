@@ -4,6 +4,8 @@ import android.app.Application;
 import edu.cnm.deepdive.choppit.model.dao.ItemDao;
 import edu.cnm.deepdive.choppit.model.entity.Item;
 import edu.cnm.deepdive.choppit.service.ChoppitDatabase;
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -34,9 +36,15 @@ public class ItemRepository {
     return ItemRepository.InstanceHolder.INSTANCE;
   }
 
-  public List<Item> get(long id) {
+  public List<Item> get() {
     ItemDao dao = database.getItemDao();
-    return dao.select(id);
+    return dao.select();
+  }
+
+  public Single<Item> get(long id) {
+    ItemDao dao = database.getItemDao();
+    return dao.select(id)
+        .subscribeOn(Schedulers.io());
   }
 
   private static class InstanceHolder {

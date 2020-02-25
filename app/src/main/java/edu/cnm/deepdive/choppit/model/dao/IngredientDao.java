@@ -25,7 +25,7 @@ public interface IngredientDao {
   @Delete
   int delete(Ingredient... ingredients);
 
-  @Query("SELECT * FROM Ingredient ORDER BY item_id")
+  @Query("SELECT * FROM Ingredient ORDER BY step_id")
   List<Ingredient> list();
 
   @Query("SELECT * FROM Ingredient WHERE step_id = :id")

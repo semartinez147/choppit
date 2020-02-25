@@ -1,6 +1,5 @@
 package edu.cnm.deepdive.choppit.model.dao;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -8,7 +7,6 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
-import io.reactivex.Maybe;
 import io.reactivex.Single;
 import java.util.Collection;
 import java.util.List;
@@ -34,6 +32,9 @@ public interface RecipeDao {
   @Query("SELECT * FROM Recipe WHERE Favorite = 1 ORDER BY title")
   List<Recipe> favList();
 
+  @Query("SELECT * FROM Recipe WHERE Edited = 1 ORDER BY title")
+  List<Recipe> editedList();
+
   @Query("SELECT * FROM Recipe WHERE title = :title")
-  Maybe<Recipe> select(String title);
+  Single<Recipe> select(String title);
 }

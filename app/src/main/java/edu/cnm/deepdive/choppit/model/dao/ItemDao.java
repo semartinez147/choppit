@@ -27,6 +27,9 @@ public interface ItemDao {
   @Delete
   Single<Integer> delete(Item item);
 
-  @Query("SELECT * FROM Item WHERE item_id = :id ORDER BY item_name")
-  List<Item> select(long id);
+  @Query("SELECT * FROM Item ORDER BY item_name")
+  List<Item> select();
+
+  @Query("SELECT * FROM Item WHERE item_id = :id")
+  Single<Item> select(long id);
 }
