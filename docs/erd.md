@@ -4,4 +4,4 @@
 
 ----
 
-[Go back](README.md)	\|	[Wireframes](wireframe.md)	\|	[User Stories](user-stories.md)
+[Go back](README.md)	\|	[Wireframes](wireframe.md)	\|	[Data Models](data-models.md)
