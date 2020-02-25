@@ -1,4 +1,4 @@
-## Description
+## Summary
 
 Choppit is an app that easily saves and edits recipes from the internet.  The purpose is to get the best of both family cookbooks and internet recipes by collecting recipes, removing unnecessary information, allowing user edits, and tracking ingredient amounts while reading through instructions.
 
