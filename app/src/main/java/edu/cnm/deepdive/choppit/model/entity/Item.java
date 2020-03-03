@@ -3,6 +3,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.annotation.NonNull;
 
 @Entity(
     indices = {
@@ -15,6 +16,7 @@ public class Item {
   @PrimaryKey(autoGenerate = true)
   private long id;
 
+  @NonNull
   @ColumnInfo(name = "item_name", collate = ColumnInfo.NOCASE)
   private String name;
 

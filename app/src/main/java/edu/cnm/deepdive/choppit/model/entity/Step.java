@@ -4,6 +4,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.annotation.NonNull;
 
 @Entity(
     indices = {
@@ -24,12 +25,15 @@ public class Step {
   @PrimaryKey(autoGenerate = true)
   private long stepId;
 
+  @NonNull
   @ColumnInfo(name = "recipe_id", index = true)
   private long recipeId;
 
+  @NonNull
   @ColumnInfo(collate = ColumnInfo.NOCASE)
   private String instructions;
 
+  @NonNull
   @ColumnInfo (name = "recipe_order")
   private int recipeOrder;
 

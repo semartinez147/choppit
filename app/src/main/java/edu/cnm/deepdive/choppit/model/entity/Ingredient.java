@@ -6,6 +6,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
+import androidx.annotation.NonNull;
 
 @Entity(
     indices = {
@@ -33,7 +34,7 @@ public class Ingredient {
   @PrimaryKey(autoGenerate = true)
   private long id;
 
-  @ColumnInfo(name = "step_id")
+    @ColumnInfo(name = "step_id")
   private long stepId;
 
   @ColumnInfo(name = "item_id")
@@ -42,6 +43,7 @@ public class Ingredient {
   @ColumnInfo(name = "quantity")
   private long quantity;
 
+  @NonNull
   @ColumnInfo(name = "unit", typeAffinity = ColumnInfo.TEXT, collate = ColumnInfo.NOCASE)
   private Unit unit;
 

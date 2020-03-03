@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.annotation.NonNull;
 
 @Entity(
     indices = {
@@ -16,9 +17,10 @@ public class Recipe {
   @PrimaryKey(autoGenerate = true)
   private long id;
 
-  @ColumnInfo (name = "url", collate = ColumnInfo.NOCASE)
-    private String url;
+  @ColumnInfo(name = "url", collate = ColumnInfo.NOCASE)
+  private String url;
 
+  @NonNull
   @ColumnInfo(name = "title", index = true, defaultValue = "Untitled Recipe", collate = ColumnInfo.NOCASE)
   private String title;
 
@@ -71,5 +73,6 @@ public class Recipe {
   }
 
   public void setFavorite(boolean favorite) {
-    this.favorite = favorite; }
+    this.favorite = favorite;
+  }
 }

@@ -4,4 +4,7 @@
   <string name="title_home">Home</string>
   <string name="title_dashboard">Dashboard</string>
   <string name="title_notifications">Notifications</string>
+  <string name="url_input_hint">Paste a recipe link or start from scratch</string>
+  <string name="new_recipe">New Recipe</string>
+  <string name="my_cookbook">My Cookbook</string>
 </resources>
