@@ -19,9 +19,9 @@ public class HomeFragment extends Fragment {
       ViewGroup container, Bundle savedInstanceState) {
     homeViewModel =
         ViewModelProviders.of(this).get(HomeViewModel.class);
-    View root = inflater.inflate(R.layout.content_main, container, false);
+    view = inflater.inflate(R.layout.fragment_home, container, false);
 //    final TextView textView = root.findViewById(R.id.text_home);
-    return root;
+    return view;
   }
 
 }

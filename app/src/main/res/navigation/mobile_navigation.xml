@@ -9,13 +9,13 @@
     android:id="@+id/navigation_home"
     android:label="@string/title_home"
     android:name="edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment"
-    tools:layout="@layout/content_main"/>
+    tools:layout="@layout/fragment_home"/>
 
   <fragment
     android:id="@+id/navigation_dashboard"
     android:label="@string/title_dashboard"
     android:name="edu.cnm.deepdive.choppit.controller.ui.dashboard.DashboardFragment"
-    tools:layout="@layout/fragment_dashboard"/>
+    tools:layout="@layout/fragment_editing"/>
 
   <fragment
     android:id="@+id/navigation_notifications"
