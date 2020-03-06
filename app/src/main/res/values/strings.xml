@@ -7,4 +7,6 @@
   <string name="url_input_hint">Paste a recipe link or start from scratch</string>
   <string name="new_recipe">New Recipe</string>
   <string name="my_cookbook">My Cookbook</string>
+  <string name="choppit_logo">Choppit Logo</string>
+  <string name="information">Information</string>
 </resources>
