@@ -4,20 +4,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import com.google.android.material.textfield.TextInputLayout;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
+import edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment;
 
 
-public class HomeFragment extends Fragment implements View.OnClickListener{
+public class HomeFragment extends Fragment {
 
 //  private MainViewModel viewModel;
   private View view;
@@ -34,23 +38,28 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_home, container, false);
-
     Button newRecipe = (Button) root.findViewById(R.id.new_recipe);
-    Button myCookbook = (Button) root.findViewById(R.id.my_cookbook);
-    return root;
-  }
 
-
-  @Override
-  public void onClick(View v) {
-    switch (view.getId()) {
-      case (R.id.new_recipe):
+    newRecipe.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
         FragmentTransaction fragmentTransaction = getActivity()
             .getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_home, new EditingFragment());
-        break;
-      case (R.id.my_cookbook):
+        fragmentTransaction.replace(R.id.container, new SelectionFragment());
+        fragmentTransaction.addToBackStack("HomeFragment");
+        fragmentTransaction.commit();
+      }
+    });
 
-    }
+    Button myCookbook = (Button) root.findViewById(R.id.my_cookbook);
+
+    myCookbook.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Toast toast = new Toast(getContext());
+        Toast.makeText(getContext(), "Under construction, try again later", Toast.LENGTH_LONG).show();
+      }
+    });
+    return root;
   }
 }

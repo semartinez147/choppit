@@ -9,11 +9,7 @@
     android:id="@+id/navigation_home"
     android:label="@string/title_home"
     android:name="edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment"
-    tools:layout="@layout/fragment_home">
-    <action
-      android:id="@+id/action_navigation_home_to_navigation_editing"
-      app:destination="@id/navigation_editing"/>
-  </fragment>
+    tools:layout="@layout/fragment_home"/>
 
   <fragment
     android:id="@+id/navigation_editing"
