@@ -13,4 +13,6 @@
   <string name="editing">Editing</string>
   <string name="cookbook">Cookbook</string>
   <string name="recipe">Recipe</string>
+  <string name="ingredient_input_hint">Paste the text of any ingredient here</string>
+  <string name="step_input_hint">Paste text from any step here</string>
 </resources>
