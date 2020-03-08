@@ -13,26 +13,30 @@ import androidx.fragment.app.Fragment;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.view.IngredientListAdapter;
 
-public class EditingFragment  extends Fragment {
+public class EditingFragment extends Fragment {
 
   private ListView ingredientList;
   private View view;
   private EditingViewModel editingViewModel;
 
-  private String[] measurement = {};
-  private String[] unit = {};
-  private String[] name = {};
+  private double[] measurement = {8, 12, 1, 1, 2, 8, 1, 1, 1, 1.5, 12};
+  private String[] unit = {"ounces", "ounces", "teaspoon", "teaspoon", "ounces", "ounces", null,
+      null, "ounce", "teaspoons", "ounces"};
+  private String[] name = {"unsalted butter", "bread flour", "kosher salt", "baking soda",
+      "granulated sugar", "light brown sugar", "large egg", "large egg yolk", "whole milk",
+      "vanilla extract", "semisweet chocolate chips"};
 
   public static EditingFragment createInstance() {
     EditingFragment fragment = new EditingFragment();
     Bundle args = new Bundle();
-        return fragment;
+    return fragment;
   }
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(this.getActivity(), measurement, unit, name);
+    IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(this.getActivity(),
+        measurement, unit, name);
 
     ingredientList = (ListView) ingredientList.findViewById(R.id.ingredient_list);
     ingredientList.setAdapter(ingredientListAdapter);

@@ -12,13 +12,13 @@ import edu.cnm.deepdive.choppit.R;
 public class IngredientListAdapter extends ArrayAdapter {
 
   private final Activity context;
-  private final String[] measurement;
+  private final double[] measurement;
   private final String[] unit;
   private final String[] name;
 
   public IngredientListAdapter(Activity context,
-      String[] measurement, String[] unit, String[] name) {
-    super(context, R.layout.edit_ingredient_list_item, measurement);
+      double[] measurement, String[] unit, String[] name) {
+    super(context, R.layout.edit_ingredient_list_item, unit);
     this.context = context;
     this.measurement = measurement;
     this.unit = unit;
@@ -33,7 +33,7 @@ public class IngredientListAdapter extends ArrayAdapter {
     TextView unitTextField = (TextView) rowView.findViewById(R.id.unit);
     TextView nameTextField = (TextView) rowView.findViewById(R.id.name);
 
-    measurementTextField.setText(measurement[position]);
+    measurementTextField.setText(String.format("%.2f", measurement[position]));
     unitTextField.setText(unit[position]);
     nameTextField.setText(name[position]);
 

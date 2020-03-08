@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     setupNavigation();
-    setupButtons();
+//    setupButtons();
 //    logo = findViewById(R.id.logo);
 //    urlInput = findViewById(R.id.url_input);
 //    Button newRecipe = findViewById(R.id.new_recipe);
@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
     Button newRecipe = findViewById(R.id.new_recipe);
     newRecipe.setOnClickListener((v) -> {
       EditingFragment fragment = EditingFragment.createInstance();
-
     });
   }
 
