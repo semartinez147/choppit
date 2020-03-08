@@ -9,4 +9,8 @@
   <string name="my_cookbook">My Cookbook</string>
   <string name="choppit_logo">Choppit Logo</string>
   <string name="information">Information</string>
+  <string name="help">Help</string>
+  <string name="editing">Editing</string>
+  <string name="cookbook">Cookbook</string>
+  <string name="recipe">Recipe</string>
 </resources>

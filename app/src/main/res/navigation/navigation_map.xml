@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/navigation_map"
+  app:startDestination="@+id/navigation_home">
+
+  <fragment
+    android:id="@+id/navigation_home"
+    android:label="@string/title_home"
+    android:name="edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment"
+    tools:layout="@layout/fragment_home">
+    <action
+      android:id="@+id/action_navigation_home_to_navigation_editing"
+      app:destination="@id/navigation_editing"/>
+  </fragment>
+
+  <fragment
+    android:id="@+id/navigation_editing"
+    android:label="@string/editing"
+    android:name="edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment"
+    tools:layout="@layout/fragment_editing"/>
+
+<!--  <fragment
+    android:id="@+id/navigation_cookbook"
+    android:label="@string/cookbook"
+    android:name="edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment"
+    tools:layout="@layout/fragment_cookbook"/>
+
+  <fragment
+    android:id="@+id/navigation_recipe"
+    android:label="@string/recipe"
+    android:name="edu.cnm.deepdive.choppit.controller.ui.cookbook.RecipeFragment"
+    tools:layout="@layout/fragment_recipe"/>-->
+
+</navigation>
