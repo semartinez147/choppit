@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   xmlns:app="http://schemas.android.com/apk/res-auto">
+
   <androidx.constraintlayout.widget.Guideline
     android:id="@+id/guideline"
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    app:layout_constraintGuide_percent="0.50"
-     android:orientation="horizontal"
-    />
+    android:orientation="horizontal"
+    app:layout_constraintGuide_percent="0.500684"/>
+
   <WebView
     android:id="@+id/selection_view"
     android:layout_width="match_parent"
     android:layout_height="0dp"
+    android:tooltipText="Recipe website goes here"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"
@@ -31,23 +34,23 @@
 
     <com.google.android.material.textfield.TextInputLayout
       android:id="@+id/selection_input_ingredient"
-      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:alpha="1"
-      app:boxStrokeColor="@color/colorPrimaryDark"
-      app:boxStrokeWidth="2dp"
-      app:hintAnimationEnabled="true"
       app:hintEnabled="true"
+      app:hintAnimationEnabled="true"
+      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
       app:layout_constraintBottom_toTopOf="@id/selection_input_step"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_chainStyle="spread"
+      app:layout_constraintVertical_chainStyle="spread"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="@id/selection_input">
+
       <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/ingredient_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/text_input_margin"
+        android:layout_marginEnd="@dimen/text_input_margin"
         android:hint="@string/ingredient_input_hint"
         android:inputType="text"
         android:maxLines="1"
@@ -57,26 +60,39 @@
 
     <com.google.android.material.textfield.TextInputLayout
       android:id="@+id/selection_input_step"
-      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       app:hintAnimationEnabled="true"
       app:hintEnabled="true"
+      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_chainStyle="spread"
+      app:layout_constraintVertical_chainStyle="spread"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/selection_input_ingredient">
       <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/step_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/text_input_margin"
+        android:layout_marginEnd="@dimen/text_input_margin"
         android:hint="@string/step_input_hint"
         android:inputType="text"
         android:maxLines="1"
         android:minEms="24">
       </com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+      android:id="@+id/my_cookbook"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/my_cookbook"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/new_recipe"
+      app:layout_constraintVertical_weight="1"/>
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

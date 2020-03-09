@@ -1,32 +1,28 @@
 package edu.cnm.deepdive.choppit.controller.ui.home;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
-import com.google.android.material.textfield.TextInputLayout;
 import edu.cnm.deepdive.choppit.R;
-import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
 import edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment;
+import java.util.Objects;
 
 
 public class HomeFragment extends Fragment {
 
-//  private MainViewModel viewModel;
+  //  private MainViewModel viewModel;
   private View view;
   private HomeViewModel homeViewModel;
-  private TextInputLayout urlInput;
+  private EditText urlInput;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +39,8 @@ public class HomeFragment extends Fragment {
     newRecipe.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        FragmentTransaction fragmentTransaction = getActivity()
+
+        FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
             .getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.container, new SelectionFragment());
         fragmentTransaction.addToBackStack("HomeFragment");
@@ -57,9 +54,11 @@ public class HomeFragment extends Fragment {
       @Override
       public void onClick(View v) {
         Toast toast = new Toast(getContext());
-        Toast.makeText(getContext(), "Under construction, try again later", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "Under construction, try again later", Toast.LENGTH_LONG)
+            .show();
       }
     });
+
     return root;
   }
 }

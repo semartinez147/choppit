@@ -1,6 +1,9 @@
 package edu.cnm.deepdive.choppit.controller;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -27,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+
     HomeFragment homeFragment = new HomeFragment();
     homeFragment.setArguments(getIntent().getExtras());
     FragmentManager fragManager = getSupportFragmentManager();
