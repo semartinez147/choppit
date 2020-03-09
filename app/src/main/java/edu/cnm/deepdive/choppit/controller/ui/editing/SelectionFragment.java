@@ -4,16 +4,20 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.EditText;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment;
+import java.util.Objects;
 import javax.annotation.Nonnull;
 
 public class SelectionFragment extends Fragment {
@@ -34,6 +38,19 @@ public class SelectionFragment extends Fragment {
     View root = inflater.inflate(R.layout.fragment_selection, container, false);
     setupWebView(root);
     contentView.loadUrl(url);
+
+    Button continue_button = (Button) root.findViewById(R.id.selection_continue);
+    continue_button.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
+            .getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.container, new EditingFragment());
+        fragmentTransaction.addToBackStack("SelectionFragment");
+        fragmentTransaction.commit();
+      }
+    });
+
     return root;
   }
 

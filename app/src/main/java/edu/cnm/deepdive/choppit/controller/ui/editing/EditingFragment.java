@@ -35,12 +35,9 @@ public class EditingFragment extends Fragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(this.getActivity(),
-        measurement, unit, name);
-
-    ingredientList = (ListView) ingredientList.findViewById(R.id.ingredient_list);
-    ingredientList.setAdapter(ingredientListAdapter);
-  }
+    setHasOptionsMenu(true);
+    setRetainInstance(true);
+    }
 
   @Override
   public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -52,8 +49,15 @@ public class EditingFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    View layout = inflater.inflate(R.layout.fragment_editing, container, false);
+    View root = inflater.inflate(R.layout.fragment_editing, container, false);
 
-    return layout;
+    IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(this.getActivity(),
+        measurement, unit, name);
+
+
+    ingredientList = (ListView) root.findViewById(R.id.ingredient_list);
+    ingredientList.setAdapter(ingredientListAdapter);
+
+    return root;
   }
 }

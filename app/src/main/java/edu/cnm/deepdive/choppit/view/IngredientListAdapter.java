@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import edu.cnm.deepdive.choppit.R;
+import javax.annotation.Nonnull;
 
 public class IngredientListAdapter extends ArrayAdapter {
 
@@ -25,7 +26,8 @@ public class IngredientListAdapter extends ArrayAdapter {
     this.name = name;
   }
 
-  public View getView (int position, View view, ViewGroup parent) {
+  @Nonnull
+  public View getView (int position, View view, @Nonnull ViewGroup parent) {
     LayoutInflater inflater = context.getLayoutInflater();
     View rowView = inflater.inflate(R.layout.edit_ingredient_list_item, null, true);
 

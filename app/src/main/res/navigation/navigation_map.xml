@@ -12,6 +12,12 @@
     tools:layout="@layout/fragment_home"/>
 
   <fragment
+    android:id="@+id/navigation_selection"
+    android:label="@string/selection"
+    android:name="edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment"
+    tools:layout="@layout/fragment_selection"/>
+
+  <fragment
     android:id="@+id/navigation_editing"
     android:label="@string/editing"
     android:name="edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment"
