@@ -19,9 +19,9 @@ public class EditingFragment extends Fragment {
   private View view;
   private EditingViewModel editingViewModel;
 
-  private double[] measurement = {8, 12, 1, 1, 2, 8, 1, 1, 1, 1.5, 12};
-  private String[] unit = {"ounces", "ounces", "teaspoon", "teaspoon", "ounces", "ounces", null,
-      null, "ounce", "teaspoons", "ounces"};
+  private Double[] measurement = {8.0, 12.0, 1.0, 1.0, 2.0, 8.0, 1.0, 1.0, 1.0, 1.5, 12.0};
+  private String[] unit = {"ounces", "ounces", "teaspoon", "teaspoon", "ounces", "ounces", "",
+      "", "ounce", "teaspoons", "ounces"};
   private String[] name = {"unsalted butter", "bread flour", "kosher salt", "baking soda",
       "granulated sugar", "light brown sugar", "large egg", "large egg yolk", "whole milk",
       "vanilla extract", "semisweet chocolate chips"};

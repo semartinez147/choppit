@@ -5,8 +5,9 @@ import android.view.Menu;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import edu.cnm.deepdive.choppit.R;
-import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
 import edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,20 +17,13 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    // TODO Swap back in after debugging EditingFragment.
-/*    HomeFragment homeFragment = new HomeFragment();
+
+    HomeFragment homeFragment = new HomeFragment();
     homeFragment.setArguments(getIntent().getExtras());
     FragmentManager fragManager = getSupportFragmentManager();
     FragmentTransaction transaction = fragManager.beginTransaction();
-    transaction.add(R.id.container, homeFragment);*/
-
-    EditingFragment editingFragment = new EditingFragment();
-    editingFragment.setArguments(getIntent().getExtras());
-    FragmentManager fragManager = getSupportFragmentManager();
-    FragmentTransaction transaction = fragManager.beginTransaction();
-    transaction.add(R.id.container, editingFragment);
+    transaction.add(R.id.container, homeFragment);
     transaction.commit();
-    
   }
 
   @Override
