@@ -76,7 +76,7 @@
     </com.google.android.material.textfield.TextInputEditText>
   </com.google.android.material.textfield.TextInputLayout>
 
-<!--  constrain name_layout end to this button when it works-->
+<!--  Not friends with the ListAdapter:-->
 <!--  <ImageView-->
 <!--    android:id="@+id/delete_button"-->
 <!--    app:layout_constraintStart_toEndOf="@id/name_layout"-->
