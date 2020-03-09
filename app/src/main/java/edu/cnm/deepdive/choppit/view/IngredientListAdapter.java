@@ -17,6 +17,7 @@ public class IngredientListAdapter extends ArrayAdapter {
   private final double[] measurement;
   private final String[] unit;
   private final String[] name;
+  private View rowView;
 
   public IngredientListAdapter(Activity context,
       double[] measurement, String[] unit, String[] name) {
@@ -25,24 +26,52 @@ public class IngredientListAdapter extends ArrayAdapter {
     this.measurement = measurement;
     this.unit = unit;
     this.name = name;
-  }
+      }
 
   @Nonnull
-  public View getView (int position, View view, @Nonnull ViewGroup parent) {
-    LayoutInflater inflater = context.getLayoutInflater();
-    View rowView = inflater.inflate(R.layout.edit_ingredient_list_item, null, true);
+  public View getView(int position, View view, @Nonnull ViewGroup parent) {
+    Holder viewHolder;
 
     // working from https://www.javacodegeeks.com/2013/09/android-viewholder-pattern-example.html
 
-    TextView measurementField = (TextView) rowView.findViewById(R.id.measurement);
-    TextView unitField = (TextView) rowView.findViewById(R.id.unit);
-    TextView nameField = (TextView) rowView.findViewById(R.id.name);
+    if (rowView == null) {
+      LayoutInflater inflater = context.getLayoutInflater();
+      rowView = inflater.inflate(R.layout.edit_ingredient_list_item, null, true);
 
-    measurementField.setText(String.format("%.2f", measurement[position]));
-    unitField.setText(unit[position]);
-    nameField.setText(name[position]);
+      viewHolder = new Holder(rowView);
+      viewHolder.measurement = (TextView) rowView.findViewById(R.id.measurement);
+      viewHolder.unit = (TextView) rowView.findViewById(R.id.unit);
+      viewHolder.name = (TextView) rowView.findViewById(R.id.name);
+      rowView.setTag(viewHolder);
+    } else {
+      viewHolder = (Holder) rowView.getTag();
+    }
+    if (measurement != null) {
+      viewHolder.measurement.setText(String.format("%.2f", measurement[position]));
+    }
+    viewHolder.unit.setText(unit[position]);
+    if (name != null) {
+      viewHolder.name.setText(name[position]);
+    }
 
     return rowView;
+  }
+
+  class Holder {
+
+    private final View view;
+    private TextView measurement;
+    private TextView unit;
+    private TextView name;
+
+    private Holder(@Nonnull View view) {
+      super();
+      this.view = view;
+      measurement = view.findViewById(R.id.measurement);
+      unit = view.findViewById(R.id.unit);
+      name = view.findViewById(R.id.name);
+    }
+
   }
 
 }
