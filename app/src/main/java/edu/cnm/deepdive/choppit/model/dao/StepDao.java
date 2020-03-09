@@ -26,9 +26,11 @@ public interface StepDao {
   @Delete
   Single<Integer> delete(Step step);
 
+  // TODO look at POJOs for these queries
+
   @Query("SELECT * FROM Step WHERE recipe_id = :recipe_id ORDER BY recipe_order")
   List<Step> list(long recipe_id);
 
-  @Query("SELECT * FROM Step WHERE recipe_id = :step_id")
+  @Query("SELECT * FROM Step WHERE step_id = :step_id")
   Single<Step> select(long step_id);
 }

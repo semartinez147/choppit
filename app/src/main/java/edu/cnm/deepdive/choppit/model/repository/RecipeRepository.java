@@ -4,6 +4,7 @@ import android.app.Application;
 import edu.cnm.deepdive.choppit.model.dao.RecipeDao;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.service.ChoppitDatabase;
+import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import java.util.List;
@@ -40,12 +41,12 @@ public class RecipeRepository {
     return dao.favList();
   }
 
-  public List<Recipe> editedist() {
+  public List<Recipe> editedList() {
     RecipeDao dao = database.getRecipeDao();
     return dao.editedList();
   }
 
-  public Single<Recipe> get(String title) {
+  public Maybe<Recipe> get(String title) {
     RecipeDao dao = database.getRecipeDao();
     return dao.select(title)
         .subscribeOn(Schedulers.io());

@@ -15,7 +15,7 @@ import edu.cnm.deepdive.choppit.view.IngredientListAdapter;
 
 public class EditingFragment extends Fragment {
 
-  private ListView ingredientList;
+  ListView ingredientList;
   private View view;
   private EditingViewModel editingViewModel;
 
@@ -35,7 +35,7 @@ public class EditingFragment extends Fragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setHasOptionsMenu(true);
+//    setHasOptionsMenu(true);
     setRetainInstance(true);
     }
 
@@ -53,7 +53,6 @@ public class EditingFragment extends Fragment {
 
     IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(this.getActivity(),
         measurement, unit, name);
-
 
     ingredientList = (ListView) root.findViewById(R.id.ingredient_list);
     ingredientList.setAdapter(ingredientListAdapter);

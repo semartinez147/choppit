@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:paddingHorizontal="4dp"
-  android:orientation="horizontal">
+  android:paddingHorizontal="8dp"
+  android:orientation="horizontal"
+  android:layout_alignParentTop="true">
 
   <com.google.android.material.textfield.TextInputLayout
     android:id="@+id/measurement_layout"
@@ -61,30 +63,31 @@
     app:hintAnimationEnabled="true"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toEndOf="@id/unit_layout"
-    app:layout_constraintEnd_toStartOf="@id/delete_button"
+    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_chainStyle="packed">
     <com.google.android.material.textfield.TextInputEditText
       android:id="@+id/name"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:hint="name"
-      android:inputType="number"
+      android:inputType="text"
       android:minEms="12"
-      android:maxLength="12"
       android:maxLines="1">
     </com.google.android.material.textfield.TextInputEditText>
   </com.google.android.material.textfield.TextInputLayout>
-  <ImageView
-    android:id="@+id/delete_button"
-    app:layout_constraintStart_toEndOf="@id/name_layout"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-  <ImageButton
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:srcCompat="@android:drawable/ic_menu_delete"/>
-  </ImageView>
+
+<!--  constrain name_layout end to this button when it works-->
+<!--  <ImageView-->
+<!--    android:id="@+id/delete_button"-->
+<!--    app:layout_constraintStart_toEndOf="@id/name_layout"-->
+<!--    app:layout_constraintEnd_toEndOf="parent"-->
+<!--    android:layout_width="wrap_content"-->
+<!--    android:layout_height="wrap_content">-->
+<!--  <ImageButton-->
+<!--    android:layout_width="wrap_content"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    app:srcCompat="@android:drawable/ic_menu_delete"/>-->
+<!--  </ImageView>-->
 
 
 </LinearLayout>
