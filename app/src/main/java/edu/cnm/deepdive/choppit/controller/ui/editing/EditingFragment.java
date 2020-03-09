@@ -19,7 +19,7 @@ public class EditingFragment extends Fragment {
   private View view;
   private EditingViewModel editingViewModel;
 
-  private double[] measurement = {8, 12, 1, 1, 2, 8, 1, 1, 1, 1.5, 12};
+  private Double[] measurement = {8.0, 12.0, 1.0, 1.0, 2.0, 8.0, 1.0, 1.0, 1.0, 1.5, 12.0};
   private String[] unit = {"ounces", "ounces", "teaspoon", "teaspoon", "ounces", "ounces", null,
       null, "ounce", "teaspoons", "ounces"};
   private String[] name = {"unsalted butter", "bread flour", "kosher salt", "baking soda",
@@ -35,7 +35,7 @@ public class EditingFragment extends Fragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setHasOptionsMenu(true);
+//    setHasOptionsMenu(true);
     setRetainInstance(true);
     }
 

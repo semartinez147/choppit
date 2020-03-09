@@ -1,25 +1,15 @@
 package edu.cnm.deepdive.choppit.controller;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
-import com.google.android.material.textfield.TextInputLayout;
 import edu.cnm.deepdive.choppit.R;
-import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
 import edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment;
+import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,13 +21,21 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+    // TODO bring this back when done debugging Ingredient adapter.
+//    HomeFragment homeFragment = new HomeFragment();
+//    homeFragment.setArguments(getIntent().getExtras());
+//    FragmentManager fragManager = getSupportFragmentManager();
+//    FragmentTransaction transaction = fragManager.beginTransaction();
+//    transaction.add(R.id.container, homeFragment);
+//    transaction.commit();
 
-    HomeFragment homeFragment = new HomeFragment();
-    homeFragment.setArguments(getIntent().getExtras());
+    EditingFragment editingFragment = new EditingFragment();
+    editingFragment.setArguments(getIntent().getExtras());
     FragmentManager fragManager = getSupportFragmentManager();
     FragmentTransaction transaction = fragManager.beginTransaction();
-    transaction.add(R.id.container, homeFragment);
+    transaction.add(R.id.container, editingFragment);
     transaction.commit();
+    
   }
 
   @Override

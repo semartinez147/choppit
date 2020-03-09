@@ -45,6 +45,7 @@ public class HomeFragment extends Fragment {
         fragmentTransaction.replace(R.id.container, new SelectionFragment());
         fragmentTransaction.addToBackStack("HomeFragment");
         fragmentTransaction.commit();
+
       }
     });
 

@@ -1,26 +1,26 @@
 package edu.cnm.deepdive.choppit.view;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import edu.cnm.deepdive.choppit.R;
 import javax.annotation.Nonnull;
 
 public class IngredientListAdapter extends ArrayAdapter {
 
   private final Activity context;
-  private final double[] measurement;
+  private final Double[] measurement;
   private final String[] unit;
   private final String[] name;
   private View rowView;
 
   public IngredientListAdapter(Activity context,
-      double[] measurement, String[] unit, String[] name) {
+      Double[] measurement, String[] unit, String[] name) {
     super(context, R.layout.edit_ingredient_list_item, unit);
     this.context = context;
     this.measurement = measurement;
@@ -29,44 +29,43 @@ public class IngredientListAdapter extends ArrayAdapter {
       }
 
   @Nonnull
-  public View getView(int position, View view, @Nonnull ViewGroup parent) {
-    Holder viewHolder;
-
+  public View getView(int position, View rowView, @Nonnull ViewGroup parent) {
+    ViewHolder holder;
+    View v = rowView;
     // working from https://www.javacodegeeks.com/2013/09/android-viewholder-pattern-example.html
 
-    if (rowView == null) {
+    if (v == null) {
       LayoutInflater inflater = context.getLayoutInflater();
-      rowView = inflater.inflate(R.layout.edit_ingredient_list_item, null, true);
+      v = inflater.inflate(R.layout.edit_ingredient_list_item, null, true);
 
-      viewHolder = new Holder(rowView);
-      viewHolder.measurement = (TextView) rowView.findViewById(R.id.measurement);
-      viewHolder.unit = (TextView) rowView.findViewById(R.id.unit);
-      viewHolder.name = (TextView) rowView.findViewById(R.id.name);
-      rowView.setTag(viewHolder);
+      holder = new ViewHolder(v);
+      holder.measurement = (TextView) v.findViewById(R.id.measurement);
+      holder.unit = (TextView) v.findViewById(R.id.unit);
+      holder.name = (TextView) v.findViewById(R.id.name);
+      v.setTag(holder);
     } else {
-      viewHolder = (Holder) rowView.getTag();
+      holder = (ViewHolder) v.getTag();
     }
-    if (measurement != null) {
-      viewHolder.measurement.setText(String.format("%.2f", measurement[position]));
+    Double measurementItem = measurement[position];
+    String nameItem = name[position];
+    if (measurementItem != null) {
+      holder.measurement.setText(String.format("%.2f", measurement[position]));
     }
-    viewHolder.unit.setText(unit[position]);
-    if (name != null) {
-      viewHolder.name.setText(name[position]);
+    holder.unit.setText(unit[position]);
+    if (nameItem != null) {
+      holder.name.setText(name[position]);
     }
-
-    return rowView;
+    return v;
   }
 
-  class Holder {
+  static class ViewHolder extends RecyclerView.ViewHolder {
 
-    private final View view;
     private TextView measurement;
     private TextView unit;
     private TextView name;
 
-    private Holder(@Nonnull View view) {
-      super();
-      this.view = view;
+    private ViewHolder(@Nonnull View view) {
+      super(view);
       measurement = view.findViewById(R.id.measurement);
       unit = view.findViewById(R.id.unit);
       name = view.findViewById(R.id.name);
