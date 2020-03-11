@@ -9,7 +9,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import edu.cnm.deepdive.choppit.R;
+import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
+import edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment;
 import edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,12 +21,17 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    HomeFragment homeFragment = new HomeFragment();
-    homeFragment.setArguments(getIntent().getExtras());
-    FragmentManager fragManager = getSupportFragmentManager();
-    FragmentTransaction transaction = fragManager.beginTransaction();
-    transaction.add(R.id.container, homeFragment, "homeFragment");
-    transaction.commit();
+//    HomeFragment homeFragment = new HomeFragment();
+//    homeFragment.setArguments(getIntent().getExtras());
+//    FragmentManager fragManager = getSupportFragmentManager();
+//    FragmentTransaction transaction = fragManager.beginTransaction();
+//    transaction.add(R.id.container, homeFragment, "homeFragment");
+//    transaction.commit();
+
+    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+    fragmentTransaction.replace(R.id.container, new EditingFragment());
+    fragmentTransaction.commit();
+
   }
 
   @Override

@@ -17,7 +17,7 @@ public class IngredientListAdapter extends ArrayAdapter {
   private final Double[] measurement;
   private final String[] unit;
   private final String[] name;
-  private View rowView;
+  private View view;
 
   public IngredientListAdapter(Activity context,
       Double[] measurement, String[] unit, String[] name) {
@@ -31,20 +31,20 @@ public class IngredientListAdapter extends ArrayAdapter {
   @Nonnull
   public View getView(int position, View rowView, @Nonnull ViewGroup parent) {
     ViewHolder holder;
-    View v = rowView;
+    view = rowView;
     // working from https://www.javacodegeeks.com/2013/09/android-viewholder-pattern-example.html
 
-    if (v == null) {
+    if (view == null) {
       LayoutInflater inflater = context.getLayoutInflater();
-      v = inflater.inflate(R.layout.edit_ingredient_list_item, null, true);
+      view = inflater.inflate(R.layout.edit_ingredient_list_item, null, true);
 
-      holder = new ViewHolder(v);
-      holder.measurement = (TextView) v.findViewById(R.id.measurement);
-      holder.unit = (TextView) v.findViewById(R.id.unit);
-      holder.name = (TextView) v.findViewById(R.id.name);
-      v.setTag(holder);
+      holder = new ViewHolder(view);
+      holder.measurement = (TextView) view.findViewById(R.id.measurement);
+      holder.unit = (TextView) view.findViewById(R.id.unit);
+      holder.name = (TextView) view.findViewById(R.id.name);
+      view.setTag(holder);
     } else {
-      holder = (ViewHolder) v.getTag();
+      holder = (ViewHolder) view.getTag();
     }
     Double measurementItem = measurement[position];
     String nameItem = name[position];
@@ -55,7 +55,7 @@ public class IngredientListAdapter extends ArrayAdapter {
     if (nameItem != null) {
       holder.name.setText(name[position]);
     }
-    return v;
+    return view;
   }
 
   static class ViewHolder extends RecyclerView.ViewHolder {

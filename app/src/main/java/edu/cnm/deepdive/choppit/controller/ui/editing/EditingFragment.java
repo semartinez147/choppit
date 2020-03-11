@@ -15,10 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.view.IngredientListAdapter;
+import edu.cnm.deepdive.choppit.view.StepListAdapter;
 
 public class EditingFragment extends Fragment {
 
   ListView ingredientList;
+  ListView stepList;
   private View view;
   private EditingViewModel editingViewModel;
 
@@ -28,6 +30,7 @@ public class EditingFragment extends Fragment {
   private String[] name = {"unsalted butter", "bread flour", "kosher salt", "baking soda",
       "granulated sugar", "light brown sugar", "large egg", "large egg yolk", "whole milk",
       "vanilla extract", "semisweet chocolate chips"};
+  private String[] step = {"", "", ""};
 
   public static EditingFragment createInstance() {
     EditingFragment fragment = new EditingFragment();
@@ -67,10 +70,13 @@ public class EditingFragment extends Fragment {
 
     IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(this.getActivity(),
         measurement, unit, name);
-
     ingredientList = (ListView) root.findViewById(R.id.ingredient_list);
     ingredientList.setAdapter(ingredientListAdapter);
 
+    /*StepListAdapter stepListAdapter = new StepListAdapter(this.getActivity(), step);
+    stepList = (ListView) root.findViewById(R.id.step_list) ;
+    ingredientList.setAdapter(stepListAdapter);
+*/
     return root;
   }
 }
