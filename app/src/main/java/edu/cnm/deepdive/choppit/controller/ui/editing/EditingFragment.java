@@ -73,10 +73,9 @@ public class EditingFragment extends Fragment {
     ingredientList = (ListView) root.findViewById(R.id.ingredient_list);
     ingredientList.setAdapter(ingredientListAdapter);
 
-    /*StepListAdapter stepListAdapter = new StepListAdapter(this.getActivity(), step);
+    StepListAdapter stepListAdapter = new StepListAdapter(this.getActivity(), step);
     stepList = (ListView) root.findViewById(R.id.step_list) ;
-    ingredientList.setAdapter(stepListAdapter);
-*/
+    stepList.setAdapter(stepListAdapter);
     return root;
   }
 }
