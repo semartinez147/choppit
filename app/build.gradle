@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "edu.cnm.deepdive.choppit"
         minSdkVersion 21
@@ -36,10 +36,10 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
-    def navigation_version = "2.2.1"
-    implementation "androidx.navigation:navigation-fragment:$navigation_version" //enables fragments
-    implementation "androidx.navigation:navigation-ui:$navigation_version"
-    // (as opposed to full-screen components only)
+    //enables fragment navigation
+    def nav_version = "2.2.1"
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
 
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     // live data & ViewModel dependencies

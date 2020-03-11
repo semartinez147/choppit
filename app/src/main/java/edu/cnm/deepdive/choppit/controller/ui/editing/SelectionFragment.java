@@ -1,8 +1,10 @@
 package edu.cnm.deepdive.choppit.controller.ui.editing;
 
 import android.annotation.SuppressLint;
+import android.drm.DrmStore.Action;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -12,8 +14,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment;
@@ -23,21 +29,26 @@ import javax.annotation.Nonnull;
 public class SelectionFragment extends Fragment {
 
   private WebView contentView;
-  private String url = "https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046";
+  private String url;
+  private HomeFragment homeFragment;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     setRetainInstance(true);
-
   }
 
   public View onCreateView(@Nonnull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_selection, container, false);
     setupWebView(root);
+//    url = (homeFragment.getUrlInput());
+    url = "https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046";
     contentView.loadUrl(url);
+
+    ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
 
     Button continue_button = (Button) root.findViewById(R.id.selection_continue);
     continue_button.setOnClickListener(new OnClickListener() {
@@ -73,6 +84,13 @@ public class SelectionFragment extends Fragment {
     settings.setUseWideViewPort(true);
     settings.setBlockNetworkImage(true);
     settings.setLoadsImagesAutomatically(false);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    switch (item.getItemId()) {
+    }
+    return super.onOptionsItemSelected(item);
   }
 
 }

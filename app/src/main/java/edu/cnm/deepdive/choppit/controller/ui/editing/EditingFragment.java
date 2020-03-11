@@ -4,11 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.view.IngredientListAdapter;
@@ -37,12 +40,23 @@ public class EditingFragment extends Fragment {
     super.onCreate(savedInstanceState);
 //    setHasOptionsMenu(true);
     setRetainInstance(true);
+
+
     }
 
   @Override
   public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
     super.onCreateOptionsMenu(menu, inflater);
     inflater.inflate(R.menu.help_menu, menu);
+
+    // TODO generate popup with editing instructions
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    switch (item.getItemId()) {
+     }
+    return super.onOptionsItemSelected(item);
   }
 
   @Nullable

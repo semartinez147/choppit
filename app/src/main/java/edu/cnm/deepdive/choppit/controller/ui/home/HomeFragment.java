@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import edu.cnm.deepdive.choppit.R;
+import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
 import edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment;
 import java.util.Objects;
 
@@ -20,9 +21,10 @@ import java.util.Objects;
 public class HomeFragment extends Fragment {
 
   //  private MainViewModel viewModel;
-  private View view;
+  private View root;
   private HomeViewModel homeViewModel;
   private EditText urlInput;
+  private Button newRecipe;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,8 +35,8 @@ public class HomeFragment extends Fragment {
 
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
-    View root = inflater.inflate(R.layout.fragment_home, container, false);
-    Button newRecipe = (Button) root.findViewById(R.id.new_recipe);
+    root = inflater.inflate(R.layout.fragment_home, container, false);
+    newRecipe = (Button) root.findViewById(R.id.new_recipe);
 
     newRecipe.setOnClickListener(new OnClickListener() {
       @Override
@@ -42,8 +44,9 @@ public class HomeFragment extends Fragment {
 
         FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
             .getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, new SelectionFragment());
-        fragmentTransaction.addToBackStack("HomeFragment");
+        fragmentTransaction.replace(R.id.container, (urlInput.getText() == null) ?
+            new EditingFragment() : new SelectionFragment());
+        fragmentTransaction.addToBackStack("homeFragment");
         fragmentTransaction.commit();
 
       }
@@ -60,6 +63,18 @@ public class HomeFragment extends Fragment {
       }
     });
 
+    urlInput = (EditText) root.findViewById(R.id.url_input);
+
     return root;
+  }
+
+  @Override
+  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+    super.onViewCreated(view, savedInstanceState);
+  }
+
+  public String getUrlInput() {
+    return urlInput.toString();
   }
 }

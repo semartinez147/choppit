@@ -2,6 +2,7 @@ package edu.cnm.deepdive.choppit.controller;
 
 import android.os.Bundle;
 import android.view.Menu;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -17,12 +18,11 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-
     HomeFragment homeFragment = new HomeFragment();
     homeFragment.setArguments(getIntent().getExtras());
     FragmentManager fragManager = getSupportFragmentManager();
     FragmentTransaction transaction = fragManager.beginTransaction();
-    transaction.add(R.id.container, homeFragment);
+    transaction.add(R.id.container, homeFragment, "homeFragment");
     transaction.commit();
   }
 

@@ -24,7 +24,7 @@
     android:contentDescription="@string/choppit_logo"
     android:cropToPadding="true"
     android:scaleType="fitCenter"
-    app:layout_constraintBottom_toTopOf="@id/url_input"
+    app:layout_constraintBottom_toTopOf="@id/url_layout"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="1.0"
     app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,7 @@
     app:layout_constraintBottom_toTopOf="@id/my_cookbook"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/url_input"
+    app:layout_constraintTop_toBottomOf="@id/url_layout"
     app:layout_constraintVertical_weight="2"/>
 
   <Button
@@ -55,7 +55,7 @@
 
 
   <com.google.android.material.textfield.TextInputLayout
-    android:id="@+id/url_input"
+    android:id="@+id/url_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
@@ -63,11 +63,11 @@
     app:layout_constraintTop_toBottomOf="@id/logo">
 
     <com.google.android.material.textfield.TextInputEditText
+      android:id="@+id/url_input"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_margin="8dp"
       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-
       android:hint="@string/url_input_hint"
       android:inputType="textWebEditText"
       android:maxLines="1"/>
