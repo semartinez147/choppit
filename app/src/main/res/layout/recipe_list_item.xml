@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  style="@style/RecipeItem.Container"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:background="?android:attr/selectableItemBackground"
+  android:theme="@style/RecipeItem">
+
+  <ImageView
+    android:id="@+id/favorite"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/recipe_title"
+    app:layout_constraintHorizontal_chainStyle="spread"
+    android:contentDescription="@string/favorite_indicator"/>
+
+  <TextView
+    android:id="@+id/recipe_title"
+    style="@style/RecipeItem.Title"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toEndOf="@id/favorite"
+    app:layout_constraintEnd_toStartOf="@id/edited"
+    app:layout_constraintHorizontal_chainStyle="spread"/>
+
+  <ImageView
+    android:id="@+id/edited"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toEndOf="@id/recipe_title"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_chainStyle="spread"
+    android:contentDescription="@string/edited_indicator"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

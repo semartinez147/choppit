@@ -6,22 +6,25 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import edu.cnm.deepdive.choppit.R;
+import edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment;
 import edu.cnm.deepdive.choppit.view.IngredientListAdapter;
 import edu.cnm.deepdive.choppit.view.StepListAdapter;
+import java.util.Objects;
 
 public class EditingFragment extends Fragment {
 
   ListView ingredientList;
   ListView stepList;
-  private View view;
+  private View root;
   private EditingViewModel editingViewModel;
 
   private Double[] measurement = {8.0, 12.0, 1.0, 1.0, 2.0, 8.0, 1.0, 1.0, 1.0, 1.5, 12.0};
@@ -51,13 +54,12 @@ public class EditingFragment extends Fragment {
   public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
     super.onCreateOptionsMenu(menu, inflater);
     inflater.inflate(R.menu.help_menu, menu);
-
-    // TODO generate popup with editing instructions
   }
 
   @Override
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     switch (item.getItemId()) {
+      // TODO generate popup with editing instructions
      }
     return super.onOptionsItemSelected(item);
   }
@@ -66,8 +68,8 @@ public class EditingFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    View root = inflater.inflate(R.layout.fragment_editing, container, false);
-
+    root = inflater.inflate(R.layout.fragment_editing, container, false);
+// FIXME not inflating the lists anymore
     IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(this.getActivity(),
         measurement, unit, name);
     ingredientList = (ListView) root.findViewById(R.id.ingredient_list);
@@ -76,6 +78,18 @@ public class EditingFragment extends Fragment {
     StepListAdapter stepListAdapter = new StepListAdapter(this.getActivity(), step);
     stepList = (ListView) root.findViewById(R.id.step_list) ;
     stepList.setAdapter(stepListAdapter);
+
+    Button continue_button = (Button) root.findViewById(R.id.editing_continue);
+    continue_button.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
+            .getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.container, new CookbookFragment());
+        fragmentTransaction.addToBackStack("EditingFragment");
+        fragmentTransaction.commit();
+      }
+    });
     return root;
   }
 }

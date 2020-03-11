@@ -19,4 +19,7 @@
   <string name="selection">Selection</string>
   <string name="step_hint">Instructions</string>
   <string name="step_tag">Step </string>
+  <string name="recipe_default">Untitled Recipe</string>
+  <string name="edited_indicator">Edited indicator</string>
+  <string name="favorite_indicator">Favorite indicator</string>
 </resources>

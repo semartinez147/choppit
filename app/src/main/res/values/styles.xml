@@ -17,5 +17,18 @@
 
   <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+  <style name="RecipeItem" parent="AppTheme">
+    <item name="android:textSize">@dimen/list_item_text_size</item>
+    <item name="android:layout_margin">@dimen/list_content_spacing</item>
+  </style>
 
+  <style name="RecipeItem.Container" parent="RecipeItem">
+    <item name="cardCornerRadius">@dimen/list_item_radius</item>
+    <item name="android:layout_margin">@dimen/list_item_spacing</item>
+  </style>
+
+  <style name="RecipeItem.Title" parent="RecipeItem">
+    <item name="android:textSize">@dimen/list_item_title_size</item>
+    <item name="android:textStyle">bold</item>
+  </style>
 </resources>
