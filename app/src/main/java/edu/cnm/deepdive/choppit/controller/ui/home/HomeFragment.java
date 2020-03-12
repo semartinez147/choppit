@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import edu.cnm.deepdive.choppit.R;
+import edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment;
 import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
 import edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment;
 import java.util.Objects;
@@ -36,6 +37,9 @@ public class HomeFragment extends Fragment {
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
     root = inflater.inflate(R.layout.fragment_home, container, false);
+    urlInput = (EditText) root.findViewById(R.id.url_input);
+      urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
+
     newRecipe = (Button) root.findViewById(R.id.new_recipe);
 
     newRecipe.setOnClickListener(new OnClickListener() {
@@ -57,13 +61,13 @@ public class HomeFragment extends Fragment {
     myCookbook.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        Toast toast = new Toast(getContext());
-        Toast.makeText(getContext(), "Under construction, try again later", Toast.LENGTH_LONG)
-            .show();
+        FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
+            .getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.container, new CookbookFragment());
+        fragmentTransaction.addToBackStack("cookbookFragment");
+        fragmentTransaction.commit();
       }
     });
-
-    urlInput = (EditText) root.findViewById(R.id.url_input);
 
     return root;
   }

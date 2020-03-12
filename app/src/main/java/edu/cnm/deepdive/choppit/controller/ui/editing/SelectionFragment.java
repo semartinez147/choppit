@@ -43,8 +43,8 @@ public class SelectionFragment extends Fragment {
       Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_selection, container, false);
     setupWebView(root);
-//    url = (homeFragment.getUrlInput());
-    url = "https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046";
+    url = (homeFragment.getUrlInput());
+//    url = "https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046";
     contentView.loadUrl(url);
 
     ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
