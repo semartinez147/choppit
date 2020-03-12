@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.choppit.R;
 import javax.annotation.Nonnull;
 
+// TODO Switch to Recycler View
 public class IngredientListAdapter extends ArrayAdapter {
 
   private final Activity context;

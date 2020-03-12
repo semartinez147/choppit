@@ -69,7 +69,8 @@ public class EditingFragment extends Fragment {
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     root = inflater.inflate(R.layout.fragment_editing, container, false);
-// FIXME not inflating the lists anymore
+// TODO switch to Recylcer View?
+
     IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(this.getActivity(),
         measurement, unit, name);
     ingredientList = (ListView) root.findViewById(R.id.ingredient_list);
