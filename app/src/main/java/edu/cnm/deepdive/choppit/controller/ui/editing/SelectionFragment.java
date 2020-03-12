@@ -3,6 +3,7 @@ package edu.cnm.deepdive.choppit.controller.ui.editing;
 import android.annotation.SuppressLint;
 import android.drm.DrmStore.Action;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,12 +44,14 @@ public class SelectionFragment extends Fragment {
       Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_selection, container, false);
     setupWebView(root);
+    homeFragment = new HomeFragment();
     url = (homeFragment.getUrlInput());
-//    url = "https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046";
+    Log.d("Url from HomeFrag is: ", url);
     contentView.loadUrl(url);
 
     ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
+
 
     Button continue_button = (Button) root.findViewById(R.id.selection_continue);
     continue_button.setOnClickListener(new OnClickListener() {

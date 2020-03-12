@@ -24,7 +24,7 @@ public class HomeFragment extends Fragment {
   //  private MainViewModel viewModel;
   private View root;
   private HomeViewModel homeViewModel;
-  private EditText urlInput;
+  private static EditText urlInput;
   private Button newRecipe;
 
   @Override
@@ -39,7 +39,7 @@ public class HomeFragment extends Fragment {
     root = inflater.inflate(R.layout.fragment_home, container, false);
     urlInput = (EditText) root.findViewById(R.id.url_input);
       urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
-
+    urlInput.getText();
     newRecipe = (Button) root.findViewById(R.id.new_recipe);
 
     newRecipe.setOnClickListener(new OnClickListener() {
@@ -74,11 +74,16 @@ public class HomeFragment extends Fragment {
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
     super.onViewCreated(view, savedInstanceState);
   }
 
+  @Override
+  public void onSaveInstanceState(@NonNull Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putString("url", urlInput.getText().toString());
+  }
+
   public String getUrlInput() {
-    return urlInput.toString();
+    return urlInput.getText().toString();
   }
 }
