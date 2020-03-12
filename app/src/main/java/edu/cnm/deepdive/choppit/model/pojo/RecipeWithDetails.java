@@ -1,20 +1,24 @@
 package edu.cnm.deepdive.choppit.model.pojo;
 
 import androidx.room.Embedded;
+import androidx.room.Relation;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
+import edu.cnm.deepdive.choppit.model.entity.Step;
+import java.util.List;
 import javax.annotation.Nonnull;
 
 public class RecipeWithDetails {
+
+  public RecipeWithDetails() {
+
+  }
 
   @Nonnull
   @Embedded
   private Recipe recipe;
 
-  private String url;
-  private String title;
-
-  private boolean favorite;
-  private boolean edited;
+  @Relation(parentColumn = "id", entityColumn = "recipeId", entity = Step.class)
+  private List<StepWithDetails> stepWithDetails;
 
   @Nonnull
   public Recipe getRecipe() {
@@ -25,35 +29,12 @@ public class RecipeWithDetails {
     this.recipe = recipe;
   }
 
-  public String getUrl() {
-    return url;
+  public List<StepWithDetails> getStepWithDetails() {
+    return stepWithDetails;
   }
 
-  public void setUrl(String url) {
-    this.url = url;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public boolean isFavorite() {
-    return favorite;
-  }
-
-  public void setFavorite(boolean favorite) {
-    this.favorite = favorite;
-  }
-
-  public boolean isEdited() {
-    return edited;
-  }
-
-  public void setEdited(boolean edited) {
-    this.edited = edited;
+  public void setStepWithDetails(
+      List<StepWithDetails> stepWithDetails) {
+    this.stepWithDetails = stepWithDetails;
   }
 }

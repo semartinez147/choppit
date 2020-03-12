@@ -1,7 +1,10 @@
 package edu.cnm.deepdive.choppit.model.pojo;
 
 import androidx.room.Embedded;
+import androidx.room.Relation;
+import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Step;
+import java.util.List;
 import javax.annotation.Nonnull;
 
 public class StepWithDetails {
@@ -10,10 +13,8 @@ public class StepWithDetails {
   @Embedded
   private Step step;
 
-  private long recipeId;
-  private int recipeOrder;
-
-  private String instructions;
+  @Relation(parentColumn = "id", entityColumn = "stepId", entity = Ingredient.class)
+  private List<Ingredient> ingredients;
 
   @Nonnull
   public Step getStep() {
@@ -24,27 +25,11 @@ public class StepWithDetails {
     this.step = step;
   }
 
-  public long getRecipeId() {
-    return recipeId;
+  public List<Ingredient> getIngredients() {
+    return ingredients;
   }
 
-  public void setRecipeId(long recipeId) {
-    this.recipeId = recipeId;
-  }
-
-  public int getRecipeOrder() {
-    return recipeOrder;
-  }
-
-  public void setRecipeOrder(int recipeOrder) {
-    this.recipeOrder = recipeOrder;
-  }
-
-  public String getInstructions() {
-    return instructions;
-  }
-
-  public void setInstructions(String instructions) {
-    this.instructions = instructions;
+  public void setIngredients(List<Ingredient> ingredients) {
+    this.ingredients = ingredients;
   }
 }

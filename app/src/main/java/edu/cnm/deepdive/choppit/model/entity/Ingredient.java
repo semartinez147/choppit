@@ -3,10 +3,12 @@ package edu.cnm.deepdive.choppit.model.entity;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
 import androidx.annotation.NonNull;
+import java.util.List;
 
 @Entity(
     indices = {
@@ -47,6 +49,22 @@ public class Ingredient {
   @ColumnInfo(name = "unit", typeAffinity = ColumnInfo.TEXT, collate = ColumnInfo.NOCASE)
   private Unit unit;
 
+  @Ignore
+  private Item item = null;
+
+  public Ingredient() {
+
+  }
+
+  @Ignore
+  public Ingredient (long stepId, long itemId, long quantity, Unit unit, Item item) {
+    super();
+    this.stepId = stepId;
+    this.itemId = itemId;
+    this.unit = unit;
+    this.item = item;
+  }
+
   public long getId() {
     return id;
   }
@@ -85,6 +103,14 @@ public class Ingredient {
 
   public void setUnit(Unit unit) {
     this.unit = unit;
+  }
+
+  public Item getItem() {
+    return item;
+  }
+
+  public void setItem(Item item) {
+    this.item = item;
   }
 
   public enum Unit {

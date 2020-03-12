@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.choppit.model.entity;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
@@ -19,6 +20,16 @@ public class Item {
   @NonNull
   @ColumnInfo(name = "item_name", collate = ColumnInfo.NOCASE)
   private String name;
+
+  public Item() {
+
+  }
+
+  @Ignore
+  public Item(String name) {
+    super();
+    this.name = name;
+  }
 
   public long getId() {
     return id;

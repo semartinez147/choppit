@@ -2,9 +2,14 @@ package edu.cnm.deepdive.choppit.model.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
+import edu.cnm.deepdive.choppit.model.pojo.IngredientWithDetails;
+import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
+import edu.cnm.deepdive.choppit.model.pojo.StepWithDetails;
+import java.util.List;
 
 @Entity(
     indices = {
@@ -30,11 +35,46 @@ public class Recipe {
   @ColumnInfo(name = "favorite", index = true, defaultValue = "false")
   private boolean favorite;
 
+  @Ignore
+  private List<Step> steps = null;
+
+  public Recipe() {
+
+  }
+
+  @Ignore
+  public Recipe(String url, String title, boolean edited, boolean favorite, List<Step> steps) {
+    super();
+    this.url = url;
+    this.title = title;
+    this.edited = edited;
+    this.favorite = favorite;
+    this.steps = steps;
+  }
+
   /* Stretch goal fields (nullable):
   private String meal;
   private List<String> tag;
   private String image;
   */
+
+  public Recipe(RecipeWithDetails recipeWithDetails) {
+    this.id = recipeWithDetails.getRecipe().getId();
+    this.url = recipeWithDetails.getRecipe().getUrl();
+    this.title = recipeWithDetails.getRecipe().getTitle();
+    this.edited = recipeWithDetails.getRecipe().isEdited();
+    this.favorite = recipeWithDetails.getRecipe().isFavorite();
+    this.steps = this.getSteps(recipeWithDetails.getStepWithDetails());
+  }
+
+  private List<Step> getSteps(List<StepWithDetails> stepWithDetails) {
+    for (StepWithDetails details : stepWithDetails) {
+      Step step = details.getStep();
+      step.setIngredients(details.getIngredients());
+      this.addStep(details.getStep()); // wrote pseudo-setter
+    }
+    return this.steps;
+  }
 
   public long getId() {
     return id;
@@ -74,5 +114,17 @@ public class Recipe {
 
   public void setFavorite(boolean favorite) {
     this.favorite = favorite;
+  }
+
+  public List<Step> getSteps() {
+    return steps;
+  }
+
+  public void setSteps(List<Step> steps) {
+    this.steps = steps;
+  }
+
+  public void addStep(Step step) { // pseudo-setter
+    this.steps.add(step);
   }
 }

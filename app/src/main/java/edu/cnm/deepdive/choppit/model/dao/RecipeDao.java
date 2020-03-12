@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
@@ -33,6 +34,12 @@ public interface RecipeDao {
 
   @Query("SELECT * FROM Recipe ORDER BY title DESC")
   LiveData<List<Recipe>> select();
+
+
+  // working from https://medium.com/swlh/android-room-persistence-library-relations-in-a-nested-one-to-many-relationship-f2fe21c9e1ad
+  @Transaction
+  @Query("SELECT * FROM Recipe")
+  LiveData<List<RecipeWithDetails>> loadRecipes();
 
   @Query(RECIPE_DETAILS_QUERY)
   LiveData<List<RecipeWithDetails>> selectWithDetails();

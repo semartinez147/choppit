@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:id="@+id/editing_container"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:scrollbarAlwaysDrawVerticalTrack="true"
-  android:isScrollContainer="true"
-  android:nestedScrollingEnabled="true"
-  android:overScrollMode="ifContentScrolls"
+  android:layout_height="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/editing_container"
+  android:fillViewport="true"
   >
-
-  <androidx.constraintlayout.widget.Guideline
-    android:id="@+id/divider"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    app:layout_constraintGuide_percent="0.25"/>
-
+  <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
   <ImageView
     android:id="@+id/small_logo"
     android:layout_width="0dp"
@@ -29,11 +19,18 @@
     android:contentDescription="@string/choppit_logo"
     android:cropToPadding="true"
     android:scaleType="fitCenter"
+    app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintBottom_toTopOf="@id/divider"
     app:srcCompat="@drawable/logo"/>
+
+  <androidx.constraintlayout.widget.Guideline
+    android:id="@+id/divider"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintGuide_percent="0.25"/>
 
   <ListView
     android:id="@+id/ingredient_list"
@@ -75,5 +72,5 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintVertical_chainStyle="spread"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+  </RelativeLayout>
+</ScrollView>

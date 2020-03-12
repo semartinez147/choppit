@@ -2,9 +2,11 @@ package edu.cnm.deepdive.choppit.model.entity;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
+import java.util.List;
 
 @Entity(
     indices = {
@@ -37,6 +39,22 @@ public class Step {
   @ColumnInfo (name = "recipe_order")
   private int recipeOrder;
 
+  @Ignore
+  private List<Ingredient> ingredients = null;
+
+  public Step() {
+
+  }
+
+  @Ignore
+  public Step (long recipeId, String instructions, int recipeOrder, List<Ingredient> ingredients) {
+    super();
+    this.recipeId = recipeId;
+    this.instructions = instructions;
+    this.recipeOrder = recipeOrder;
+    this.ingredients = ingredients;
+  }
+
   public long getStepId() {
     return stepId;
   }
@@ -67,5 +85,13 @@ public class Step {
 
   public void setRecipeOrder(int recipeOrder) {
     this.recipeOrder = recipeOrder;
+  }
+
+  public List<Ingredient> getIngredients() {
+    return ingredients;
+  }
+
+  public void setIngredients(List<Ingredient> ingredients) {
+    this.ingredients = ingredients;
   }
 }
