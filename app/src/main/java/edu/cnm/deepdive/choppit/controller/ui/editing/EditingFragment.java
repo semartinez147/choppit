@@ -25,6 +25,7 @@ public class EditingFragment extends Fragment {
   ListView ingredientList;
   ListView stepList;
   private View root;
+  private View list;
   private EditingViewModel editingViewModel;
 
   private Double[] measurement = {8.0, 12.0, 1.0, 1.0, 2.0, 8.0, 1.0, 1.0, 1.0, 1.5, 12.0};

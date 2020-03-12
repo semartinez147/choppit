@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.choppit.model.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -25,8 +26,8 @@ public interface IngredientDao {
   @Delete
   int delete(Ingredient... ingredients);
 
-  @Query("SELECT * FROM Ingredient ORDER BY step_id")
-  List<Ingredient> list();
+  @Query("SELECT * FROM Ingredient")
+  LiveData<List<Ingredient>> list();
 
   @Query("SELECT * FROM Ingredient WHERE step_id = :id")
   Single<Ingredient> select(long id);

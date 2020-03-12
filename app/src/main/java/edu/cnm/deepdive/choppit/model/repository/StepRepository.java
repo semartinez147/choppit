@@ -1,12 +1,12 @@
 package edu.cnm.deepdive.choppit.model.repository;
 
 import android.app.Application;
-import edu.cnm.deepdive.choppit.model.dao.RecipeDao;
+import androidx.lifecycle.LiveData;
 import edu.cnm.deepdive.choppit.model.dao.StepDao;
 import edu.cnm.deepdive.choppit.model.entity.Step;
+import edu.cnm.deepdive.choppit.model.pojo.StepWithDetails;
 import edu.cnm.deepdive.choppit.service.ChoppitDatabase;
 import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -36,7 +36,11 @@ public class StepRepository {
     return StepRepository.InstanceHolder.INSTANCE;
   }
 
-  public List<Step> list(long id) {
+  public LiveData<List<StepWithDetails>> getAll() {
+    return database.getStepDao().selectWithDetails();
+  }
+
+  public LiveData<List<Step>> list(long id) {
     StepDao dao = database.getStepDao();
     return dao.list(id);
   }

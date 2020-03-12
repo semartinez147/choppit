@@ -1,11 +1,12 @@
 package edu.cnm.deepdive.choppit.model.repository;
 
 import android.app.Application;
+import androidx.lifecycle.LiveData;
 import edu.cnm.deepdive.choppit.model.dao.RecipeDao;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
+import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
 import edu.cnm.deepdive.choppit.service.ChoppitDatabase;
 import io.reactivex.Maybe;
-import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -36,17 +37,22 @@ public class RecipeRepository {
     return InstanceHolder.INSTANCE;
   }
 
-  public List<Recipe> favList() {
+
+  public LiveData<List<RecipeWithDetails>> getAll() {
+    return database.getRecipeDao().selectWithDetails();
+  }
+
+  public LiveData<List<Recipe>> favList() {
     RecipeDao dao = database.getRecipeDao();
     return dao.favList();
   }
 
-  public List<Recipe> editedList() {
+  public LiveData<List<Recipe>> editedList() {
     RecipeDao dao = database.getRecipeDao();
     return dao.editedList();
   }
 
-  public Maybe<Recipe> get(String title) {
+  public Maybe<Recipe> getOne(String title) {
     RecipeDao dao = database.getRecipeDao();
     return dao.select(title)
         .subscribeOn(Schedulers.io());

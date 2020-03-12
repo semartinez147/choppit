@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.choppit.model.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -7,6 +8,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
+import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import java.util.Collection;
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Dao
 public interface RecipeDao {
+
+  String RECIPE_DETAILS_QUERY = "SELECT r.* FROM Recipe AS r"; // TODO write the rest of the query.
 
   @Insert(onConflict = OnConflictStrategy.IGNORE)
   Single<Long> insert(Recipe recipe);
@@ -27,17 +31,24 @@ public interface RecipeDao {
   @Delete
   Single<Integer> delete(Recipe... recipes);
 
-  @Query("SELECT * FROM Recipe ORDER BY title")
-  List<Recipe> list();
+  @Query("SELECT * FROM Recipe ORDER BY title DESC")
+  LiveData<List<Recipe>> select();
+
+  @Query(RECIPE_DETAILS_QUERY)
+  LiveData<List<RecipeWithDetails>> selectWithDetails();
 
   @Query("SELECT * FROM Recipe WHERE favorite ORDER BY title")
-  List<Recipe> favList();
+  LiveData<List<Recipe>> favList();
 
   @Query("SELECT * FROM Recipe WHERE edited ORDER BY title")
-  List<Recipe> editedList();
+  LiveData<List<Recipe>> editedList();
 
   @Query("SELECT * FROM Recipe WHERE title = :title")
   Maybe<Recipe> select(String title);
 
-  // TODO single recipe query (POJO?) based on id (Single return)
+  @Query("SELECT * FROM Recipe WHERE recipe_id = :id")
+  Maybe<Recipe> getOne(long id);
+
+  @Query("SELECT * FROM Recipe WHERE recipe_id = :id")
+  Single<RecipeWithDetails> selectOne(long id);
 }
