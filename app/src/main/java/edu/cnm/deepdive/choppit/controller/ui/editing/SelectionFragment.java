@@ -68,6 +68,8 @@ public class SelectionFragment extends Fragment {
     return root;
   }
 
+
+
   @SuppressLint("SetJavaScriptEnabled")
   private void setupWebView(View root) {
     contentView = root.findViewById(R.id.selection_view);
@@ -87,6 +89,7 @@ public class SelectionFragment extends Fragment {
     settings.setUseWideViewPort(true);
     settings.setBlockNetworkImage(true);
     settings.setLoadsImagesAutomatically(false);
+    settings.setBlockNetworkLoads(true);
   }
 
   @Override
