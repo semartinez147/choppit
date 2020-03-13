@@ -31,4 +31,22 @@
     <item name="android:textSize">@dimen/list_item_title_size</item>
     <item name="android:textStyle">bold</item>
   </style>
+
+  <style name="RecipeText" parent="">
+    <item name="android:fontFamily">default</item>
+    <item name="android:letterSpacing">0.05</item>
+  </style>
+
+  // TODO figure out how to add fonts
+  <style name="RecipeText.Georgia" parent = "RecipeText">
+    <item name="android:fontFamily">Georgia</item>
+  </style>
+
+  <style name="RecipeText.Quicksand" parent = "RecipeText">
+    <item name="android:fontFamily">Quicksand</item>
+  </style>
+
+  <style name="RecipeText.Helvetica" parent = "RecipeText">
+    <item name="android:fontFamily">Helvetica Neue</item>
+  </style>
 </resources>

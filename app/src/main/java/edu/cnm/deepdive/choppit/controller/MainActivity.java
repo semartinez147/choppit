@@ -22,17 +22,17 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    HomeFragment homeFragment = new HomeFragment();
-    homeFragment.setArguments(getIntent().getExtras());
-    FragmentManager fragManager = getSupportFragmentManager();
-    FragmentTransaction transaction = fragManager.beginTransaction();
-    transaction.add(R.id.container, homeFragment, "homeFragment");
-    transaction.commit();
+//    HomeFragment homeFragment = new HomeFragment();
+//    homeFragment.setArguments(getIntent().getExtras());
+//    FragmentManager fragManager = getSupportFragmentManager();
+//    FragmentTransaction transaction = fragManager.beginTransaction();
+//    transaction.add(R.id.container, homeFragment, "homeFragment");
+//    transaction.commit();
 
     // use to test other fragments
-//    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//    fragmentTransaction.replace(R.id.container, new EditingFragment());
-//    fragmentTransaction.commit();
+    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+    fragmentTransaction.replace(R.id.container, new EditingFragment());
+    fragmentTransaction.commit();
 
   }
 

@@ -28,9 +28,11 @@ import javax.annotation.Nonnull;
 public class SelectionFragment extends Fragment {
 
   private WebView contentView;
-  private String url;
-  private static EditText ingredientInput;
-  private static EditText stepInput;
+  private static String url;
+  private  EditText ingredientInput;
+  private  EditText stepInput;
+  private static String ingredient = "";
+  private static String step = "";
   private HomeFragment homeFragment;
 
   @Override
@@ -56,10 +58,13 @@ public class SelectionFragment extends Fragment {
     actionBar.setDisplayHomeAsUpEnabled(true);
 
 
-    Button continue_button = (Button) root.findViewById(R.id.selection_continue);
-    continue_button.setOnClickListener(new OnClickListener() {
+    Button continueButton = (Button) root.findViewById(R.id.selection_continue);
+    continueButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
+        step = stepInput.getText().toString();
+        ingredient = ingredientInput.getText().toString();
+
         FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
             .getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.container, new EditingFragment());
@@ -102,4 +107,15 @@ public class SelectionFragment extends Fragment {
     return super.onOptionsItemSelected(item);
   }
 
+  public static String getUrl() {
+    return url;
+  }
+
+  public static String getIngredient() {
+    return ingredient;
+  }
+
+  public static String getStep() {
+    return step;
+  }
 }
