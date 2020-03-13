@@ -17,7 +17,7 @@ public class RecipeWithDetails {
   @Embedded
   private Recipe recipe;
 
-  @Relation(parentColumn = "id", entityColumn = "recipeId", entity = Step.class)
+  @Relation(parentColumn = "recipe_id", entityColumn = "recipe_id", entity = Step.class)
   private List<StepWithDetails> stepWithDetails;
 
   @Nonnull

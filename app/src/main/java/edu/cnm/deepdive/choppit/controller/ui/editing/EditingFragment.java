@@ -74,11 +74,11 @@ public class EditingFragment extends Fragment {
 
     IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(this.getActivity(),
         measurement, unit, name);
-    ingredientList = (ListView) root.findViewById(R.id.ingredient_list);
+    ingredientList = root.findViewById(R.id.ingredient_list);
     ingredientList.setAdapter(ingredientListAdapter);
 
     StepListAdapter stepListAdapter = new StepListAdapter(this.getActivity(), step);
-    stepList = (ListView) root.findViewById(R.id.step_list) ;
+    stepList = root.findViewById(R.id.step_list) ;
     stepList.setAdapter(stepListAdapter);
 
     Button continue_button = (Button) root.findViewById(R.id.editing_continue);

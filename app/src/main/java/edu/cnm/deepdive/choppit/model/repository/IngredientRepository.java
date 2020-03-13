@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.choppit.model.repository;
 
 import android.app.Application;
+import androidx.lifecycle.LiveData;
 import edu.cnm.deepdive.choppit.model.dao.IngredientDao;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.service.ChoppitDatabase;
@@ -35,7 +36,7 @@ public class IngredientRepository {
     return IngredientRepository.InstanceHolder.INSTANCE;
   }
 
-  public List<Ingredient> list() {
+  public LiveData<List<Ingredient>> list() {
     IngredientDao dao = database.getIngredientDao();
     return dao.list();
   }

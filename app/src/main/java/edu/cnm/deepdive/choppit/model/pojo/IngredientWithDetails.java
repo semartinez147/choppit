@@ -17,7 +17,7 @@ public class IngredientWithDetails {
   @Embedded
   private Ingredient ingredient;
 
-  @Relation(parentColumn = "id", entityColumn = "ingredientId", entity = Item.class)
+  @Relation(parentColumn = "id", entityColumn = "ingredient_id", entity = Item.class)
   private Item item;
 
   @Nonnull

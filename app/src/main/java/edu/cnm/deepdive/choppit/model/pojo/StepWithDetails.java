@@ -13,7 +13,7 @@ public class StepWithDetails {
   @Embedded
   private Step step;
 
-  @Relation(parentColumn = "id", entityColumn = "stepId", entity = Ingredient.class)
+  @Relation(parentColumn = "step_id", entityColumn = "step_id", entity = Ingredient.class)
   private List<Ingredient> ingredients;
 
   @Nonnull

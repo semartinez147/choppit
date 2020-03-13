@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 import edu.cnm.deepdive.choppit.model.entity.Step;
 import edu.cnm.deepdive.choppit.model.pojo.StepWithDetails;
@@ -32,6 +33,7 @@ public interface StepDao {
 
   // TODO look at POJOs for these queries
 
+  @Transaction
   @Query(STEP_DETAILS_QUERY)
   LiveData<List<StepWithDetails>> selectWithDetails();
 

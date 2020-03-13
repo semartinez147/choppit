@@ -7,7 +7,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -39,7 +38,6 @@ public class HomeFragment extends Fragment {
     root = inflater.inflate(R.layout.fragment_home, container, false);
     urlInput = (EditText) root.findViewById(R.id.url_input);
       urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
-    urlInput.getText();
     newRecipe = (Button) root.findViewById(R.id.new_recipe);
 
     newRecipe.setOnClickListener(new OnClickListener() {
@@ -48,7 +46,7 @@ public class HomeFragment extends Fragment {
 
         FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
             .getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, (urlInput.getText() == null) ?
+        fragmentTransaction.replace(R.id.container, (urlInput.getText().toString().equals("\\s*")) ?
             new EditingFragment() : new SelectionFragment());
         fragmentTransaction.addToBackStack("homeFragment");
         fragmentTransaction.commit();

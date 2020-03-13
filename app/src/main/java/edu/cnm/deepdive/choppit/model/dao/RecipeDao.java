@@ -41,6 +41,7 @@ public interface RecipeDao {
   @Query("SELECT * FROM Recipe")
   LiveData<List<RecipeWithDetails>> loadRecipes();
 
+  @Transaction
   @Query(RECIPE_DETAILS_QUERY)
   LiveData<List<RecipeWithDetails>> selectWithDetails();
 
@@ -56,6 +57,7 @@ public interface RecipeDao {
   @Query("SELECT * FROM Recipe WHERE recipe_id = :id")
   Maybe<Recipe> getOne(long id);
 
+  @Transaction
   @Query("SELECT * FROM Recipe WHERE recipe_id = :id")
   Single<RecipeWithDetails> selectOne(long id);
 }
