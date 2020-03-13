@@ -23,7 +23,8 @@ public class HomeFragment extends Fragment {
   //  private MainViewModel viewModel;
   private View root;
   private HomeViewModel homeViewModel;
-  private static EditText urlInput;
+  private EditText urlInput;
+  private static String url = "";
   private Button newRecipe;
 
   @Override
@@ -37,16 +38,17 @@ public class HomeFragment extends Fragment {
       ViewGroup container, Bundle savedInstanceState) {
     root = inflater.inflate(R.layout.fragment_home, container, false);
     urlInput = (EditText) root.findViewById(R.id.url_input);
-      urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
+//      urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
     newRecipe = (Button) root.findViewById(R.id.new_recipe);
 
     newRecipe.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
+        url = urlInput.getText().toString();
 
         FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
             .getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, (urlInput.getText().toString().equals("\\s*")) ?
+        fragmentTransaction.replace(R.id.container, (url.equals("\\s*") || url.isEmpty()) ?
             new EditingFragment() : new SelectionFragment());
         fragmentTransaction.addToBackStack("homeFragment");
         fragmentTransaction.commit();
@@ -81,7 +83,7 @@ public class HomeFragment extends Fragment {
     outState.putString("url", urlInput.getText().toString());
   }
 
-  public String getUrlInput() {
-    return urlInput.getText().toString();
+  public String getUrl() {
+    return url;
   }
 }

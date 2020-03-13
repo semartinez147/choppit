@@ -1,7 +1,6 @@
 package edu.cnm.deepdive.choppit.controller.ui.editing;
 
 import android.annotation.SuppressLint;
-import android.drm.DrmStore.Action;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment;
@@ -31,6 +29,8 @@ public class SelectionFragment extends Fragment {
 
   private WebView contentView;
   private String url;
+  private static EditText ingredientInput;
+  private static EditText stepInput;
   private HomeFragment homeFragment;
 
   @Override
@@ -45,9 +45,12 @@ public class SelectionFragment extends Fragment {
     View root = inflater.inflate(R.layout.fragment_selection, container, false);
     setupWebView(root);
     homeFragment = new HomeFragment();
-    url = (homeFragment.getUrlInput());
+    url = (homeFragment.getUrl());
     Log.d("Url from HomeFrag is: ", url);
     contentView.loadUrl(url);
+
+    ingredientInput = root.findViewById(R.id.ingredient_input);
+    stepInput = root.findViewById(R.id.step_input);
 
     ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
