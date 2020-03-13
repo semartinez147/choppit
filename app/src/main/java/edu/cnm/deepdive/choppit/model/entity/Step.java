@@ -6,6 +6,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
+import edu.cnm.deepdive.choppit.model.pojo.IngredientWithDetails;
 import java.util.List;
 
 @Entity(
@@ -55,6 +56,15 @@ public class Step {
     this.ingredients = ingredients;
   }
 
+  private List<Ingredient> getIngredients(List<IngredientWithDetails> ingredientWithDetails) {
+    for (IngredientWithDetails details : ingredientWithDetails) {
+      Ingredient ingredient = details.getIngredient();
+      ingredient.setItem(details.getItem());
+      this.addIngredient(details.getIngredient());
+    }
+    return this.ingredients;
+  }
+
   public long getStepId() {
     return stepId;
   }
@@ -93,5 +103,9 @@ public class Step {
 
   public void setIngredients(List<Ingredient> ingredients) {
     this.ingredients = ingredients;
+  }
+
+  public void addIngredient(Ingredient ingredient) {
+    this.ingredients.add(ingredient);
   }
 }

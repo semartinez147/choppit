@@ -126,5 +126,5 @@ public class Recipe {
 
   public void addStep(Step step) { // pseudo-setter
     this.steps.add(step);
-  }
+  } // pseudo-setter for getSteps method
 }
