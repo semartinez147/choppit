@@ -22,7 +22,6 @@ public class HomeFragment extends Fragment {
 
   //  private MainViewModel viewModel;
   private View root;
-  private HomeViewModel homeViewModel;
   private EditText urlInput;
   private static String url = "";
   private Button newRecipe;

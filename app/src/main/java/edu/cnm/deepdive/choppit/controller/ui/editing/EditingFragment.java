@@ -18,6 +18,7 @@ import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment;
 import edu.cnm.deepdive.choppit.view.IngredientListAdapter;
 import edu.cnm.deepdive.choppit.view.StepListAdapter;
+import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import java.util.Objects;
 
 public class EditingFragment extends Fragment {
@@ -26,7 +27,7 @@ public class EditingFragment extends Fragment {
   ListView stepList;
   private View root;
   private View list;
-  private EditingViewModel editingViewModel;
+  private MainViewModel viewModel;
 
   private Double[] measurement = {8.0, 12.0, 1.0, 1.0, 2.0, 8.0, 1.0, 1.0, 1.0, 1.5, 12.0};
   private String[] unit = {"ounces", "ounces", "teaspoon", "teaspoon", "ounces", "ounces", "",

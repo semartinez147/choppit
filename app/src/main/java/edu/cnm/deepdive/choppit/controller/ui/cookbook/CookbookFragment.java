@@ -10,11 +10,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.view.RecipeListAdapter;
+import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 
 
 public class CookbookFragment extends Fragment {
 
-  private CookbookViewModel cookbookViewModel;
+  private MainViewModel viewModel;
   ListView recipeList;
   private View root;
 

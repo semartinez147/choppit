@@ -22,11 +22,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment;
+import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 
 public class SelectionFragment extends Fragment {
 
+  private MainViewModel viewModel;
   private WebView contentView;
   private static String url;
   private  EditText ingredientInput;

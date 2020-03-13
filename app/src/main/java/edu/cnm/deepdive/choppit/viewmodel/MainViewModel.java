@@ -8,6 +8,7 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
+import edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
 import edu.cnm.deepdive.choppit.model.repository.RecipeRepository;
@@ -21,8 +22,12 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   private final MutableLiveData<Recipe> recipe;
   private final MutableLiveData<Throwable> throwable;
   private final MutableLiveData<Set<String>> permissions;
+  private static String url;
+  private static String step;
+  private static String ingredient;
   private final CompositeDisposable pending;
   private final RecipeRepository repository;
+  private SelectionFragment select;
 
 
   public MainViewModel(@NonNull Application application) {
@@ -50,6 +55,12 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     return permissions;
   }
 
+  public void getFromSelection() {
+    url = SelectionFragment.getUrl();
+    ingredient = SelectionFragment.getIngredient();
+    step = SelectionFragment.getStep();
+  }
+
   public void grantPermission(String permission) {
     Set<String> permissions = this.permissions.getValue();
     if (permissions.add(permission)) {
@@ -62,6 +73,18 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     if (permissions.remove(permission)) {
       this.permissions.setValue(permissions);
     }
+  }
+
+  public static String getUrl() {
+    return url;
+  }
+
+  public static String getStep() {
+    return step;
+  }
+
+  public static String getIngredient() {
+    return ingredient;
   }
 
   @SuppressWarnings("unused")
