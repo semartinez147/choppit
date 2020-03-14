@@ -14,28 +14,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment;
 import edu.cnm.deepdive.choppit.view.IngredientListAdapter;
 import edu.cnm.deepdive.choppit.view.StepListAdapter;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class EditingFragment extends Fragment {
 
   ListView ingredientList;
   ListView stepList;
-  private View root;
-  private View list;
   private MainViewModel viewModel;
 
-  private Double[] measurement = {8.0, 12.0, 1.0, 1.0, 2.0, 8.0, 1.0, 1.0, 1.0, 1.5, 12.0};
-  private String[] unit = {"ounces", "ounces", "teaspoon", "teaspoon", "ounces", "ounces", "",
-      "", "ounce", "teaspoons", "ounces"};
-  private String[] name = {"unsalted butter", "bread flour", "kosher salt", "baking soda",
-      "granulated sugar", "light brown sugar", "large egg", "large egg yolk", "whole milk",
-      "vanilla extract", "semisweet chocolate chips"};
-  private String[] step = {"", "", ""};
+  private List<String> measurement = new ArrayList<>();
+  private List<String> unit = new ArrayList<>();
+  private List<String> name = new ArrayList<>();
+  private List<String> step = new ArrayList<>();
 
   public static EditingFragment createInstance() {
     EditingFragment fragment = new EditingFragment();
@@ -70,19 +69,26 @@ public class EditingFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    root = inflater.inflate(R.layout.fragment_editing, container, false);
+    View root = inflater.inflate(R.layout.fragment_editing, container, false);
+    ingredientList = root.findViewById(R.id.ingredient_list);
+    stepList = root.findViewById(R.id.step_list) ;
 // TODO switch to Recylcer View?
 
     IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(this.getActivity(),
         measurement, unit, name);
-    ingredientList = root.findViewById(R.id.ingredient_list);
     ingredientList.setAdapter(ingredientListAdapter);
 
     StepListAdapter stepListAdapter = new StepListAdapter(this.getActivity(), step);
-    stepList = root.findViewById(R.id.step_list) ;
     stepList.setAdapter(stepListAdapter);
 
-    Button continue_button = (Button) root.findViewById(R.id.editing_continue);
+    return root;
+  }
+
+  @Override
+  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+
+    Button continue_button = view.findViewById(R.id.editing_continue);
     continue_button.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -93,6 +99,14 @@ public class EditingFragment extends Fragment {
         fragmentTransaction.commit();
       }
     });
-    return root;
   }
+
+  //  @Override
+//  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//    super.onViewCreated(view, savedInstanceState);
+//    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
+//    viewModel.getRecipe().observe(getViewLifecycleOwner(), (recipe) -> {
+//
+//    });
+//  }
 }

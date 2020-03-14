@@ -2,7 +2,9 @@ package edu.cnm.deepdive.choppit.service;
 
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,27 +14,30 @@ public class JsoupRetriever {
 
   // TODO add any new measurement enum values to the parentheses here.
   public static final String MAGIC_REGEX = "^([\\d\\W]*)\\s(tsp|teaspoon|tbsp|tablespoon|oz|ounce|c|cup*)*s??\\b(.*)";
-  private Pattern sorter = Pattern.compile(MAGIC_REGEX);
   private Document document;
   private String url;
   private String ingredient;
   private String step;
   private String ingredientClass;
   private String stepClass;
-  private static List<String> listIngredients;
-  private static List<String> listSteps;
+  private static List<String> listIngredients = new ArrayList<>();
+  private static List<String> measurements = new ArrayList<>();
+  private static List<String> units = new ArrayList<>();
+  private static List<String> names = new ArrayList<>();
+  private static List<String> listSteps = new ArrayList<>();
 
   public static JsoupRetriever getInstance() {
     return InstanceHolder.INSTANCE;
   }
 
-  // TODO split ingredient to measure-unit-name & send to database
+  // TODO send data to database
   private void getData() throws IOException {
     setValues();
     getPage();
     ingredientClass = getSourceClass(ingredient);
     stepClass = getSourceClass(step);
     listIngredients = getClassContents(ingredientClass);
+    ingredientParse(listIngredients);
     listSteps = getClassContents(stepClass);
   }
 
@@ -63,24 +68,37 @@ public class JsoupRetriever {
     return e.eachText();
   }
 
-  public String getIngredientClass() {
-    return ingredientClass;
+  private void ingredientParse(List<String> listIngredients) {
+    Pattern pattern = Pattern.compile(MAGIC_REGEX);
+    for (String ingredient : listIngredients) {
+      Matcher matcher = pattern.matcher(ingredient);
+      if (matcher.find()) {
+        measurements.add(matcher.group(1));
+        units.add(matcher.group(2));
+        names.add(matcher.group(3));
+      }
+
+    }
   }
 
-  public void setIngredientClass(String ingredientClass) {
-    this.ingredientClass = ingredientClass;
+  public String getIngredientClass() {
+    return ingredientClass;
   }
 
   public String getStepClass() {
     return stepClass;
   }
 
-  public void setStepClass(String stepClass) {
-    this.stepClass = stepClass;
+  public static List<String> getMeasurements() {
+    return measurements;
   }
 
-  public static List<String> getListIngredients() {
-    return listIngredients;
+  public static List<String> getUnits() {
+    return units;
+  }
+
+  public static List<String> getNames() {
+    return names;
   }
 
   public static List<String> getListSteps() {

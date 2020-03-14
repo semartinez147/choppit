@@ -8,19 +8,20 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.choppit.R;
+import java.util.List;
 import javax.annotation.Nonnull;
 
 // TODO Switch to Recycler View
 public class IngredientListAdapter extends ArrayAdapter {
 
   private final Activity context;
-  private final Double[] measurement;
-  private final String[] unit;
-  private final String[] name;
+  private final List<String> measurement;
+  private final List<String> unit;
+  private final List<String> name;
   private View view;
 
   public IngredientListAdapter(Activity context,
-      Double[] measurement, String[] unit, String[] name) {
+      List<String> measurement, List<String> unit, List<String> name) {
     super(context, R.layout.edit_ingredient_list_item, unit);
     this.context = context;
     this.measurement = measurement;
@@ -46,14 +47,14 @@ public class IngredientListAdapter extends ArrayAdapter {
     } else {
       holder = (ViewHolder) view.getTag();
     }
-    Double measurementItem = measurement[position];
-    String nameItem = name[position];
+    String measurementItem = measurement.get(position);
+    String nameItem = name.get(position);
     if (measurementItem != null) {
-      holder.measurement.setText(String.format("%.2f", measurement[position]));
+      holder.measurement.setText(String.format("%.2f", measurement.get(position)));
     }
-    holder.unit.setText(unit[position]);
+    holder.unit.setText(unit.get(position));
     if (nameItem != null) {
-      holder.name.setText(name[position]);
+      holder.name.setText(name.get(position));
     }
     return view;
   }

@@ -12,6 +12,7 @@ import edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
 import edu.cnm.deepdive.choppit.model.repository.RecipeRepository;
+import edu.cnm.deepdive.choppit.service.JsoupRetriever;
 import io.reactivex.disposables.CompositeDisposable;
 import java.util.HashSet;
 import java.util.List;
@@ -27,12 +28,12 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   private static String ingredient;
   private final CompositeDisposable pending;
   private final RecipeRepository repository;
-  private SelectionFragment select;
-
+  private final JsoupRetriever retriever;
 
   public MainViewModel(@NonNull Application application) {
     super(application);
     repository = RecipeRepository.getInstance();
+    retriever = JsoupRetriever.getInstance();
     recipe = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     permissions = new MutableLiveData<>(new HashSet<>());

@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.choppit.view;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,20 +9,22 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.choppit.R;
+import java.util.List;
 import javax.annotation.Nonnull;
 
 public class StepListAdapter extends ArrayAdapter {
 
   private final Activity context;
-  private final String[] step;
+  private final List<String> step;
   private View view;
 
-  public StepListAdapter(Activity context, String[] step) {
+  public StepListAdapter(Activity context, List<String> step) {
     super(context, R.layout.edit_ingredient_list_item, step);
     this.context = context;
     this.step = step;
       }
 
+  @SuppressLint("SetTextI18n")
   @Nonnull
   public View getView(int position, View rowView, @Nonnull ViewGroup parent) {
     ViewHolder holder;
@@ -39,10 +42,10 @@ public class StepListAdapter extends ArrayAdapter {
     } else {
       holder = (ViewHolder) view.getTag();
     }
-    String stepItem = step[position];
+    String stepItem = step.get(position);
     if (stepItem != null) {
-      holder.number.setText(String.format(Integer.toString(position + 1)));
-      holder.step.setText(step[position]);
+      holder.number.setText(Integer.toString(position + 1));
+      holder.step.setText(step.get(position));
     }
     return view;
   }
