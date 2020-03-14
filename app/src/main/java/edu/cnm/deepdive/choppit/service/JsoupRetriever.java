@@ -19,39 +19,69 @@ public class JsoupRetriever {
   private String url;
   private String ingredient;
   private String step;
-  private static Elements ingredients;
+  private String ingredientClass;
+  private String stepClass;
   private static List<String> listIngredients;
   private static List<String> listSteps;
 
-  public void setValues() {
+  // TODO split ingredient to measure-unit-name & send to database
+  private void getData() throws IOException {
+    setValues();
+    getPage();
+    ingredientClass = getSourceClass(ingredient);
+    stepClass = getSourceClass(step);
+    listIngredients = getClassContents(ingredientClass);
+    listSteps = getClassContents(stepClass);
+  }
+
+  private void setValues() {
     url = MainViewModel.getUrl();
     ingredient = MainViewModel.getIngredient();
     step = MainViewModel.getStep();
   }
 
-  public void getPage() throws IOException {
+  private void getPage() throws IOException {
     try {
       document = Jsoup.connect(url).get();
     } catch (IOException e) {
-      e.printStackTrace();
+      e.printStackTrace(); // TODO something useful
     }
   }
 
-  public Elements getSourceClass(String text) {
-    String query = "\"p:contains(%s)\"";
-    query = String.format(query, text);
-    return document.select(query); // TODO test this
+  private String getSourceClass(String text) {
+    Elements e = document.select(String.format("*:containsOwn(%s)", text));
+    // TODO error handling (no matching text just returns an empty List).
+
+    return e.get(0).attr("class");
   }
 
-  public Elements getSourceClassAlt(String text) {
-    return document.select(String.format("\"p:contains(%s)\"", text)); // TODO test this too
+  private List<String> getClassContents(String klass) {
+    Elements e = document.getElementsByClass(klass);
+
+    return e.eachText();
   }
-  
-  // TODO split ingredient to measure-unit-name & send to database
-  public void get(String url) {
 
-    listIngredients.addAll(getSourceClass(ingredient).eachText());
-    listSteps.addAll(getSourceClass(step).eachText());
+  public String getIngredientClass() {
+    return ingredientClass;
+  }
 
-    }
+  public void setIngredientClass(String ingredientClass) {
+    this.ingredientClass = ingredientClass;
+  }
+
+  public String getStepClass() {
+    return stepClass;
+  }
+
+  public void setStepClass(String stepClass) {
+    this.stepClass = stepClass;
+  }
+
+  public static List<String> getListIngredients() {
+    return listIngredients;
+  }
+
+  public static List<String> getListSteps() {
+    return listSteps;
+  }
 }
