@@ -2,8 +2,6 @@ package edu.cnm.deepdive.choppit.service;
 
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
@@ -23,6 +21,10 @@ public class JsoupRetriever {
   private String stepClass;
   private static List<String> listIngredients;
   private static List<String> listSteps;
+
+  public static JsoupRetriever getInstance() {
+    return InstanceHolder.INSTANCE;
+  }
 
   // TODO split ingredient to measure-unit-name & send to database
   private void getData() throws IOException {
@@ -84,4 +86,10 @@ public class JsoupRetriever {
   public static List<String> getListSteps() {
     return listSteps;
   }
+
+  private static class InstanceHolder {
+
+    private static final JsoupRetriever INSTANCE = new JsoupRetriever();
+  }
+
 }
