@@ -37,7 +37,7 @@
 <!--  <fragment
     android:id="@+id/navigation_cookbook"
     android:label="@string/cookbook"
-    android:name="edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment"
+    android:name="edu.cnm.deepdive.choppit.controller.ui.CookbookFragment"
     tools:layout="@layout/fragment_cookbook"/>
 
   <fragment

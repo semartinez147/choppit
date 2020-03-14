@@ -14,13 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment;
 import edu.cnm.deepdive.choppit.view.IngredientListAdapter;
 import edu.cnm.deepdive.choppit.view.StepListAdapter;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -94,7 +92,7 @@ public class EditingFragment extends Fragment {
       public void onClick(View v) {
         FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
             .getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, new CookbookFragment());
+        fragmentTransaction.replace(R.id.nav_host_fragment, new CookbookFragment());
         fragmentTransaction.addToBackStack("EditingFragment");
         fragmentTransaction.commit();
       }

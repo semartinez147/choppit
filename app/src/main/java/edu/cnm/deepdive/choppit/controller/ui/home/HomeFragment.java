@@ -26,6 +26,12 @@ public class HomeFragment extends Fragment {
   private static String url = "";
   private Button newRecipe;
 
+  public static HomeFragment createInstance() {
+    HomeFragment fragment = new HomeFragment();
+    Bundle args = new Bundle();
+    return fragment;
+  }
+
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -47,7 +53,7 @@ public class HomeFragment extends Fragment {
 
         FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
             .getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, (url.equals("\\s*") || url.isEmpty()) ?
+        fragmentTransaction.replace(R.id.nav_host_fragment, (url.equals("\\s*") || url.isEmpty()) ?
             new EditingFragment() : new SelectionFragment());
         fragmentTransaction.addToBackStack("homeFragment");
         fragmentTransaction.commit();
@@ -62,7 +68,7 @@ public class HomeFragment extends Fragment {
       public void onClick(View v) {
         FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
             .getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, new CookbookFragment());
+        fragmentTransaction.replace(R.id.nav_host_fragment, new CookbookFragment());
         fragmentTransaction.addToBackStack("cookbookFragment");
         fragmentTransaction.commit();
       }

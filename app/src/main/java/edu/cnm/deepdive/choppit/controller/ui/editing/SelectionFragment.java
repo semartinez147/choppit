@@ -69,7 +69,7 @@ public class SelectionFragment extends Fragment {
 
         FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
             .getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, new EditingFragment());
+        fragmentTransaction.replace(R.id.nav_host_fragment, new EditingFragment());
         fragmentTransaction.addToBackStack("SelectionFragment");
         fragmentTransaction.commit();
       }
