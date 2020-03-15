@@ -22,4 +22,11 @@
   <string name="recipe_default">Untitled Recipe</string>
   <string name="edited_indicator">Edited indicator</string>
   <string name="favorite_indicator">Favorite indicator</string>
+  <string name="default_title">Default Title</string>
+  <string name="info_ok">Okay</string>
+  <string name="default_error_text">If you\'re reading this, something has gone wrong.</string>
+  <string name="home_fragment_info">Useful information for Home Fragment</string>
+  <string name="selection_fragment_info">Useful information for Selection Fragment</string>
+  <string name="editing_fragment_info">Useful information for Editing Fragment</string>
+  <string name="recipe_fragment_info">Useful information for Recipe Fragment</string>
 </resources>
