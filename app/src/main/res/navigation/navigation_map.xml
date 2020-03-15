@@ -16,6 +16,9 @@
     <action
       android:id="@+id/home_toediting"
       app:destination="@id/navigation_editing"/>
+    <action
+      android:id="@+id/home_tocookbook"
+      app:destination="@id/navigation_cookbook"/>
   </fragment>
 
   <fragment
@@ -34,16 +37,16 @@
     android:name="edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment"
     tools:layout="@layout/fragment_editing"/>
 
-<!--  <fragment
+  <fragment
     android:id="@+id/navigation_cookbook"
     android:label="@string/cookbook"
     android:name="edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment"
     tools:layout="@layout/fragment_cookbook"/>
 
-  <fragment
-    android:id="@+id/navigation_recipe"
-    android:label="@string/recipe"
-    android:name="edu.cnm.deepdive.choppit.controller.ui.cookbook.RecipeFragment"
-    tools:layout="@layout/fragment_recipe"/>-->
+  <!--    <fragment
+      android:id="@+id/navigation_recipe"
+      android:label="@string/recipe"
+      android:name="edu.cnm.deepdive.choppit.controller.ui.cookbook.RecipeFragment"
+      tools:layout="@layout/fragment_recipe"/>-->
 
 </navigation>

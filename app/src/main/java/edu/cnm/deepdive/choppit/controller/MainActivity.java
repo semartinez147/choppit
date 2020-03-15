@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     // use to test other fragments
     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-    fragmentTransaction.replace(R.id.container, new EditingFragment());
+    fragmentTransaction.replace(R.id.nav_host_fragment, new HomeFragment());
     fragmentTransaction.commit();
 
   }
