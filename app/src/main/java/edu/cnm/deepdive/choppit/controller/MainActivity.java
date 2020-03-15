@@ -17,11 +17,13 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
+  HomeFragment homeFragment = new HomeFragment();
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-
+    homeFragment.setArguments(getIntent().getExtras());
 //    HomeFragment homeFragment = new HomeFragment();
 //    homeFragment.setArguments(getIntent().getExtras());
 //    FragmentManager fragManager = getSupportFragmentManager();
@@ -30,9 +32,10 @@ public class MainActivity extends AppCompatActivity {
 //    transaction.commit();
 
     // use to test other fragments
-    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-    fragmentTransaction.replace(R.id.nav_host_fragment, new HomeFragment());
-    fragmentTransaction.commit();
+    getSupportFragmentManager()
+        .beginTransaction()
+        .add(R.id.nav_host_fragment, homeFragment)
+        .commit();
 
   }
 
