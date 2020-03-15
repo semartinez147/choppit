@@ -21,20 +21,20 @@ public class RecipeRepository {
 
   private static Application context;
 
-  private RecipeRepository() {
-    if (context == null) {
-      throw new IllegalStateException();
-    }
-    database = ChoppitDatabase.getInstance();
-    networkPool = Executors.newFixedThreadPool(NETWORK_THREAD_COUNT);
-  }
-
   public static void setContext(Application context) {
     RecipeRepository.context = context;
   }
 
   public static RecipeRepository getInstance() {
     return InstanceHolder.INSTANCE;
+  }
+
+  private RecipeRepository() {
+    if (context == null) {
+      throw new IllegalStateException();
+    }
+    database = ChoppitDatabase.getInstance();
+    networkPool = Executors.newFixedThreadPool(NETWORK_THREAD_COUNT);
   }
 
 

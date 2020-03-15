@@ -32,19 +32,19 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     setupNavigation();
-//    setupViewModel();
+    setupViewModel();
 
-    HomeFragment homeFragment = new HomeFragment();
-    homeFragment.setArguments(getIntent().getExtras());
-    FragmentManager fragManager = getSupportFragmentManager();
-    FragmentTransaction transaction = fragManager.beginTransaction();
-    transaction.add(R.id.nav_host_fragment, homeFragment, "homeFragment");
-    transaction.commit();
+//    HomeFragment homeFragment = new HomeFragment();
+//    homeFragment.setArguments(getIntent().getExtras());
+//    FragmentManager fragManager = getSupportFragmentManager();
+//    FragmentTransaction transaction = fragManager.beginTransaction();
+//    transaction.add(R.id.nav_host_fragment, homeFragment, "homeFragment");
+//    transaction.commit();
 
     // use to test other fragments
-//    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//    fragmentTransaction.replace(R.id.nav_host_fragment, new EditingFragment());
-//    fragmentTransaction.commit();
+    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+    fragmentTransaction.replace(R.id.nav_host_fragment, new EditingFragment());
+    fragmentTransaction.commit();
 
   }
 
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
   private void setupViewModel() {
     viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-    navigateTo(R.id.fragment_home);
+//    navigateTo(R.id.fragment_home);
     getLifecycle().addObserver(viewModel);
   }
 

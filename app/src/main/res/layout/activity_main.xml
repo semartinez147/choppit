@@ -26,14 +26,6 @@
     app:navGraph="@navigation/navigation_map"
     tools:ignore="FragmentTagUsage"/>
 
-
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
-  </LinearLayout>
-
-
   <!--  <include layout="@layout/fragment_home"/>-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
