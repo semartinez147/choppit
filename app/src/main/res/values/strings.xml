@@ -23,4 +23,5 @@
   <string name="edited_indicator">Edited indicator</string>
   <string name="favorite_indicator">Favorite indicator</string>
   <string name="back_button">Back</string>
+  <string name="recipe_text_options">Recipe Text Options</string>
 </resources>

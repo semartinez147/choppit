@@ -54,17 +54,9 @@ public class EditingFragment extends Fragment {
   @Override
   public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
     super.onCreateOptionsMenu(menu, inflater);
-
     inflater.inflate(R.menu.help_menu, menu);
   }
 
-  @Override
-  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-    switch (item.getItemId()) {
-      // TODO generate popup with editing instructions
-     }
-    return super.onOptionsItemSelected(item);
-  }
 
   @Nullable
   @Override
@@ -93,11 +85,7 @@ public class EditingFragment extends Fragment {
     continue_button.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
-            .getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.nav_host_fragment, new CookbookFragment());
-        fragmentTransaction.addToBackStack("EditingFragment");
-        fragmentTransaction.commit();
+        ((MainActivity)getActivity()).navigateTo(R.id.navigation_cookbook); //TODO change this to the active recipe
       }
     });
   }

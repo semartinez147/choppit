@@ -1,6 +1,5 @@
 package edu.cnm.deepdive.choppit.controller.ui;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,26 +11,29 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProvider;
 import edu.cnm.deepdive.choppit.R;
-import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 
 public class InfoFragment extends DialogFragment {
 
   private AlertDialog alert;
   private View dialogView;
+  private int currentLocation;
+  private String fragLabel;
 
-  @SuppressLint("InflateParams")
+  public InfoFragment(int navFragment, String fragLabel) {
+    currentLocation = navFragment;
+    this.fragLabel = fragLabel;
+  }
+
   @NonNull
   @Override
   public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
     dialogView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_info, null);
     alert = new Builder(getContext())
         .setIcon(R.drawable.ic_help)
-        .setTitle(R.string.default_title)
+        .setTitle(fragLabel + " Information")
         .setView(dialogView)
-        .setNeutralButton(R.string.info_ok, (dlg, which) -> {
-        })
+        .setNeutralButton("OK", (dlg, which) -> {})
         .create();
     return alert;
   }
@@ -46,23 +48,25 @@ public class InfoFragment extends DialogFragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    MainViewModel viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-    alert.setTitle("Active Fragment"); // TODO replace with active fragment
-    TextView infoBody = dialogView.findViewById(R.id.info_body);
-    String activeFragment = "";
-    switch (activeFragment) { // TODO update all values below
-      case ("HomeFragment"):
-        infoBody.setText(R.string.home_fragment_info);
-        break;
-      case ("SelectionFragment"):
-        infoBody.setText(R.string.selection_fragment_info);
-        break;
-      case ("EditingFragment"):
-        infoBody.setText(R.string.editing_fragment_info);
-        break;
-      case ("RecipeFragment"):
-        infoBody.setText(R.string.recipe_fragment_info);
-        break;
+
+    TextView info = dialogView.findViewById(R.id.info);
+
+    switch(currentLocation) {
+      case R.id.navigation_home:
+      info.setText(R.string.home_info);
+      break;
+      case R.id.navigation_selection:
+      info.setText(R.string.selection_info);
+      break;
+      case R.id.navigation_editing:
+      info.setText(R.string.editing_info);
+      break;
+      case R.id.navigation_cookbook:
+      info.setText(R.string.cookbook_info);
+      break;
+      default:
+      info.setText(R.string.default_info);
+      break;
     }
   }
 }
