@@ -13,12 +13,13 @@
 
     <TextView
       android:id="@+id/info_body"
+      style="@style/TextAppearance.MaterialComponents.Body1"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:fontFamily="@font/lato"
       android:text="@string/default_error_text"
-      style="@style/TextAppearance.MaterialComponents.Body1"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintStart_toStartOf="parent"/>
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"/>
 
   <!--    <TextView
         android:id="@+id/date"
