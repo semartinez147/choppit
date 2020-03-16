@@ -33,19 +33,7 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     setupNavigation();
     setupViewModel();
-
-//    HomeFragment homeFragment = new HomeFragment();
-//    homeFragment.setArguments(getIntent().getExtras());
-//    FragmentManager fragManager = getSupportFragmentManager();
-//    FragmentTransaction transaction = fragManager.beginTransaction();
-//    transaction.add(R.id.nav_host_fragment, homeFragment, "homeFragment");
-//    transaction.commit();
-
-    // use to test other fragments
-    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-    fragmentTransaction.replace(R.id.nav_host_fragment, new EditingFragment());
-    fragmentTransaction.commit();
-
+//    navigateTo(R.id.navigation_home);
   }
 
   @Override
@@ -76,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     getLifecycle().addObserver(viewModel);
   }
 
-  private void navigateTo(int itemId) {
+  public void navigateTo(int itemId) {
     if (navController.getCurrentDestination().getId() != itemId) {
       navController.navigate(itemId, null, navOptions);
     }

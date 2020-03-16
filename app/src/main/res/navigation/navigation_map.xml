@@ -34,16 +34,18 @@
     android:name="edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment"
     tools:layout="@layout/fragment_editing"/>
 
-<!--  <fragment
+    <fragment
     android:id="@+id/navigation_cookbook"
     android:label="@string/cookbook"
-    android:name="edu.cnm.deepdive.choppit.controller.ui.CookbookFragment"
+    android:name="edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment"
     tools:layout="@layout/fragment_cookbook"/>
 
+<!--
   <fragment
     android:id="@+id/navigation_recipe"
     android:label="@string/recipe"
     android:name="edu.cnm.deepdive.choppit.controller.ui.cookbook.RecipeFragment"
-    tools:layout="@layout/fragment_recipe"/>-->
+    tools:layout="@layout/fragment_recipe"/>
+-->
 
 </navigation>
