@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import edu.cnm.deepdive.choppit.R;
+import edu.cnm.deepdive.choppit.controller.MainActivity;
 import edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment;
 import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
 import edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment;
@@ -25,6 +26,13 @@ public class HomeFragment extends Fragment {
   private EditText urlInput;
   private static String url = "";
   private Button newRecipe;
+  private Button myCookbook;
+
+  public static HomeFragment createInstance() {
+    HomeFragment fragment = new HomeFragment();
+    Bundle args = new Bundle();
+    return fragment;
+  }
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,34 +47,7 @@ public class HomeFragment extends Fragment {
     urlInput = (EditText) root.findViewById(R.id.url_input);
 //      urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
     newRecipe = (Button) root.findViewById(R.id.new_recipe);
-
-    newRecipe.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        url = urlInput.getText().toString();
-
-        FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
-            .getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.nav_host_fragment, (url.equals("\\s*") || url.isEmpty()) ?
-            new EditingFragment() : new SelectionFragment());
-        fragmentTransaction.addToBackStack("homeFragment");
-        fragmentTransaction.commit();
-
-      }
-    });
-
-    Button myCookbook = (Button) root.findViewById(R.id.my_cookbook);
-
-    myCookbook.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
-            .getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.nav_host_fragment, new CookbookFragment());
-        fragmentTransaction.addToBackStack("homeFragment");
-        fragmentTransaction.commit();
-      }
-    });
+    myCookbook = (Button) root.findViewById(R.id.my_cookbook);
 
     return root;
   }
@@ -74,6 +55,25 @@ public class HomeFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+
+
+    myCookbook.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        ((MainActivity)getActivity()).navigateTo(R.id.navigation_cookbook);
+      }
+    });
+
+    newRecipe.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        url = urlInput.getText().toString().trim();
+
+        ((MainActivity)getActivity()).navigateTo(url.isEmpty() ? R.id.navigation_editing : R.id.navigation_selection);
+
+      }
+    });
+
   }
 
   @Override

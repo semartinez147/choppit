@@ -7,52 +7,28 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   app:layout_behavior="@string/appbar_scrolling_view_behavior"
-  app:layout_constraintBottom_toBottomOf="parent"
-  app:layout_constraintEnd_toEndOf="parent"
-  app:layout_constraintStart_toStartOf="parent"
-  app:layout_constraintTop_toTopOf="parent"
-  tools:context=".controller.MainActivity"
-  tools:showIn="@layout/activity_main">
+  tools:context=".controller.MainActivity">
 
   <ImageView
     android:id="@+id/logo"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/large_logo_horizontal_margin"
-    android:layout_marginEnd="@dimen/large_logo_horizontal_margin"
+    android:layout_marginTop="8dp"
+    android:layout_width="wrap_content"
+    android:layout_height="0dp"
     android:adjustViewBounds="true"
     android:contentDescription="@string/choppit_logo"
-    android:cropToPadding="true"
     android:scaleType="fitCenter"
-    app:layout_constraintBottom_toTopOf="@id/url_layout"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="1.0"
-    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toTopOf="@id/guideline"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
     app:srcCompat="@drawable/logo"/>
 
-  <Button
-    android:id="@+id/new_recipe"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/new_recipe"
-    app:layout_constraintBottom_toTopOf="@id/my_cookbook"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/url_layout"
-    app:layout_constraintVertical_weight="2"/>
-
-  <Button
-    android:id="@+id/my_cookbook"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/my_cookbook"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/new_recipe"
-    app:layout_constraintVertical_weight="1"/>
-
+  <androidx.constraintlayout.widget.Guideline
+    android:id="@+id/guideline"
+    android:layout_width="match_parent"
+    android:layout_height="4dp"
+    android:orientation="horizontal"
+    app:layout_constraintGuide_percent=".33"/>
 
   <com.google.android.material.textfield.TextInputLayout
     android:id="@+id/url_layout"
@@ -60,6 +36,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:layout_constraintBottom_toTopOf="@id/new_recipe"
+    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/logo">
 
     <com.google.android.material.textfield.TextInputEditText
@@ -72,5 +49,27 @@
       android:inputType="textWebEditText"
       android:maxLines="1"/>
   </com.google.android.material.textfield.TextInputLayout>
+
+  <Button
+    android:id="@+id/new_recipe"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/new_recipe"
+    app:layout_constraintBottom_toTopOf="@id/my_cookbook"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/url_layout"/>
+
+  <Button
+    android:id="@+id/my_cookbook"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/my_cookbook"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/new_recipe"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

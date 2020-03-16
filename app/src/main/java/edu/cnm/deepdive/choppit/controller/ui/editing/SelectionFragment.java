@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import edu.cnm.deepdive.choppit.R;
+import edu.cnm.deepdive.choppit.controller.MainActivity;
 import edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import java.util.Objects;
@@ -67,11 +68,7 @@ public class SelectionFragment extends Fragment {
         step = stepInput.getText().toString();
         ingredient = ingredientInput.getText().toString();
 
-        FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity())
-            .getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.nav_host_fragment, new EditingFragment());
-        fragmentTransaction.addToBackStack("SelectionFragment");
-        fragmentTransaction.commit();
+        ((MainActivity)getActivity()).navigateTo(R.id.navigation_editing);
       }
     });
 
