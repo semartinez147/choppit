@@ -26,6 +26,7 @@ public class HomeFragment extends Fragment {
   private EditText urlInput;
   private static String url = "";
   private Button newRecipe;
+  private Button myCookbook;
 
   public static HomeFragment createInstance() {
     HomeFragment fragment = new HomeFragment();
@@ -46,17 +47,7 @@ public class HomeFragment extends Fragment {
     urlInput = (EditText) root.findViewById(R.id.url_input);
 //      urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
     newRecipe = (Button) root.findViewById(R.id.new_recipe);
-
-    newRecipe.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        url = urlInput.getText().toString().trim();
-
-        ((MainActivity)getActivity()).navigateTo(url.isEmpty() ? R.id.navigation_editing : R.id.navigation_selection);
-
-      }
-    });
-
+    myCookbook = (Button) root.findViewById(R.id.my_cookbook);
 
     return root;
   }
@@ -65,12 +56,21 @@ public class HomeFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    Button myCookbook = (Button) root.findViewById(R.id.my_cookbook);
 
     myCookbook.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
         ((MainActivity)getActivity()).navigateTo(R.id.navigation_cookbook);
+      }
+    });
+
+    newRecipe.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        url = urlInput.getText().toString().trim();
+
+        ((MainActivity)getActivity()).navigateTo(url.isEmpty() ? R.id.navigation_editing : R.id.navigation_selection);
+
       }
     });
 

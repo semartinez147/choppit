@@ -6,7 +6,7 @@
   <dimen name="large_logo_horizontal_margin">32dp</dimen>
   <dimen name="text_input_margin">16dp</dimen>
 
-  <dimen name="list_item_spacing">2dp</dimen>
+  <dimen name="list_item_spacing">8dp</dimen>
   <dimen name="list_item_radius">4dp</dimen>
   <dimen name="list_item_title_size">16sp</dimen>
   <dimen name="list_item_text_size">12sp</dimen>

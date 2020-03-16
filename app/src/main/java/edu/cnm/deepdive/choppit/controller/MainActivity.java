@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     setupNavigation();
     setupViewModel();
-//    navigateTo(R.id.navigation_home);
   }
 
   @Override
@@ -43,12 +42,21 @@ public class MainActivity extends AppCompatActivity {
     return true;
   }
 
+//  @Override
+//  public void onBackPressed() {
+//    if (navController.getCurrentDestination().getId() != R.id.navigation_home) {
+//      navigateTo(R.id.navigation_home);
+//    } else {
+//      super.onBackPressed();
+//    }
+//  }
+
   private void setupNavigation() {
     navOptions = new NavOptions.Builder()
-        .setPopUpTo(R.id.navigation_map, true)
+        .setPopUpTo(R.id.navigation_home, true)
         .build();
     navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-    NavigationUI.setupActionBarWithNavController(this, navController);
+//    NavigationUI.setupActionBarWithNavController(this, navController);
   }
 
   public void showToast(String message) {
