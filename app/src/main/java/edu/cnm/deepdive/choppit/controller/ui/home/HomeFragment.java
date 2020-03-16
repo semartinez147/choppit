@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.choppit.controller.ui.home;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,7 @@ public class HomeFragment extends Fragment {
 //      urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
     newRecipe = (Button) root.findViewById(R.id.new_recipe);
     myCookbook = (Button) root.findViewById(R.id.my_cookbook);
+   ActionBar actionBar = getActivity().getActionBar();
 
     return root;
   }

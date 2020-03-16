@@ -8,4 +8,10 @@
     android:title="@string/help"
     app:showAsAction="always"/>
 
+  <item
+    android:id="@+id/text_options"
+    android:icon="@drawable/ic_font"
+    android:title="@string/recipe_text_options"
+    app:showAsAction="never"/>
+
 </menu>

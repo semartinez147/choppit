@@ -1,23 +1,20 @@
 package edu.cnm.deepdive.choppit.controller;
 
+import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
-import android.view.View;
+import android.view.MenuItem;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import edu.cnm.deepdive.choppit.R;
-import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
-import edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment;
+import edu.cnm.deepdive.choppit.controller.ui.InfoFragment;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,12 +22,13 @@ public class MainActivity extends AppCompatActivity {
   private MainViewModel viewModel;
   private NavOptions navOptions;
   private NavController navController;
-
+  private static ActionBar actionBar;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    actionBar = getActionBar();
     setupNavigation();
     setupViewModel();
   }
@@ -42,14 +40,30 @@ public class MainActivity extends AppCompatActivity {
     return true;
   }
 
-//  @Override
-//  public void onBackPressed() {
-//    if (navController.getCurrentDestination().getId() != R.id.navigation_home) {
-//      navigateTo(R.id.navigation_home);
-//    } else {
-//      super.onBackPressed();
-//    }
-//  }
+  @Override
+  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.help:
+        showInfo(navController.getCurrentDestination().getId(), navController.getCurrentDestination().getLabel().toString());
+        break;
+      case R.id.text_options:
+        // TODO go to text options
+        break;
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  public void onBackPressed() {
+    if (navController.getCurrentDestination().getId() != R.id.navigation_home) {
+      navigateTo(R.id.navigation_home);
+    } else {
+      Intent a = new Intent(Intent.ACTION_MAIN);
+      a.addCategory(Intent.CATEGORY_HOME);
+      a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      startActivity(a);
+    }
+  }
 
   private void setupNavigation() {
     navOptions = new NavOptions.Builder()
@@ -76,5 +90,9 @@ public class MainActivity extends AppCompatActivity {
     if (navController.getCurrentDestination().getId() != itemId) {
       navController.navigate(itemId, null, navOptions);
     }
+  }
+
+  private void showInfo(int currentFragment, String fragmentLabel) {
+    new InfoFragment(currentFragment, fragmentLabel).show(getSupportFragmentManager(), InfoFragment.class.getName());
   }
 }
