@@ -14,13 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment;
 import edu.cnm.deepdive.choppit.view.IngredientListAdapter;
 import edu.cnm.deepdive.choppit.view.StepListAdapter;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -54,7 +52,7 @@ public class EditingFragment extends Fragment {
   @Override
   public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
     super.onCreateOptionsMenu(menu, inflater);
-    inflater.inflate(R.menu.help_menu, menu);
+    inflater.inflate(R.menu.menu, menu);
   }
 
   @Override

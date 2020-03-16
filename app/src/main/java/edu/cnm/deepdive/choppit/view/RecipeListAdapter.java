@@ -23,6 +23,8 @@ public class RecipeListAdapter extends ArrayAdapter {
     this.recipes = recipes;
       }
 
+
+
   @Nonnull
   public View getView(int position, View rowView, @Nonnull ViewGroup parent) {
     ViewHolder holder;
@@ -36,6 +38,7 @@ public class RecipeListAdapter extends ArrayAdapter {
       holder = new ViewHolder(view);
       holder.favorite = view.findViewById(R.id.favorite);
       holder.recipe = (TextView) view.findViewById(R.id.recipe_title);
+
       holder.edited = view.findViewById(R.id.edited);
       view.setTag(holder);
     } else {

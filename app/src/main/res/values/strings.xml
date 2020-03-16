@@ -29,4 +29,9 @@
   <string name="selection_fragment_info">Useful information for Selection Fragment</string>
   <string name="editing_fragment_info">Useful information for Editing Fragment</string>
   <string name="recipe_fragment_info">Useful information for Recipe Fragment</string>
+  <string name="font_settings">Font Settings</string>
+
+<!--  SharedPreferences Keys-->
+  <string name="sp_key_recipe_font_style">Recipe Font Style</string>
+  <string name="recipe_font_style">Recipe Display Font Style</string>
 </resources>

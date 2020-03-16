@@ -37,16 +37,23 @@
     <item name="android:letterSpacing">0.05</item>
   </style>
 
-  // TODO figure out how to add fonts
-  <style name="RecipeText.Georgia" parent = "RecipeText">
-    <item name="android:fontFamily">Georgia</item>
+  <style name="RecipeText.DroidSans" parent = "RecipeText">
+    <item name="android:fontFamily">Droid Sans</item>
   </style>
 
   <style name="RecipeText.Quicksand" parent = "RecipeText">
     <item name="android:fontFamily">Quicksand</item>
   </style>
 
-  <style name="RecipeText.Helvetica" parent = "RecipeText">
-    <item name="android:fontFamily">Helvetica Neue</item>
+  <style name="RecipeText.Lora" parent = "RecipeText">
+    <item name="android:fontFamily">Lora</item>
+  </style>
+
+  <style name="RecipeText.Roboto" parent = "RecipeText">
+    <item name="android:fontFamily">Roboto_slab</item>
+  </style>
+
+  <style name="RecipeText.Lato" parent = "RecipeText">
+    <item name="android:fontFamily">Lato</item>
   </style>
 </resources>

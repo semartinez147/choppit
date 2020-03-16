@@ -1,19 +1,13 @@
 package edu.cnm.deepdive.choppit.controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import androidx.appcompat.app.ActionBar;
+import android.view.MenuItem;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import edu.cnm.deepdive.choppit.R;
-import edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment;
-import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
-import edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment;
 import edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,9 +36,23 @@ public class MainActivity extends AppCompatActivity {
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
-    getMenuInflater().inflate(R.menu.help_menu, menu);
+    getMenuInflater().inflate(R.menu.menu, menu);
     return true;
   }
 
+  @Override
+  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    boolean handled = true;
+    switch (item.getItemId()) {
+      case R.id.help:
+        //TODO help options
+        break;
 
+      case R.id.settings:
+        Intent intent = new Intent(this, SettingsActivity.class);
+    }
+
+
+    return handled;
+  }
 }

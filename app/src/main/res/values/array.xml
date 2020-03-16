@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!--font names array-->
+  <string-array name="font_names_array">
+    <item>Droid Sans</item>
+    <item>Roboto</item>
+    <item>Quicksand</item>
+    <item>Lora</item>
+    <item>Lato</item>
+  </string-array>
+
+  <string-array name="font_values_array">
+    <item>@style/RecipeText.DroidSans</item>
+    <item>@style/RecipeText.Roboto</item>
+    <item>@style/RecipeText.Quicksand</item>
+    <item>@style/RecipeText.Lato</item>
+    <item>@style/RecipeText.Lora</item>
+  </string-array>
+
+</resources>
