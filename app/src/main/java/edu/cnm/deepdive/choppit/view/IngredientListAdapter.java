@@ -40,7 +40,7 @@ public class IngredientListAdapter extends ArrayAdapter {
       view = inflater.inflate(R.layout.edit_ingredient_list_item, null, true);
 
       holder = new ViewHolder(view);
-      holder.measurement = (TextView) view.findViewById(R.id.measurement);
+      holder.measurement = (TextView) view.findViewById(R.id.quantity);
       holder.unit = (TextView) view.findViewById(R.id.unit);
       holder.name = (TextView) view.findViewById(R.id.name);
       view.setTag(holder);
@@ -67,7 +67,7 @@ public class IngredientListAdapter extends ArrayAdapter {
 
     private ViewHolder(@Nonnull View view) {
       super(view);
-      measurement = view.findViewById(R.id.measurement);
+      measurement = view.findViewById(R.id.quantity);
       unit = view.findViewById(R.id.unit);
       name = view.findViewById(R.id.name);
     }

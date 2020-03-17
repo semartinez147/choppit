@@ -43,7 +43,7 @@ public class Ingredient {
   private long itemId;
 
   @ColumnInfo(name = "quantity")
-  private long quantity;
+  private String quantity;
 
   @NonNull
   @ColumnInfo(name = "unit", typeAffinity = ColumnInfo.TEXT, collate = ColumnInfo.NOCASE)
@@ -89,11 +89,11 @@ public class Ingredient {
     this.itemId = itemId;
   }
 
-  public long getQuantity() {
+  public String getQuantity() {
     return quantity;
   }
 
-  public void setQuantity(long quantity) {
+  public void setQuantity(String quantity) {
     this.quantity = quantity;
   }
 

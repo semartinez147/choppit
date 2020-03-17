@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.choppit.R;
 import javax.annotation.Nonnull;
 
-public class RecipeListAdapter extends ArrayAdapter {
+public class CookbookListAdapter extends ArrayAdapter {
 
   private final Activity context;
   private final String[] recipes;
   private View view;
 
-  public RecipeListAdapter(Activity context, String[] recipes) {
+  public CookbookListAdapter(Activity context, String[] recipes) {
     super(context, R.layout.recipe_list_item, recipes);
     this.context = context;
     this.recipes = recipes;

@@ -11,7 +11,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import edu.cnm.deepdive.choppit.R;
-import edu.cnm.deepdive.choppit.view.RecipeListAdapter;
+import edu.cnm.deepdive.choppit.view.CookbookListAdapter;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 
 
@@ -37,9 +37,9 @@ public class CookbookFragment extends Fragment {
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle(getString(R.string.cookbook));
 
-    RecipeListAdapter recipeListAdapter = new RecipeListAdapter(this.getActivity(), recipes);
+    CookbookListAdapter cookbookListAdapter = new CookbookListAdapter(this.getActivity(), recipes);
     recipeList = (ListView) root.findViewById(R.id.recipe_list) ;
-    recipeList.setAdapter(recipeListAdapter);
+    recipeList.setAdapter(cookbookListAdapter);
 
     return root;
   }
