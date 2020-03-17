@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.view.RecipeListAdapter;
@@ -30,6 +32,10 @@ public class CookbookFragment extends Fragment {
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
     root = inflater.inflate(R.layout.fragment_cookbook, container, false);
+
+    ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
+    actionBar.setTitle(getString(R.string.cookbook));
 
     RecipeListAdapter recipeListAdapter = new RecipeListAdapter(this.getActivity(), recipes);
     recipeList = (ListView) root.findViewById(R.id.recipe_list) ;

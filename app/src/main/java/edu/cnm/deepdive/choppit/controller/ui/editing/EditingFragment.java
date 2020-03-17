@@ -1,6 +1,5 @@
 package edu.cnm.deepdive.choppit.controller.ui.editing;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,6 +12,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import edu.cnm.deepdive.choppit.R;
@@ -65,8 +66,12 @@ public class EditingFragment extends Fragment {
     View root = inflater.inflate(R.layout.fragment_editing, container, false);
     ingredientList = root.findViewById(R.id.ingredient_list);
     stepList = root.findViewById(R.id.step_list) ;
-// TODO switch to Recylcer View?
 
+    ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
+    actionBar.setTitle(R.string.recipe_editing);
+
+// TODO switch to Recylcer View?
     IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(this.getActivity(),
         measurement, unit, name);
     ingredientList.setAdapter(ingredientListAdapter);

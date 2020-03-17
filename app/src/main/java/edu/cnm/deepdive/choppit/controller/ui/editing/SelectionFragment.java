@@ -51,7 +51,8 @@ public class SelectionFragment extends Fragment {
     setupWebView(root);
     homeFragment = new HomeFragment();
     url = (homeFragment.getUrl());
-    Log.d("Url from HomeFrag is: ", url);
+    // https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046 test url
+    Log.d("Url from HomeFrag is", url);
     contentView.loadUrl(url);
 
     ingredientInput = root.findViewById(R.id.ingredient_input);
@@ -59,6 +60,7 @@ public class SelectionFragment extends Fragment {
 
     ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
+    actionBar.setTitle(R.string.detail_selection);
 
 
     Button continueButton = (Button) root.findViewById(R.id.selection_continue);
@@ -96,7 +98,7 @@ public class SelectionFragment extends Fragment {
     settings.setUseWideViewPort(true);
     settings.setBlockNetworkImage(true);
     settings.setLoadsImagesAutomatically(false);
-    settings.setBlockNetworkLoads(true);
+//    settings.setBlockNetworkLoads(true);
   }
 
   @Override

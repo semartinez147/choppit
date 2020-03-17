@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
   private MainViewModel viewModel;
   private NavOptions navOptions;
   private NavController navController;
-  private static ActionBar actionBar;
+  static ActionBar actionBar;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
       case R.id.text_options:
         // TODO go to text options
         break;
+      case android.R.id.home:
+        onBackPressed();
+        return true;
     }
     return super.onOptionsItemSelected(item);
   }
@@ -82,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
 
   private void setupViewModel() {
     viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-//    navigateTo(R.id.fragment_home);
     getLifecycle().addObserver(viewModel);
   }
 

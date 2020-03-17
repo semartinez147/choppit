@@ -1,6 +1,5 @@
 package edu.cnm.deepdive.choppit.controller.ui.home;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import edu.cnm.deepdive.choppit.R;
@@ -25,7 +26,7 @@ public class HomeFragment extends Fragment {
   //  private MainViewModel viewModel;
   private View root;
   private EditText urlInput;
-  private static String url = "";
+  static String url = "";
   private Button newRecipe;
   private Button myCookbook;
 
@@ -49,7 +50,8 @@ public class HomeFragment extends Fragment {
 //      urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
     newRecipe = (Button) root.findViewById(R.id.new_recipe);
     myCookbook = (Button) root.findViewById(R.id.my_cookbook);
-   ActionBar actionBar = getActivity().getActionBar();
+
+
 
     return root;
   }
@@ -57,12 +59,12 @@ public class HomeFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-
-
+    ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(false);
     myCookbook.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        ((MainActivity)getActivity()).navigateTo(R.id.navigation_cookbook);
+        ((MainActivity) getActivity()).navigateTo(R.id.navigation_cookbook);
       }
     });
 
@@ -71,7 +73,8 @@ public class HomeFragment extends Fragment {
       public void onClick(View v) {
         url = urlInput.getText().toString().trim();
 
-        ((MainActivity)getActivity()).navigateTo(url.isEmpty() ? R.id.navigation_editing : R.id.navigation_selection);
+        ((MainActivity) getActivity())
+            .navigateTo(url.isEmpty() ? R.id.navigation_editing : R.id.navigation_selection);
 
       }
     });
