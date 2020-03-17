@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.choppit.view;
 
 import android.app.Activity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -9,7 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
+import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
+import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
+import edu.cnm.deepdive.choppit.model.pojo.StepWithDetails;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nonnull;
 
@@ -19,24 +24,29 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
   final int VIEW_TYPE_STEP = 1;
 
   private final Activity context;
-  private final List<Ingredient> ingredients;
+  private final List<Ingredient> ingredients = new ArrayList<>();
   private final List<Step> steps;
-  private View itemView;
 
-  public RecipeRecyclerAdapter(Activity context, List<Ingredient> ingredients, List<Step> steps) {
+  public RecipeRecyclerAdapter(Activity context, RecipeWithDetails recipe, List<Ingredient> ingredients, List<Step> steps) {
     this.context = context;
-    this.ingredients = ingredients;
     this.steps = steps;
+    for (StepWithDetails step : recipe.getStepWithDetails()) {
+      this.ingredients.addAll(step.getIngredients());
+    }
+//    this.ingredients = ingredients;
   }
 
   @NonNull
   @Override
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     if (viewType == VIEW_TYPE_INGREDIENT) {
-      return new IngredientViewHolder(itemView);
+      View view = LayoutInflater.from(context).inflate(R.layout.edit_ingredient_list_item, null, true);
+
+      return new IngredientViewHolder(view);
     }
     if (viewType == VIEW_TYPE_STEP) {
-      return new StepViewHolder(itemView);
+      View view = LayoutInflater.from(context).inflate(R.layout.edit_step_list_item, null, true);
+      return new StepViewHolder(view);
     }
     return null;
   }
