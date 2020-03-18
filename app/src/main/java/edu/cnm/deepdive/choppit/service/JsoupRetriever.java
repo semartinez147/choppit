@@ -1,6 +1,5 @@
 package edu.cnm.deepdive.choppit.service;
 
-import edu.cnm.deepdive.choppit.model.dao.ItemDao;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Step;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
@@ -23,8 +22,7 @@ public class JsoupRetriever {
   private String instruction;
   private String ingredientClass;
   private String instructionClass;
-  private static ItemDao itemDao;
-  private static List<String> listRawIngredients = new ArrayList<>();
+    private static List<String> listRawIngredients = new ArrayList<>();
   private static List<String> measurements = new ArrayList<>();
   private static List<String> units = new ArrayList<>();
   private static List<String> names = new ArrayList<>();
@@ -83,7 +81,7 @@ public class JsoupRetriever {
       }
   }
 
-  private List<Ingredient> ingredientBuilder(List<String> listRawIngredients) {
+  private void ingredientBuilder(List<String> listRawIngredients) {
     Pattern pattern = Pattern.compile(MAGIC_INGREDIENT_REGEX);
     for (String rawIngredient : listRawIngredients) {
       Matcher matcher = pattern.matcher(ingredient);
@@ -91,12 +89,10 @@ public class JsoupRetriever {
       if (matcher.find()) {
         ingredient.setQuantity(matcher.group(1));
         ingredient.setUnit(Ingredient.Unit.toUnit(matcher.group(2)));
-                // TODO get advice from Nick or Todd: is there a good reason not to just use names instead of Item entities?
-        ingredient.setItem(matcher.group(3));
+        ingredient.setName(matcher.group(3));
       }
       ingredients.add(ingredient);
     }
-    return ingredients;
   }
 
   private void ingredientParse(List<String> listRawIngredients) {

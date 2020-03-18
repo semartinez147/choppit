@@ -11,20 +11,13 @@ import androidx.annotation.NonNull;
 
 @Entity(
     indices = {
-        @Index(value = "step_id"),
-        @Index(value = "item_id")
+        @Index(value = "step_id")
     },
     foreignKeys = {
         @ForeignKey(
             entity = Step.class,
             parentColumns = "step_id",
             childColumns = "step_id",
-            onDelete = ForeignKey.CASCADE
-        ),
-        @ForeignKey(
-            entity = Item.class,
-            parentColumns = "item_id",
-            childColumns = "item_id",
             onDelete = ForeignKey.CASCADE
         )
     }
@@ -38,9 +31,6 @@ public class Ingredient {
   @ColumnInfo(name = "step_id")
   private long stepId;
 
-  @ColumnInfo(name = "item_id")
-  private long itemId;
-
   @ColumnInfo(name = "quantity")
   private String quantity;
 
@@ -48,21 +38,24 @@ public class Ingredient {
   @ColumnInfo(name = "unit", typeAffinity = ColumnInfo.TEXT, collate = ColumnInfo.NOCASE)
   private Unit unit;
 
-  @Ignore
-  private Item item = null;
+  @ColumnInfo(name = "unit_alt", typeAffinity = ColumnInfo.TEXT, collate = ColumnInfo.NOCASE)
+  private String unitAlt;
+
+  @ColumnInfo
+  private String name;
 
   public Ingredient() {
 
   }
 
   @Ignore
-  public Ingredient(long stepId, long itemId, String quantity, Unit unit, Item item) {
+  public Ingredient(long stepId, long itemId, String quantity, Unit unit, String unitAlt, String name) {
     super();
     this.stepId = stepId;
-    this.itemId = itemId;
     this.quantity = quantity;
     this.unit = unit;
-    this.item = item;
+    this.unitAlt = unitAlt;
+    this.name = name;
   }
 
   public long getId() {
@@ -81,14 +74,6 @@ public class Ingredient {
     this.stepId = stepId;
   }
 
-  public long getItemId() {
-    return itemId;
-  }
-
-  public void setItemId(long itemId) {
-    this.itemId = itemId;
-  }
-
   public String getQuantity() {
     return quantity;
   }
@@ -105,12 +90,20 @@ public class Ingredient {
     this.unit = unit;
   }
 
-  public Item getItem() {
-    return item;
+  public String getUnitAlt() {
+    return unitAlt;
   }
 
-  public void setItem(Item item) {
-    this.item = item;
+  public void setUnitAlt(String unitAlt) {
+    this.unitAlt = unitAlt;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public enum Unit {

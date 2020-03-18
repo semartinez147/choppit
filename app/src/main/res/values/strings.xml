@@ -24,7 +24,6 @@
   <string name="recipe_text_options">Recipe Text Options</string>
   <string name="sp_key_recipe_font_style">Recipe Font Style</string>
   <string name="recipe_font_style">Recipe Font Style</string>
-  <string name="cookbook">Cookbook</string>
   <string name="recipe_editing">Recipe Editing</string>
   <string name="detail_selection">Detail Selection</string>
 </resources>

@@ -90,7 +90,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void populate(Ingredient ingredient) {
       quantity.setText(ingredient.getQuantity()); // FIXME change all Quantities to Strings
       unit.setText(ingredient.getUnit().toString());
-      name.setText(ingredient.getItem().getName());
+      name.setText(ingredient.getName());
     }
   }
 

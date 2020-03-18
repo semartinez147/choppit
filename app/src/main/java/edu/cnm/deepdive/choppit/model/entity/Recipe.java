@@ -6,7 +6,6 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
-import edu.cnm.deepdive.choppit.model.pojo.IngredientWithDetails;
 import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
 import edu.cnm.deepdive.choppit.model.pojo.StepWithDetails;
 import java.util.List;
