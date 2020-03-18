@@ -9,11 +9,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
 import edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment;
+import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
+import edu.cnm.deepdive.choppit.model.entity.Step;
 import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
 import edu.cnm.deepdive.choppit.model.repository.RecipeRepository;
 import edu.cnm.deepdive.choppit.service.JsoupRetriever;
 import io.reactivex.disposables.CompositeDisposable;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,10 +24,12 @@ import java.util.Set;
 public class MainViewModel extends AndroidViewModel implements LifecycleObserver {
 
   private final MutableLiveData<Recipe> recipe;
+  private final MutableLiveData<List<Step>> steps;
+  private final MutableLiveData<List<Ingredient>> ingredients;
   private final MutableLiveData<Throwable> throwable;
   private final MutableLiveData<Set<String>> permissions;
   private static String url;
-  private static String step;
+  private static String instruction;
   private static String ingredient;
   private final CompositeDisposable pending;
   private final RecipeRepository repository;
@@ -34,6 +39,8 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     super(application);
     repository = RecipeRepository.getInstance();
     retriever = JsoupRetriever.getInstance();
+    steps = new MutableLiveData<>();
+    ingredients = new MutableLiveData<>();
     recipe = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     permissions = new MutableLiveData<>(new HashSet<>());
@@ -48,6 +55,14 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     return recipe;
   }
 
+  public LiveData<List<Step>> getSteps() {
+    return steps;
+  }
+
+  public LiveData<List<Ingredient>> getIngredients() {
+    return ingredients;
+  }
+
   public LiveData<Throwable> getThrowable() {
     return throwable;
   }
@@ -56,10 +71,35 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     return permissions;
   }
 
+  public void retrieve() {
+    getFromSelection();
+    retriever.getData(url,ingredient, instruction);
+  }
+
   public void getFromSelection() {
     url = SelectionFragment.getUrl();
     ingredient = SelectionFragment.getIngredient();
-    step = SelectionFragment.getStep();
+    instruction = SelectionFragment.getStep();
+  }
+
+  public void gatherIngredients() {
+    pending.add(
+        repository.retrieveIngredients()
+        .subscribe(
+            ingredients::postValue,
+            throwable::postValue
+        )
+    );
+  }
+
+  public void gatherSteps() {
+    pending.add(
+        repository.retrieveSteps()
+        .subscribe(
+            steps::postValue,
+            throwable::postValue
+        )
+    );
   }
 
   public void grantPermission(String permission) {
@@ -80,8 +120,8 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     return url;
   }
 
-  public static String getStep() {
-    return step;
+  public static String getInstruction() {
+    return instruction;
   }
 
   public static String getIngredient() {

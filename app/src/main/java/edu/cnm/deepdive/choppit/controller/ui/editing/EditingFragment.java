@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
@@ -15,27 +13,25 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.MainActivity;
-import edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment;
-import edu.cnm.deepdive.choppit.view.IngredientListAdapter;
-import edu.cnm.deepdive.choppit.view.StepListAdapter;
+import edu.cnm.deepdive.choppit.model.entity.Ingredient;
+import edu.cnm.deepdive.choppit.model.entity.Step;
+import edu.cnm.deepdive.choppit.service.JsoupRetriever;
+import edu.cnm.deepdive.choppit.view.RecipeRecyclerAdapter;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class EditingFragment extends Fragment {
 
-  ListView ingredientList;
-  ListView stepList;
+  RecyclerView recyclerView;
   private MainViewModel viewModel;
-
-  private List<String> measurement = new ArrayList<>();
-  private List<String> unit = new ArrayList<>();
-  private List<String> name = new ArrayList<>();
-  private List<String> step = new ArrayList<>();
+  private JsoupRetriever retriever;
+  private List<Ingredient> ingredients = new ArrayList<>();
+  private List<Step> steps = new ArrayList<>();
 
   public static EditingFragment createInstance() {
     EditingFragment fragment = new EditingFragment();
@@ -46,11 +42,8 @@ public class EditingFragment extends Fragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-//    setHasOptionsMenu(true);
     setRetainInstance(true);
-
-
-    }
+  }
 
   @Override
   public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -60,39 +53,37 @@ public class EditingFragment extends Fragment {
 
 
   @Nullable
-  @Override
-  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-      @Nullable Bundle savedInstanceState) {
+  public View onCreateView(@NonNull LayoutInflater inflater,
+      ViewGroup container, Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_editing, container, false);
-    ingredientList = root.findViewById(R.id.ingredient_list);
-    stepList = root.findViewById(R.id.step_list) ;
-
     ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle(R.string.recipe_editing);
-
-// TODO switch to Recylcer View?
-    IngredientListAdapter ingredientListAdapter = new IngredientListAdapter(this.getActivity(),
-        measurement, unit, name);
-    ingredientList.setAdapter(ingredientListAdapter);
-
-    StepListAdapter stepListAdapter = new StepListAdapter(this.getActivity(), step);
-    stepList.setAdapter(stepListAdapter);
-
+    recyclerView = root.findViewById(R.id.editing_recycler_view);
     return root;
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-
     Button continue_button = view.findViewById(R.id.editing_continue);
-    continue_button.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        ((MainActivity)getActivity()).navigateTo(R.id.navigation_cookbook); //TODO change this to the active recipe
-      }
+    continue_button.setOnClickListener(v -> {
+      ((MainActivity) getActivity())
+          .navigateTo(R.id.navigation_cookbook); //TODO change this to the active recipe
     });
+
+    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
+    viewModel.retrieve();
+    viewModel.gatherIngredients();
+    viewModel.gatherSteps();
+    viewModel.getIngredients().observe(getViewLifecycleOwner(), (ingredients) -> {
+      this.ingredients = ingredients;
+    });
+    viewModel.getSteps().observe(getViewLifecycleOwner(), (steps) -> {
+      this.steps = steps;
+    });
+    RecipeRecyclerAdapter adapter = new RecipeRecyclerAdapter(getContext(), ingredients, steps);
+    recyclerView.setAdapter(adapter);
   }
 
   //  @Override

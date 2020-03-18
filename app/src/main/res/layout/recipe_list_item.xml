@@ -10,7 +10,8 @@
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:background="?android:attr/selectableItemBackground"
-  android:theme="@style/RecipeItem">
+  android:theme="@style/RecipeItem"
+  android:layout_margin="8dp">
 
   <ImageView
     android:id="@+id/favorite"

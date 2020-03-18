@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.choppit.view;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
-import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
-import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
-import edu.cnm.deepdive.choppit.model.pojo.StepWithDetails;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nonnull;
 
@@ -23,24 +20,27 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
   final int VIEW_TYPE_INGREDIENT = 0;
   final int VIEW_TYPE_STEP = 1;
 
-  private final Activity context;
-  private final List<Ingredient> ingredients = new ArrayList<>();
+  private final Context context;
+  private final List<Ingredient> ingredients;
   private final List<Step> steps;
 
-  public RecipeRecyclerAdapter(Activity context, RecipeWithDetails recipe, List<Ingredient> ingredients, List<Step> steps) {
+  public RecipeRecyclerAdapter(Context context, List<Ingredient> ingredients, List<Step> steps) {
     this.context = context;
     this.steps = steps;
-    for (StepWithDetails step : recipe.getStepWithDetails()) {
-      this.ingredients.addAll(step.getIngredients());
-    }
-//    this.ingredients = ingredients;
+    this.ingredients = ingredients;
+//    TODO delete this, probably.
+//    for (StepWithDetails step : recipe.getStepWithDetails()) {
+//      this.ingredients.addAll(step.getIngredients());
+//    }
+
   }
 
   @NonNull
   @Override
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     if (viewType == VIEW_TYPE_INGREDIENT) {
-      View view = LayoutInflater.from(context).inflate(R.layout.edit_ingredient_list_item, null, true);
+      View view = LayoutInflater.from(context)
+          .inflate(R.layout.edit_ingredient_list_item, null, true);
 
       return new IngredientViewHolder(view);
     }
