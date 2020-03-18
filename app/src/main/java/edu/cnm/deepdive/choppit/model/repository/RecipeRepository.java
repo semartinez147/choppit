@@ -6,6 +6,7 @@ import edu.cnm.deepdive.choppit.model.dao.RecipeDao;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
 import edu.cnm.deepdive.choppit.service.ChoppitDatabase;
+import edu.cnm.deepdive.choppit.service.JsoupRetriever;
 import io.reactivex.Maybe;
 import io.reactivex.schedulers.Schedulers;
 import java.util.List;
@@ -16,6 +17,7 @@ public class RecipeRepository {
 
   private static final int NETWORK_THREAD_COUNT = 10;
 
+  private final JsoupRetriever retriever;
   private final ChoppitDatabase database;
   private final Executor networkPool;
 
@@ -34,7 +36,12 @@ public class RecipeRepository {
       throw new IllegalStateException();
     }
     database = ChoppitDatabase.getInstance();
+    retriever = JsoupRetriever.getInstance();
     networkPool = Executors.newFixedThreadPool(NETWORK_THREAD_COUNT);
+  }
+
+  private void buildRecipe() {
+
   }
 
 

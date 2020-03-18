@@ -1,5 +1,8 @@
 package edu.cnm.deepdive.choppit.service;
 
+import edu.cnm.deepdive.choppit.model.dao.ItemDao;
+import edu.cnm.deepdive.choppit.model.entity.Ingredient;
+import edu.cnm.deepdive.choppit.model.entity.Step;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,18 +16,21 @@ import org.jsoup.select.Elements;
 public class JsoupRetriever {
 
   // TODO add any new measurement enum values to the parentheses here.
-  public static final String MAGIC_REGEX = "^([\\d\\W]*)\\s(tsp|teaspoon|tbsp|tablespoon|oz|ounce|c|cup*)*s??\\b(.*)";
+  public static final String MAGIC_INGREDIENT_REGEX = "^([\\d\\W]*)\\s(tsp|teaspoon|tbsp|tablespoon|oz|ounce|c|cup*)*s??\\b(.*)";
   private Document document;
   private String url;
   private String ingredient;
-  private String step;
+  private String instruction;
   private String ingredientClass;
-  private String stepClass;
-  private static List<String> listIngredients = new ArrayList<>();
+  private String instructionClass;
+  private static ItemDao itemDao;
+  private static List<String> listRawIngredients = new ArrayList<>();
   private static List<String> measurements = new ArrayList<>();
   private static List<String> units = new ArrayList<>();
   private static List<String> names = new ArrayList<>();
-  private static List<String> listSteps = new ArrayList<>();
+  private static List<String> listInstructions = new ArrayList<>();
+  private List<Step> steps = new ArrayList<>();
+  private List<Ingredient> ingredients = new ArrayList<>();
 
   public static JsoupRetriever getInstance() {
     return InstanceHolder.INSTANCE;
@@ -32,19 +38,19 @@ public class JsoupRetriever {
 
   // TODO send data to database
   private void getData() throws IOException {
-    setValues();
-    getPage();
-    ingredientClass = getSourceClass(ingredient);
-    stepClass = getSourceClass(step);
-    listIngredients = getClassContents(ingredientClass);
-    ingredientParse(listIngredients);
-    listSteps = getClassContents(stepClass);
+    setValues(); // pull url, ingredient & step from MVM
+    getPage(); // attempt to retrieve url through jsoup
+    ingredientClass = getSourceClass(ingredient); // identify wrapper classes
+    instructionClass = getSourceClass(instruction);
+    listRawIngredients = getClassContents(ingredientClass); // list all ingredients
+    ingredientParse(listRawIngredients); // parse ingredients
+    listInstructions = getClassContents(instructionClass); // list all instructions
   }
 
   private void setValues() {
     url = MainViewModel.getUrl();
     ingredient = MainViewModel.getIngredient();
-    step = MainViewModel.getStep();
+    instruction = MainViewModel.getStep();
   }
 
   private void getPage() throws IOException {
@@ -68,16 +74,40 @@ public class JsoupRetriever {
     return e.eachText();
   }
 
-  private void ingredientParse(List<String> listIngredients) {
-    Pattern pattern = Pattern.compile(MAGIC_REGEX);
-    for (String ingredient : listIngredients) {
+  private void stepBuilder(List<String> instructions) {
+    for (int i = 0; i < instructions.size(); i++) {
+      Step step = new Step();
+      step.setRecipeOrder(i + 1);
+      step.setInstructions(instructions.get(i));
+      steps.add(step);
+      }
+  }
+
+  private List<Ingredient> ingredientBuilder(List<String> listRawIngredients) {
+    Pattern pattern = Pattern.compile(MAGIC_INGREDIENT_REGEX);
+    for (String rawIngredient : listRawIngredients) {
+      Matcher matcher = pattern.matcher(ingredient);
+      Ingredient ingredient = new Ingredient();
+      if (matcher.find()) {
+        ingredient.setQuantity(matcher.group(1));
+        ingredient.setUnit(Ingredient.Unit.toUnit(matcher.group(2)));
+                // TODO get advice from Nick or Todd: is there a good reason not to just use names instead of Item entities?
+        ingredient.setItem(matcher.group(3));
+      }
+      ingredients.add(ingredient);
+    }
+    return ingredients;
+  }
+
+  private void ingredientParse(List<String> listRawIngredients) {
+    Pattern pattern = Pattern.compile(MAGIC_INGREDIENT_REGEX);
+    for (String ingredient : listRawIngredients) {
       Matcher matcher = pattern.matcher(ingredient);
       if (matcher.find()) {
         measurements.add(matcher.group(1));
         units.add(matcher.group(2));
         names.add(matcher.group(3));
       }
-
     }
   }
 
@@ -85,8 +115,12 @@ public class JsoupRetriever {
     return ingredientClass;
   }
 
-  public String getStepClass() {
-    return stepClass;
+  public String getInstructionClass() {
+    return instructionClass;
+  }
+
+  public static List<String> getListRawIngredients() {
+    return listRawIngredients;
   }
 
   public static List<String> getMeasurements() {
@@ -101,8 +135,8 @@ public class JsoupRetriever {
     return names;
   }
 
-  public static List<String> getListSteps() {
-    return listSteps;
+  public static List<String> getListInstructions() {
+    return listInstructions;
   }
 
   private static class InstanceHolder {

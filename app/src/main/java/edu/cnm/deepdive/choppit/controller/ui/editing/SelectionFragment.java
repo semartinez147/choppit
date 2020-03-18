@@ -31,9 +31,9 @@ public class SelectionFragment extends Fragment {
 
   private MainViewModel viewModel;
   private WebView contentView;
-  private static String url;
   private  EditText ingredientInput;
   private  EditText stepInput;
+  private static String url;
   private static String ingredient = "";
   private static String step = "";
   private HomeFragment homeFragment;

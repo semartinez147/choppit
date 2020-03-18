@@ -8,12 +8,11 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
 import androidx.annotation.NonNull;
-import java.util.List;
 
 @Entity(
     indices = {
-      @Index(value = "step_id"),
-      @Index(value = "item_id")
+        @Index(value = "step_id"),
+        @Index(value = "item_id")
     },
     foreignKeys = {
         @ForeignKey(
@@ -36,7 +35,7 @@ public class Ingredient {
   @PrimaryKey(autoGenerate = true)
   private long id;
 
-    @ColumnInfo(name = "step_id")
+  @ColumnInfo(name = "step_id")
   private long stepId;
 
   @ColumnInfo(name = "item_id")
@@ -57,10 +56,11 @@ public class Ingredient {
   }
 
   @Ignore
-  public Ingredient (long stepId, long itemId, long quantity, Unit unit, Item item) {
+  public Ingredient(long stepId, long itemId, String quantity, Unit unit, Item item) {
     super();
     this.stepId = stepId;
     this.itemId = itemId;
+    this.quantity = quantity;
     this.unit = unit;
     this.item = item;
   }
@@ -116,21 +116,13 @@ public class Ingredient {
   public enum Unit {
     DASH,
     TSP,
-    TEASPOON,
     TBSP,
-    TABLESPOON,
     C,
-    CUP,
     PT,
-    PINT,
     QT,
-    QUART,
     GAL,
-    GALLON,
     OZ,
-    OUNCE,
     LB,
-    POUND,
     OTHER; // Will generate a text field for things like "sprig" or "leg".
 
     @TypeConverter
@@ -138,9 +130,39 @@ public class Ingredient {
       return (value != null) ? value.name() : null;
 
     }
+
     @TypeConverter
-    public static Unit toUnit(String value) {
-      return (value != null) ? Unit.valueOf(value) : null;
+    public static Unit toUnit(
+        String value) { // TODO make sure value is lowercase before it gets here.
+      if (value == null) {
+        return null;
+      } else {
+        try {
+          return Unit.valueOf(value);
+        } catch (IllegalArgumentException e) {
+          switch (value) {
+            case "teaspoon":
+              return Unit.TSP;
+            case "tablespoon":
+              return Unit.TBSP;
+            case "cup":
+              return Unit.C;
+            case "pint":
+              return Unit.PT;
+            case "quart":
+              return Unit.QT;
+            case "gallon":
+              return Unit.GAL;
+            case "ounce":
+            case "fluid ounce":
+              return Unit.OZ;
+            case "pound":
+              return Unit.LB;
+            default:
+              return Unit.OTHER;
+          }
+        }
+      }
     }
   }
 }
