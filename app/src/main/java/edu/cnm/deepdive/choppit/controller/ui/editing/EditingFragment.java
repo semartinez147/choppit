@@ -22,6 +22,7 @@ import edu.cnm.deepdive.choppit.model.entity.Step;
 import edu.cnm.deepdive.choppit.service.JsoupRetriever;
 import edu.cnm.deepdive.choppit.view.RecipeRecyclerAdapter;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +74,11 @@ public class EditingFragment extends Fragment {
     });
 
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-    viewModel.retrieve();
+    try {
+      viewModel.retrieve();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     viewModel.gatherIngredients();
     viewModel.gatherSteps();
     viewModel.getIngredients().observe(getViewLifecycleOwner(), (ingredients) -> {

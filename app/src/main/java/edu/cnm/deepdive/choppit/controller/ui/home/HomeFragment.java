@@ -47,11 +47,8 @@ public class HomeFragment extends Fragment {
       ViewGroup container, Bundle savedInstanceState) {
     root = inflater.inflate(R.layout.fragment_home, container, false);
     urlInput = (EditText) root.findViewById(R.id.url_input);
-//      urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
     newRecipe = (Button) root.findViewById(R.id.new_recipe);
     myCookbook = (Button) root.findViewById(R.id.my_cookbook);
-
-
 
     return root;
   }
@@ -67,6 +64,8 @@ public class HomeFragment extends Fragment {
         ((MainActivity) getActivity()).navigateTo(R.id.navigation_cookbook);
       }
     });
+    // TODO debug ONLY
+    urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
 
     newRecipe.setOnClickListener(new OnClickListener() {
       @Override

@@ -51,12 +51,14 @@ public class SelectionFragment extends Fragment {
     setupWebView(root);
     homeFragment = new HomeFragment();
     url = (homeFragment.getUrl());
-    // https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046 test url
     Log.d("Url from HomeFrag is", url);
     contentView.loadUrl(url);
-
     ingredientInput = root.findViewById(R.id.ingredient_input);
     stepInput = root.findViewById(R.id.step_input);
+
+    // TODO debug ONLY
+    ingredientInput.setText("bread flour");
+    stepInput.setText("melt the butter");
 
     ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);

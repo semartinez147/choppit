@@ -16,10 +16,14 @@ import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
 import edu.cnm.deepdive.choppit.model.repository.RecipeRepository;
 import edu.cnm.deepdive.choppit.service.JsoupRetriever;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import org.jsoup.nodes.Document;
 
 public class MainViewModel extends AndroidViewModel implements LifecycleObserver {
 
@@ -34,6 +38,9 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   private final CompositeDisposable pending;
   private final RecipeRepository repository;
   private final JsoupRetriever retriever;
+  private final Executor networkPool;
+
+  private static final int NETWORK_POOL_SIZE = 10;
 
   public MainViewModel(@NonNull Application application) {
     super(application);
@@ -45,6 +52,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     throwable = new MutableLiveData<>();
     permissions = new MutableLiveData<>(new HashSet<>());
     pending = new CompositeDisposable();
+    networkPool = Executors.newFixedThreadPool(NETWORK_POOL_SIZE);
   }
 
   public LiveData<List<RecipeWithDetails>> getAllRecipes() {
@@ -63,6 +71,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     return ingredients;
   }
 
+
   public LiveData<Throwable> getThrowable() {
     return throwable;
   }
@@ -71,7 +80,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     return permissions;
   }
 
-  public void retrieve() {
+  public void retrieve() throws IOException {
     getFromSelection();
     retriever.getData(url,ingredient, instruction);
   }
@@ -81,6 +90,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     ingredient = SelectionFragment.getIngredient();
     instruction = SelectionFragment.getStep();
   }
+
 
   public void gatherIngredients() {
     pending.add(
@@ -127,6 +137,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   public static String getIngredient() {
     return ingredient;
   }
+
 
   @SuppressWarnings("unused")
   @OnLifecycleEvent(Event.ON_STOP)
