@@ -43,10 +43,11 @@ public class JsoupRetriever {
   // TODO send data to database
   public void getData(String url, String ingredient, String instruction) throws IOException {
     // TODO get the page from jsoup.
-    new GetPage().execute(url);
+    new GetPage(instruction, ingredient).execute(url);
+  }
 
-    Log.d("Url text", url);
-    Log.d("Document @ 50", Boolean.toString(document != null));
+  private void processDoc(String ingredient, String instruction, Document document) {
+    this.document = document;
     ingredientClass = getIngredientClass(ingredient); // identify wrapper classes
     instructionClass = getInstructionClass(instruction);
     listRawIngredients = getClassContents(ingredientClass); // list all ingredients
@@ -72,7 +73,7 @@ public class JsoupRetriever {
 //  }
 
   private String getIngredientClass(String text) {
-    Elements e = document.select(String.format("*:containsOwn(%s)", text));
+    Elements e = document.select("*:containsOwn(bread flour)");
     // TODO error handling (no matching text just returns an empty List).
 
     return e.get(0).attr("class");
@@ -109,9 +110,10 @@ public class JsoupRetriever {
       if (matcher.find()) {
         ingredient.setQuantity(matcher.group(1));
         ingredient.setUnit(Ingredient.Unit.toUnit(matcher.group(2)));
-        ingredient.setName(matcher.group(3));
+        ingredient.setName(matcher.group(3).trim());
       }
       ingredients.add(ingredient);
+
     }
     return ingredients;
   }
@@ -152,27 +154,29 @@ public class JsoupRetriever {
 
   private class GetPage extends AsyncTask<String, Void, Document> {
 
-    Document doc;
+    private final String instruction;
+    private final String ingredient;
+
+    private GetPage(String instruction, String ingredient) {
+      this.instruction = instruction;
+      this.ingredient = ingredient;
+    }
 
     @Override
     protected Document doInBackground(String... strings) {
       try {
-        Log.d("Document @ 161", Boolean.toString(document != null));
-        doc = Jsoup.connect(strings[0]).get();
-        Log.d("Document @ 163", Boolean.toString(document != null));
-
+        Document doc = Jsoup.connect(strings[0]).get();
         return doc;
-      } catch (IOException e) {
+      } catch (Exception e) { // TODO change back to IOException after debugging.
         e.printStackTrace();
         return null;
-      } finally {
-        onPostExecute();
       }
     }
 
-    protected void onPostExecute() {
+    @Override
+    protected void onPostExecute(Document doc) {
       if (doc != null) {
-        document = doc;
+        processDoc(ingredient, instruction, doc);
       }
 
     }

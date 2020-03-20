@@ -71,7 +71,6 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     return ingredients;
   }
 
-
   public LiveData<Throwable> getThrowable() {
     return throwable;
   }

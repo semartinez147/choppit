@@ -1,5 +1,7 @@
 package edu.cnm.deepdive.choppit.model.entity;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -22,27 +24,30 @@ import androidx.annotation.NonNull;
         )
     }
 )
-public class Ingredient {
+public class Ingredient extends BaseObservable {
 
   @ColumnInfo(name = "ingredient_id")
   @PrimaryKey(autoGenerate = true)
   private long id;
 
+  
   @ColumnInfo(name = "step_id")
   private long stepId;
 
+  
   @ColumnInfo(name = "quantity")
   private String quantity;
 
+  
   @NonNull
   @ColumnInfo(name = "unit", typeAffinity = ColumnInfo.TEXT, collate = ColumnInfo.NOCASE)
   private Unit unit;
 
+  @ColumnInfo
+  private String name;
   @ColumnInfo(name = "unit_alt", typeAffinity = ColumnInfo.TEXT, collate = ColumnInfo.NOCASE)
   private String unitAlt;
 
-  @ColumnInfo
-  private String name;
 
   public Ingredient() {
 

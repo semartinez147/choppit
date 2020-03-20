@@ -11,6 +11,36 @@
     android:id="@+id/settings_fragment"
     android:name="edu.cnm.deepdive.choppit.controller.SettingsActivity$SettingsFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent"/>
+
+  <TextView
+    android:id="@+id/settings_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/standard_margin"
+    android:text="@string/default_recipe_title"
+    style="@style/RecipeItem.Title"
+    app:layout_constraintTop_toBottomOf="@id/settings_fragment"/>
+
+  <TextView
+    android:id="@+id/settings_body"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/standard_margin"
+    android:text="@string/Cupcake_dolor_ipsum"
+    style="@style/RecipeText"
+    app:layout_constraintTop_toBottomOf="@id/settings_title"
+    app:layout_constraintBottom_toTopOf="@id/button"/>
+
+  <Button
+    android:id="@+id/button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/standard_margin"
+    android:text="@string/okay"
+    app:layout_constraintTop_toBottomOf="@id/settings_body"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

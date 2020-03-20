@@ -1,14 +1,20 @@
 package edu.cnm.deepdive.choppit.view;
 
+import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import edu.cnm.deepdive.choppit.R;
+import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
+import edu.cnm.deepdive.choppit.databinding.EditIngredientItemBinding;
+import edu.cnm.deepdive.choppit.databinding.EditStepItemBinding;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Step;
 import java.util.List;
@@ -22,30 +28,48 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
   private final Context context;
   private final List<Ingredient> ingredients;
   private final List<Step> steps;
+  EditingFragment editingFragment;
+  EditIngredientItemBinding editIngredientItemBinding;
+  EditStepItemBinding editStepItemBinding;
 
   public EditingRecyclerAdapter(Context context, List<Ingredient> ingredients, List<Step> steps) {
     this.context = context;
     this.steps = steps;
     this.ingredients = ingredients;
-//    TODO delete this, probably.
-//    for (StepWithDetails step : recipe.getStepWithDetails()) {
-//      this.ingredients.addAll(step.getIngredients());
-//    }
+    editingFragment = new EditingFragment();
+    Log.d("ingredient", ingredients.toString());
+  }
 
+  public void updateIngredients(List<Ingredient> newIngredients) {
+    ingredients.clear();
+    ingredients.addAll(newIngredients);
+    notifyDataSetChanged();
+  }
+
+  public void updateSteps(List<Step> newSteps) {
+    steps.clear();
+    steps.addAll(newSteps);
+    notifyDataSetChanged();
   }
 
   @NonNull
   @Override
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     if (viewType == VIEW_TYPE_INGREDIENT) {
-      View view = LayoutInflater.from(context)
-          .inflate(R.layout.edit_ingredient_item, null, true);
 
-      return new IngredientViewHolder(view);
+      editIngredientItemBinding = DataBindingUtil
+          .inflate(LayoutInflater.from(context), R.layout.edit_ingredient_item, parent, false);
+      editIngredientItemBinding.setLifecycleOwner(editingFragment.getViewLifecycleOwner());
+      View view = editIngredientItemBinding.getRoot();
+      return new IngredientViewHolder(editIngredientItemBinding);
     }
     if (viewType == VIEW_TYPE_STEP) {
-      View view = LayoutInflater.from(context).inflate(R.layout.edit_step_item, null, true);
-      return new StepViewHolder(view);
+
+      editStepItemBinding = DataBindingUtil
+          .inflate(LayoutInflater.from(context), R.layout.edit_step_item, parent, false);
+      editStepItemBinding.setLifecycleOwner(editingFragment.getViewLifecycleOwner());
+      View view = editStepItemBinding.getRoot();
+      return new StepViewHolder(editStepItemBinding);
     }
     return null;
   }
@@ -53,7 +77,12 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
   @Override
   public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
     if (viewHolder instanceof IngredientViewHolder) {
-      ((IngredientViewHolder) viewHolder).populate(ingredients.get(position));
+      Ingredient ingredient = ingredients.get(position);
+      ((IngredientViewHolder) viewHolder).bind(ingredient);
+    }
+    if (viewHolder instanceof StepViewHolder) {
+      Step step = steps.get(position);
+      ((StepViewHolder) viewHolder).bind(step);
     }
   }
 
@@ -78,35 +107,52 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private TextView quantity;
     private TextView unit;
     private TextView name;
+    private EditIngredientItemBinding binding;
 
-    private IngredientViewHolder(@Nonnull View itemView) {
-      super(itemView);
-      quantity = itemView.findViewById(R.id.editing_quantity);
-      unit = itemView.findViewById(R.id.editing_unit);
-      name = itemView.findViewById(R.id.editing_name);
+    private IngredientViewHolder(EditIngredientItemBinding binding) {
+      super(binding.getRoot());
+
+      this.binding = binding;
+
+//      quantity = itemView.findViewById(R.id.editing_quantity);
+//      unit = itemView.findViewById(R.id.editing_unit);
+//      name = itemView.findViewById(R.id.editing_name);
     }
 
+    public void bind(Ingredient ingredient) {
+      binding.setIngredient(ingredient);
+      binding.executePendingBindings();
+    }
+/*
     public void populate(Ingredient ingredient) {
-      quantity.setText(ingredient.getQuantity()); // FIXME change all Quantities to Strings
+      quantity.setText(ingredient.getQuantity());
       unit.setText(ingredient.getUnit().toString());
       name.setText(ingredient.getName());
     }
+*/
   }
 
   public class StepViewHolder extends RecyclerView.ViewHolder {
 
     private TextView order;
     private TextView step;
+    private EditStepItemBinding binding;
 
-    private StepViewHolder(@Nonnull View itemView) {
-      super(itemView);
-      order = itemView.findViewById(R.id.step_number);
-      step = itemView.findViewById(R.id.step_input);
+    private StepViewHolder(EditStepItemBinding binding) {
+      super(binding.getRoot());
+      this.binding = binding;
     }
 
+    public void bind(Step step) {
+      binding.setStep(step);
+      step.setRecipeOrder(getAdapterPosition()-ingredients.size());
+      binding.executePendingBindings();
+    }
+/*
     public void populate(Step step) {
       order.setText(Integer.toString(getAdapterPosition() + 1));
       this.step.setText(step.getInstructions());
     }
+*/
   }
 }

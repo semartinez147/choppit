@@ -2,6 +2,9 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
+    dataBinding {
+        enabled = true
+    }
     buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "edu.cnm.deepdive.choppit"

@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.choppit.controller.ui.editing;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,11 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.MainActivity;
+import edu.cnm.deepdive.choppit.databinding.FragmentEditingBinding;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Step;
 import edu.cnm.deepdive.choppit.service.JsoupRetriever;
@@ -28,10 +33,12 @@ import java.util.List;
 public class EditingFragment extends Fragment {
 
   RecyclerView recyclerView;
+  EditingRecyclerAdapter adapter;
   private MainViewModel viewModel;
   private JsoupRetriever retriever;
   private List<Ingredient> ingredients = new ArrayList<>();
   private List<Step> steps = new ArrayList<>();
+  private FragmentEditingBinding binding;
 
   public static EditingFragment createInstance() {
     EditingFragment fragment = new EditingFragment();
@@ -43,6 +50,8 @@ public class EditingFragment extends Fragment {
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setRetainInstance(true);
+    binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_editing);
+    setupRecyclerView();
   }
 
   @Override
@@ -51,16 +60,25 @@ public class EditingFragment extends Fragment {
     inflater.inflate(R.menu.help_menu, menu);
   }
 
+  private void setupRecyclerView() {
+
+    RecyclerView recyclerView = binding.editingRecyclerView;
+    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+    recyclerView.setLayoutManager(layoutManager);
+
+    EditingRecyclerAdapter adapter = new EditingRecyclerAdapter(getContext(), ingredients, steps);
+    recyclerView.setAdapter(adapter);
+  }
 
   @Nullable
-  public View onCreateView(@NonNull LayoutInflater inflater,
-      ViewGroup container, Bundle savedInstanceState) {
-    View root = inflater.inflate(R.layout.fragment_editing, container, false);
+  @Override
+  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+      @Nullable Bundle savedInstanceState) {
     ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle(R.string.recipe_editing);
-    recyclerView = root.findViewById(R.id.editing_recycler_view);
-    return root;
+
+    return super.onCreateView(inflater, container, savedInstanceState);
   }
 
   @Override
@@ -71,7 +89,10 @@ public class EditingFragment extends Fragment {
       ((MainActivity) getActivity())
           .navigateTo(R.id.navigation_cookbook); //TODO change this to the active recipe
     });
+  }
 
+
+  public void makeJsoupGo() {
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
     try {
       viewModel.retrieve();
@@ -79,23 +100,24 @@ public class EditingFragment extends Fragment {
       e.printStackTrace();
     }
     viewModel.gatherIngredients();
+    Log.d("Gathered ingredients", ingredients.toString());
     viewModel.gatherSteps();
-    viewModel.getIngredients().observe(getViewLifecycleOwner(), (ingredients) -> {
-      this.ingredients = ingredients;
+    viewModel.getIngredients().observe(getViewLifecycleOwner(), new Observer<List<Ingredient>>() {
+      @Override
+      public void onChanged(List<Ingredient> ingredients) {
+        if (ingredients != null) {
+          adapter.updateIngredients(ingredients);
+        }
+      }
     });
-    viewModel.getSteps().observe(getViewLifecycleOwner(), (steps) -> {
-      this.steps = steps;
+    viewModel.getSteps().observe(getViewLifecycleOwner(), new Observer<List<Step>>() {
+      @Override
+      public void onChanged(List<Step> steps) {
+        if (steps != null) {
+          adapter.updateSteps(steps);
+        }
+      }
     });
-    EditingRecyclerAdapter adapter = new EditingRecyclerAdapter(getContext(), ingredients, steps);
-    recyclerView.setAdapter(adapter);
-  }
 
-  //  @Override
-//  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//    super.onViewCreated(view, savedInstanceState);
-//    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-//    viewModel.getRecipe().observe(getViewLifecycleOwner(), (recipe) -> {
-//
-//    });
-//  }
+  }
 }
