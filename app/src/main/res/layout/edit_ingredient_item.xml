@@ -4,7 +4,8 @@
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:paddingHorizontal="8dp"
+  android:paddingStart="8dp"
+  android:paddingEnd="8dp"
   android:orientation="horizontal"
   android:layout_alignParentTop="true"
   android:showDividers="none">
@@ -22,7 +23,7 @@
     app:layout_constraintEnd_toStartOf="@id/unit_layout"
     app:layout_constraintHorizontal_chainStyle="packed">
     <com.google.android.material.textfield.TextInputEditText
-      android:id="@+id/quantity"
+      android:id="@+id/editing_quantity"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:hint="#"
@@ -46,7 +47,7 @@
     app:layout_constraintEnd_toStartOf="@id/name_layout"
     app:layout_constraintHorizontal_chainStyle="packed">
     <com.google.android.material.textfield.TextInputEditText
-      android:id="@+id/unit"
+      android:id="@+id/editing_unit"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:hint="unit"
@@ -70,7 +71,7 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_chainStyle="spread">
     <com.google.android.material.textfield.TextInputEditText
-      android:id="@+id/name"
+      android:id="@+id/editing_name"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:hint="name"

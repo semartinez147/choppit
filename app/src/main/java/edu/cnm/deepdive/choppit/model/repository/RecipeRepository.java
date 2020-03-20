@@ -15,6 +15,7 @@ import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import org.jsoup.nodes.Document;
 
 public class RecipeRepository {
 
@@ -43,19 +44,15 @@ public class RecipeRepository {
     networkPool = Executors.newFixedThreadPool(NETWORK_THREAD_COUNT);
   }
 
-  private void buildRecipe() {
-
-  }
-
-public Single<List<Ingredient>> retrieveIngredients() {
+   public Single<List<Ingredient>> retrieveIngredients() {
     List<Ingredient> ingredients = retriever.ingredientBuilder();
     return Single.just(ingredients);
-}
+  }
 
-public Single<List<Step>> retrieveSteps() {
+  public Single<List<Step>> retrieveSteps() {
     List<Step> steps = retriever.stepBuilder();
     return Single.just(steps);
-}
+  }
 
 
   public LiveData<List<RecipeWithDetails>> getAll() {

@@ -19,7 +19,7 @@ public class StepListAdapter extends ArrayAdapter {
   private View view;
 
   public StepListAdapter(Activity context, List<String> step) {
-    super(context, R.layout.edit_ingredient_list_item, step);
+    super(context, R.layout.edit_ingredient_item, step);
     this.context = context;
     this.step = step;
       }
@@ -33,7 +33,7 @@ public class StepListAdapter extends ArrayAdapter {
 
     if (view == null) {
       LayoutInflater inflater = context.getLayoutInflater();
-      view = inflater.inflate(R.layout.edit_step_list_item, null, true);
+      view = inflater.inflate(R.layout.edit_step_item, null, true);
 
       holder = new ViewHolder(view);
       holder.number = (TextView) view.findViewById(R.id.step_number);

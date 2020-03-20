@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.choppit.controller.ui.editing;
+package edu.cnm.deepdive.choppit.controller.ui.cookbook;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -15,26 +14,26 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.choppit.R;
-import edu.cnm.deepdive.choppit.controller.MainActivity;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
+import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
-import edu.cnm.deepdive.choppit.service.JsoupRetriever;
 import edu.cnm.deepdive.choppit.view.EditingRecyclerAdapter;
+import edu.cnm.deepdive.choppit.view.RecipeRecyclerAdapter;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditingFragment extends Fragment {
+public class RecipeFragment extends Fragment {
 
   RecyclerView recyclerView;
   private MainViewModel viewModel;
-  private JsoupRetriever retriever;
+  private Recipe recipe; // TODO where does the recipe come from?
   private List<Ingredient> ingredients = new ArrayList<>();
   private List<Step> steps = new ArrayList<>();
 
-  public static EditingFragment createInstance() {
-    EditingFragment fragment = new EditingFragment();
+  public static RecipeFragment createInstance() {
+    RecipeFragment fragment = new RecipeFragment();
     Bundle args = new Bundle();
     return fragment;
   }
@@ -55,10 +54,10 @@ public class EditingFragment extends Fragment {
   @Nullable
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
-    View root = inflater.inflate(R.layout.fragment_editing, container, false);
+    View root = inflater.inflate(R.layout.fragment_recipe, container, false);
     ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setTitle(R.string.recipe_editing);
+    actionBar.setTitle(recipe.getTitle());
     recyclerView = root.findViewById(R.id.editing_recycler_view);
     return root;
   }
@@ -66,11 +65,6 @@ public class EditingFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    Button continue_button = view.findViewById(R.id.editing_continue);
-    continue_button.setOnClickListener(v -> {
-      ((MainActivity) getActivity())
-          .navigateTo(R.id.navigation_cookbook); //TODO change this to the active recipe
-    });
 
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
     try {
@@ -78,15 +72,8 @@ public class EditingFragment extends Fragment {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    viewModel.gatherIngredients();
-    viewModel.gatherSteps();
-    viewModel.getIngredients().observe(getViewLifecycleOwner(), (ingredients) -> {
-      this.ingredients = ingredients;
-    });
-    viewModel.getSteps().observe(getViewLifecycleOwner(), (steps) -> {
-      this.steps = steps;
-    });
-    EditingRecyclerAdapter adapter = new EditingRecyclerAdapter(getContext(), ingredients, steps);
+
+    RecipeRecyclerAdapter adapter = new RecipeRecyclerAdapter(getContext(), recipe);
     recyclerView.setAdapter(adapter);
   }
 

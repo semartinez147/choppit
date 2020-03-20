@@ -1,10 +1,9 @@
 package edu.cnm.deepdive.choppit.service;
 
+import android.os.AsyncTask;
+import android.util.Log;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Step;
-import io.reactivex.Completable;
-import io.reactivex.functions.Action;
-import io.reactivex.schedulers.Schedulers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,35 +40,45 @@ public class JsoupRetriever {
     return InstanceHolder.INSTANCE;
   }
 
-
   // TODO send data to database
-  public void getData(String url, String ingredient, String instruction) {
-    getPage(url) // attempt to retrieve url through jsoup
-    .subscribeOn(Schedulers.from(networkPool))
-    .subscribe();
-    ingredientClass = getSourceClass(ingredient); // identify wrapper classes
-    instructionClass = getSourceClass(instruction);
+  public void getData(String url, String ingredient, String instruction) throws IOException {
+    // TODO get the page from jsoup.
+    new GetPage().execute(url);
+
+    Log.d("Url text", url);
+    Log.d("Document @ 50", Boolean.toString(document != null));
+    ingredientClass = getIngredientClass(ingredient); // identify wrapper classes
+    instructionClass = getInstructionClass(instruction);
     listRawIngredients = getClassContents(ingredientClass); // list all ingredients
     listInstructions = getClassContents(instructionClass); // list all instructions
     stepBuilder();
     ingredientBuilder();
   }
 
-  private Completable getPage(String url) {
-    Action action = () -> document = Jsoup.connect(url).get();
-    return Completable.fromAction(action);
-  }
-
-//  TODO delete this, probably
-//  private void getPage(String url) throws IOException {
-//    try {
-//      document = Jsoup.connect(url).get();
-//    } catch (IOException e) {
-//      e.printStackTrace(); // TODO something useful
-//    }
+//  @SuppressLint("CheckResult")
+//  public void getPage(String url) {
+//    Observable.create(new ObservableOnSubscribe() {
+//      @Override
+//      public void subscribe(ObservableEmitter emitter) throws Exception {
+//        document = Jsoup.connect(url).get();
+//      }
+//    }).subscribeOn(Schedulers.from(networkPool))
+//        .subscribe();
 //  }
 
-  private String getSourceClass(String text) {
+//  TODO delete this, probably
+//  private void getPage(String url) {
+//    document = Jsoup.connect(url);
+//  }
+
+  private String getIngredientClass(String text) {
+    Elements e = document.select(String.format("*:containsOwn(%s)", text));
+    // TODO error handling (no matching text just returns an empty List).
+
+    return e.get(0).attr("class");
+  }
+
+  private String getInstructionClass(String text) {
     Elements e = document.select(String.format("*:containsOwn(%s)", text));
     // TODO error handling (no matching text just returns an empty List).
 
@@ -139,6 +148,34 @@ public class JsoupRetriever {
   private static class InstanceHolder {
 
     private static final JsoupRetriever INSTANCE = new JsoupRetriever();
+  }
+
+  private class GetPage extends AsyncTask<String, Void, Document> {
+
+    Document doc;
+
+    @Override
+    protected Document doInBackground(String... strings) {
+      try {
+        Log.d("Document @ 161", Boolean.toString(document != null));
+        doc = Jsoup.connect(strings[0]).get();
+        Log.d("Document @ 163", Boolean.toString(document != null));
+
+        return doc;
+      } catch (IOException e) {
+        e.printStackTrace();
+        return null;
+      } finally {
+        onPostExecute();
+      }
+    }
+
+    protected void onPostExecute() {
+      if (doc != null) {
+        document = doc;
+      }
+
+    }
   }
 
 }

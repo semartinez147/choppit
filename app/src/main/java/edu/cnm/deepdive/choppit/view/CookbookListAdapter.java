@@ -18,7 +18,7 @@ public class CookbookListAdapter extends ArrayAdapter {
   private View view;
 
   public CookbookListAdapter(Activity context, String[] recipes) {
-    super(context, R.layout.recipe_list_item, recipes);
+    super(context, R.layout.cookbook_list_item, recipes);
     this.context = context;
     this.recipes = recipes;
       }
@@ -33,7 +33,7 @@ public class CookbookListAdapter extends ArrayAdapter {
 
     if (view == null) {
       LayoutInflater inflater = context.getLayoutInflater();
-      view = inflater.inflate(R.layout.recipe_list_item, null, true);
+      view = inflater.inflate(R.layout.cookbook_list_item, null, true);
 
       holder = new ViewHolder(view);
       holder.favorite = view.findViewById(R.id.favorite);

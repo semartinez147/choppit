@@ -22,7 +22,7 @@ public class IngredientListAdapter extends ArrayAdapter {
 
   public IngredientListAdapter(Activity context,
       List<String> measurement, List<String> unit, List<String> name) {
-    super(context, R.layout.edit_ingredient_list_item, unit);
+    super(context, R.layout.edit_ingredient_item, unit);
     this.context = context;
     this.measurement = measurement;
     this.unit = unit;
@@ -37,12 +37,12 @@ public class IngredientListAdapter extends ArrayAdapter {
 
     if (view == null) {
       LayoutInflater inflater = context.getLayoutInflater();
-      view = inflater.inflate(R.layout.edit_ingredient_list_item, null, true);
+      view = inflater.inflate(R.layout.edit_ingredient_item, null, true);
 
       holder = new ViewHolder(view);
-      holder.measurement = (TextView) view.findViewById(R.id.quantity);
-      holder.unit = (TextView) view.findViewById(R.id.unit);
-      holder.name = (TextView) view.findViewById(R.id.name);
+      holder.measurement = (TextView) view.findViewById(R.id.editing_quantity);
+      holder.unit = (TextView) view.findViewById(R.id.editing_unit);
+      holder.name = (TextView) view.findViewById(R.id.editing_name);
       view.setTag(holder);
     } else {
       holder = (ViewHolder) view.getTag();
@@ -67,9 +67,9 @@ public class IngredientListAdapter extends ArrayAdapter {
 
     private ViewHolder(@Nonnull View view) {
       super(view);
-      measurement = view.findViewById(R.id.quantity);
-      unit = view.findViewById(R.id.unit);
-      name = view.findViewById(R.id.name);
+      measurement = view.findViewById(R.id.editing_quantity);
+      unit = view.findViewById(R.id.editing_unit);
+      name = view.findViewById(R.id.editing_name);
     }
 
   }
