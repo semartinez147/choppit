@@ -19,6 +19,7 @@ public class JsoupRetriever {
   // TODO add any new measurement enum values to the parentheses here.
   public static final String MAGIC_INGREDIENT_REGEX = "^([\\d\\W]*)\\s(tsp|teaspoon|tbsp|tablespoon|oz|ounce|c|cup*)*s??\\b(.*)";
   private Document document;
+  private String url;
   private String ingredientClass;
   private String instructionClass;
   private List<String> listRawIngredients = new ArrayList<>();
@@ -41,8 +42,9 @@ public class JsoupRetriever {
 
   // TODO send data to database
   public void getData(String url, String ingredient, String instruction) throws IOException {
-    // TODO get the page from jsoup.
-    new GetPage(instruction, ingredient).execute(url);
+    this.url = url;
+    new GetPage(instruction, ingredient)
+        .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url);
   }
 
   private void processDoc(String ingredient, String instruction, Document document) {
@@ -148,7 +150,7 @@ public class JsoupRetriever {
     @Override
     protected Document doInBackground(String... strings) {
       try {
-        Document doc = Jsoup.connect(strings[0]).get();
+        Document doc = Jsoup.connect(url).get();
         return doc;
       } catch (Exception e) { // TODO change back to IOException after debugging.
         e.printStackTrace();

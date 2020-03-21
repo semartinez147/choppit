@@ -1,6 +1,5 @@
 package edu.cnm.deepdive.choppit.view;
 
-import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import edu.cnm.deepdive.choppit.databinding.EditStepItemBinding;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Step;
 import java.util.List;
-import javax.annotation.Nonnull;
 
 public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -37,7 +35,6 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     this.steps = steps;
     this.ingredients = ingredients;
     editingFragment = new EditingFragment();
-    Log.d("ingredient", ingredients.toString());
   }
 
   public void updateIngredients(List<Ingredient> newIngredients) {

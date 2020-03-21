@@ -19,20 +19,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.MainActivity;
 import edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
-import java.util.Objects;
 import javax.annotation.Nonnull;
 
 public class SelectionFragment extends Fragment {
 
   private MainViewModel viewModel;
   private WebView contentView;
-  private  EditText ingredientInput;
-  private  EditText stepInput;
+  private EditText ingredientInput;
+  private EditText stepInput;
   private static String url;
   private static String ingredient = "";
   private static String step = "";
@@ -64,7 +62,6 @@ public class SelectionFragment extends Fragment {
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle(R.string.detail_selection);
 
-
     Button continueButton = (Button) root.findViewById(R.id.selection_continue);
     continueButton.setOnClickListener(new OnClickListener() {
       @Override
@@ -72,13 +69,12 @@ public class SelectionFragment extends Fragment {
         step = stepInput.getText().toString();
         ingredient = ingredientInput.getText().toString();
 
-        ((MainActivity)getActivity()).navigateTo(R.id.navigation_editing);
+        ((MainActivity) getActivity()).navigateTo(R.id.navigation_editing);
       }
     });
 
     return root;
   }
-
 
 
   @SuppressLint("SetJavaScriptEnabled")

@@ -14,7 +14,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +31,7 @@ import java.util.List;
 
 public class EditingFragment extends Fragment {
 
-  EditingRecyclerAdapter adapter;
+  EditingRecyclerAdapter editingRecyclerAdapter;
   private MainViewModel viewModel;
   private JsoupRetriever retriever;
   private List<Ingredient> ingredients = new ArrayList<>();
@@ -45,13 +44,12 @@ public class EditingFragment extends Fragment {
     return fragment;
   }
 
-  @Override
-  public void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setRetainInstance(true);
-    binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_editing);
-
-  }
+//  @Override
+//  public void onCreate(@Nullable Bundle savedInstanceState) {
+//    super.onCreate(savedInstanceState);
+////    setRetainInstance(true);
+//    binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_editing);
+//  }
 
   @Override
   public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -63,10 +61,9 @@ public class EditingFragment extends Fragment {
 
     RecyclerView recyclerView = binding.editingRecyclerView;
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+    editingRecyclerAdapter = new EditingRecyclerAdapter(getContext(), ingredients, steps);
+    recyclerView.setAdapter(editingRecyclerAdapter);
     recyclerView.setLayoutManager(layoutManager);
-
-    EditingRecyclerAdapter adapter = new EditingRecyclerAdapter(getContext(), ingredients, steps);
-    recyclerView.setAdapter(adapter);
   }
 
   @Nullable
@@ -76,10 +73,12 @@ public class EditingFragment extends Fragment {
     ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle(R.string.recipe_editing);
+    binding = DataBindingUtil.inflate(inflater, R.layout.fragment_editing, container, false);
+    binding.setLifecycleOwner(this);
+    setupRecyclerView();
+    return binding.getRoot();
 
-   setupRecyclerView();
-
-    return super.onCreateView(inflater, container, savedInstanceState);
+//    return super.onCreateView(inflater, container, savedInstanceState);
   }
 
   @Override
@@ -108,12 +107,12 @@ public class EditingFragment extends Fragment {
     viewModel.gatherSteps();
     viewModel.getIngredients().observe(getViewLifecycleOwner(), ingredients -> {
       if (ingredients != null) {
-        adapter.updateIngredients(ingredients);
+        editingRecyclerAdapter.updateIngredients(ingredients);
       }
     });
     viewModel.getSteps().observe(getViewLifecycleOwner(), steps -> {
       if (steps != null) {
-        adapter.updateSteps(steps);
+        editingRecyclerAdapter.updateSteps(steps);
       }
     });
 
