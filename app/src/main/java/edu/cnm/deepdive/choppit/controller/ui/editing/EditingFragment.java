@@ -32,7 +32,6 @@ import java.util.List;
 
 public class EditingFragment extends Fragment {
 
-  RecyclerView recyclerView;
   EditingRecyclerAdapter adapter;
   private MainViewModel viewModel;
   private JsoupRetriever retriever;
@@ -51,7 +50,7 @@ public class EditingFragment extends Fragment {
     super.onCreate(savedInstanceState);
     setRetainInstance(true);
     binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_editing);
-    setupRecyclerView();
+
   }
 
   @Override
@@ -78,12 +77,15 @@ public class EditingFragment extends Fragment {
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle(R.string.recipe_editing);
 
+   setupRecyclerView();
+
     return super.onCreateView(inflater, container, savedInstanceState);
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    makeJsoupGo();
     Button continue_button = view.findViewById(R.id.editing_continue);
     continue_button.setOnClickListener(v -> {
       ((MainActivity) getActivity())
@@ -100,22 +102,18 @@ public class EditingFragment extends Fragment {
       e.printStackTrace();
     }
     viewModel.gatherIngredients();
-    Log.d("Gathered ingredients", ingredients.toString());
+    for (Ingredient ingredient : ingredients) {
+      Log.d("Gathered ingredients", ingredient.getName());
+    }
     viewModel.gatherSteps();
-    viewModel.getIngredients().observe(getViewLifecycleOwner(), new Observer<List<Ingredient>>() {
-      @Override
-      public void onChanged(List<Ingredient> ingredients) {
-        if (ingredients != null) {
-          adapter.updateIngredients(ingredients);
-        }
+    viewModel.getIngredients().observe(getViewLifecycleOwner(), ingredients -> {
+      if (ingredients != null) {
+        adapter.updateIngredients(ingredients);
       }
     });
-    viewModel.getSteps().observe(getViewLifecycleOwner(), new Observer<List<Step>>() {
-      @Override
-      public void onChanged(List<Step> steps) {
-        if (steps != null) {
-          adapter.updateSteps(steps);
-        }
+    viewModel.getSteps().observe(getViewLifecycleOwner(), steps -> {
+      if (steps != null) {
+        adapter.updateSteps(steps);
       }
     });
 

@@ -1,7 +1,6 @@
 package edu.cnm.deepdive.choppit.service;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Step;
 import java.io.IOException;
@@ -55,22 +54,6 @@ public class JsoupRetriever {
     stepBuilder();
     ingredientBuilder();
   }
-
-//  @SuppressLint("CheckResult")
-//  public void getPage(String url) {
-//    Observable.create(new ObservableOnSubscribe() {
-//      @Override
-//      public void subscribe(ObservableEmitter emitter) throws Exception {
-//        document = Jsoup.connect(url).get();
-//      }
-//    }).subscribeOn(Schedulers.from(networkPool))
-//        .subscribe();
-//  }
-
-//  TODO delete this, probably
-//  private void getPage(String url) {
-//    document = Jsoup.connect(url);
-//  }
 
   private String getIngredientClass(String text) {
     Elements e = document.select("*:containsOwn(bread flour)");
