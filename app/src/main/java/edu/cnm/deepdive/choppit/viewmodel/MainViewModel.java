@@ -8,6 +8,9 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
+import edu.cnm.deepdive.choppit.R;
+import edu.cnm.deepdive.choppit.controller.MainActivity;
+import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
 import edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
@@ -81,7 +84,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
 
   public void retrieve() throws IOException {
     getFromSelection();
-    retriever.getData(url,ingredient, instruction);
+    retriever.getData(url, ingredient, instruction);
   }
 
   public void getFromSelection() {
@@ -94,20 +97,20 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   public void gatherIngredients() {
     pending.add(
         repository.retrieveIngredients()
-        .subscribe(
-            ingredients::postValue,
-            throwable::postValue
-        )
+            .subscribe(
+                ingredients::postValue,
+                throwable::postValue
+            )
     );
   }
 
   public void gatherSteps() {
     pending.add(
         repository.retrieveSteps()
-        .subscribe(
-            steps::postValue,
-            throwable::postValue
-        )
+            .subscribe(
+                steps::postValue,
+                throwable::postValue
+            )
     );
   }
 

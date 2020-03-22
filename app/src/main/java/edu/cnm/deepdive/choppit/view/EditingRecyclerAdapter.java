@@ -24,11 +24,9 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
   final int VIEW_TYPE_STEP = 1;
 
   private final Context context;
-  private final List<Ingredient> ingredients;
-  private final List<Step> steps;
+  private List<Ingredient> ingredients;
+  private List<Step> steps;
   EditingFragment editingFragment;
-  EditIngredientItemBinding editIngredientItemBinding;
-  EditStepItemBinding editStepItemBinding;
 
   public EditingRecyclerAdapter(Context context, List<Ingredient> ingredients, List<Step> steps) {
     this.context = context;
@@ -53,19 +51,13 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
   @Override
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     if (viewType == VIEW_TYPE_INGREDIENT) {
-
-      editIngredientItemBinding = DataBindingUtil
-          .inflate(LayoutInflater.from(context), R.layout.edit_ingredient_item, parent, false);
-      editIngredientItemBinding.setLifecycleOwner(editingFragment.getViewLifecycleOwner());
-      View view = editIngredientItemBinding.getRoot();
+      LayoutInflater layoutInflater = LayoutInflater.from(context);
+      EditIngredientItemBinding editIngredientItemBinding = EditIngredientItemBinding.inflate(layoutInflater, parent, false);
       return new IngredientViewHolder(editIngredientItemBinding);
     }
     if (viewType == VIEW_TYPE_STEP) {
-
-      editStepItemBinding = DataBindingUtil
-          .inflate(LayoutInflater.from(context), R.layout.edit_step_item, parent, false);
-      editStepItemBinding.setLifecycleOwner(editingFragment.getViewLifecycleOwner());
-      View view = editStepItemBinding.getRoot();
+      LayoutInflater layoutInflater = LayoutInflater.from(context);
+      EditStepItemBinding editStepItemBinding = EditStepItemBinding.inflate(layoutInflater, parent, false);
       return new StepViewHolder(editStepItemBinding);
     }
     return null;
@@ -76,6 +68,7 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     if (viewHolder instanceof IngredientViewHolder) {
       Ingredient ingredient = ingredients.get(position);
       ((IngredientViewHolder) viewHolder).bind(ingredient);
+      Log.d(Integer.toString(position), ingredient.getName());
     }
     if (viewHolder instanceof StepViewHolder) {
       Step step = steps.get(position);
@@ -106,7 +99,7 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private TextView name;
     private EditIngredientItemBinding binding;
 
-    private IngredientViewHolder(EditIngredientItemBinding binding) {
+    public IngredientViewHolder(EditIngredientItemBinding binding) {
       super(binding.getRoot());
 
       this.binding = binding;
@@ -135,14 +128,14 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private TextView step;
     private EditStepItemBinding binding;
 
-    private StepViewHolder(EditStepItemBinding binding) {
+    public StepViewHolder(EditStepItemBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
     }
 
     public void bind(Step step) {
       binding.setStep(step);
-      step.setRecipeOrder(getAdapterPosition()-ingredients.size());
+      step.setRecipeOrder(getAdapterPosition() - ingredients.size());
       binding.executePendingBindings();
     }
 /*

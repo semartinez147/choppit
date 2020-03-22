@@ -20,8 +20,6 @@ public class JsoupRetriever {
   public static final String MAGIC_INGREDIENT_REGEX = "^([\\d\\W]*)\\s(tsp|teaspoon|tbsp|tablespoon|oz|ounce|c|cup*)*s??\\b(.*)";
   private Document document;
   private String url;
-  private String ingredientClass;
-  private String instructionClass;
   private List<String> listRawIngredients = new ArrayList<>();
   private static List<String> measurements = new ArrayList<>();
   private static List<String> units = new ArrayList<>();
@@ -43,28 +41,21 @@ public class JsoupRetriever {
   // TODO send data to database
   public void getData(String url, String ingredient, String instruction) throws IOException {
     this.url = url;
-    new GetPage(instruction, ingredient)
+        new GetPage(instruction, ingredient)
         .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url);
   }
 
   private void processDoc(String ingredient, String instruction, Document document) {
     this.document = document;
-    ingredientClass = getIngredientClass(ingredient); // identify wrapper classes
-    instructionClass = getInstructionClass(instruction);
+    String ingredientClass = getClass(ingredient); // identify wrapper classes
+    String instructionClass = getClass(instruction);
     listRawIngredients = getClassContents(ingredientClass); // list all ingredients
     listInstructions = getClassContents(instructionClass); // list all instructions
     stepBuilder();
     ingredientBuilder();
   }
 
-  private String getIngredientClass(String text) {
-    Elements e = document.select("*:containsOwn(bread flour)");
-    // TODO error handling (no matching text just returns an empty List).
-
-    return e.get(0).attr("class");
-  }
-
-  private String getInstructionClass(String text) {
+  private String getClass(String text) {
     Elements e = document.select(String.format("*:containsOwn(%s)", text));
     // TODO error handling (no matching text just returns an empty List).
 
@@ -103,26 +94,6 @@ public class JsoupRetriever {
     return ingredients;
   }
 
-
-  public String getIngredientClass() {
-    return ingredientClass;
-  }
-
-  public String getInstructionClass() {
-    return instructionClass;
-  }
-
-  public static List<String> getMeasurements() {
-    return measurements;
-  }
-
-  public static List<String> getUnits() {
-    return units;
-  }
-
-  public static List<String> getNames() {
-    return names;
-  }
 
   public List<Step> getSteps() {
     return steps;

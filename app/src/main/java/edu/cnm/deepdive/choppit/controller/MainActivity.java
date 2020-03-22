@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
   private NavOptions navOptions;
   private NavController navController;
   static ActionBar actionBar;
+  private ProgressBar loading;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         .setPopUpTo(R.id.navigation_home, true)
         .build();
     navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//    NavigationUI.setupActionBarWithNavController(this, navController);
   }
 
   public void showToast(String message) {

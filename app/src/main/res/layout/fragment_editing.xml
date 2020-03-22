@@ -3,6 +3,21 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   >
 
+  <data>
+    <variable
+      name="ingredient"
+      type="edu.cnm.deepdive.choppit.model.entity.Ingredient"/>
+    <variable
+      name="step"
+      type="edu.cnm.deepdive.choppit.model.entity.Step"/>
+    <variable
+      name="bindViewModel"
+      type="edu.cnm.deepdive.choppit.viewmodel.MainViewModel"/>
+    <variable
+      name="uiController"
+      type="edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment"/>
+  </data>
+
   <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
