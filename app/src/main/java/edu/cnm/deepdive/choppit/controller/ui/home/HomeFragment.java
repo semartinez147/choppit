@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.choppit.controller.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,13 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.MainActivity;
-import edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment;
-import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
-import edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment;
-import java.util.Objects;
 
 
 public class HomeFragment extends Fragment {
@@ -41,6 +37,7 @@ public class HomeFragment extends Fragment {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     setRetainInstance(true);
+    Log.d("HomeFragment", "created");
   }
 
   public View onCreateView(@NonNull LayoutInflater inflater,

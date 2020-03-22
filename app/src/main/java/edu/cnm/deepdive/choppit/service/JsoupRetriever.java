@@ -3,6 +3,7 @@ package edu.cnm.deepdive.choppit.service;
 import android.os.AsyncTask;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Step;
+import io.reactivex.Single;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +22,7 @@ public class JsoupRetriever {
   private Document document;
   private String url;
   private List<String> listRawIngredients = new ArrayList<>();
-  private static List<String> measurements = new ArrayList<>();
-  private static List<String> units = new ArrayList<>();
-  private static List<String> names = new ArrayList<>();
   private List<String> listInstructions = new ArrayList<>();
-  private List<Step> steps = new ArrayList<>();
-  private List<Ingredient> ingredients = new ArrayList<>();
   private static final int NETWORK_POOL_SIZE = 10;
   private final Executor networkPool;
 
@@ -41,7 +37,7 @@ public class JsoupRetriever {
   // TODO send data to database
   public void getData(String url, String ingredient, String instruction) throws IOException {
     this.url = url;
-        new GetPage(instruction, ingredient)
+    new GetPage(instruction, ingredient)
         .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url);
   }
 
@@ -51,8 +47,6 @@ public class JsoupRetriever {
     String instructionClass = getClass(instruction);
     listRawIngredients = getClassContents(ingredientClass); // list all ingredients
     listInstructions = getClassContents(instructionClass); // list all instructions
-    stepBuilder();
-    ingredientBuilder();
   }
 
   private String getClass(String text) {
@@ -64,21 +58,22 @@ public class JsoupRetriever {
 
   private List<String> getClassContents(String klass) {
     Elements e = document.getElementsByClass(klass);
-
     return e.eachText();
   }
 
-  public List<Step> stepBuilder() {
+  public Single<List<Step>> buildSteps() {
+    List<Step> steps = new ArrayList<>();
     for (int i = 0; i < this.listInstructions.size(); i++) {
       Step step = new Step();
       step.setRecipeOrder(i + 1);
       step.setInstructions(this.listInstructions.get(i));
       steps.add(step);
     }
-    return steps;
+    return Single.just(steps);
   }
 
-  public List<Ingredient> ingredientBuilder() {
+  public Single<List<Ingredient>> buildIngredients() {
+    List<Ingredient> ingredients = new ArrayList<>();
     Pattern pattern = Pattern.compile(MAGIC_INGREDIENT_REGEX);
     for (String rawIngredient : this.listRawIngredients) {
       Matcher matcher = pattern.matcher(rawIngredient);
@@ -89,18 +84,8 @@ public class JsoupRetriever {
         ingredient.setName(matcher.group(3).trim());
       }
       ingredients.add(ingredient);
-
     }
-    return ingredients;
-  }
-
-
-  public List<Step> getSteps() {
-    return steps;
-  }
-
-  public List<Ingredient> getIngredients() {
-    return ingredients;
+    return Single.just(ingredients);
   }
 
   private static class InstanceHolder {

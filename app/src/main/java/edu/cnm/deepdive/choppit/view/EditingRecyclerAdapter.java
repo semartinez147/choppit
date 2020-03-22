@@ -3,15 +3,12 @@ package edu.cnm.deepdive.choppit.view;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
-import edu.cnm.deepdive.choppit.R;
-import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
+import edu.cnm.deepdive.choppit.BR;
 import edu.cnm.deepdive.choppit.databinding.EditIngredientItemBinding;
 import edu.cnm.deepdive.choppit.databinding.EditStepItemBinding;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
@@ -26,13 +23,13 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
   private final Context context;
   private List<Ingredient> ingredients;
   private List<Step> steps;
-  EditingFragment editingFragment;
 
   public EditingRecyclerAdapter(Context context, List<Ingredient> ingredients, List<Step> steps) {
     this.context = context;
     this.steps = steps;
     this.ingredients = ingredients;
-    editingFragment = new EditingFragment();
+    Log.d("ERA constructor had ",
+        ingredients.size() + " ingredients & " + steps.size() + " steps.");
   }
 
   public void updateIngredients(List<Ingredient> newIngredients) {
@@ -50,6 +47,7 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
   @NonNull
   @Override
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    Log.d("ERA", "onCreateViewHolder called");
     if (viewType == VIEW_TYPE_INGREDIENT) {
       LayoutInflater layoutInflater = LayoutInflater.from(context);
       EditIngredientItemBinding editIngredientItemBinding = EditIngredientItemBinding.inflate(layoutInflater, parent, false);
@@ -65,6 +63,7 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
   @Override
   public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    Log.d("ERA", "onBindViewHolder called");
     if (viewHolder instanceof IngredientViewHolder) {
       Ingredient ingredient = ingredients.get(position);
       ((IngredientViewHolder) viewHolder).bind(ingredient);
@@ -110,8 +109,10 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     public void bind(Ingredient ingredient) {
-      binding.setIngredient(ingredient);
+      binding.setVariable(edu.cnm.deepdive.choppit.BR.ingredient, ingredient);
+//      binding.setIngredient(ingredient);
       binding.executePendingBindings();
+      Log.d("ERA bound ingredient ", Integer.toString(getAdapterPosition()));
     }
 /*
     public void populate(Ingredient ingredient) {
@@ -134,9 +135,11 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     public void bind(Step step) {
-      binding.setStep(step);
+      binding.setVariable(BR.step, step);
+//      binding.setStep(step);
       step.setRecipeOrder(getAdapterPosition() - ingredients.size());
       binding.executePendingBindings();
+      Log.d("Bound step ", Integer.toString(getAdapterPosition() - ingredients.size()));
     }
 /*
     public void populate(Step step) {

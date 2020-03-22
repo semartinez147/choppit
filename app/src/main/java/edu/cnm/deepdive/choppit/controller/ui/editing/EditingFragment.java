@@ -125,7 +125,6 @@ public class EditingFragment extends Fragment {
   }
 
   private void beginJsoupProcessing() {
-    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
     try {
       viewModel.retrieve();
     } catch (IOException e) {

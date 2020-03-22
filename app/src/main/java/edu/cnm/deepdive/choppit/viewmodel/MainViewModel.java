@@ -8,9 +8,6 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
-import edu.cnm.deepdive.choppit.R;
-import edu.cnm.deepdive.choppit.controller.MainActivity;
-import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
 import edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
@@ -19,14 +16,12 @@ import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
 import edu.cnm.deepdive.choppit.model.repository.RecipeRepository;
 import edu.cnm.deepdive.choppit.service.JsoupRetriever;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import org.jsoup.nodes.Document;
 
 public class MainViewModel extends AndroidViewModel implements LifecycleObserver {
 
@@ -96,7 +91,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
 
   public void gatherIngredients() {
     pending.add(
-        repository.retrieveIngredients()
+        retriever.buildIngredients()
             .subscribe(
                 ingredients::postValue,
                 throwable::postValue
@@ -106,7 +101,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
 
   public void gatherSteps() {
     pending.add(
-        repository.retrieveSteps()
+        retriever.buildSteps()
             .subscribe(
                 steps::postValue,
                 throwable::postValue
