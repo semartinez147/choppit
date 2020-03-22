@@ -54,7 +54,7 @@ public class EditingFragment extends Fragment {
     super.onCreate(savedInstanceState);
 //    setRetainInstance(true);
     binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_editing);
-    Log.d("databinding", "completed");
+    Log.d("EditingFrag", "databinding completed");
     setupRecyclerView();
   }
 
@@ -65,14 +65,13 @@ public class EditingFragment extends Fragment {
   }
 
   private void setupRecyclerView() {
-    Log.d("Recylcerview", "starting setup");
 
     RecyclerView recyclerView = binding.editingRecyclerView;
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
     editingRecyclerAdapter = new EditingRecyclerAdapter(getContext(), ingredients, steps);
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(editingRecyclerAdapter);
-    Log.d("Recylcerview", "set up");
+    Log.d("EditingFrag", "RecyclerView set up");
   }
 
   @Nullable
@@ -106,6 +105,9 @@ public class EditingFragment extends Fragment {
 
     beginJsoupProcessing();
 
+    viewModel.getIngredients().observe(getViewLifecycleOwner(), ingredientObserver);
+    viewModel.getSteps().observe(getViewLifecycleOwner(), stepObserver);
+
 
 //    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
 //    viewModel.getIngredients().observe(getViewLifecycleOwner(), ingredients -> {
@@ -118,9 +120,6 @@ public class EditingFragment extends Fragment {
 //        editingRecyclerAdapter.updateSteps(steps);
 //      }
 //    });
-
-    viewModel.getIngredients().observe(getViewLifecycleOwner(), ingredientObserver);
-    viewModel.getSteps().observe(getViewLifecycleOwner(), stepObserver);
 
   }
 
@@ -138,16 +137,20 @@ public class EditingFragment extends Fragment {
 
     @Override
     public void onChanged(final List<Ingredient> result) {
+      ingredients.clear();
       ingredients.addAll(result);
       editingRecyclerAdapter.notifyDataSetChanged();
+      Log.d("EditingFrag", "Observed ingredients:" + ingredients.size());
     }
   };
 
   final Observer<List<Step>> stepObserver = new Observer<List<Step>>() {
     @Override
     public void onChanged(List<Step> result) {
+      steps.clear();
       steps.addAll(result);
       editingRecyclerAdapter.notifyDataSetChanged();
+      Log.d("EditingFrag", "Observed steps:" + steps.size());
     }
   };
 

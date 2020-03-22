@@ -24,7 +24,7 @@ import androidx.annotation.NonNull;
         )
     }
 )
-public class Ingredient extends BaseObservable {
+public class Ingredient {
 
   @ColumnInfo(name = "ingredient_id")
   @PrimaryKey(autoGenerate = true)

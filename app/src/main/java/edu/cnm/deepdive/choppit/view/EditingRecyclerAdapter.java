@@ -50,12 +50,14 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     Log.d("ERA", "onCreateViewHolder called");
     if (viewType == VIEW_TYPE_INGREDIENT) {
       LayoutInflater layoutInflater = LayoutInflater.from(context);
-      EditIngredientItemBinding editIngredientItemBinding = EditIngredientItemBinding.inflate(layoutInflater, parent, false);
+      EditIngredientItemBinding editIngredientItemBinding = EditIngredientItemBinding
+          .inflate(layoutInflater, parent, false);
       return new IngredientViewHolder(editIngredientItemBinding);
     }
     if (viewType == VIEW_TYPE_STEP) {
       LayoutInflater layoutInflater = LayoutInflater.from(context);
-      EditStepItemBinding editStepItemBinding = EditStepItemBinding.inflate(layoutInflater, parent, false);
+      EditStepItemBinding editStepItemBinding = EditStepItemBinding
+          .inflate(layoutInflater, parent, false);
       return new StepViewHolder(editStepItemBinding);
     }
     return null;
@@ -77,6 +79,7 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
   @Override
   public int getItemCount() {
+    Log.d("ERA", "itemCount = " + (ingredients.size() + steps.size()));
     return ingredients.size() + steps.size();
   }
 
