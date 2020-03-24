@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<layout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <data>
+    <import type="android.view.View"/>
+    <variable
+      name="ingredient"
+      type="edu.cnm.deepdive.choppit.model.entity.Ingredient"/>
+    <variable
+      name="unitEnum"
+      type="edu.cnm.deepdive.choppit.model.entity.Ingredient.Unit"/>
+    <variable
+      name="uiController"
+      type="edu.cnm.deepdive.choppit.controller.ui.cookbook.RecipeFragment"/>
+  </data>
+
+<LinearLayout
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:paddingStart="8dp"
   android:paddingEnd="8dp"
   android:orientation="horizontal"
-  android:layout_alignParentTop="true"
   android:showDividers="none">
 
   <TextView
@@ -15,6 +29,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
+    android:text="@{ingredient.quantity}"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toStartOf="@id/recipe_unit"
@@ -26,6 +41,20 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
+    android:text="@{ingredient.unit.toString}"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toEndOf="@id/recipe_quantity"
+    app:layout_constraintEnd_toStartOf="@id/recipe_name"
+    app:layout_constraintHorizontal_chainStyle="packed">
+  </TextView>
+
+  <TextView
+    android:id="@+id/recipe_unit_alt"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:text="@{ingredient.unitAlt}"
+    android:visibility="@{unitEnum == unitEnum.OTHER ? View.VISIBLE : View.GONE}"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toEndOf="@id/recipe_quantity"
     app:layout_constraintEnd_toStartOf="@id/recipe_name"
@@ -37,6 +66,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
+    android:text="@{ingredient.name}"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toEndOf="@id/recipe_unit"
     app:layout_constraintEnd_toEndOf="parent"
@@ -58,3 +88,4 @@
 
 
 </LinearLayout>
+</layout>

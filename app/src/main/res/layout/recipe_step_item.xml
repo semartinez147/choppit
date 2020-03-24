@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<layout
   xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <data>
+    <variable
+      name="step"
+      type="edu.cnm.deepdive.choppit.model.entity.Step"/>
+    <variable
+      name="uiController"
+      type="edu.cnm.deepdive.choppit.controller.ui.cookbook.RecipeFragment"/>
+  </data>
+
+<LinearLayout
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:paddingStart="8dp"
   android:paddingEnd="8dp"
   android:orientation="horizontal"
-  android:layout_alignParentTop="true"
   android:showDividers="none">
 
   <TextView
@@ -23,7 +33,7 @@
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_weight="1"
-    android:text=""
+    android:text="@{step.recipeOrder}"
     app:layout_constraintEnd_toStartOf="@id/recipe_step"/>
 
   <TextView
@@ -31,6 +41,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
+    android:text="@{step.instructions}"
+    android:minLines="3"
+    android:maxLines="8"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toEndOf="@id/recipe_step_number"
@@ -52,3 +65,4 @@
 
 
 </LinearLayout>
+</layout>

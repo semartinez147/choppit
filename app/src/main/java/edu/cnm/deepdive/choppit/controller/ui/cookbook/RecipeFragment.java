@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.choppit.R;
+import edu.cnm.deepdive.choppit.databinding.FragmentRecipeBinding;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
@@ -32,6 +33,7 @@ public class RecipeFragment extends Fragment {
   private Recipe recipe; // TODO where does the recipe come from?
   private List<Ingredient> ingredients = new ArrayList<>();
   private List<Step> steps = new ArrayList<>();
+  private FragmentRecipeBinding binding;
 
   public static RecipeFragment createInstance() {
     RecipeFragment fragment = new RecipeFragment();

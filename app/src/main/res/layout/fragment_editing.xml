@@ -50,6 +50,7 @@
 <!--        android:orientation="horizontal"-->
 <!--        app:layout_constraintGuide_percent="0.25"/>-->
 
+
       <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/editing_recycler_view"
         android:layout_width="match_parent"

@@ -5,12 +5,10 @@
   xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <data>
+    <import type="android.view.View"/>
     <variable
-      name="ingredient"
-      type="edu.cnm.deepdive.choppit.model.entity.Ingredient"/>
-    <variable
-      name="step"
-      type="edu.cnm.deepdive.choppit.model.entity.Step"/>
+      name="recipe"
+      type="edu.cnm.deepdive.choppit.model.entity.Recipe"/>
     <variable
       name="bindViewModel"
       type="edu.cnm.deepdive.choppit.viewmodel.MainViewModel"/>
@@ -41,8 +39,29 @@
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintBottom_toTopOf="@id/divider"
+    app:layout_constraintBottom_toTopOf="@id/recipe_title"
     app:srcCompat="@drawable/logo"/>
+
+    <TextView
+      android:id="@+id/recipe_title"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      style="@style/TextAppearance.AppCompat.Display1"
+      android:text="@{recipe.title}"
+      app:layout_constraintTop_toBottomOf="@id/small_logo"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+      android:id="@+id/recipe_url"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      style="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
+      android:text="@{recipe.url}"
+      android:visibility="@{recipe.url == null ? View.GONE : View.VISIBLE}"
+      app:layout_constraintTop_toBottomOf="@id/small_logo"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"/>
 
   <androidx.constraintlayout.widget.Guideline
     android:id="@+id/divider"
