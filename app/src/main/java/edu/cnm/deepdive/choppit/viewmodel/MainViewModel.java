@@ -96,24 +96,16 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
         repository.connect(url)
         .doOnComplete(processData(ingredient, instruction))
         .subscribe());
-
-  }
-
-  public Completable passDataToRepository(String url) {
-    Log.d("MVM", "beginning passData");
-    Action action = () ->
-        repository.connect(url)
-            .doOnError(throwable::postValue);
-    return Completable.fromAction(action).
-        subscribeOn(Schedulers.io());
   }
 
   public Action processData(String ingredient, String instruction) {
     Log.d("MVM", "beginning processData");
     return () -> {
       repository.process(ingredient, instruction)
-          .doOnSuccess(steps::postValue)
-          .doOnError(throwable::postValue);
+          .subscribe(
+              steps::postValue,
+              throwable::postValue
+          );
     };
   }
 

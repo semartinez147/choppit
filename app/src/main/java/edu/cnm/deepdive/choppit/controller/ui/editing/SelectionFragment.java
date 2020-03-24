@@ -85,8 +85,10 @@ public class SelectionFragment extends Fragment {
         // TODO reworking to observe only
         Log.d("SEL", "before makeItGo");
         viewModel.makeItGo(url, ingredient, instruction);
-        viewModel.getSteps()
-            .observe(getViewLifecycleOwner(), viewModelObserver);
+        ((MainActivity) getActivity()).navigateTo(R.id.navigation_loading);
+        //        viewModel.getSteps()
+//
+//            .observe(getViewLifecycleOwner(), viewModelObserver);
       }
     });
     return root;
@@ -95,11 +97,12 @@ public class SelectionFragment extends Fragment {
   final Observer<List<Step>> viewModelObserver = steps -> {
     if (steps != null) {
       Log.d("SEL", "start navigation");
-      ((MainActivity) getActivity()).navigateTo(R.id.navigation_editing);
+      ((MainActivity) getActivity()).navigateTo(R.id.navigation_loading);
     } else {
       ((MainActivity) getActivity()).showToast("Something went wrong!");
     }
   };
+
 
 
   @Override

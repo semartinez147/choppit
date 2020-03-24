@@ -10,8 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.databinding.FragmentRecipeBinding;
@@ -45,12 +47,20 @@ public class RecipeFragment extends Fragment {
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setRetainInstance(true);
+    binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_recipe);
+    setupRecyclerView();
   }
 
   @Override
   public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
     super.onCreateOptionsMenu(menu, inflater);
     inflater.inflate(R.menu.help_menu, menu);
+  }
+
+  private void setupRecyclerView() {
+    RecyclerView recyclerview = binding.recipeRecyclerView;
+    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+    recipeRecyclerAdapter = new RecipeRecyclerAdapter(getContext(), recipe);
   }
 
 
