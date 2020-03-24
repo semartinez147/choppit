@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.choppit.viewmodel;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -8,6 +9,7 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.Transformations;
 import edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
@@ -15,13 +17,20 @@ import edu.cnm.deepdive.choppit.model.entity.Step;
 import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
 import edu.cnm.deepdive.choppit.model.repository.RecipeRepository;
 import edu.cnm.deepdive.choppit.service.JsoupRetriever;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import org.jsoup.nodes.Document;
 
 public class MainViewModel extends AndroidViewModel implements LifecycleObserver {
 
@@ -30,15 +39,9 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   private final MutableLiveData<List<Ingredient>> ingredients;
   private final MutableLiveData<Throwable> throwable;
   private final MutableLiveData<Set<String>> permissions;
-  private static String url;
-  private static String instruction;
-  private static String ingredient;
   private final CompositeDisposable pending;
   private final RecipeRepository repository;
   private final JsoupRetriever retriever;
-  private final Executor networkPool;
-
-  private static final int NETWORK_POOL_SIZE = 10;
 
   public MainViewModel(@NonNull Application application) {
     super(application);
@@ -50,7 +53,6 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     throwable = new MutableLiveData<>();
     permissions = new MutableLiveData<>(new HashSet<>());
     pending = new CompositeDisposable();
-    networkPool = Executors.newFixedThreadPool(NETWORK_POOL_SIZE);
   }
 
   public LiveData<List<RecipeWithDetails>> getAllRecipes() {
@@ -77,37 +79,41 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     return permissions;
   }
 
-  public void retrieve() throws IOException {
-    getFromSelection();
-    retriever.getData(url, ingredient, instruction);
+  public void resetData() {
+    steps.postValue(null);
+    ingredients.postValue(null);
+    recipe.postValue(null);
+    throwable.postValue(null);
   }
 
-  public void getFromSelection() {
-    url = SelectionFragment.getUrl();
-    ingredient = SelectionFragment.getIngredient();
-    instruction = SelectionFragment.getStep();
+  public Completable passDataToRepository(String url) {
+    Action action = () ->
+        pending.add(
+            repository.connect(url)
+                .doOnError(throwable::postValue)
+                .subscribe()
+        );
+    return Completable.fromAction(action).subscribeOn(Schedulers.io());
   }
 
-
-  public void gatherIngredients() {
-    pending.add(
-        retriever.buildIngredients()
-            .subscribe(
-                ingredients::postValue,
-                throwable::postValue
-            )
-    );
+  @SuppressLint("CheckResult")
+  public Completable processData(String ingredient, String instruction) {
+    Action action = () ->
+    repository.process(ingredient, instruction)
+        .subscribe(
+            steps::postValue,
+            throwable::postValue
+        );
+    return Completable.fromAction(action);
   }
 
-  public void gatherSteps() {
-    pending.add(
-        retriever.buildSteps()
-            .subscribe(
-                steps::postValue,
-                throwable::postValue
-            )
-    );
-  }
+  /* Pseudo-code outline:
+
+  2. Observer/map function that calls a Repository method (by subscribing) to initiate Jsoup's http request using
+  parameters from #2.  Returns a fully assembled LiveData<List<Step>>, each with a List<Ingredient> attached.
+  3. Method *in Editing Fragment* that updates RecyclerView with new data.
+        Transformation map?
+   */
 
   public void grantPermission(String permission) {
     Set<String> permissions = this.permissions.getValue();
@@ -121,18 +127,6 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     if (permissions.remove(permission)) {
       this.permissions.setValue(permissions);
     }
-  }
-
-  public static String getUrl() {
-    return url;
-  }
-
-  public static String getInstruction() {
-    return instruction;
-  }
-
-  public static String getIngredient() {
-    return ingredient;
   }
 
 

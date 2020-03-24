@@ -1,14 +1,14 @@
 package edu.cnm.deepdive.choppit.service;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Step;
-import io.reactivex.Single;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
@@ -23,30 +23,45 @@ public class JsoupRetriever {
   private String url;
   private List<String> listRawIngredients = new ArrayList<>();
   private List<String> listInstructions = new ArrayList<>();
-  private static final int NETWORK_POOL_SIZE = 10;
-  private final Executor networkPool;
+
 
   private JsoupRetriever() {
-    networkPool = Executors.newFixedThreadPool(NETWORK_POOL_SIZE);
+
   }
 
   public static JsoupRetriever getInstance() {
     return InstanceHolder.INSTANCE;
   }
 
-  // TODO send data to database
-  public void getData(String url, String ingredient, String instruction) throws IOException {
-    this.url = url;
-    new GetPage(instruction, ingredient)
-        .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url);
+
+  // FIXME not getting a document
+  public Callable<Document> connect(String url) {
+    return () -> {
+      Document doc = Jsoup.connect(url).get();
+      document = doc;
+      return doc;
+    };
   }
 
-  private void processDoc(String ingredient, String instruction, Document document) {
-    this.document = document;
+
+  public List<Step> process(String ingredient, String instruction) {
     String ingredientClass = getClass(ingredient); // identify wrapper classes
     String instructionClass = getClass(instruction);
     listRawIngredients = getClassContents(ingredientClass); // list all ingredients
     listInstructions = getClassContents(instructionClass); // list all instructions
+
+    List<Step> steps = new ArrayList<>(buildSteps());
+    List<Ingredient> ingredients = new ArrayList<>(buildIngredients());
+
+    for (Ingredient item : ingredients) {
+      for (Step step : steps) {
+        if (step.getInstructions().toLowerCase().contains(item.getName().toLowerCase())) {
+          step.addIngredient(item);
+          break;
+        }
+      }
+    }
+    return steps;
   }
 
   private String getClass(String text) {
@@ -61,7 +76,7 @@ public class JsoupRetriever {
     return e.eachText();
   }
 
-  public Single<List<Step>> buildSteps() {
+  public List<Step> buildSteps() {
     List<Step> steps = new ArrayList<>();
     for (int i = 0; i < this.listInstructions.size(); i++) {
       Step step = new Step();
@@ -69,10 +84,10 @@ public class JsoupRetriever {
       step.setInstructions(this.listInstructions.get(i));
       steps.add(step);
     }
-    return Single.just(steps);
+    return (steps);
   }
 
-  public Single<List<Ingredient>> buildIngredients() {
+  public List<Ingredient> buildIngredients() {
     List<Ingredient> ingredients = new ArrayList<>();
     Pattern pattern = Pattern.compile(MAGIC_INGREDIENT_REGEX);
     for (String rawIngredient : this.listRawIngredients) {
@@ -85,7 +100,7 @@ public class JsoupRetriever {
       }
       ingredients.add(ingredient);
     }
-    return Single.just(ingredients);
+    return (ingredients);
   }
 
   private static class InstanceHolder {
@@ -95,12 +110,10 @@ public class JsoupRetriever {
 
   private class GetPage extends AsyncTask<String, Void, Document> {
 
-    private final String instruction;
-    private final String ingredient;
+    private final String url;
 
-    private GetPage(String instruction, String ingredient) {
-      this.instruction = instruction;
-      this.ingredient = ingredient;
+    private GetPage(String url) {
+      this.url = url;
     }
 
     @Override
@@ -114,13 +127,13 @@ public class JsoupRetriever {
       }
     }
 
-    @Override
-    protected void onPostExecute(Document doc) {
-      if (doc != null) {
-        processDoc(ingredient, instruction, doc);
-      }
-
-    }
+//    @Override
+//    protected void onPostExecute(Document doc) {
+//      if (doc != null) {
+//        process(ingredient, instruction);
+//      }
+//
+//    }
   }
 
 }

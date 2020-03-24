@@ -19,10 +19,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.MainActivity;
 import edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
+import java.io.IOException;
 import javax.annotation.Nonnull;
 
 public class SelectionFragment extends Fragment {
@@ -33,7 +35,7 @@ public class SelectionFragment extends Fragment {
   private EditText stepInput;
   private static String url;
   private static String ingredient = "";
-  private static String step = "";
+  private static String instruction = "";
   private HomeFragment homeFragment;
 
   @Override
@@ -64,18 +66,28 @@ public class SelectionFragment extends Fragment {
 
     Button continueButton = root.findViewById(R.id.selection_continue);
     continueButton.setOnClickListener(new OnClickListener() {
+      @SuppressLint("CheckResult")
       @Override
       public void onClick(View v) {
-        step = stepInput.getText().toString();
+        instruction = stepInput.getText().toString();
         ingredient = ingredientInput.getText().toString();
-
-        ((MainActivity) getActivity()).navigateTo(R.id.navigation_editing);
+        viewModel.resetData();
+        viewModel.passDataToRepository(url).andThen(viewModel.processData(ingredient, instruction))
+            .subscribe( () ->
+                ((MainActivity) getActivity()).navigateTo(R.id.navigation_editing)
+            );
       }
     });
 
     return root;
   }
 
+  @Override
+  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
+
+  }
 
   @SuppressLint("SetJavaScriptEnabled")
   private void setupWebView(View root) {
@@ -106,15 +118,11 @@ public class SelectionFragment extends Fragment {
     return super.onOptionsItemSelected(item);
   }
 
-  public static String getUrl() {
-    return url;
-  }
-
   public static String getIngredient() {
     return ingredient;
   }
 
-  public static String getStep() {
-    return step;
+  public static String getInstruction() {
+    return instruction;
   }
 }

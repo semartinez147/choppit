@@ -21,9 +21,9 @@
   <string name="edited_indicator">Edited indicator</string>
   <string name="favorite_indicator">Favorite indicator</string>
   <string name="back_button">Back</string>
-  <string name="recipe_text_options">Recipe Text Options</string>
-  <string name="sp_key_recipe_font_style">Recipe Font Style</string>
-  <string name="recipe_font_style">Recipe Font Style</string>
+  <string name="text_options">Text Options</string>
+  <string name="sp_key_recipe_font_style">Font Style</string>
+  <string name="recipe_font_style">Font Style</string>
   <string name="recipe_editing">Recipe Editing</string>
   <string name="detail_selection">Detail Selection</string>
   <string name="default_recipe_title">Default Recipe Title</string>

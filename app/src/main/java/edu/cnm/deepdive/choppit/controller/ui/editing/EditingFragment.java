@@ -84,12 +84,9 @@ public class EditingFragment extends Fragment {
     FragmentEditingBinding binding;
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_editing, container, false);
     binding.setLifecycleOwner(this);
-    viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
     binding.setVariable(bindViewModel, viewModel);
     binding.setVariable(uiController, this);
-//    retriever = JsoupRetriever.getInstance();
-//    this.ingredients = retriever.getIngredients();
-//    this.steps = retriever.getSteps();
     return binding.getRoot();
 
   }
@@ -102,35 +99,8 @@ public class EditingFragment extends Fragment {
       ((MainActivity) getActivity())
           .navigateTo(R.id.navigation_cookbook); //TODO change this to the active recipe
     });
-
-    beginJsoupProcessing();
-
     viewModel.getIngredients().observe(getViewLifecycleOwner(), ingredientObserver);
     viewModel.getSteps().observe(getViewLifecycleOwner(), stepObserver);
-
-
-//    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-//    viewModel.getIngredients().observe(getViewLifecycleOwner(), ingredients -> {
-//      if (ingredients != null) {
-//        editingRecyclerAdapter.updateIngredients(ingredients);
-//      }
-//    });
-//    viewModel.getSteps().observe(getViewLifecycleOwner(), steps -> {
-//      if (steps != null) {
-//        editingRecyclerAdapter.updateSteps(steps);
-//      }
-//    });
-
-  }
-
-  private void beginJsoupProcessing() {
-    try {
-      viewModel.retrieve();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    viewModel.gatherIngredients();
-    viewModel.gatherSteps();
   }
 
   final Observer<List<Ingredient>> ingredientObserver = new Observer<List<Ingredient>>() {

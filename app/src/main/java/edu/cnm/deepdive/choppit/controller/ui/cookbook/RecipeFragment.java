@@ -66,15 +66,6 @@ public class RecipeFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-    try {
-      viewModel.retrieve();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    RecipeRecyclerAdapter adapter = new RecipeRecyclerAdapter(getContext(), recipe);
-    recyclerView.setAdapter(adapter);
   }
 
   //  @Override

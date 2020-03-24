@@ -15,10 +15,12 @@
     android:supportsRtl="true"
     android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
     tools:ignore="GoogleAppIndexingWarning">
+
     <activity android:name=".controller.SettingsActivity"
       android:parentActivityName=".controller.SettingsActivity">
     </activity>
-<!--    <activity android:name=".controller.LoginActivity">-->
+
+
     <activity
       android:label="@string/app_name"
       android:name=".controller.MainActivity">

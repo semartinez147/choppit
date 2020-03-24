@@ -11,7 +11,7 @@
   <item
     android:id="@+id/text_options"
     android:icon="@drawable/ic_font"
-    android:title="@string/recipe_text_options"
+    android:title="@string/text_options"
     app:showAsAction="never"/>
 
 </menu>

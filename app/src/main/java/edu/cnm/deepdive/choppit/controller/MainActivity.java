@@ -44,18 +44,21 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    boolean handled = true;
     switch (item.getItemId()) {
       case R.id.help:
         showInfo(navController.getCurrentDestination().getId(), navController.getCurrentDestination().getLabel().toString());
         break;
       case R.id.text_options:
-        // TODO go to text options
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
         break;
       case android.R.id.home:
         onBackPressed();
         return true;
+      default: handled = super.onOptionsItemSelected(item);
     }
-    return super.onOptionsItemSelected(item);
+    return handled;
   }
 
   @Override
