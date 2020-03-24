@@ -26,8 +26,9 @@ import java.util.List;
 
 public class RecipeFragment extends Fragment {
 
-  RecyclerView recyclerView;
+  RecipeRecyclerAdapter recipeRecyclerAdapter;
   private MainViewModel viewModel;
+  RecyclerView recyclerView;
   private Recipe recipe; // TODO where does the recipe come from?
   private List<Ingredient> ingredients = new ArrayList<>();
   private List<Step> steps = new ArrayList<>();

@@ -19,7 +19,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.choppit.R;
@@ -30,7 +29,6 @@ import edu.cnm.deepdive.choppit.model.entity.Step;
 import edu.cnm.deepdive.choppit.service.JsoupRetriever;
 import edu.cnm.deepdive.choppit.view.EditingRecyclerAdapter;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,20 +105,22 @@ public class EditingFragment extends Fragment {
 
     @Override
     public void onChanged(final List<Ingredient> result) {
+      if (result != null) {
       ingredients.clear();
       ingredients.addAll(result);
       editingRecyclerAdapter.notifyDataSetChanged();
-      Log.d("EditingFrag", "Observed ingredients:" + ingredients.size());
+      Log.d("EditingFrag", "Observed ingredients:" + ingredients.size());}
     }
   };
 
   final Observer<List<Step>> stepObserver = new Observer<List<Step>>() {
     @Override
     public void onChanged(List<Step> result) {
+      if (result != null) {
       steps.clear();
       steps.addAll(result);
       editingRecyclerAdapter.notifyDataSetChanged();
-      Log.d("EditingFrag", "Observed steps:" + steps.size());
+      Log.d("EditingFrag", "Observed steps:" + steps.size());}
     }
   };
 

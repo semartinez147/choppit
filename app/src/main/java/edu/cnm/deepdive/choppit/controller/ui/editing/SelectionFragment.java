@@ -19,12 +19,19 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.MainActivity;
 import edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment;
+import edu.cnm.deepdive.choppit.model.entity.Ingredient;
+import edu.cnm.deepdive.choppit.model.entity.Step;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 import java.io.IOException;
+import java.util.List;
 import javax.annotation.Nonnull;
 
 public class SelectionFragment extends Fragment {
@@ -69,18 +76,31 @@ public class SelectionFragment extends Fragment {
       @SuppressLint("CheckResult")
       @Override
       public void onClick(View v) {
+        Log.d("SEL", "onClick");
         instruction = stepInput.getText().toString();
+        Log.d("SEL", "instruction text: " + instruction);
         ingredient = ingredientInput.getText().toString();
         viewModel.resetData();
-        viewModel.passDataToRepository(url).andThen(viewModel.processData(ingredient, instruction))
-            .subscribe( () ->
-                ((MainActivity) getActivity()).navigateTo(R.id.navigation_editing)
-            );
+
+        // TODO reworking to observe only
+        Log.d("SEL", "before makeItGo");
+        viewModel.makeItGo(url, ingredient, instruction);
+        viewModel.getSteps()
+            .observe(getViewLifecycleOwner(), viewModelObserver);
       }
     });
-
     return root;
   }
+
+  final Observer<List<Step>> viewModelObserver = steps -> {
+    if (steps != null) {
+      Log.d("SEL", "start navigation");
+      ((MainActivity) getActivity()).navigateTo(R.id.navigation_editing);
+    } else {
+      ((MainActivity) getActivity()).showToast("Something went wrong!");
+    }
+  };
+
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

@@ -2,6 +2,7 @@ package edu.cnm.deepdive.choppit.viewmodel;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.Lifecycle.Event;
@@ -20,6 +21,7 @@ import edu.cnm.deepdive.choppit.service.JsoupRetriever;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -28,6 +30,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import org.jsoup.nodes.Document;
@@ -86,34 +89,33 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     throwable.postValue(null);
   }
 
+  public void makeItGo(String url, String ingredient, String instruction) {
+    Log.d("MVM", "starting makeItGo");
+
+    pending.add(
+        repository.connect(url)
+        .doOnComplete(processData(ingredient, instruction))
+        .subscribe());
+
+  }
+
   public Completable passDataToRepository(String url) {
+    Log.d("MVM", "beginning passData");
     Action action = () ->
-        pending.add(
-            repository.connect(url)
-                .doOnError(throwable::postValue)
-                .subscribe()
-        );
-    return Completable.fromAction(action).subscribeOn(Schedulers.io());
+        repository.connect(url)
+            .doOnError(throwable::postValue);
+    return Completable.fromAction(action).
+        subscribeOn(Schedulers.io());
   }
 
-  @SuppressLint("CheckResult")
-  public Completable processData(String ingredient, String instruction) {
-    Action action = () ->
-    repository.process(ingredient, instruction)
-        .subscribe(
-            steps::postValue,
-            throwable::postValue
-        );
-    return Completable.fromAction(action);
+  public Action processData(String ingredient, String instruction) {
+    Log.d("MVM", "beginning processData");
+    return () -> {
+      repository.process(ingredient, instruction)
+          .doOnSuccess(steps::postValue)
+          .doOnError(throwable::postValue);
+    };
   }
-
-  /* Pseudo-code outline:
-
-  2. Observer/map function that calls a Repository method (by subscribing) to initiate Jsoup's http request using
-  parameters from #2.  Returns a fully assembled LiveData<List<Step>>, each with a List<Ingredient> attached.
-  3. Method *in Editing Fragment* that updates RecyclerView with new data.
-        Transformation map?
-   */
 
   public void grantPermission(String permission) {
     Set<String> permissions = this.permissions.getValue();

@@ -34,6 +34,7 @@ public class JsoupRetriever {
   }
 
 
+
   // FIXME not getting a document
   public Callable<Document> connect(String url) {
     return () -> {
@@ -101,6 +102,10 @@ public class JsoupRetriever {
       ingredients.add(ingredient);
     }
     return (ingredients);
+  }
+
+  public void setDocument(Document document) {
+    this.document = document;
   }
 
   private static class InstanceHolder {

@@ -2,7 +2,9 @@ package edu.cnm.deepdive.choppit.model.repository;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.util.Log;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.preference.PreferenceManager;
 import edu.cnm.deepdive.choppit.model.dao.RecipeDao;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
@@ -10,6 +12,7 @@ import edu.cnm.deepdive.choppit.model.entity.Step;
 import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
 import edu.cnm.deepdive.choppit.service.ChoppitDatabase;
 import edu.cnm.deepdive.choppit.service.JsoupRetriever;
+import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -18,6 +21,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 
@@ -67,13 +71,25 @@ public class RecipeRepository {
         .subscribeOn(Schedulers.io());
   }
 
-
-  public Single<Document> connect(String url) {
-    return Single.fromCallable(retriever.connect(url))
+  public Completable connect(String url) {
+    return Completable.fromRunnable(jsoup(url))
         .subscribeOn(Schedulers.from(networkPool));
   }
 
+  private Runnable jsoup(String url) {
+    return () -> {
+      Document doc = null;
+      try {
+        doc = Jsoup.connect(url).get();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      retriever.setDocument(doc);
+    };
+  }
+
   public Single<List<Step>> process(String ingredient, String instruction) {
+
     Callable<List<Step>> callable = () -> retriever.process(ingredient, instruction);
     return Single.fromCallable(callable)
         .subscribeOn(Schedulers.io());
