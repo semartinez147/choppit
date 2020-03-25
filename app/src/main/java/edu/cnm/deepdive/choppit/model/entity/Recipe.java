@@ -7,9 +7,11 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
 import edu.cnm.deepdive.choppit.model.dao.StepDao;
+import edu.cnm.deepdive.choppit.model.entity.Ingredient.Unit;
 import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
 import edu.cnm.deepdive.choppit.model.pojo.StepWithDetails;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity(
@@ -130,13 +132,29 @@ public class Recipe {
   } // pseudo-setter for getSteps method
 
 
-  public static List<Step> fakeSteps(){
-    List<Step> fakeSteps = new ArrayList<>();
+  private static Ingredient[] phonyIngredients = {
+      new Ingredient(0, "3", Unit.OZ, null, "cardamom"),
+      new Ingredient(0, "2 1/2", Unit.DASH, null, "uranium"),
+      new Ingredient(0, "17", Unit.OTHER, "whole", "marijuanas"),
+      new Ingredient(0, "2 1/3", Unit.PT, null, "pureed asparagus"),
+      new Ingredient(0, "4 1/4", Unit.OTHER, "sprigs", "Douglas Fir"),
+      new Ingredient(0, "1", Unit.GAL, null, "Friday"),
+      new Ingredient(0, "3", Unit.TBSP, null, "salted butter"),
+      new Ingredient(0, "1", Unit.QT, null, "pie"),
+      new Ingredient(0, "3", Unit.OTHER, "legs of", "lamb"),
+      new Ingredient(0, "1 1/8", Unit.LB, null, "octothorpes"),
+  };
 
-    for (int i = 0; i < 5; i++) {
+
+  public static List<Step> fakeSteps() {
+    List<Step> fakeSteps = new ArrayList<>();
+    List<Ingredient> fakeIngredients = new ArrayList<>();
+    fakeIngredients.addAll(Arrays.asList(phonyIngredients));
+    for (int j = 0, i = 0; i < 5; i++, j++) {
       Step step = new Step();
       step.setRecipeOrder(i);
-      step.setInstructions("Follow instructions " + i);
+      step.addIngredient(fakeIngredients.get(j));
+      step.setInstructions("Follow instructions " + (5-i) + " more times");
       fakeSteps.add(step);
     }
     return fakeSteps;

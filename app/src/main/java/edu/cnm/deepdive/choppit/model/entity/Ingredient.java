@@ -55,7 +55,8 @@ public class Ingredient {
   }
 
   @Ignore
-  public Ingredient(long stepId, long itemId, String quantity, Unit unit, String unitAlt, String name) {
+  public Ingredient(long stepId, String quantity, Unit unit, String unitAlt,
+      String name) {
     super();
     this.stepId = stepId;
     this.quantity = quantity;

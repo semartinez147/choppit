@@ -35,13 +35,21 @@
     android:id="@+id/navigation_editing"
     android:label="@string/editing"
     android:name="edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment"
-    tools:layout="@layout/fragment_editing"/>
+    tools:layout="@layout/fragment_editing">
+    <action
+      android:id="@+id/action_navigation_editing_to_navigation_recipe"
+      app:destination="@id/navigation_recipe"/>
+  </fragment>
 
     <fragment
     android:id="@+id/navigation_cookbook"
     android:label="@string/cookbook"
     android:name="edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment"
-    tools:layout="@layout/fragment_cookbook"/>
+    tools:layout="@layout/fragment_cookbook">
+      <action
+        android:id="@+id/action_navigation_cookbook_to_navigation_recipe"
+        app:destination="@id/navigation_recipe"/>
+    </fragment>
 
     <fragment
     android:id="@+id/navigation_loading"
@@ -53,12 +61,10 @@
         app:destination="@id/navigation_editing"/>
     </fragment>
 
-<!--
   <fragment
     android:id="@+id/navigation_recipe"
     android:label="@string/recipe"
     android:name="edu.cnm.deepdive.choppit.controller.ui.cookbook.RecipeFragment"
     tools:layout="@layout/fragment_recipe"/>
--->
 
 </navigation>

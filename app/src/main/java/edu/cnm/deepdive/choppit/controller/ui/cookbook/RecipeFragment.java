@@ -36,13 +36,15 @@ public class RecipeFragment extends Fragment {
   RecyclerView recyclerView;
   private Recipe recipe; // TODO where does the recipe come from?
   private List<Ingredient> ingredients = new ArrayList<>();
-  private List<Step> steps = new ArrayList<>();
+  private List<Step> steps;
   private FragmentRecipeBinding binding;
 
-  public static RecipeFragment createInstance() {
-    RecipeFragment fragment = new RecipeFragment();
-    Bundle args = new Bundle();
-    return fragment;
+  public RecipeFragment(Recipe recipe) {
+    this.recipe = recipe;
+    this.steps = recipe.getSteps();
+    for (Step step : steps) {
+      ingredients.addAll(step.getIngredients());
+    }
   }
 
   @Override

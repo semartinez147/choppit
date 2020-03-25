@@ -23,6 +23,8 @@
     android:layout_height="match_parent"
     android:layout_centerInParent="true"
     android:indeterminateTint="@color/colorPrimaryDark"
+    android:fromDegrees="0"
+    android:toDegrees="720"
     android:elevation="16dp"
     android:visibility="visible"/>
 
