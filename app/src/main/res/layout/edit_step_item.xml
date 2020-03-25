@@ -28,8 +28,8 @@
       android:id="@+id/step_number"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="@{step.recipeOrder}"
-app:layout_constraintEnd_toEndOf="@id/step_tag"
+      android:text="@{Integer.toString(step.recipeOrder)}"
+      app:layout_constraintEnd_toEndOf="@id/step_tag"
       app:layout_constraintTop_toBottomOf="@id/step_tag"/>
 
     <com.google.android.material.textfield.TextInputLayout

@@ -92,6 +92,7 @@ public class EditingFragment extends Fragment {
     Log.d("EditingFrag", "onViewCreated");
     Button continue_button = view.findViewById(R.id.editing_continue);
     viewModel.getIngredients().observe(getViewLifecycleOwner(), ingredientObserver);
+    Log.d("EditingFrag", ingredients.size() + " ingredients");
     viewModel.getSteps().observe(getViewLifecycleOwner(), stepObserver);
 
     continue_button.setOnClickListener(v -> {

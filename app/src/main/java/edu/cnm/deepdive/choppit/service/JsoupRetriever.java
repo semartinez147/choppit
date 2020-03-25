@@ -82,9 +82,9 @@ public class JsoupRetriever {
 
   public List<Step> buildSteps() {
     List<Step> steps = new ArrayList<>();
-    for (int i = 0; i < this.listInstructions.size(); i++) {
+    for (int i = 0, j = 1; i < this.listInstructions.size(); i++, j++) {
       Step step = new Step();
-      step.setRecipeOrder(i + 1);
+      step.setRecipeOrder(j);
       step.setInstructions(this.listInstructions.get(i));
       steps.add(step);
     }

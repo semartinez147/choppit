@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.MainActivity;
+import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Step;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import java.util.List;
@@ -82,11 +83,20 @@ public class LoadingFragment extends Fragment {
     @Override
     public void onChanged(List<Step> steps) {
       if (steps != null) {
-        for (Step step : steps) {
-          Log.d("LoadingFrag", step.toString());
-        }
+          viewModel.finish(steps);
+          viewModel.getIngredients().observe(getActivity(), ingredientObserver);
+//        ((MainActivity) getActivity()).navigateTo(R.id.navigation_editing);
+      }
+    }
+  };
+
+  final Observer<List<Ingredient>> ingredientObserver = new Observer<List<Ingredient>>() {
+    @Override
+    public void onChanged(List<Ingredient> ingredients) {
+      if (ingredients != null) {
         ((MainActivity) getActivity()).navigateTo(R.id.navigation_editing);
       }
     }
   };
+
 }

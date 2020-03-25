@@ -52,7 +52,7 @@
       android:layout_margin="4dp"
       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
       app:hintEnabled="true"
-      app:hintAnimationEnabled="true"
+      app:hintAnimationEnabled="false"
       app:layout_constraintTop_toTopOf="@id/measurement_layout"
       app:layout_constraintStart_toEndOf="@id/measurement_layout"
       app:layout_constraintEnd_toStartOf="@id/name_layout"
@@ -79,7 +79,6 @@
       app:hintEnabled="true"
       app:hintAnimationEnabled="true"
       app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintStart_toEndOf="@id/unit_layout"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_chainStyle="spread">
       <com.google.android.material.textfield.TextInputEditText

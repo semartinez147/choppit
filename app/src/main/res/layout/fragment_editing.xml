@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:padding="4dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="@id/editing_continue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

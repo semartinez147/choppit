@@ -10,6 +10,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
 import androidx.annotation.NonNull;
+import java.util.Objects;
 
 @Entity(
     indices = {
@@ -31,11 +32,11 @@ public class Ingredient {
   @PrimaryKey(autoGenerate = true)
   private long id;
 
-  
+
   @ColumnInfo(name = "step_id")
   private long stepId;
 
-  
+
   @ColumnInfo(name = "quantity")
   private String quantity;
 
@@ -127,7 +128,6 @@ public class Ingredient {
     OTHER; // Will generate a text field for things like "sprig" or "leg".
 
 
-
     @TypeConverter
     public static String toString(Unit value) {
       return (value != null) ? value.name() : null;
@@ -172,7 +172,28 @@ public class Ingredient {
   @NonNull
   @Override
   public String toString() {
-    return (getQuantity() + " " + ((getUnit() != Unit.OTHER) ? getUnit().toString() : getUnitAlt()) + " " + getName());
-
+    return (getQuantity() + " " + ((getUnit() != Unit.OTHER) ? getUnit().toString() : getUnitAlt())
+        + " " + getName());
   }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(quantity, unit, name); // TODO Compute lazily & cache.
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    boolean result = false;
+    if (obj == this) {
+      result = true;
+    } else if (obj instanceof Ingredient && obj.hashCode() == hashCode()) {
+      Ingredient other = (Ingredient) obj;
+      result = quantity.equals(other.quantity)
+          && name.equals(other.name)
+          && unit.equals(other.unit)
+          && unitAlt.equalsIgnoreCase(other.unitAlt);
+    }
+    return result;
+  }
+
 }

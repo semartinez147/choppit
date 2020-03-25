@@ -29,6 +29,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -125,6 +126,21 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
         repository.process(ingredient, instruction)
         .subscribe(steps::postValue)
     );
+  }
+
+  public void finish(List<Step> steps) {
+    List<Ingredient> extract = new ArrayList<>();
+    List<Ingredient> extracted = new ArrayList<>();
+    for (Step step : steps) {
+      extract.addAll(step.getIngredients());
+
+    }
+    for (Ingredient ex : extract) {
+      if (!extracted.contains(ex)){
+      extracted.add(ex);
+      }
+    }
+    ingredients.postValue(extracted);
   }
 
   public void grantPermission(String permission) {

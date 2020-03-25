@@ -69,10 +69,9 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     if (viewHolder instanceof IngredientViewHolder) {
       Ingredient ingredient = ingredients.get(position);
       ((IngredientViewHolder) viewHolder).bind(ingredient);
-      Log.d(Integer.toString(position), ingredient.getName());
     }
     if (viewHolder instanceof StepViewHolder) {
-      Step step = steps.get(position);
+      Step step = steps.get(position - ingredients.size());
       ((StepViewHolder) viewHolder).bind(step);
     }
   }
@@ -94,11 +93,16 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     return -1;
   }
 
+  public List<Ingredient> getIngredients() {
+    return ingredients;
+  }
+
+  public List<Step> getSteps() {
+    return steps;
+  }
+
   public class IngredientViewHolder extends RecyclerView.ViewHolder {
 
-    private TextView quantity;
-    private TextView unit;
-    private TextView name;
     private EditIngredientItemBinding binding;
 
     public IngredientViewHolder(EditIngredientItemBinding binding) {
@@ -106,9 +110,6 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
       this.binding = binding;
 
-//      quantity = itemView.findViewById(R.id.editing_quantity);
-//      unit = itemView.findViewById(R.id.editing_unit);
-//      name = itemView.findViewById(R.id.editing_name);
     }
 
     public void bind(Ingredient ingredient) {
@@ -128,8 +129,6 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
   public class StepViewHolder extends RecyclerView.ViewHolder {
 
-    private TextView order;
-    private TextView step;
     private EditStepItemBinding binding;
 
     public StepViewHolder(EditStepItemBinding binding) {
@@ -140,9 +139,9 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void bind(Step step) {
       binding.setVariable(BR.step, step);
 //      binding.setStep(step);
-      step.setRecipeOrder(getAdapterPosition() - ingredients.size());
-      binding.executePendingBindings();
+      step.setRecipeOrder(getAdapterPosition() - ingredients.size() + 1);
       Log.d("Bound step ", Integer.toString(getAdapterPosition() - ingredients.size()));
+      binding.executePendingBindings();
     }
 /*
     public void populate(Step step) {
