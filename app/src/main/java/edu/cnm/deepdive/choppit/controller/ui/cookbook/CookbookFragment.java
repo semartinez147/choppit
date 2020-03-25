@@ -33,15 +33,8 @@ public class CookbookFragment extends Fragment {
   CookbookRecyclerAdapter cookbookRecyclerAdapter;
   private MainViewModel viewModel;
   private List<Recipe> recipes = new ArrayList<>();
-  private FragmentCookbookBinding binding;
+  public FragmentCookbookBinding binding;
 
-  @Override
-  public void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setRetainInstance(true);
-    binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_cookbook);
-
-  }
 
   private void setupRecyclerView() {
     RecyclerView recyclerView = binding.recipeList;
@@ -57,11 +50,10 @@ public class CookbookFragment extends Fragment {
     ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle(getString(R.string.cookbook));
-    FragmentCookbookBinding binding;
+
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbook, container, false);
     binding.setLifecycleOwner(this);
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-    CookbookRecyclerAdapter cookbookRecyclerAdapter = new CookbookRecyclerAdapter(this.getActivity(), recipes);
     binding.setVariable(bindViewModel, viewModel);
     binding.setVariable(uiController, this);
     return binding.getRoot();

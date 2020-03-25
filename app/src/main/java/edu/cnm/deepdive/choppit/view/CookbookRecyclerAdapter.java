@@ -89,6 +89,7 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public void bind(Recipe recipe) {
     binding.setVariable(edu.cnm.deepdive.choppit.BR.recipe, recipe);
+
     binding.executePendingBindings();
     }
   }
