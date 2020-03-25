@@ -36,7 +36,6 @@ public class EditingFragment extends Fragment {
 
   EditingRecyclerAdapter editingRecyclerAdapter;
   private MainViewModel viewModel;
-  private JsoupRetriever retriever;
   private List<Ingredient> ingredients = new ArrayList<>();
   private List<Step> steps = new ArrayList<>();
   private FragmentEditingBinding binding;
@@ -84,43 +83,54 @@ public class EditingFragment extends Fragment {
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
     binding.setVariable(bindViewModel, viewModel);
     binding.setVariable(uiController, this);
-
     return binding.getRoot();
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    Log.d("EditingFrag", "onViewCreated");
     Button continue_button = view.findViewById(R.id.editing_continue);
+    viewModel.getIngredients().observe(getViewLifecycleOwner(), ingredientObserver);
+    viewModel.getSteps().observe(getViewLifecycleOwner(), stepObserver);
+
     continue_button.setOnClickListener(v -> {
       ((MainActivity) getActivity())
           .navigateTo(R.id.navigation_cookbook); //TODO add recipe to databse & navigate to cooking screen
     });
-    viewModel.getIngredients().observe(getViewLifecycleOwner(), ingredientObserver);
-    viewModel.getSteps().observe(getViewLifecycleOwner(), stepObserver);
   }
 
   final Observer<List<Ingredient>> ingredientObserver = new Observer<List<Ingredient>>() {
 
     @Override
     public void onChanged(final List<Ingredient> result) {
+      Log.d("EditingFrag", "ingredientObserver");
       if (result != null) {
       ingredients.clear();
       ingredients.addAll(result);
       editingRecyclerAdapter.notifyDataSetChanged();
-      Log.d("EditingFrag", "Observed ingredients:" + ingredients.size());}
+      Log.d("EditingFrag", "Observed ingredients:" + ingredients.size());
+      } else {
+        Log.d("EditingFrag", "ingredients are null");
+      }
     }
   };
 
   final Observer<List<Step>> stepObserver = new Observer<List<Step>>() {
     @Override
     public void onChanged(List<Step> result) {
+      Log.d("EditingFrag", "stepObserver");
       if (result != null) {
       steps.clear();
       steps.addAll(result);
       editingRecyclerAdapter.notifyDataSetChanged();
-      Log.d("EditingFrag", "Observed steps:" + steps.size());}
+      Log.d("EditingFrag", "Observed steps:" + steps.size());
+      } else {
+        Log.d("EditingFrag", "ingredients are null");
+      }
     }
   };
+
+
 
 }

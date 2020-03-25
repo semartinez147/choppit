@@ -17,6 +17,7 @@ import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
@@ -93,10 +94,8 @@ public class RecipeRepository {
   }
 
   public Single<List<Step>> process(String ingredient, String instruction) {
-
-    Callable<List<Step>> callable = () -> retriever.process(ingredient, instruction);
-    return Single.fromCallable(callable)
-        .subscribeOn(Schedulers.io());
+    List<Step> steps = retriever.process(ingredient, instruction);
+    return Single.just(steps);
   }
 
 

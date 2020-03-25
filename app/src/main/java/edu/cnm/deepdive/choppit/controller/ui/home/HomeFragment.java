@@ -19,7 +19,6 @@ import edu.cnm.deepdive.choppit.controller.MainActivity;
 
 public class HomeFragment extends Fragment {
 
-  //  private MainViewModel viewModel;
   private View root;
   private EditText urlInput;
   static String url = "";

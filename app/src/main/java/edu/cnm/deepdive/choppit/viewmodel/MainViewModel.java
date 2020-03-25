@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle.Event;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.Transformations;
 import edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment;
@@ -20,6 +21,8 @@ import edu.cnm.deepdive.choppit.model.repository.RecipeRepository;
 import edu.cnm.deepdive.choppit.service.JsoupRetriever;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.SingleObserver;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
@@ -33,6 +36,7 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import javax.annotation.Nonnull;
 import org.jsoup.nodes.Document;
 
 public class MainViewModel extends AndroidViewModel implements LifecycleObserver {
@@ -42,6 +46,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   private final MutableLiveData<List<Ingredient>> ingredients;
   private final MutableLiveData<Throwable> throwable;
   private final MutableLiveData<Set<String>> permissions;
+  private final MutableLiveData<String> status;
   private final CompositeDisposable pending;
   private final RecipeRepository repository;
   private final JsoupRetriever retriever;
@@ -56,6 +61,8 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     throwable = new MutableLiveData<>();
     permissions = new MutableLiveData<>(new HashSet<>());
     pending = new CompositeDisposable();
+    status = new MutableLiveData<>();
+    resetData();
   }
 
   public LiveData<List<Recipe>> getAllRecipes() {
@@ -82,32 +89,42 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     return permissions;
   }
 
+  public MutableLiveData<String> getStatus() {
+    return status;
+  }
+
   public void resetData() {
     steps.postValue(null);
     ingredients.postValue(null);
     recipe.postValue(null);
     throwable.postValue(null);
+    status.postValue("");
   }
 
-  public void makeItGo(String url, String ingredient, String instruction) {
+  public void makeItGo(String url) {
     Log.d("MVM", "starting makeItGo");
-
+    throwable.setValue(null);
+    status.postValue("connecting");
     pending.add(
         repository.connect(url)
-        .doOnComplete(processData(ingredient, instruction))
-        .subscribe());
+            .subscribe(
+                () -> status.postValue("gathering"),
+                throwable::postValue
+            )
+    );
   }
 
-  public Action processData(String ingredient, String instruction) {
+  //                steps.postValue(repository.process(ingredient, instruction)),
+
+
+  public void processData(String ingredient, String instruction) {
     Log.d("MVM", "beginning processData");
-    return () -> {
-      repository.process(ingredient, instruction)
-//          .doAfterSuccess()
-          .subscribe(
-              steps::postValue,
-              throwable::postValue
-          );
-    };
+    throwable.setValue(null);
+    status.postValue("processing");
+    pending.add(
+        repository.process(ingredient, instruction)
+        .subscribe(steps::postValue)
+    );
   }
 
   public void grantPermission(String permission) {

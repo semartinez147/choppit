@@ -1,4 +1,5 @@
 package edu.cnm.deepdive.choppit.model.entity;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -6,6 +7,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity(
@@ -17,7 +19,8 @@ import java.util.List;
             entity = Recipe.class,
             parentColumns = "recipe_id",
             childColumns = "recipe_id",
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
         )
     }
 )
@@ -36,18 +39,17 @@ public class Step {
   private String instructions;
 
   @NonNull
-  @ColumnInfo (name = "recipe_order")
+  @ColumnInfo(name = "recipe_order")
   private int recipeOrder;
 
   @Ignore
-  private List<Ingredient> ingredients = null;
+  private List<Ingredient> ingredients = new LinkedList<>();
 
   public Step() {
-
   }
 
   @Ignore
-  public Step (long recipeId, String instructions, int recipeOrder, List<Ingredient> ingredients) {
+  public Step(long recipeId, String instructions, int recipeOrder, List<Ingredient> ingredients) {
     super();
     this.recipeId = recipeId;
     this.instructions = instructions;
@@ -96,10 +98,12 @@ public class Step {
   }
 
   public void addIngredient(Ingredient ingredient) {
-    try {
-      this.ingredients.add(ingredient);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    this.ingredients.add(ingredient);
+  }
+
+  @NonNull
+  @Override
+  public String toString() {
+    return ("Step " + getRecipeOrder() + ": " + getInstructions().substring(0, 20) + " ...");
   }
 }

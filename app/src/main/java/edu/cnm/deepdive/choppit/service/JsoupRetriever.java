@@ -55,18 +55,16 @@ public class JsoupRetriever {
     List<Ingredient> ingredients = new ArrayList<>(buildIngredients());
 
     for (Ingredient item : ingredients) {
-      String[] s = item.getName().toLowerCase().split("\\s");
-      stepsearch:
+      Pattern ingredientPattern =
+          Pattern.compile(item.getName().trim().replaceAll("\\s", "|"),
+              Pattern.CASE_INSENSITIVE);
       for (Step step : steps) {
-        for (String s1 : s) {
-          if (step.getInstructions().toLowerCase().contains(s1)) {
-            step.addIngredient(item);
-            Log.d("added an ingredient", "good job");
-            break stepsearch;
-          }
+        if (ingredientPattern.matcher(step.getInstructions()).find()) {
+          step.addIngredient(item);
         }
       }
     }
+    Log.d("JRET", steps.size() + " steps & " + ingredients.size() + "ingredients");
     return steps;
   }
 
@@ -118,7 +116,7 @@ public class JsoupRetriever {
     private static final JsoupRetriever INSTANCE = new JsoupRetriever();
   }
 
-  private class GetPage extends AsyncTask<String, Void, Document> {
+  private static class GetPage extends AsyncTask<String, Void, Document> {
 
     private final String url;
 

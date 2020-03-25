@@ -20,23 +20,15 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.MainActivity;
 import edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment;
-import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Step;
-import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
-import io.reactivex.Completable;
-import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
-import java.io.IOException;
 import java.util.List;
 import javax.annotation.Nonnull;
 
 public class SelectionFragment extends Fragment {
 
-  private MainViewModel viewModel;
   private WebView contentView;
   private EditText ingredientInput;
   private EditText stepInput;
@@ -80,15 +72,8 @@ public class SelectionFragment extends Fragment {
         instruction = stepInput.getText().toString();
         Log.d("SEL", "instruction text: " + instruction);
         ingredient = ingredientInput.getText().toString();
-        viewModel.resetData();
 
-        // TODO reworking to observe only
-        Log.d("SEL", "before makeItGo");
-        viewModel.makeItGo(url, ingredient, instruction);
         ((MainActivity) getActivity()).navigateTo(R.id.navigation_loading);
-        //        viewModel.getSteps()
-//
-//            .observe(getViewLifecycleOwner(), viewModelObserver);
       }
     });
     return root;
@@ -108,7 +93,6 @@ public class SelectionFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
 
   }
 
@@ -139,6 +123,10 @@ public class SelectionFragment extends Fragment {
     switch (item.getItemId()) {
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  public static String getUrl() {
+    return url;
   }
 
   public static String getIngredient() {

@@ -131,6 +131,13 @@ public class Recipe {
     this.steps.add(step);
   } // pseudo-setter for getSteps method
 
+  @NonNull
+  @Override
+  public String toString() {
+    return getTitle();
+  }
+
+  /* PAY NO ATTENTION TO THE DATABASE COMMANDS BELOW */
 
   private static Ingredient[] phonyIngredients = {
       new Ingredient(0, "3", Unit.OZ, null, "cardamom"),

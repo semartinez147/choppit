@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   public void onBackPressed() {
+    if (navController.getCurrentDestination().getId() == R.id.navigation_editing) {
+      navigateTo(R.id.navigation_selection);
+    }
     if (navController.getCurrentDestination().getId() != R.id.navigation_home) {
       navigateTo(R.id.navigation_home);
     } else {

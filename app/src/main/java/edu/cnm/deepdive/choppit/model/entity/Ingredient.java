@@ -20,7 +20,8 @@ import androidx.annotation.NonNull;
             entity = Step.class,
             parentColumns = "step_id",
             childColumns = "step_id",
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
         )
     }
 )
@@ -125,6 +126,8 @@ public class Ingredient {
     LB,
     OTHER; // Will generate a text field for things like "sprig" or "leg".
 
+
+
     @TypeConverter
     public static String toString(Unit value) {
       return (value != null) ? value.name() : null;
@@ -164,5 +167,12 @@ public class Ingredient {
         }
       }
     }
+  }
+
+  @NonNull
+  @Override
+  public String toString() {
+    return (getQuantity() + " " + ((getUnit() != Unit.OTHER) ? getUnit().toString() : getUnitAlt()) + " " + getName());
+
   }
 }
