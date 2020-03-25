@@ -96,6 +96,10 @@ public class Step {
   }
 
   public void addIngredient(Ingredient ingredient) {
-    this.ingredients.add(ingredient);
+    try {
+      this.ingredients.add(ingredient);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }

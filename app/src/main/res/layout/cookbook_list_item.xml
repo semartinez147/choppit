@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<layout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  style="@style/RecipeItem.Container"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<data>
+  <variable
+    name="recipe"
+    type="edu.cnm.deepdive.choppit.model.entity.Recipe"/>
+  <variable
+    name="uiController"
+    type="edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment"/>
+</data>
+
+<androidx.cardview.widget.CardView
+
+  style="@style/TextAppearance.AppCompat.Display1"
   android:layout_width="match_parent"
   android:layout_height="wrap_content">
 
@@ -10,7 +22,7 @@
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:background="?android:attr/selectableItemBackground"
-  android:theme="@style/RecipeItem"
+
   android:layout_margin="8dp">
 
   <ImageView
@@ -31,13 +43,13 @@
     android:layout_height="wrap_content"
     android:fontFamily="@font/droid_sans"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toStartOf="@id/edited"
+    app:layout_constraintEnd_toStartOf="@id/edit"
     app:layout_constraintHorizontal_chainStyle="spread"
     app:layout_constraintStart_toEndOf="@id/favorite"
     app:layout_constraintTop_toTopOf="parent"/>
 
   <ImageView
-    android:id="@+id/edited"
+    android:id="@+id/edit"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:layout_constraintTop_toTopOf="parent"
@@ -45,8 +57,9 @@
     app:layout_constraintStart_toEndOf="@id/recipe_title"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_chainStyle="spread"
-    android:contentDescription="@string/edited_indicator"/>
+    android:contentDescription="@string/edit_button"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
+</layout>

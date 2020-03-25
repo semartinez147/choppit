@@ -58,7 +58,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     pending = new CompositeDisposable();
   }
 
-  public LiveData<List<RecipeWithDetails>> getAllRecipes() {
+  public LiveData<List<Recipe>> getAllRecipes() {
     return repository.getAll();
   }
 
@@ -102,6 +102,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     Log.d("MVM", "beginning processData");
     return () -> {
       repository.process(ingredient, instruction)
+//          .doAfterSuccess()
           .subscribe(
               steps::postValue,
               throwable::postValue

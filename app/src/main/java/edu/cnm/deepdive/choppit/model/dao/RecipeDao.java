@@ -60,4 +60,7 @@ public interface RecipeDao {
   @Transaction
   @Query("SELECT * FROM Recipe WHERE recipe_id = :id")
   Single<RecipeWithDetails> selectOne(long id);
+
+  @Insert
+  void populate(Recipe... recipes);
 }

@@ -38,13 +38,14 @@ public class Ingredient {
   @ColumnInfo(name = "quantity")
   private String quantity;
 
-  
+  @ColumnInfo
+  private String name;
+
   @NonNull
   @ColumnInfo(name = "unit", typeAffinity = ColumnInfo.TEXT, collate = ColumnInfo.NOCASE)
   private Unit unit;
 
-  @ColumnInfo
-  private String name;
+
   @ColumnInfo(name = "unit_alt", typeAffinity = ColumnInfo.TEXT, collate = ColumnInfo.NOCASE)
   private String unitAlt;
 

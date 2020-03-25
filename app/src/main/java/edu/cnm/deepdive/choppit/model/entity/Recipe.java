@@ -6,8 +6,10 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
+import edu.cnm.deepdive.choppit.model.dao.StepDao;
 import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
 import edu.cnm.deepdive.choppit.model.pojo.StepWithDetails;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(
@@ -126,4 +128,28 @@ public class Recipe {
   public void addStep(Step step) { // pseudo-setter
     this.steps.add(step);
   } // pseudo-setter for getSteps method
+
+
+  public static List<Step> fakeSteps(){
+    List<Step> fakeSteps = new ArrayList<>();
+
+    for (int i = 0; i < 5; i++) {
+      Step step = new Step();
+      step.setRecipeOrder(i);
+      step.setInstructions("Follow instructions " + i);
+      fakeSteps.add(step);
+    }
+    return fakeSteps;
+  }
+
+  public static Recipe[] populateData() {
+    return new Recipe[]{
+        new Recipe("www.cookies.com", "Cookies", false, false, fakeSteps()),
+        new Recipe("www.biscuits.com", "Biscuits", false, true, fakeSteps()),
+        new Recipe("www.grilledcheese.com", "Grilled Cheese", false, false, fakeSteps()),
+        new Recipe("www.spanakopita.com", "Spanakopita", true, false, fakeSteps()),
+        new Recipe("www.lutherburger.com", "Luther Burger", false, false, fakeSteps()),
+        new Recipe("www.chronwich.com", "The Chronwich", true, true, fakeSteps()),
+    };
+  }
 }

@@ -55,10 +55,15 @@ public class JsoupRetriever {
     List<Ingredient> ingredients = new ArrayList<>(buildIngredients());
 
     for (Ingredient item : ingredients) {
+      String[] s = item.getName().toLowerCase().split("\\s");
+      stepsearch:
       for (Step step : steps) {
-        if (step.getInstructions().toLowerCase().contains(item.getName().toLowerCase())) {
-          step.addIngredient(item);
-          break;
+        for (String s1 : s) {
+          if (step.getInstructions().toLowerCase().contains(s1)) {
+            step.addIngredient(item);
+            Log.d("added an ingredient", "good job");
+            break stepsearch;
+          }
         }
       }
     }

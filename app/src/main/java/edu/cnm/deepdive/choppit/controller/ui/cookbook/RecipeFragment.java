@@ -1,6 +1,10 @@
 package edu.cnm.deepdive.choppit.controller.ui.cookbook;
 
+import static edu.cnm.deepdive.choppit.BR.bindViewModel;
+import static edu.cnm.deepdive.choppit.BR.uiController;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,10 +24,8 @@ import edu.cnm.deepdive.choppit.databinding.FragmentRecipeBinding;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
-import edu.cnm.deepdive.choppit.view.EditingRecyclerAdapter;
 import edu.cnm.deepdive.choppit.view.RecipeRecyclerAdapter;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,18 +63,26 @@ public class RecipeFragment extends Fragment {
     RecyclerView recyclerview = binding.recipeRecyclerView;
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
     recipeRecyclerAdapter = new RecipeRecyclerAdapter(getContext(), recipe);
+    recyclerview.setLayoutManager(layoutManager);
+    recyclerView.setAdapter(recipeRecyclerAdapter);
+    Log.d("RecipeFrag", "RecyclerView set up");
   }
 
 
   @Nullable
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
-    View root = inflater.inflate(R.layout.fragment_recipe, container, false);
     ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle(recipe.getTitle());
-    recyclerView = root.findViewById(R.id.editing_recycler_view);
-    return root;
+    FragmentRecipeBinding binding;
+    binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipe, container, false);
+    binding.setLifecycleOwner(this);
+    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
+    binding.setVariable(bindViewModel, viewModel);
+    binding.setVariable(uiController, this);
+
+    return binding.getRoot();
   }
 
   @Override

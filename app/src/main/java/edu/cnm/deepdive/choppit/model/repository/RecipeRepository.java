@@ -51,7 +51,11 @@ public class RecipeRepository {
     retriever = JsoupRetriever.getInstance();
   }
 
-  public LiveData<List<RecipeWithDetails>> getAll() {
+  public LiveData<List<Recipe>> getAll() {
+    return database.getRecipeDao().select();
+  }
+
+  public LiveData<List<RecipeWithDetails>> getAllDetails() {
     return database.getRecipeDao().selectWithDetails();
   }
 

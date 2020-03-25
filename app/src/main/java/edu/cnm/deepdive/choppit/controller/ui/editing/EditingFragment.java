@@ -63,7 +63,6 @@ public class EditingFragment extends Fragment {
   }
 
   private void setupRecyclerView() {
-
     RecyclerView recyclerView = binding.editingRecyclerView;
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
     editingRecyclerAdapter = new EditingRecyclerAdapter(getContext(), ingredients, steps);
@@ -85,8 +84,8 @@ public class EditingFragment extends Fragment {
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
     binding.setVariable(bindViewModel, viewModel);
     binding.setVariable(uiController, this);
-    return binding.getRoot();
 
+    return binding.getRoot();
   }
 
   @Override
