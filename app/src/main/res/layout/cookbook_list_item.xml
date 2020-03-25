@@ -15,7 +15,7 @@
 <androidx.cardview.widget.CardView
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  android:layout_margin="8dp">
+  android:layout_margin="@dimen/narrow_space">
 
 <androidx.constraintlayout.widget.ConstraintLayout
   android:id="@+id/click_view"
@@ -24,7 +24,7 @@
   android:clickable="true"
   android:focusable="true"
   android:background="?android:attr/selectableItemBackground"
-  android:layout_margin="4dp">
+  android:layout_margin="@dimen/narrow_space">
 
   <ImageView
     android:id="@+id/favorite"

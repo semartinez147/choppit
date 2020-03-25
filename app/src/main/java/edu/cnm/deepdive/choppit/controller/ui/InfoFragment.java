@@ -20,6 +20,11 @@ public class InfoFragment extends DialogFragment {
   private int currentLocation;
   private String fragLabel;
 
+  /**
+   * Displays basic user information relevant to the active screen.  Text is set by a {@link android.widget.Switch}
+   * @param navFragment is the Switch input, taken from the visible {@link androidx.fragment.app.Fragment} id when the Help buton is pressed.
+   * @param fragLabel is populated from the navFragment and displayed in the {@link android.app.ActionBar}.
+   */
   public InfoFragment(int navFragment, String fragLabel) {
     currentLocation = navFragment;
     this.fragLabel = fragLabel;
@@ -58,6 +63,8 @@ public class InfoFragment extends DialogFragment {
       case R.id.navigation_selection:
       info.setText(R.string.selection_info);
       break;
+      case R.id.navigation_loading:
+        info.setText(R.string.loading_info);
       case R.id.navigation_editing:
       info.setText(R.string.editing_info);
       break;

@@ -18,6 +18,12 @@ import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.ui.InfoFragment;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 
+/**
+ * This activity houses the UI {@link androidx.fragment.app.Fragment}s.  It also establishes {@link
+ * #onOptionsItemSelected(MenuItem)} behavior.  Help button {@link android.app.AlertDialog} contents
+ * is set by the label of the active {@link androidx.fragment.app.Fragment} when the button is
+ * pressed.
+ */
 public class MainActivity extends AppCompatActivity {
 
   private MainViewModel viewModel;
@@ -47,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
     boolean handled = true;
     switch (item.getItemId()) {
       case R.id.help:
-        showInfo(navController.getCurrentDestination().getId(), navController.getCurrentDestination().getLabel().toString());
+        showInfo(navController.getCurrentDestination().getId(),
+            navController.getCurrentDestination().getLabel().toString());
         break;
       case R.id.text_options:
         Intent intent = new Intent(this, SettingsActivity.class);
@@ -56,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
       case android.R.id.home:
         onBackPressed();
         return true;
-      default: handled = super.onOptionsItemSelected(item);
+      default:
+        handled = super.onOptionsItemSelected(item);
     }
     return handled;
   }
@@ -83,6 +91,10 @@ public class MainActivity extends AppCompatActivity {
     navController = Navigation.findNavController(this, R.id.nav_host_fragment);
   }
 
+  /**
+   * Useful for displaying error messages.
+   * @param message will be displayed in the Toast.
+   */
   public void showToast(String message) {
     Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
     toast.setGravity(Gravity.BOTTOM, 0,
@@ -95,6 +107,10 @@ public class MainActivity extends AppCompatActivity {
     getLifecycle().addObserver(viewModel);
   }
 
+  /**
+   * Sets up basic navigation behavior.
+   * @param itemId must not match the destination, or there is no need to navigate.
+   */
   public void navigateTo(int itemId) {
     if (navController.getCurrentDestination().getId() != itemId) {
       navController.navigate(itemId, null, navOptions);
@@ -102,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void showInfo(int currentFragment, String fragmentLabel) {
-    new InfoFragment(currentFragment, fragmentLabel).show(getSupportFragmentManager(), InfoFragment.class.getName());
+    new InfoFragment(currentFragment, fragmentLabel)
+        .show(getSupportFragmentManager(), InfoFragment.class.getName());
   }
 }

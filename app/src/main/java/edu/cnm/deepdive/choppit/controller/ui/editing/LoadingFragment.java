@@ -54,6 +54,14 @@ public class LoadingFragment extends Fragment {
     viewModel.getStatus().observe(getViewLifecycleOwner(), statusObserver);
   }
 
+  /**
+   * This {@link Observer} monitors output from the {@link MainViewModel} following the intial
+   * method call to {@link MainViewModel#makeItGo(String)} in {@link #onCreateView(LayoutInflater,
+   * ViewGroup, Bundle), }based on {@link MainViewModel#getStatus()}. It updates the UI while data
+   * is processing, and calls subsequent methods - {@link MainViewModel#processData(String, String)}
+   * once a {@link org.jsoup.nodes.Document} is retrieved, and {@link MainViewModel#getSteps()}
+   * after processing is finished.
+   */
   final Observer<String> statusObserver = new Observer<String>() {
     @Override
     public void onChanged(String s) {
@@ -69,7 +77,7 @@ public class LoadingFragment extends Fragment {
           status.setText(R.string.gathering);
           Log.d("LoadingFrag", "gathering");
           viewModel.processData(ingredient, instruction);
-        break;
+          break;
         case "processing":
           status.setText(R.string.processing);
           Log.d("LoadingFrag", "processing");
@@ -79,17 +87,23 @@ public class LoadingFragment extends Fragment {
     }
   };
 
+  /**
+   * This {@link Observer} calls {@link MainViewModel#finish(List)} to generate {@link Ingredient}s
+   * when processing has created a complete list of {@link Step}s.
+   */
   final Observer<List<Step>> stepObserver = new Observer<List<Step>>() {
     @Override
     public void onChanged(List<Step> steps) {
       if (steps != null) {
-          viewModel.finish(steps);
-          viewModel.getIngredients().observe(getActivity(), ingredientObserver);
-//        ((MainActivity) getActivity()).navigateTo(R.id.navigation_editing);
+        viewModel.finish(steps);
+        viewModel.getIngredients().observe(getActivity(), ingredientObserver);
       }
     }
   };
-
+  /**
+   * This is the final step in processing HTML into Choppit.  It navigates to {@link
+   * EditingFragment} when {@link MainViewModel} has a complete list of {@link Ingredient}s.
+   */
   final Observer<List<Ingredient>> ingredientObserver = new Observer<List<Ingredient>>() {
     @Override
     public void onChanged(List<Ingredient> ingredients) {

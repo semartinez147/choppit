@@ -6,10 +6,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
-import edu.cnm.deepdive.choppit.model.dao.StepDao;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient.Unit;
-import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
-import edu.cnm.deepdive.choppit.model.pojo.StepWithDetails;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +16,7 @@ import java.util.List;
         @Index(value = {"title", "url"}, unique = true),
     }
 )
+
 public class Recipe {
 
   @ColumnInfo(name = "recipe_id")
@@ -32,25 +30,25 @@ public class Recipe {
   @ColumnInfo(name = "title", index = true, defaultValue = "Untitled Recipe", collate = ColumnInfo.NOCASE)
   private String title;
 
-  @ColumnInfo(name = "edited", index = true, defaultValue = "false")
-  private boolean edited;
-
   @ColumnInfo(name = "favorite", index = true, defaultValue = "false")
   private boolean favorite;
 
   @Ignore
   private List<Step> steps = null;
 
+  /**
+   * Recipe is the top-level {@link Entity} in the database.  It gets a non-editable {@link #url} if
+   * it was loaded from a website.  {@link #title}, {@link #favorite} and the list of {@link Step}s
+   * can be customized by the user.
+   */
   public Recipe() {
-
   }
 
   @Ignore
-  public Recipe(String url, String title, boolean edited, boolean favorite, List<Step> steps) {
+  public Recipe(String url, String title, boolean favorite, List<Step> steps) {
     super();
     this.url = url;
     this.title = title;
-    this.edited = edited;
     this.favorite = favorite;
     this.steps = steps;
   }
@@ -60,24 +58,6 @@ public class Recipe {
   private List<String> tag;
   private String image;
   */
-
-  public Recipe(RecipeWithDetails recipeWithDetails) {
-    this.id = recipeWithDetails.getRecipe().getId();
-    this.url = recipeWithDetails.getRecipe().getUrl();
-    this.title = recipeWithDetails.getRecipe().getTitle();
-    this.edited = recipeWithDetails.getRecipe().isEdited();
-    this.favorite = recipeWithDetails.getRecipe().isFavorite();
-    this.steps = this.getSteps(recipeWithDetails.getStepWithDetails());
-  }
-
-  private List<Step> getSteps(List<StepWithDetails> stepWithDetails) {
-    for (StepWithDetails details : stepWithDetails) {
-      Step step = details.getStep();
-      step.setIngredients(details.getIngredients());
-      this.addStep(details.getStep()); // wrote pseudo-setter
-    }
-    return this.steps;
-  }
 
   public long getId() {
     return id;
@@ -103,14 +83,6 @@ public class Recipe {
     this.title = title;
   }
 
-  public boolean isEdited() {
-    return edited;
-  }
-
-  public void setEdited(boolean edited) {
-    this.edited = edited;
-  }
-
   public boolean isFavorite() {
     return favorite;
   }
@@ -127,17 +99,14 @@ public class Recipe {
     this.steps = steps;
   }
 
-  public void addStep(Step step) { // pseudo-setter
-    this.steps.add(step);
-  } // pseudo-setter for getSteps method
-
   @NonNull
   @Override
   public String toString() {
     return getTitle();
   }
 
-  /* PAY NO ATTENTION TO THE DATABASE COMMANDS BELOW */
+  // TODO delete everything below here for production.
+  /* PAY NO ATTENTION TO THE DATABASE METHODS BELOW */
 
   private static Ingredient[] phonyIngredients = {
       new Ingredient(0, "3", Unit.OZ, null, "cardamom"),
@@ -153,7 +122,7 @@ public class Recipe {
   };
 
 
-  public static List<Step> fakeSteps() {
+  private static List<Step> fakeSteps() {
     List<Step> fakeSteps = new ArrayList<>();
     List<Ingredient> fakeIngredients = new ArrayList<>();
     fakeIngredients.addAll(Arrays.asList(phonyIngredients));
@@ -161,20 +130,25 @@ public class Recipe {
       Step step = new Step();
       step.setRecipeOrder(i);
       step.addIngredient(fakeIngredients.get(j));
-      step.setInstructions("Follow instructions " + (5-i) + " more times");
+      step.setInstructions("Follow instructions " + (5 - i) + " more times");
       fakeSteps.add(step);
     }
     return fakeSteps;
   }
 
+  /**
+   * This array populates the database with dummy recipes.
+   *
+   * @return a list of bogus recipe objects.
+   */
   public static Recipe[] populateData() {
     return new Recipe[]{
-        new Recipe("www.cookies.com", "Cookies", false, false, fakeSteps()),
-        new Recipe("www.biscuits.com", "Biscuits", false, true, fakeSteps()),
-        new Recipe("www.grilledcheese.com", "Grilled Cheese", false, false, fakeSteps()),
-        new Recipe("www.spanakopita.com", "Spanakopita", true, false, fakeSteps()),
-        new Recipe("www.lutherburger.com", "Luther Burger", false, false, fakeSteps()),
-        new Recipe("www.chronwich.com", "The Chronwich", true, true, fakeSteps()),
+        new Recipe("www.cookies.com", "Cookies", false, fakeSteps()),
+        new Recipe("www.biscuits.com", "Biscuits", true, fakeSteps()),
+        new Recipe("www.grilledcheese.com", "Grilled Cheese", false, fakeSteps()),
+        new Recipe("www.spanakopita.com", "Spanakopita", false, fakeSteps()),
+        new Recipe("www.lutherburger.com", "Luther Burger", false, fakeSteps()),
+        new Recipe("www.chronwich.com", "The Chronwich", true, fakeSteps()),
     };
   }
 }

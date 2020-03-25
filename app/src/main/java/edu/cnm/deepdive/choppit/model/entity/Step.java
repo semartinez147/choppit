@@ -45,6 +45,10 @@ public class Step {
   @Ignore
   private List<Ingredient> ingredients = new LinkedList<>();
 
+  /**
+   * Each {@link Recipe} contains a {@link List} of Steps.  {@link #recipeOrder} is set automatically during
+   * editing; {@link #instructions} are user-editable.
+   */
   public Step() {
   }
 

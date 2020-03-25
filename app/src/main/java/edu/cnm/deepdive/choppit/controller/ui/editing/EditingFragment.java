@@ -25,12 +25,20 @@ import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.MainActivity;
 import edu.cnm.deepdive.choppit.databinding.FragmentEditingBinding;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
+import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
+import edu.cnm.deepdive.choppit.model.repository.RecipeRepository;
 import edu.cnm.deepdive.choppit.service.JsoupRetriever;
 import edu.cnm.deepdive.choppit.view.EditingRecyclerAdapter;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import java.util.ArrayList;
 import java.util.List;
+// FIXME: error when navigating away from this screen.
+// TODO: add itemDividerDecoration for RecyclerView headers
+// TODO: better spacing of unit field
+// TODO: populate empty fields for from-scratch recipes.
+// TODO: allow saving a recipe
+
 
 public class EditingFragment extends Fragment {
 
@@ -38,13 +46,9 @@ public class EditingFragment extends Fragment {
   private MainViewModel viewModel;
   private List<Ingredient> ingredients = new ArrayList<>();
   private List<Step> steps = new ArrayList<>();
+  private String[] recipeMeta = new String[2];
   private FragmentEditingBinding binding;
-
-  public static EditingFragment createInstance() {
-    EditingFragment fragment = new EditingFragment();
-    Bundle args = new Bundle();
-    return fragment;
-  }
+  private RecipeRepository repository;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,48 +94,53 @@ public class EditingFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     Log.d("EditingFrag", "onViewCreated");
-    Button continue_button = view.findViewById(R.id.editing_continue);
+    Button save_button = view.findViewById(R.id.editing_save);
     viewModel.getIngredients().observe(getViewLifecycleOwner(), ingredientObserver);
     Log.d("EditingFrag", ingredients.size() + " ingredients");
     viewModel.getSteps().observe(getViewLifecycleOwner(), stepObserver);
+    recipeMeta = repository.getRecipeMeta();
+    save_button.setOnClickListener(v -> {
 
-    continue_button.setOnClickListener(v -> {
+      Recipe recipe = new Recipe(recipeMeta[0], recipeMeta[1], false, steps);
+
       ((MainActivity) getActivity())
-          .navigateTo(R.id.navigation_cookbook); //TODO add recipe to databse & navigate to cooking screen
+          .navigateTo(
+              R.id.navigation_cookbook); //TODO add recipe to databse & navigate to cooking screen
     });
   }
 
+  /**
+   * This observer notifies the {@link EditingRecyclerAdapter} when the contents of an {@link
+   * Ingredient} changes.
+   */
   final Observer<List<Ingredient>> ingredientObserver = new Observer<List<Ingredient>>() {
 
     @Override
     public void onChanged(final List<Ingredient> result) {
       Log.d("EditingFrag", "ingredientObserver");
       if (result != null) {
-      ingredients.clear();
-      ingredients.addAll(result);
-      editingRecyclerAdapter.notifyDataSetChanged();
-      Log.d("EditingFrag", "Observed ingredients:" + ingredients.size());
-      } else {
-        Log.d("EditingFrag", "ingredients are null");
+        ingredients.clear();
+        ingredients.addAll(result);
+        editingRecyclerAdapter.notifyDataSetChanged();
       }
     }
   };
 
+  /**
+   * This observer notifies the {@link EditingRecyclerAdapter} when the contents of a {@link
+   * Step} changes.
+   */
   final Observer<List<Step>> stepObserver = new Observer<List<Step>>() {
     @Override
     public void onChanged(List<Step> result) {
       Log.d("EditingFrag", "stepObserver");
       if (result != null) {
-      steps.clear();
-      steps.addAll(result);
-      editingRecyclerAdapter.notifyDataSetChanged();
-      Log.d("EditingFrag", "Observed steps:" + steps.size());
-      } else {
-        Log.d("EditingFrag", "ingredients are null");
+        steps.clear();
+        steps.addAll(result);
+        editingRecyclerAdapter.notifyDataSetChanged();
       }
     }
   };
-
 
 
 }

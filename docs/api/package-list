@@ -1,0 +1,12 @@
+edu.cnm.deepdive.choppit
+edu.cnm.deepdive.choppit.controller
+edu.cnm.deepdive.choppit.controller.ui
+edu.cnm.deepdive.choppit.controller.ui.cookbook
+edu.cnm.deepdive.choppit.controller.ui.editing
+edu.cnm.deepdive.choppit.controller.ui.home
+edu.cnm.deepdive.choppit.model.dao
+edu.cnm.deepdive.choppit.model.entity
+edu.cnm.deepdive.choppit.model.repository
+edu.cnm.deepdive.choppit.service
+edu.cnm.deepdive.choppit.view
+edu.cnm.deepdive.choppit.viewmodel

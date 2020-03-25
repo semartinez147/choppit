@@ -14,7 +14,7 @@
   <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_margin="@dimen/medium_space"
     android:showDividers="none">
 
     <TextView
@@ -37,7 +37,7 @@
       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:layout_margin="4dp"
+      android:layout_margin="@dimen/narrow_space"
       app:hintAnimationEnabled="true"
       app:hintEnabled="true"
       app:layout_constraintStart_toEndOf="@id/step_tag"

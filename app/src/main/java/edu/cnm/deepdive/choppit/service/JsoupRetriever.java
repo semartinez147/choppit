@@ -1,17 +1,12 @@
 package edu.cnm.deepdive.choppit.service;
 
-import android.os.AsyncTask;
 import android.util.Log;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Step;
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
@@ -20,7 +15,6 @@ public class JsoupRetriever {
   // TODO add any new measurement enum values to the parentheses here.
   public static final String MAGIC_INGREDIENT_REGEX = "^([\\d\\W]*)\\s(tsp|teaspoon|tbsp|tablespoon|oz|ounce|c|cup*)*s??\\b(.*)";
   private Document document;
-  private String url;
   private List<String> listRawIngredients = new ArrayList<>();
   private List<String> listInstructions = new ArrayList<>();
 
@@ -33,19 +27,21 @@ public class JsoupRetriever {
     return InstanceHolder.INSTANCE;
   }
 
-
-
-  // FIXME not getting a document
-  public Callable<Document> connect(String url) {
-    return () -> {
-      Document doc = Jsoup.connect(url).get();
-      document = doc;
-      return doc;
-    };
-  }
-
-
+  /**
+   * This method coordinates the processing work by calling {@link #getClass(String)}, followed by
+   * {@link #getClassContents(String)} and {@link #buildIngredients()} / {@link #buildSteps()} then
+   * matching {@link Ingredient}s to {@link Step}s.
+   *
+   * @param ingredient  parameter recieved from {@link edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment}
+   *                    user input via {@link edu.cnm.deepdive.choppit.viewmodel.MainViewModel} and
+   *                    {@link edu.cnm.deepdive.choppit.model.repository.RecipeRepository}.
+   * @param instruction parameter recieved from {@link edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment}
+   *                    *                    user input via {@link edu.cnm.deepdive.choppit.viewmodel.MainViewModel}
+   *                    and *                    {@link edu.cnm.deepdive.choppit.model.repository.RecipeRepository}.
+   * @return A {@link List} of {@link Step} objects with embedded {@link Ingredient}s.
+   */
   public List<Step> process(String ingredient, String instruction) {
+
     String ingredientClass = getClass(ingredient); // identify wrapper classes
     String instructionClass = getClass(instruction);
     listRawIngredients = getClassContents(ingredientClass); // list all ingredients
@@ -64,10 +60,18 @@ public class JsoupRetriever {
         }
       }
     }
-    Log.d("JRET", steps.size() + " steps & " + ingredients.size() + "ingredients");
     return steps;
   }
 
+  /**
+   * This method searches the body of the HTML {@link Document} for the text of the given {@link
+   * String}, and returns the "class" HTML attribute of the first element containing that text. Runs
+   * once on each text parameter. This method needs to be improved to handle no or multiple matches
+   * and request additional input from the user.
+   *
+   * @param text is either the ingredient or instruction text input by the user
+   * @return the HTML "class" attribute enclosing the input {@link String}.
+   */
   private String getClass(String text) {
     Elements e = document.select(String.format("*:containsOwn(%s)", text));
     // TODO error handling (no matching text just returns an empty List).
@@ -75,12 +79,20 @@ public class JsoupRetriever {
     return e.get(0).attr("class");
   }
 
+  /**
+   * this method takes an HTML "class" attribute and compiles as {@link org.jsoup.nodes.Element}s
+   * the contents of each matching HTML element.  Runs once on each text parameter.
+   *
+   * @param klass the values returned by {@link #getClass(String)}
+   * @return the contents of each HTML element matching the provided "class" attribute as a {@link
+   * String}.
+   */
   private List<String> getClassContents(String klass) {
     Elements e = document.getElementsByClass(klass);
     return e.eachText();
   }
 
-  public List<Step> buildSteps() {
+  private List<Step> buildSteps() {
     List<Step> steps = new ArrayList<>();
     for (int i = 0, j = 1; i < this.listInstructions.size(); i++, j++) {
       Step step = new Step();
@@ -91,7 +103,7 @@ public class JsoupRetriever {
     return (steps);
   }
 
-  public List<Ingredient> buildIngredients() {
+  private List<Ingredient> buildIngredients() {
     List<Ingredient> ingredients = new ArrayList<>();
     Pattern pattern = Pattern.compile(MAGIC_INGREDIENT_REGEX);
     for (String rawIngredient : this.listRawIngredients) {
@@ -114,34 +126,6 @@ public class JsoupRetriever {
   private static class InstanceHolder {
 
     private static final JsoupRetriever INSTANCE = new JsoupRetriever();
-  }
-
-  private static class GetPage extends AsyncTask<String, Void, Document> {
-
-    private final String url;
-
-    private GetPage(String url) {
-      this.url = url;
-    }
-
-    @Override
-    protected Document doInBackground(String... strings) {
-      try {
-        Document doc = Jsoup.connect(url).get();
-        return doc;
-      } catch (Exception e) { // TODO change back to IOException after debugging.
-        e.printStackTrace();
-        return null;
-      }
-    }
-
-//    @Override
-//    protected void onPostExecute(Document doc) {
-//      if (doc != null) {
-//        process(ingredient, instruction);
-//      }
-//
-//    }
   }
 
 }

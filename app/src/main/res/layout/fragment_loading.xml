@@ -12,7 +12,7 @@
     android:textSize="24sp"
     android:textAlignment="center"
     android:contentDescription="@string/status_information"
-    android:layout_marginTop="24dp"
+    android:layout_marginTop="@dimen/extrawide_space"
     android:layout_centerVertical="true"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"/>
@@ -20,12 +20,12 @@
   <ImageView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="68dp"
-    android:layout_marginEnd="68dp"
+    android:layout_marginStart="@dimen/loading_margin"
+    android:layout_marginEnd="@dimen/loading_margin"
     android:adjustViewBounds="true"
     android:contentDescription="@string/choppit_logo"
     android:scaleType="fitCenter"
-    android:elevation="4dp"
+    android:elevation="@dimen/narrow_space"
     android:layout_centerInParent="true"
     app:srcCompat="@drawable/logo"/>
 
@@ -37,7 +37,7 @@
     android:indeterminateTint="@color/colorPrimaryDark"
     android:fromDegrees="0"
     android:toDegrees="720"
-    android:elevation="16dp"
+    android:elevation="@dimen/wide_space"
     android:visibility="visible"/>
 
 </RelativeLayout>

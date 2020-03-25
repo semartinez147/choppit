@@ -11,7 +11,7 @@
 
   <ImageView
     android:id="@+id/logo"
-    android:layout_marginTop="8dp"
+    android:layout_marginTop="@dimen/narrow_space"
     android:layout_width="wrap_content"
     android:layout_height="0dp"
     android:adjustViewBounds="true"
@@ -26,7 +26,7 @@
   <androidx.constraintlayout.widget.Guideline
     android:id="@+id/guideline"
     android:layout_width="match_parent"
-    android:layout_height="4dp"
+    android:layout_height="@dimen/narrow_space"
     android:orientation="horizontal"
     app:layout_constraintGuide_percent=".33"/>
 
@@ -34,7 +34,7 @@
     android:id="@+id/url_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_margin="@dimen/narrow_space"
     app:layout_constraintBottom_toTopOf="@id/new_recipe"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/logo">
@@ -43,7 +43,7 @@
       android:id="@+id/url_input"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_margin="8dp"
+      android:layout_margin="@dimen/narrow_space"
       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
       android:hint="@string/url_input_hint"
       android:inputType="textWebEditText"

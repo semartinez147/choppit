@@ -29,6 +29,7 @@ import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class RecipeFragment extends Fragment {
 
   RecipeRecyclerAdapter recipeRecyclerAdapter;
@@ -39,6 +40,12 @@ public class RecipeFragment extends Fragment {
   private List<Step> steps;
   private FragmentRecipeBinding binding;
 
+  /**
+   * Loads and displays a single {@link Recipe} from the local database using Data Binding to
+   * populate each list item.
+   *
+   * @param recipe
+   */
   public RecipeFragment(Recipe recipe) {
     this.recipe = recipe;
     this.steps = recipe.getSteps();
@@ -46,6 +53,7 @@ public class RecipeFragment extends Fragment {
       ingredients.addAll(step.getIngredients());
     }
   }
+
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,6 +80,7 @@ public class RecipeFragment extends Fragment {
 
 
   @Nullable
+  @Override
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
     ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
@@ -92,13 +101,4 @@ public class RecipeFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
 
   }
-
-  //  @Override
-//  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//    super.onViewCreated(view, savedInstanceState);
-//    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-//    viewModel.getRecipe().observe(getViewLifecycleOwner(), (recipe) -> {
-//
-//    });
-//  }
 }

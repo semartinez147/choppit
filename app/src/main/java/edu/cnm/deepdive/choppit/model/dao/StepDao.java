@@ -9,7 +9,6 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 import edu.cnm.deepdive.choppit.model.entity.Step;
-import edu.cnm.deepdive.choppit.model.pojo.StepWithDetails;
 import io.reactivex.Single;
 import java.util.Collection;
 import java.util.List;
@@ -32,10 +31,6 @@ public interface StepDao {
   Single<Integer> delete(Step step);
 
   // TODO look at POJOs for these queries
-
-  @Transaction
-  @Query(STEP_DETAILS_QUERY)
-  LiveData<List<StepWithDetails>> selectWithDetails();
 
   @Query("SELECT * FROM Step WHERE recipe_id = :recipe_id ORDER BY recipe_order")
   LiveData<List<Step>> list(long recipe_id);

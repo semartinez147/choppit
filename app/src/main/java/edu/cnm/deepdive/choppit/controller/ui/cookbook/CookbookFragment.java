@@ -28,7 +28,12 @@ import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO implement onClickListener to toggle recipe favorite state
+// TODO access editing screen via long press or pencil icon
 
+/**
+ * Displays the list of {@link Recipe}s stored in the local database
+ */
 public class CookbookFragment extends Fragment {
 
   CookbookRecyclerAdapter cookbookRecyclerAdapter;
@@ -47,6 +52,7 @@ public class CookbookFragment extends Fragment {
   }
 
   @SuppressWarnings("DuplicatedCode")
+  @Override
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
     ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();

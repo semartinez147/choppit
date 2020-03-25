@@ -6,18 +6,13 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-import edu.cnm.deepdive.choppit.model.dao.IngredientDao;
 import edu.cnm.deepdive.choppit.model.dao.RecipeDao;
-import edu.cnm.deepdive.choppit.model.dao.StepDao;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient.Unit;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
-import edu.cnm.deepdive.choppit.service.ChoppitDatabase.Converters;
-import java.util.Date;
 import java.util.concurrent.Executors;
 
 @Database(
@@ -25,7 +20,7 @@ import java.util.concurrent.Executors;
     version = 1,
     exportSchema = true
 )
-@TypeConverters({Converters.class, Unit.class})
+@TypeConverters({Unit.class})
 public abstract class ChoppitDatabase extends RoomDatabase {
 
   private static final String DB_NAME = "choppit_db";
@@ -44,24 +39,19 @@ public abstract class ChoppitDatabase extends RoomDatabase {
 
   private static class InstanceHolder {
 
-    /* FIXME for debugging*/
+    /* TODO disable for production*/
     private static final ChoppitDatabase INSTANCE = dummyDatabase(context);
-    /* FIXME for debugging*/
 
 
-    /* FIXME use this return for a real database */
+    /* TODO enable for production */
 //    private static final ChoppitDatabase INSTANCE = Room.databaseBuilder(
 //        context, ChoppitDatabase.class, DB_NAME).build();
-    /* FIXME use this return for a real database */
+
 
   }
 
 
-  public abstract IngredientDao getIngredientDao();
-
   public abstract RecipeDao getRecipeDao();
-
-  public abstract StepDao getStepDao();
 
   private static ChoppitDatabase dummyDatabase(final Context context) {
     return Room.databaseBuilder(context, ChoppitDatabase.class, "choppit_db")
@@ -80,18 +70,5 @@ public abstract class ChoppitDatabase extends RoomDatabase {
         .build();
   }
 
-  public static class Converters {
-
-    @TypeConverter
-    public static Long fromDate(Date date) {
-      return (date != null) ? date.getTime() : null;
-    }
-
-    @TypeConverter
-    public static Date fromLong(Long value) {
-      return (value != null) ? new Date(value) : null;
-    }
-
-  }
 
 }

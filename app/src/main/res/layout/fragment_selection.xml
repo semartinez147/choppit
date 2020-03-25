@@ -85,10 +85,10 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-      android:id="@+id/selection_continue"
+      android:id="@+id/selection_extract"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="@string/continue_button"
+      android:text="@string/extract_button"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"

@@ -52,6 +52,13 @@ public class Ingredient {
   private String unitAlt;
 
 
+  /**
+   * Ingredients belong to {@link Step}s, which belong to {@link Recipe}s.  each Ingredient consists
+   * of a {@link #quantity} String, a {@link #unit} {@link Unit}, and a {@link #name} String.  Unit
+   * is primarily an {@link Enum} of abbreviated cooking terms, but also allows the value {@link
+   * Unit#OTHER} with {@link #unitAlt} as a String stand-in for less-common terms (i.e. sprig) and
+   * items measured whole (i.e. eggs)
+   */
   public Ingredient() {
 
   }

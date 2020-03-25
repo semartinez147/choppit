@@ -1,22 +1,15 @@
 package edu.cnm.deepdive.choppit.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import edu.cnm.deepdive.choppit.BR;
-import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.databinding.CookbookListItemBinding;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.view.CookbookRecyclerAdapter.ViewHolder;
 import java.util.List;
-import javax.annotation.Nonnull;
 
 public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
@@ -24,13 +17,21 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
   private final List<Recipe> recipes;
   private final OnRecipeClickListener listener;
 
-  public CookbookRecyclerAdapter(Context context, List<Recipe> recipes, OnRecipeClickListener listener) {
+  /**
+   * Handles Data Binding input from the database and displays a list of {@link Recipe}s
+   *
+   * @param context  the {@link Context} where the adapter operates.
+   * @param recipes  the list of Recipes to be displayed
+   * @param listener handles onClick events.
+   */
+  public CookbookRecyclerAdapter(Context context, List<Recipe> recipes,
+      OnRecipeClickListener listener) {
     this.context = context;
     this.recipes = recipes;
     this.listener = listener;
   }
 
-  public void updateRecies(List<Recipe> newRecipes) {
+  private void updateRecpies(List<Recipe> newRecipes) {
     recipes.clear();
     recipes.addAll(newRecipes);
     notifyDataSetChanged();
@@ -40,15 +41,16 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
   @NonNull
   @Override
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-      LayoutInflater layoutInflater = LayoutInflater.from(context);
-    CookbookListItemBinding cookbookListItemBinding = CookbookListItemBinding.inflate(layoutInflater, parent, false);
+    LayoutInflater layoutInflater = LayoutInflater.from(context);
+    CookbookListItemBinding cookbookListItemBinding = CookbookListItemBinding
+        .inflate(layoutInflater, parent, false);
     return new ViewHolder(cookbookListItemBinding);
   }
 
   @Override
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
     Recipe recipe = recipes.get(position);
-    holder.bind(position, recipe);
+    holder.bind(recipe);
   }
 
   @Override
@@ -56,26 +58,43 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     return recipes.size();
   }
 
+  /**
+   * The ViewHolder class coordinates between incoming data and the UI.
+   */
   static class ViewHolder extends RecyclerView.ViewHolder {
 
     private final View clickView;
 
     private CookbookListItemBinding binding;
 
+    /**
+     * The ViewHolder constructor attaches a {@link View} to each binding to support an
+     * onClickListener.
+     *
+     * @param binding is the connection between the data and the interface.
+     */
     public ViewHolder(CookbookListItemBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
       clickView = binding.clickView;
     }
 
-    public void bind(int position, Recipe recipe) {
-    binding.setVariable(edu.cnm.deepdive.choppit.BR.recipe, recipe);
-    clickView.setOnClickListener((v) -> {});
-    binding.executePendingBindings();
+    /**
+     * This method attaches a specific {@link Recipe} to a specific entry in the {@link
+     * edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment}.
+     *
+     * @param recipe is received from the database
+     */
+    public void bind(Recipe recipe) {
+      binding.setVariable(edu.cnm.deepdive.choppit.BR.recipe, recipe);
+      clickView.setOnClickListener((v) -> {
+      });
+      binding.executePendingBindings();
     }
   }
+
   @FunctionalInterface
-  public interface OnRecipeClickListener{
+  public interface OnRecipeClickListener {
 
     void onRecipeClick(int position, Recipe recipe);
   }

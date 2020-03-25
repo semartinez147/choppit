@@ -13,7 +13,8 @@
   <string name="recipe">Recipe</string>
   <string name="ingredient_input_hint">Paste the text of any ingredient here</string>
   <string name="step_input_hint">Paste text from any step here</string>
-  <string name="continue_button">Continue</string>
+  <string name="save_button">Save Recipe</string>
+  <string name="extract_button">Extract Recipe</string>
   <string name="selection">Selection</string>
   <string name="step_hint">Instructions</string>
   <string name="step_tag">Step </string>
@@ -34,4 +35,6 @@
   <string name="connecting">… Connecting to site …</string>
   <string name="gathering">… Gathering recipe data …</string>
   <string name="processing">… processing the data</string>
+  <string name="octothorpe">#</string>
+  <string name="loading_info">Have patience!  Your recipe should be processed soon.</string>
 </resources>

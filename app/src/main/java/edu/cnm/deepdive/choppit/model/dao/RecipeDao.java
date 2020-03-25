@@ -9,7 +9,6 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
-import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import java.util.Collection;
@@ -35,16 +34,6 @@ public interface RecipeDao {
   @Query("SELECT * FROM Recipe ORDER BY title DESC")
   LiveData<List<Recipe>> select();
 
-
-  // working from https://medium.com/swlh/android-room-persistence-library-relations-in-a-nested-one-to-many-relationship-f2fe21c9e1ad
-  @Transaction
-  @Query("SELECT * FROM Recipe")
-  LiveData<List<RecipeWithDetails>> loadRecipes();
-
-  @Transaction
-  @Query(RECIPE_DETAILS_QUERY)
-  LiveData<List<RecipeWithDetails>> selectWithDetails();
-
   @Query("SELECT * FROM Recipe WHERE favorite ORDER BY title")
   LiveData<List<Recipe>> favList();
 
@@ -56,10 +45,6 @@ public interface RecipeDao {
 
   @Query("SELECT * FROM Recipe WHERE recipe_id = :id")
   Maybe<Recipe> getOne(long id);
-
-  @Transaction
-  @Query("SELECT * FROM Recipe WHERE recipe_id = :id")
-  Single<RecipeWithDetails> selectOne(long id);
 
   @Insert
   void populate(Recipe... recipes);

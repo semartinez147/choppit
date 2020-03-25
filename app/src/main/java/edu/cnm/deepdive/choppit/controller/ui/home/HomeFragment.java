@@ -16,7 +16,13 @@ import androidx.fragment.app.Fragment;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.MainActivity;
 
-
+/**
+ * This fragment is the first to load.  The New Recipe {@link Button} navigates to {@link
+ * edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment} if a url has been entered, or
+ * to {@link edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment} if not.
+ *
+ * @author Samuel Martinez
+ */
 public class HomeFragment extends Fragment {
 
   private View root;
@@ -25,18 +31,11 @@ public class HomeFragment extends Fragment {
   private Button newRecipe;
   private Button myCookbook;
 
-  public static HomeFragment createInstance() {
-    HomeFragment fragment = new HomeFragment();
-    Bundle args = new Bundle();
-    return fragment;
-  }
-
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     setRetainInstance(true);
-    Log.d("HomeFragment", "created");
   }
 
   public View onCreateView(@NonNull LayoutInflater inflater,
@@ -45,7 +44,6 @@ public class HomeFragment extends Fragment {
     urlInput = (EditText) root.findViewById(R.id.url_input);
     newRecipe = (Button) root.findViewById(R.id.new_recipe);
     myCookbook = (Button) root.findViewById(R.id.my_cookbook);
-
     return root;
   }
 
@@ -60,18 +58,15 @@ public class HomeFragment extends Fragment {
         ((MainActivity) getActivity()).navigateTo(R.id.navigation_cookbook);
       }
     });
-    // TODO debug ONLY
+    // TODO disable for production
     urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
 
-    newRecipe.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        url = urlInput.getText().toString().trim();
+    newRecipe.setOnClickListener(v -> {
+      url = urlInput.getText().toString().trim();
 
-        ((MainActivity) getActivity())
-            .navigateTo(url.isEmpty() ? R.id.navigation_editing : R.id.navigation_selection);
+      ((MainActivity) getActivity())
+          .navigateTo(url.isEmpty() ? R.id.navigation_editing : R.id.navigation_selection);
 
-      }
     });
 
   }

@@ -2,9 +2,7 @@ package edu.cnm.deepdive.choppit.controller.ui.editing;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -19,14 +17,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.MainActivity;
 import edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment;
-import edu.cnm.deepdive.choppit.model.entity.Step;
-import java.util.List;
 import javax.annotation.Nonnull;
 
+
+/**
+ * This fragment loads a {@link WebView} of the contents of {@link HomeFragment#getUrl()}. Below the
+ * WebView, it loads two text entry fields.  The inputted {@link String}s are used by {@link
+ * org.jsoup.Jsoup} to process the {@link org.jsoup.nodes.Document} generated from the HTML
+ */
 public class SelectionFragment extends Fragment {
 
   private WebView contentView;
@@ -50,12 +51,11 @@ public class SelectionFragment extends Fragment {
     setupWebView(root);
     homeFragment = new HomeFragment();
     url = (homeFragment.getUrl());
-    Log.d("Url from HomeFrag is", url);
     contentView.loadUrl(url);
     ingredientInput = root.findViewById(R.id.ingredient_input);
     stepInput = root.findViewById(R.id.step_input);
 
-    // TODO debug ONLY
+//  TODO disable for production
     ingredientInput.setText("bread flour");
     stepInput.setText("melt the butter");
 
@@ -63,32 +63,18 @@ public class SelectionFragment extends Fragment {
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle(R.string.detail_selection);
 
-    Button continueButton = root.findViewById(R.id.selection_continue);
+    Button continueButton = root.findViewById(R.id.button);
     continueButton.setOnClickListener(new OnClickListener() {
       @SuppressLint("CheckResult")
       @Override
       public void onClick(View v) {
-        Log.d("SEL", "onClick");
         instruction = stepInput.getText().toString();
-        Log.d("SEL", "instruction text: " + instruction);
         ingredient = ingredientInput.getText().toString();
-
         ((MainActivity) getActivity()).navigateTo(R.id.navigation_loading);
       }
     });
     return root;
   }
-
-  final Observer<List<Step>> viewModelObserver = steps -> {
-    if (steps != null) {
-      Log.d("SEL", "start navigation");
-      ((MainActivity) getActivity()).navigateTo(R.id.navigation_loading);
-    } else {
-      ((MainActivity) getActivity()).showToast("Something went wrong!");
-    }
-  };
-
-
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -105,6 +91,8 @@ public class SelectionFragment extends Fragment {
         return false;
       }
     });
+
+    // TODO is there a setting that loads only text & formatting?
     WebSettings settings = contentView.getSettings();
     settings.setJavaScriptEnabled(true);
     settings.setCacheMode(WebSettings.LOAD_DEFAULT);
@@ -115,14 +103,7 @@ public class SelectionFragment extends Fragment {
     settings.setUseWideViewPort(true);
     settings.setBlockNetworkImage(true);
     settings.setLoadsImagesAutomatically(false);
-//    settings.setBlockNetworkLoads(true);
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-    switch (item.getItemId()) {
-    }
-    return super.onOptionsItemSelected(item);
+//    settings.setBlockNetworkLoads(true);  this setting is too restrictive and breaks the webview.
   }
 
   public static String getUrl() {

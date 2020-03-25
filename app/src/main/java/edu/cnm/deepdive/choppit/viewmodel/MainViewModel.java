@@ -1,6 +1,5 @@
 package edu.cnm.deepdive.choppit.viewmodel;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -9,36 +8,17 @@ import androidx.lifecycle.Lifecycle.Event;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.OnLifecycleEvent;
-import androidx.lifecycle.Transformations;
-import edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
-import edu.cnm.deepdive.choppit.model.pojo.RecipeWithDetails;
 import edu.cnm.deepdive.choppit.model.repository.RecipeRepository;
 import edu.cnm.deepdive.choppit.service.JsoupRetriever;
-import io.reactivex.Completable;
-import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.reactivex.SingleObserver;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import javax.annotation.Nonnull;
-import org.jsoup.nodes.Document;
 
 public class MainViewModel extends AndroidViewModel implements LifecycleObserver {
 
@@ -51,6 +31,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   private final CompositeDisposable pending;
   private final RecipeRepository repository;
   private final JsoupRetriever retriever;
+  private String[] recipeParameters;
 
   public MainViewModel(@NonNull Application application) {
     super(application);
@@ -63,6 +44,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     permissions = new MutableLiveData<>(new HashSet<>());
     pending = new CompositeDisposable();
     status = new MutableLiveData<>();
+    recipeParameters = new String[2];
     resetData();
   }
 
@@ -94,12 +76,21 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     return status;
   }
 
+  public String[] getRecipeParameters() {
+    return recipeParameters;
+  }
+
+  public void setRecipeParameters(String[] recipeParameters) {
+    this.recipeParameters = recipeParameters;
+  }
+
   public void resetData() {
     steps.postValue(null);
     ingredients.postValue(null);
     recipe.postValue(null);
     throwable.postValue(null);
     status.postValue("");
+    recipeParameters = new String[2];
   }
 
   public void makeItGo(String url) {

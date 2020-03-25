@@ -5,6 +5,9 @@ import android.os.Bundle;
 import androidx.preference.PreferenceFragmentCompat;
 import edu.cnm.deepdive.choppit.R;
 
+// TODO write typeface-changing behavior
+// TODO implement font size change
+
 public class SettingsActivity extends AppCompatActivity {
 
   @Override
@@ -13,6 +16,11 @@ public class SettingsActivity extends AppCompatActivity {
     setContentView(R.layout.activity_settings);
   }
 
+  /**
+   * This {@link androidx.fragment.app.Fragment} is currently decorative. It will allow the user to
+   * set the {@link android.graphics.Typeface} and text size to make reading the {@link
+   * edu.cnm.deepdive.choppit.controller.ui.cookbook.RecipeFragment} easier.
+   */
   public static class SettingsFragment extends PreferenceFragmentCompat {
 
     @Override
