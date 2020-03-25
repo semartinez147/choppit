@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,10 +22,12 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
   private final Context context;
   private final List<Recipe> recipes;
+  private final OnRecipeClickListener listener;
 
-  public CookbookRecyclerAdapter(Context context, List<Recipe> recipes) {
+  public CookbookRecyclerAdapter(Context context, List<Recipe> recipes, OnRecipeClickListener listener) {
     this.context = context;
     this.recipes = recipes;
+    this.listener = listener;
   }
 
   public void updateRecies(List<Recipe> newRecipes) {
@@ -33,31 +36,6 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     notifyDataSetChanged();
   }
 
-/*  @Nonnull
-  public View getView(int position, View rowView, @Nonnull ViewGroup parent) {
-    ViewHolder holder;
-    view = rowView;
-    // working from https://www.javacodegeeks.com/2013/09/android-viewholder-pattern-example.html
-
-    if (view == null) {
-      LayoutInflater inflater = context.getLayoutInflater();
-      view = inflater.inflate(R.layout.cookbook_list_item, null, true);
-
-      holder = new ViewHolder(view);
-      holder.favorite = view.findViewById(R.id.favorite);
-      holder.recipe = (TextView) view.findViewById(R.id.recipe_title);
-
-      holder.edit = view.findViewById(R.id.edit);
-      view.setTag(holder);
-    } else {
-      holder = (ViewHolder) view.getTag();
-    }
-    if (recipes.get(position) != null) {
-      holder.favorite.setImageResource(R.drawable.ic_not_favorite);
-      holder.recipe.setText(recipes.get(position).getTitle());
-    }
-    return view;
-  }*/
 
   @NonNull
   @Override
@@ -70,7 +48,7 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
   @Override
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
     Recipe recipe = recipes.get(position);
-    holder.bind(recipe);
+    holder.bind(position, recipe);
   }
 
   @Override
@@ -80,17 +58,25 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
   static class ViewHolder extends RecyclerView.ViewHolder {
 
+    private final View clickView;
+
     private CookbookListItemBinding binding;
 
     public ViewHolder(CookbookListItemBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
+      clickView = binding.clickView;
     }
 
-    public void bind(Recipe recipe) {
+    public void bind(int position, Recipe recipe) {
     binding.setVariable(edu.cnm.deepdive.choppit.BR.recipe, recipe);
-
+    clickView.setOnClickListener((v) -> {});
     binding.executePendingBindings();
     }
+  }
+  @FunctionalInterface
+  public interface OnRecipeClickListener{
+
+    void onRecipeClick(int position, Recipe recipe);
   }
 }

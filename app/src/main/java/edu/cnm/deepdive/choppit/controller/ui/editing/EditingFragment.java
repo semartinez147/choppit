@@ -94,7 +94,7 @@ public class EditingFragment extends Fragment {
     Button continue_button = view.findViewById(R.id.editing_continue);
     continue_button.setOnClickListener(v -> {
       ((MainActivity) getActivity())
-          .navigateTo(R.id.navigation_cookbook); //TODO change this to the active recipe
+          .navigateTo(R.id.navigation_cookbook); //TODO add recipe to databse & navigate to cooking screen
     });
     viewModel.getIngredients().observe(getViewLifecycleOwner(), ingredientObserver);
     viewModel.getSteps().observe(getViewLifecycleOwner(), stepObserver);

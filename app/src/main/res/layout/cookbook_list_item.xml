@@ -18,6 +18,7 @@
   android:layout_margin="8dp">
 
 <androidx.constraintlayout.widget.ConstraintLayout
+  android:id="@+id/click_view"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:clickable="true"
@@ -29,7 +30,7 @@
     android:id="@+id/favorite"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:src="@drawable/ic_favorite"
+    android:src="@{recipe.favorite == true ? @drawable/ic_favorite : @drawable/ic_not_favorite}"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintHorizontal_chainStyle="spread"
