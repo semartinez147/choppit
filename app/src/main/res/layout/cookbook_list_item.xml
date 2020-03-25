@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto">
+  xmlns="http://schemas.android.com/apk/res-auto"
+  xmlns:app="http://schemas.android.com/tools"
+  app:ignore="NamespaceTypo">
 
 <data>
   <variable
@@ -13,17 +15,16 @@
 </data>
 
 <androidx.cardview.widget.CardView
-
   style="@style/TextAppearance.AppCompat.Display1"
   android:layout_width="match_parent"
-  android:layout_height="wrap_content">
+  android:layout_height="wrap_content"
+  android:layout_margin="8dp">
 
 <androidx.constraintlayout.widget.ConstraintLayout
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:background="?android:attr/selectableItemBackground"
-
-  android:layout_margin="8dp">
+  android:layout_margin="4dp">
 
   <ImageView
     android:id="@+id/favorite"
@@ -32,8 +33,8 @@
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toStartOf="@id/recipe_title"
     app:layout_constraintHorizontal_chainStyle="spread"
+    app:src="@drawable/ic_not_favorite"
     android:contentDescription="@string/favorite_indicator"/>
 
   <TextView
@@ -42,19 +43,21 @@
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:fontFamily="@font/droid_sans"
+    android:text="@{recipe.title}"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toStartOf="@id/edit"
     app:layout_constraintHorizontal_chainStyle="spread"
     app:layout_constraintStart_toEndOf="@id/favorite"
-    app:layout_constraintTop_toTopOf="parent"/>
+    app:layout_constraintTop_toTopOf="parent"
+    layout_constraintHorizontal_chainStyle="spread"/>
 
   <ImageView
     android:id="@+id/edit"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:src="@drawable/ic_edit"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toEndOf="@id/recipe_title"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_chainStyle="spread"
     android:contentDescription="@string/edit_button"/>

@@ -40,7 +40,7 @@ public class CookbookFragment extends Fragment {
     super.onCreate(savedInstanceState);
     setRetainInstance(true);
     binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_cookbook);
-    setupRecyclerView();
+
   }
 
   private void setupRecyclerView() {
@@ -82,6 +82,7 @@ public class CookbookFragment extends Fragment {
       if (result != null) {
         recipes.clear();
         recipes.addAll(result);
+        setupRecyclerView();
         cookbookRecyclerAdapter.notifyDataSetChanged();
       }
     }
