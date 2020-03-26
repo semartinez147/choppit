@@ -143,7 +143,7 @@ public class Ingredient {
 
     @TypeConverter
     public static Unit toUnit(
-        String value) { // TODO make sure value is lowercase before it gets here.
+        String value) {
       if (value == null) {
         return null;
       } else {

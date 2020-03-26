@@ -30,13 +30,15 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   private final MutableLiveData<String> status;
   private final CompositeDisposable pending;
   private final RecipeRepository repository;
-  private final JsoupRetriever retriever;
-  private String[] recipeParameters;
 
+  /**
+   * Initializes the MainViewModel and the variables it contains.
+   *
+   * @param application this application.
+   */
   public MainViewModel(@NonNull Application application) {
     super(application);
     repository = RecipeRepository.getInstance();
-    retriever = JsoupRetriever.getInstance();
     steps = new MutableLiveData<>();
     ingredients = new MutableLiveData<>();
     recipe = new MutableLiveData<>();
@@ -44,7 +46,6 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     permissions = new MutableLiveData<>(new HashSet<>());
     pending = new CompositeDisposable();
     status = new MutableLiveData<>();
-    recipeParameters = new String[2];
     resetData();
   }
 
@@ -76,25 +77,25 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     return status;
   }
 
-  public String[] getRecipeParameters() {
-    return recipeParameters;
-  }
-
-  public void setRecipeParameters(String[] recipeParameters) {
-    this.recipeParameters = recipeParameters;
-  }
-
+  /**
+   * Returns all {@link MutableLiveData} values to default to clear data from prior activities.
+   */
   public void resetData() {
     steps.postValue(null);
     ingredients.postValue(null);
     recipe.postValue(null);
     throwable.postValue(null);
     status.postValue("");
-    recipeParameters = new String[2];
   }
 
+  /**
+   * This method is called by the {@link edu.cnm.deepdive.choppit.controller.ui.editing.LoadingFragment}
+   * to begin processing.  It passes the user's url to {@link RecipeRepository#connect}, and
+   * notifies the Loading Fragment before and after using {@link #status} values.
+   *
+   * @param url is taken from user input on the {@link edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment}.
+   */
   public void makeItGo(String url) {
-    Log.d("MVM", "starting makeItGo");
     throwable.setValue(null);
     status.postValue("connecting");
     pending.add(
@@ -106,19 +107,34 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     );
   }
 
-  //                steps.postValue(repository.process(ingredient, instruction)),
-
-
+  /**
+   * This method is called by the {@link edu.cnm.deepdive.choppit.controller.ui.editing.LoadingFragment}
+   * when it receives the {@link #status} data indicating {@link #makeItGo(String)} has completed
+   * successfully.  It passes parameters into {@link RecipeRepository#process(String, String)},
+   * notifies the {@link edu.cnm.deepdive.choppit.controller.ui.editing.LoadingFragment} via {@link
+   * #status}, and posts the resulting {@link List} of {@link Step}s to {@link #steps}.
+   *
+   * @param ingredient  from user input on the {@link edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment}.
+   * @param instruction from user input on the {@link edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment}.
+   */
   public void processData(String ingredient, String instruction) {
     Log.d("MVM", "beginning processData");
     throwable.setValue(null);
     status.postValue("processing");
     pending.add(
         repository.process(ingredient, instruction)
-        .subscribe(steps::postValue)
+            .subscribe(steps::postValue)
     );
   }
 
+  /**
+   * This method is called by the {@link edu.cnm.deepdive.choppit.controller.ui.editing.LoadingFragment}
+   * when it sees {@link #steps} update, indicating {@link #processData(String, String)} has
+   * completed successfully.  This method ensures that there are no duplicate values in {@link
+   * #ingredients} before updating it.
+   *
+   * @param steps retrieved from {@link #steps} when the method is called.
+   */
   public void finish(List<Step> steps) {
     List<Ingredient> extract = new ArrayList<>();
     List<Ingredient> extracted = new ArrayList<>();
@@ -127,20 +143,22 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
 
     }
     for (Ingredient ex : extract) {
-      if (!extracted.contains(ex)){
-      extracted.add(ex);
+      if (!extracted.contains(ex)) {
+        extracted.add(ex);
       }
     }
     ingredients.postValue(extracted);
   }
 
-  public void grantPermission(String permission) {
+  // switch back to public when implemented
+  private void grantPermission(String permission) {
     Set<String> permissions = this.permissions.getValue();
     if (permissions.add(permission)) {
       this.permissions.setValue(permissions);
     }
   }
 
+  // switch back to public when implemented
   public void revokePermission(String permission) {
     Set<String> permissions = this.permissions.getValue();
     if (permissions.remove(permission)) {

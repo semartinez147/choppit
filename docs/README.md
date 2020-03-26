@@ -6,6 +6,69 @@ Choppit will receive a recipe url, identify relevant text through user input and
 
 ---
 
+## State of the App
+
+Choppit is not fully operational yet.  I struggled with the implementation of ReactiveX, and went down several blind alleys before I figured out how to handle an HTML request *not* on a UI thread.  If I had started with a loading screen between Selection and Editing, I could have saved two or three days of work.  Switching over from findViewById to Data Binding in my Recycler Views was challenging, but the effort will be worthwhile, especially when I incorporate two-way binding in user-editable fields.
+
+### // TODO list
+
+#### Critical problems
+
+###### • Saving recipes
+###### • Editing saved recipes
+###### • Viewing saved recipes
+
+#### Basic Functions
+
+- Loading empty Ingredient and Step fields in the Editing Fragment for from-scratch recipes.
+	
+- Access Editing screen from a saved Recipe.
+
+- Add a search option to the Cookbook Fragment.
+
+- Turn Unit selection on the Editing Screen into a drop-down displaying the Enum values.
+
+- Changing font through Settings *(this is not cosmetic because readability from a few feet away is a basic feature)*
+    - Typeface and size
+    - Possibly vertical and horizontal spacing
+	- I would like to add the [Open Dyslexic](opendyslexic.org) font to increase accessibility.
+	
+- Figure out how to display the right ingredient (and only the right ingredient) as a pop-up while cooking.
+	- An alternative to my original idea is to have a "Cooking mode" that displays Steps full-screen, then opens an AlertDialog with a checklist of Ingredients, so they can be cleared one at a time. 
+
+	
+#### Bugs & Errors
+
+There are very few bugs in the functionality I do have, but work needs to be done in error handling.
+
+- Bug: UI hangs when trying to navigate away from Editing screen.
+- Bug: Sometimes the Up button back-navigation does not update the Action Bar title.
+	- Possible fix in .onResume Fragment method.
+- Error: There should be a UI message if a link fails to load.
+- Error: If there are zero or multiple HTML class results for either search string, the Loading Screen will display indefinitely.  The UI should return to the Selection screen and ask for valid input, or a longer string.
+	- Searching for two ingredient strings that are wrapped in matching classes, and ruling out any clas that contains both strings should address sites where the author talks about the recipe in depth before the actual recipe.
+
+#### Cosmetic Improvements
+
+The interface is sparse by design, since the purpose of the app is to remove unnecessary clutter.  I don't want to add anything that isn't functional.
+
+- Improve Editing Fragment by using Divider Decorations (or another method) to display **Ingredient** and **Step** headers before each section.
+- Add a Theme setting, including (maybe starting with) dark mode.  
+	- Multiple versions of the logo to match whatever theme is selected.
+	
+#### Functional Stretch Goals
+
+- A Conversion Chart AlertDialog
+- A Multiplier button to halve/double/etc. Ingredient Quantity values.\*
+- A Metric / US "Standard" conversion option.\*
+- Additional Recipe Metadata: meal, time to cook, family members who like it, etc.
+- Timer utility
+	- Configure multiple count-down timers with labels at a Recipe level to track different steps.
+	- (Maybe) an overall Recipe timer to track how long it *actually* takes you to cook it.
+
+		- \* The simplest approach is probably to write internal conversions of all US Standard values into teaspoons, and incorporate the Apache Commons Math library to help.
+---
+
 ## Intended Users
 
 * Anybody who cooks will appreciate seeing ingredient amounts from the instructions without having to scroll, especially for unfamiliar recipes.

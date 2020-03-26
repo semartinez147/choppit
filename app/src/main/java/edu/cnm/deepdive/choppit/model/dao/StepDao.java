@@ -30,8 +30,6 @@ public interface StepDao {
   @Delete
   Single<Integer> delete(Step step);
 
-  // TODO look at POJOs for these queries
-
   @Query("SELECT * FROM Step WHERE recipe_id = :recipe_id ORDER BY recipe_order")
   LiveData<List<Step>> list(long recipe_id);
 

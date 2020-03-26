@@ -28,11 +28,11 @@ import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
 import edu.cnm.deepdive.choppit.model.repository.RecipeRepository;
-import edu.cnm.deepdive.choppit.service.JsoupRetriever;
 import edu.cnm.deepdive.choppit.view.EditingRecyclerAdapter;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import java.util.ArrayList;
 import java.util.List;
+
 // FIXME: error when navigating away from this screen.
 // TODO: add itemDividerDecoration for RecyclerView headers
 // TODO: better spacing of unit field
@@ -127,8 +127,8 @@ public class EditingFragment extends Fragment {
   };
 
   /**
-   * This observer notifies the {@link EditingRecyclerAdapter} when the contents of a {@link
-   * Step} changes.
+   * This observer notifies the {@link EditingRecyclerAdapter} when the contents of a {@link Step}
+   * changes.
    */
   final Observer<List<Step>> stepObserver = new Observer<List<Step>>() {
     @Override

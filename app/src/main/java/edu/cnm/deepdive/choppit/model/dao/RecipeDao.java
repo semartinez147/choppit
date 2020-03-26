@@ -37,9 +37,6 @@ public interface RecipeDao {
   @Query("SELECT * FROM Recipe WHERE favorite ORDER BY title")
   LiveData<List<Recipe>> favList();
 
-  @Query("SELECT * FROM Recipe WHERE edited ORDER BY title")
-  LiveData<List<Recipe>> editedList();
-
   @Query("SELECT * FROM Recipe WHERE title = :title")
   Maybe<Recipe> select(String title);
 

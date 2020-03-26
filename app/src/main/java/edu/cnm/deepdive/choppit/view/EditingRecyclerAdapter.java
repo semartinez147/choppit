@@ -12,6 +12,7 @@ import edu.cnm.deepdive.choppit.BR;
 import edu.cnm.deepdive.choppit.databinding.EditIngredientItemBinding;
 import edu.cnm.deepdive.choppit.databinding.EditStepItemBinding;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
+import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
 import java.util.List;
 
@@ -24,6 +25,16 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
   private List<Ingredient> ingredients;
   private List<Step> steps;
 
+  /**
+   * Handles Data Binding input from the {@link edu.cnm.deepdive.choppit.viewmodel.MainViewModel}
+   * and displays a list of {@link Ingredient}s and {@link Step}s.  The Recycler adapter determines
+   * based on item position and the {@link List#size()} method whether it is displaying a {@link
+   * Step} or {@link Ingredient} and inflates the appropriate binding layout.
+   *
+   * @param context     the {@link Context} where the adapter operates.
+   * @param steps       the list of Steps to be displayed
+   * @param ingredients the list of Ingredients to be displayed.
+   */
   public EditingRecyclerAdapter(Context context, List<Ingredient> ingredients, List<Step> steps) {
     this.context = context;
     this.steps = steps;
@@ -32,13 +43,13 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         ingredients.size() + " ingredients & " + steps.size() + " steps.");
   }
 
-  public void updateIngredients(List<Ingredient> newIngredients) {
+  private void updateIngredients(List<Ingredient> newIngredients) {
     ingredients.clear();
     ingredients.addAll(newIngredients);
     notifyDataSetChanged();
   }
 
-  public void updateSteps(List<Step> newSteps) {
+  private void updateSteps(List<Step> newSteps) {
     steps.clear();
     steps.addAll(newSteps);
     notifyDataSetChanged();
@@ -101,7 +112,11 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     return steps;
   }
 
-  public class IngredientViewHolder extends RecyclerView.ViewHolder {
+  /**
+   * The ViewHolder class coordinates between incoming data and the UI.  This handles {@link
+   * Ingredient}s.
+   */
+  static class IngredientViewHolder extends RecyclerView.ViewHolder {
 
     private EditIngredientItemBinding binding;
 
@@ -112,11 +127,15 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     }
 
+    /**
+     * This method attaches a specific {@link Ingredient} to a specific entry in the {@link
+     * edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment}.
+     *
+     * @param ingredient the item to be bound.
+     */
     public void bind(Ingredient ingredient) {
       binding.setVariable(edu.cnm.deepdive.choppit.BR.ingredient, ingredient);
-//      binding.setIngredient(ingredient);
       binding.executePendingBindings();
-      Log.d("ERA bound ingredient ", Integer.toString(getAdapterPosition()));
     }
 /*
     public void populate(Ingredient ingredient) {
@@ -127,6 +146,10 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 */
   }
 
+  /**
+   * The ViewHolder class coordinates between incoming data and the UI.  This handles {@link
+   * Step}s.
+   */
   public class StepViewHolder extends RecyclerView.ViewHolder {
 
     private EditStepItemBinding binding;
@@ -136,6 +159,12 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
       this.binding = binding;
     }
 
+    /**
+     * This method attaches a specific {@link Step} to a specific entry in the {@link
+     * edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment}.
+     *
+     * @param step the item to be bound
+     */
     public void bind(Step step) {
       binding.setVariable(BR.step, step);
 //      binding.setStep(step);
@@ -143,11 +172,5 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
       Log.d("Bound step ", Integer.toString(getAdapterPosition() - ingredients.size()));
       binding.executePendingBindings();
     }
-/*
-    public void populate(Step step) {
-      order.setText(Integer.toString(getAdapterPosition() + 1));
-      this.step.setText(step.getInstructions());
-    }
-*/
   }
 }

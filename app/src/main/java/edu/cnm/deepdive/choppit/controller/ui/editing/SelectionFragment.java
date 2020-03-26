@@ -63,7 +63,7 @@ public class SelectionFragment extends Fragment {
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle(R.string.detail_selection);
 
-    Button continueButton = root.findViewById(R.id.button);
+    Button continueButton = root.findViewById(R.id.selection_extract);
     continueButton.setOnClickListener(new OnClickListener() {
       @SuppressLint("CheckResult")
       @Override

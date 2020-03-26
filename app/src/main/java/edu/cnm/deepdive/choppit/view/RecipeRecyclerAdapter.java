@@ -16,18 +16,29 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.Nonnull;
 
+// FIXME complete data binding
+// FIXME handle incoming navigation
+
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
   final int VIEW_TYPE_INGREDIENT = 0;
   final int VIEW_TYPE_STEP = 1;
 
   private final Context context;
+  private final Recipe recipe;
   private final List<Ingredient> ingredients;
   private final List<Step> steps;
 
+  /**
+   * Handles Data Binding input from the database and displays the contents of a {@link Recipe}.
+   *
+   * @param context  the {@link Context} where the adapter operates.
+   * @param recipe  the {@link Recipe} to be displayed
+   */
   public RecipeRecyclerAdapter(Context context, Recipe recipe) {
     this.context = context;
-    this.steps = recipe.getSteps();
+    this.recipe = recipe;
+    this.steps = this.recipe.getSteps();
     this.ingredients = new LinkedList<>();
     for (Step step : steps) {
       ingredients.addAll(step.getIngredients());
@@ -53,7 +64,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
   @Override
   public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
     if (viewHolder instanceof IngredientViewHolder) {
-      ((IngredientViewHolder) viewHolder).populate(ingredients.get(position));
+      ((IngredientViewHolder) viewHolder).bind(ingredients.get(position));
     }
   }
 
@@ -72,8 +83,10 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
     return -1;
   }
-
-  public static class IngredientViewHolder extends ViewHolder {
+  /**
+   * The ViewHolder class coordinates between incoming data and the UI.
+   */
+  static class IngredientViewHolder extends ViewHolder {
 
     private TextView quantity;
     private TextView unit;
@@ -86,8 +99,8 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
       name = itemView.findViewById(R.id.recipe_name);
     }
 
-    public void populate(Ingredient ingredient) {
-      quantity.setText(ingredient.getQuantity()); // FIXME change all Quantities to Strings
+    public void bind(Ingredient ingredient) {
+      quantity.setText(ingredient.getQuantity());
       unit.setText(ingredient.getUnit().toString());
       name.setText(ingredient.getName());
     }
@@ -104,7 +117,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
       step = itemView.findViewById(R.id.recipe_step);
     }
 
-    public void populate(Step step) {
+    public void bind(Step step) {
       order.setText(step.getRecipeOrder());
       this.step.setText(step.getInstructions());
     }
