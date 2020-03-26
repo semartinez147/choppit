@@ -108,7 +108,7 @@ public class Recipe {
   // TODO delete everything below here for production.
   /* PAY NO ATTENTION TO THE DATABASE METHODS BELOW */
 
-  private static Ingredient[] phonyIngredients = {
+  private static final Ingredient[] phonyIngredients = {
       new Ingredient(0, "3", Unit.OZ, null, "cardamom"),
       new Ingredient(0, "2 1/2", Unit.DASH, null, "uranium"),
       new Ingredient(0, "17", Unit.OTHER, "whole", "marijuanas"),

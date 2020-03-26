@@ -6,7 +6,7 @@
     android:id="@+id/help"
     android:icon="@drawable/ic_help"
     android:title="@string/help"
-    app:showAsAction="always"/>
+    app:showAsAction="ifRoom"/>
 
   <item
     android:id="@+id/text_options"

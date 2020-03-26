@@ -26,7 +26,6 @@ import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
  */
 public class MainActivity extends AppCompatActivity {
 
-  private MainViewModel viewModel;
   private NavOptions navOptions;
   private NavController navController;
   static ActionBar actionBar;
@@ -103,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void setupViewModel() {
-    viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+    MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
     getLifecycle().addObserver(viewModel);
   }
 

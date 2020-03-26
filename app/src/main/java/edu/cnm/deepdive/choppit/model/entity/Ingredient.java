@@ -1,7 +1,5 @@
 package edu.cnm.deepdive.choppit.model.entity;
 
-import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;

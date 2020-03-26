@@ -102,8 +102,8 @@ public class RecipeRepository {
    * sends the {@link Document} returned by {@link Jsoup} to {@link JsoupRetriever} for processing,
    * and stores the {@link Document#title()} and url.
    *
-   * @param url
-   * @return
+   * @param url from user input in the{@link edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment}.
+   * @return the {@link Runnable} to be executed in {@link edu.cnm.deepdive.choppit.viewmodel.MainViewModel}.
    */
   private Runnable jsoup(String url) {
     return () -> {

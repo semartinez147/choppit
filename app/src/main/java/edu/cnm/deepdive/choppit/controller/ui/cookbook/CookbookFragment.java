@@ -36,7 +36,7 @@ public class CookbookFragment extends Fragment {
 
   CookbookRecyclerAdapter cookbookRecyclerAdapter;
   private MainViewModel viewModel;
-  private List<Recipe> recipes = new ArrayList<>();
+  private final List<Recipe> recipes = new ArrayList<>();
   public FragmentCookbookBinding binding;
 
 

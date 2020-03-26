@@ -13,7 +13,6 @@ import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
 import edu.cnm.deepdive.choppit.model.repository.RecipeRepository;
-import edu.cnm.deepdive.choppit.service.JsoupRetriever;
 import io.reactivex.disposables.CompositeDisposable;
 import java.util.ArrayList;
 import java.util.HashSet;

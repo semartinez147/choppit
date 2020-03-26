@@ -15,14 +15,13 @@ import edu.cnm.deepdive.choppit.R;
 
 public class InfoFragment extends DialogFragment {
 
-  private AlertDialog alert;
   private View dialogView;
-  private int currentLocation;
-  private String fragLabel;
+  private final int currentLocation;
+  private final String fragLabel;
 
   /**
    * Displays basic user information relevant to the active screen.  Text is set by a {@link android.widget.Switch}
-   * @param navFragment is the Switch input, taken from the visible {@link androidx.fragment.app.Fragment} id when the Help buton is pressed.
+   * @param navFragment is the Switch input, taken from the visible {@link androidx.fragment.app.Fragment} id when the Help button is pressed.
    * @param fragLabel is populated from the navFragment and displayed in the {@link android.app.ActionBar}.
    */
   public InfoFragment(int navFragment, String fragLabel) {
@@ -34,11 +33,12 @@ public class InfoFragment extends DialogFragment {
   @Override
   public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
     dialogView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_info, null);
-    alert = new Builder(getContext())
+    AlertDialog alert = new Builder(getContext())
         .setIcon(R.drawable.ic_help)
         .setTitle(fragLabel + " Information")
         .setView(dialogView)
-        .setNeutralButton("OK", (dlg, which) -> {})
+        .setNeutralButton("OK", (dlg, which) -> {
+        })
         .create();
     return alert;
   }

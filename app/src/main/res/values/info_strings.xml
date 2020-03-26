@@ -6,5 +6,4 @@
   <string name="selection_info">This screen loads a simplified view of the link you shared to Choppit.  You can press and drag on the page to select text from an ingredient, and text from a step.  From those snippets, Choppit is able to find all of the ingredients and instructions for the recipe, and chop them right out of the page for you.</string>
   <string name="editing_info">On this page, you have the option to edit any of the ingredients, amounts, or instructions in the recipe, as well as its name.  You can save multiple variations on one recipe link, as long as they each have different names.</string>
   <string name="cookbook_info">This is the list of recipes you\'ve saved to Choppit on your device.  You can search for something specific, or sort by recipes you\'ve favorited or edited.</string>
-  <string name="recipe_info">This is the recipe screen, it displays any recipe you\'ve saved to Choppit.  There is an option to edit the active recipe in case you feel like making changes.</string>
 </resources>

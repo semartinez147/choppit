@@ -1,7 +1,6 @@
 package edu.cnm.deepdive.choppit.controller.ui.home;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,7 +24,6 @@ import edu.cnm.deepdive.choppit.controller.MainActivity;
  */
 public class HomeFragment extends Fragment {
 
-  private View root;
   private EditText urlInput;
   static String url = "";
   private Button newRecipe;
@@ -40,10 +38,10 @@ public class HomeFragment extends Fragment {
 
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
-    root = inflater.inflate(R.layout.fragment_home, container, false);
-    urlInput = (EditText) root.findViewById(R.id.url_input);
-    newRecipe = (Button) root.findViewById(R.id.new_recipe);
-    myCookbook = (Button) root.findViewById(R.id.my_cookbook);
+    View root = inflater.inflate(R.layout.fragment_home, container, false);
+    urlInput = root.findViewById(R.id.url_input);
+    newRecipe = root.findViewById(R.id.new_recipe);
+    myCookbook = root.findViewById(R.id.my_cookbook);
     return root;
   }
 
@@ -52,12 +50,8 @@ public class HomeFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
     ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(false);
-    myCookbook.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        ((MainActivity) getActivity()).navigateTo(R.id.navigation_cookbook);
-      }
-    });
+    myCookbook.setOnClickListener(
+        v -> ((MainActivity) getActivity()).navigateTo(R.id.navigation_cookbook));
     // TODO disable for production
     urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
 

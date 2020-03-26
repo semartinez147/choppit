@@ -55,7 +55,7 @@ public class LoadingFragment extends Fragment {
   }
 
   /**
-   * This {@link Observer} monitors output from the {@link MainViewModel} following the intial
+   * This {@link Observer} monitors output from the {@link MainViewModel} following the initial
    * method call to {@link MainViewModel#makeItGo(String)} in {@link #onCreateView(LayoutInflater,
    * ViewGroup, Bundle), }based on {@link MainViewModel#getStatus()}. It updates the UI while data
    * is processing, and calls subsequent methods - {@link MainViewModel#processData(String, String)}
@@ -104,12 +104,9 @@ public class LoadingFragment extends Fragment {
    * This is the final step in processing HTML into Choppit.  It navigates to {@link
    * EditingFragment} when {@link MainViewModel} has a complete list of {@link Ingredient}s.
    */
-  final Observer<List<Ingredient>> ingredientObserver = new Observer<List<Ingredient>>() {
-    @Override
-    public void onChanged(List<Ingredient> ingredients) {
-      if (ingredients != null) {
-        ((MainActivity) getActivity()).navigateTo(R.id.navigation_editing);
-      }
+  final Observer<List<Ingredient>> ingredientObserver = ingredients -> {
+    if (ingredients != null) {
+      ((MainActivity) getActivity()).navigateTo(R.id.navigation_editing);
     }
   };
 

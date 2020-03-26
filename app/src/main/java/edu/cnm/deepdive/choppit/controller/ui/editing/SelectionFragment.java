@@ -36,7 +36,6 @@ public class SelectionFragment extends Fragment {
   private static String url;
   private static String ingredient = "";
   private static String instruction = "";
-  private HomeFragment homeFragment;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,7 +48,7 @@ public class SelectionFragment extends Fragment {
       Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_selection, container, false);
     setupWebView(root);
-    homeFragment = new HomeFragment();
+    HomeFragment homeFragment = new HomeFragment();
     url = (homeFragment.getUrl());
     contentView.loadUrl(url);
     ingredientInput = root.findViewById(R.id.ingredient_input);
@@ -64,14 +63,10 @@ public class SelectionFragment extends Fragment {
     actionBar.setTitle(R.string.detail_selection);
 
     Button continueButton = root.findViewById(R.id.selection_extract);
-    continueButton.setOnClickListener(new OnClickListener() {
-      @SuppressLint("CheckResult")
-      @Override
-      public void onClick(View v) {
-        instruction = stepInput.getText().toString();
-        ingredient = ingredientInput.getText().toString();
-        ((MainActivity) getActivity()).navigateTo(R.id.navigation_loading);
-      }
+    continueButton.setOnClickListener(v -> {
+      instruction = stepInput.getText().toString();
+      ingredient = ingredientInput.getText().toString();
+      ((MainActivity) getActivity()).navigateTo(R.id.navigation_loading);
     });
     return root;
   }

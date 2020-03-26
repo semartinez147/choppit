@@ -44,7 +44,7 @@ public class RecipeFragment extends Fragment {
    * Loads and displays a single {@link Recipe} from the local database using Data Binding to
    * populate each list item.
    *
-   * @param recipe
+   * @param recipe the recipe to be displayed
    */
   public RecipeFragment(Recipe recipe) {
     this.recipe = recipe;

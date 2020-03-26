@@ -59,12 +59,8 @@ public abstract class ChoppitDatabase extends RoomDatabase {
           @Override
           public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
-              @Override
-              public void run() {
-                getInstance().getRecipeDao().populate(Recipe.populateData());
-              }
-            });
+            Executors.newSingleThreadScheduledExecutor().execute(
+                () -> getInstance().getRecipeDao().populate(Recipe.populateData()));
           }
         })
         .build();

@@ -44,8 +44,8 @@ public class EditingFragment extends Fragment {
 
   EditingRecyclerAdapter editingRecyclerAdapter;
   private MainViewModel viewModel;
-  private List<Ingredient> ingredients = new ArrayList<>();
-  private List<Step> steps = new ArrayList<>();
+  private final List<Ingredient> ingredients = new ArrayList<>();
+  private final List<Step> steps = new ArrayList<>();
   private String[] recipeMeta = new String[2];
   private FragmentEditingBinding binding;
   private RecipeRepository repository;
@@ -105,7 +105,7 @@ public class EditingFragment extends Fragment {
 
       ((MainActivity) getActivity())
           .navigateTo(
-              R.id.navigation_cookbook); //TODO add recipe to databse & navigate to cooking screen
+              R.id.navigation_cookbook); //TODO add recipe to database & navigate to cooking screen
     });
   }
 

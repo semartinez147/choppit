@@ -2,12 +2,8 @@
   <!-- Default screen margins, per the Android Design guidelines. -->
   <dimen name="activity_horizontal_margin">16dp</dimen>
   <dimen name="activity_vertical_margin">16dp</dimen>
-  <dimen name="logo_margin">64dp</dimen>
-  <dimen name="large_logo_horizontal_margin">32dp</dimen>
   <dimen name="text_input_margin">16dp</dimen>
 
-  <dimen name="list_item_spacing">8dp</dimen>
-  <dimen name="list_item_radius">8dp</dimen>
   <dimen name="list_item_title_size">16sp</dimen>
   <dimen name="list_item_text_size">12sp</dimen>
   <dimen name="list_content_spacing">8dp</dimen>

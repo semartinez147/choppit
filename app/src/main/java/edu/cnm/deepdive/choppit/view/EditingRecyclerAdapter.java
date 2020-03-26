@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
@@ -12,7 +11,6 @@ import edu.cnm.deepdive.choppit.BR;
 import edu.cnm.deepdive.choppit.databinding.EditIngredientItemBinding;
 import edu.cnm.deepdive.choppit.databinding.EditStepItemBinding;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
-import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
 import java.util.List;
 
@@ -22,8 +20,8 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
   final int VIEW_TYPE_STEP = 1;
 
   private final Context context;
-  private List<Ingredient> ingredients;
-  private List<Step> steps;
+  private final List<Ingredient> ingredients;
+  private final List<Step> steps;
 
   /**
    * Handles Data Binding input from the {@link edu.cnm.deepdive.choppit.viewmodel.MainViewModel}

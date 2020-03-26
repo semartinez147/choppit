@@ -1,12 +1,10 @@
 <resources>
   <string name="app_name">Choppit</string>
-  <string name="title_activity_main">MainActivity</string>
   <string name="title_home">Choppit</string>
   <string name="url_input_hint">Paste a recipe link or start from scratch</string>
   <string name="new_recipe">New Recipe</string>
   <string name="my_cookbook">My Cookbook</string>
   <string name="choppit_logo">Choppit Logo</string>
-  <string name="information">Information</string>
   <string name="help">Help</string>
   <string name="editing">Editing</string>
   <string name="cookbook">Cookbook</string>
@@ -18,10 +16,8 @@
   <string name="selection">Selection</string>
   <string name="step_hint">Instructions</string>
   <string name="step_tag">Step </string>
-  <string name="recipe_default">Untitled Recipe</string>
   <string name="edit_button">Edited indicator</string>
   <string name="favorite_button">Favorite indicator</string>
-  <string name="back_button">Back</string>
   <string name="text_options">Text Options</string>
   <string name="sp_key_recipe_font_style">Font Style</string>
   <string name="recipe_font_style">Font Style</string>
@@ -37,4 +33,6 @@
   <string name="processing">… processing the data</string>
   <string name="octothorpe">#</string>
   <string name="loading_info">Have patience!  Your recipe should be processed soon.</string>
+  <string name="unit_hint">unit</string>
+  <string name="name_hint">name</string>
 </resources>

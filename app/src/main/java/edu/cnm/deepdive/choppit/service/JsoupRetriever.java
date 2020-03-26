@@ -1,6 +1,5 @@
 package edu.cnm.deepdive.choppit.service;
 
-import android.util.Log;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Step;
 import java.util.ArrayList;
@@ -32,10 +31,10 @@ public class JsoupRetriever {
    * {@link #getClassContents(String)} and {@link #buildIngredients()} / {@link #buildSteps()} then
    * matching {@link Ingredient}s to {@link Step}s.
    *
-   * @param ingredient  parameter recieved from {@link edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment}
+   * @param ingredient  parameter received from {@link edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment}
    *                    user input via {@link edu.cnm.deepdive.choppit.viewmodel.MainViewModel} and
    *                    {@link edu.cnm.deepdive.choppit.model.repository.RecipeRepository}.
-   * @param instruction parameter recieved from {@link edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment}
+   * @param instruction parameter received from {@link edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment}
    *                    *                    user input via {@link edu.cnm.deepdive.choppit.viewmodel.MainViewModel}
    *                    and *                    {@link edu.cnm.deepdive.choppit.model.repository.RecipeRepository}.
    * @return A {@link List} of {@link Step} objects with embedded {@link Ingredient}s.
