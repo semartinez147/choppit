@@ -83,16 +83,6 @@ The interface is sparse by design, since the purpose of the app is to remove unn
 
 ---
 
-## Design Documentation
-
-### [Wireframe Diagram](wireframe.md)
-
-### [Entity-Relationship Diagram](erd.md)
-
-### [Data Model Implementation](data-models.md)
-
----
-
 ## External Services
 
 * Any recipe website.
@@ -103,3 +93,21 @@ The interface is sparse by design, since the purpose of the app is to remove unn
 * [USDA Agricultural Research Service](https://www.ars.usda.gov/northeast-area/beltsville-md-bhnrc/beltsville-human-nutrition-research-center/methods-and-application-of-food-composition-laboratory/mafcl-site-pages/sr17-sr28/)  database of ingredients.
   * This USDA dataset will be integral to Choppit's ingredient logic and necessary for the app to function properly.
   * The unformatted ASCII database file is small enough (~1.3MB) to be used as an offline reference.  
+
+---
+
+## Design Documentation
+
+### [Wireframe Diagram](wireframe.md)
+
+### [Entity-Relationship Diagram](erd.md)
+
+### [Data Model Implementation](data-models.md)
+
+---
+
+## Build Instructions
+
+- Clone the Choppit Git Repository [here](git@github.com:semartinez147/choppit.git).
+
+- From your IDE, import Choppit as a **Gradle** project
