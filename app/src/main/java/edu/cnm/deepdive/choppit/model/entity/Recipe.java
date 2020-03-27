@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient.Unit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity(
@@ -34,7 +35,7 @@ public class Recipe {
   private boolean favorite;
 
   @Ignore
-  private List<Step> steps = null;
+  private List<Step> steps = new LinkedList<>();
 
   /**
    * Recipe is the top-level {@link Entity} in the database.  It gets a non-editable {@link #url} if

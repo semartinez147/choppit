@@ -7,6 +7,7 @@ import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
 import edu.cnm.deepdive.choppit.service.ChoppitDatabase;
 import edu.cnm.deepdive.choppit.service.JsoupRetriever;
+import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
@@ -53,6 +54,10 @@ public class RecipeRepository {
     networkPool = Executors.newFixedThreadPool(NETWORK_THREAD_COUNT);
     retriever = JsoupRetriever.getInstance();
   }
+
+public Single<Long> save(Recipe recipe) {
+    return database.getRecipeDao().insert(recipe);
+}
 
   /**
    * @return all {@link Recipe}s for display in the {@link edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment}.

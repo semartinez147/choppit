@@ -57,12 +57,11 @@ public class CookbookFragment extends Fragment {
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle(getString(R.string.cookbook));
 
-    binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbook, container, false);
-    binding.setLifecycleOwner(this);
+    binding = FragmentCookbookBinding.inflate(inflater);
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-    binding.setVariable(bindViewModel, viewModel);
-    binding.setVariable(uiController, this);
-    return binding.getRoot();
+    binding.setBindViewModel(viewModel);
+    binding.setUiController(this);
+    return binding;
   }
 
   @Override

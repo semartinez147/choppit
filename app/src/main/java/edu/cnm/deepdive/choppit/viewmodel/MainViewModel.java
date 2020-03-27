@@ -29,6 +29,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   private final MutableLiveData<String> status;
   private final CompositeDisposable pending;
   private final RecipeRepository repository;
+  private String[] recipeMeta;
 
   /**
    * Initializes the MainViewModel and the variables it contains.
@@ -46,6 +47,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     pending = new CompositeDisposable();
     status = new MutableLiveData<>();
     resetData();
+    recipeMeta = new String[2];
   }
 
   public LiveData<List<Recipe>> getAllRecipes() {
@@ -64,16 +66,24 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     return ingredients;
   }
 
+  public MutableLiveData<String> getStatus() {
+    return status;
+  }
+
+  public String[] getRecipeMeta() {
+    return recipeMeta;
+  }
+
+  public void setRecipeMeta(String[] recipeMeta) {
+    this.recipeMeta = recipeMeta;
+  }
+
   public LiveData<Throwable> getThrowable() {
     return throwable;
   }
 
   public LiveData<Set<String>> getPermissions() {
     return permissions;
-  }
-
-  public MutableLiveData<String> getStatus() {
-    return status;
   }
 
   /**
@@ -148,6 +158,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     }
     ingredients.postValue(extracted);
   }
+
 
   // switch back to public when implemented
   private void grantPermission(String permission) {
