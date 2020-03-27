@@ -40,7 +40,7 @@ public interface RecipeDao {
   Maybe<Recipe> select(String title);
 
   @Query("SELECT * FROM Recipe WHERE recipe_id = :id")
-  Maybe<Recipe> getOne(long id);
+  Single<Recipe> getOne(long id);
 
   @Insert
   void populate(Recipe... recipes);

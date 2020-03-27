@@ -90,7 +90,7 @@ public class RecipeRepository {
         .subscribeOn(Schedulers.io());
   }
 
-  public Maybe<Recipe> getById(Long id) {
+  public Single<Recipe> getById(Long id) {
     RecipeDao dao = database.getRecipeDao();
     return dao.getOne(id)
         .subscribeOn(Schedulers.io());

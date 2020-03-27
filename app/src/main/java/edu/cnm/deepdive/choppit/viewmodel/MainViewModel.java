@@ -164,6 +164,16 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
 
   }
 
+  public void loadRecipe(Long id) {
+    pending.add(
+        repository.getById(id)
+            .subscribe(
+                recipe::postValue,
+                throwable::postValue
+            )
+    );
+  }
+
 
   // switch back to public when implemented
   private void grantPermission(String permission) {

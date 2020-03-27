@@ -47,7 +47,11 @@ public class RecipeFragment extends Fragment {
    * @param recipe the recipe to be displayed
    */
   public RecipeFragment(Recipe recipe) {
+    if (recipe != null){
     this.recipe = recipe;
+} else {
+      this.recipe = viewModel.getRecipe().getValue();
+    }
     this.steps = recipe.getSteps();
     for (Step step : steps) {
       ingredients.addAll(step.getIngredients());

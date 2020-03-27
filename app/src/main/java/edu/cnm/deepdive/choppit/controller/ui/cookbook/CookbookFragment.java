@@ -1,8 +1,5 @@
 package edu.cnm.deepdive.choppit.controller.ui.cookbook;
 
-import static edu.cnm.deepdive.choppit.BR.bindViewModel;
-import static edu.cnm.deepdive.choppit.BR.uiController;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -44,7 +40,7 @@ public class CookbookFragment extends Fragment {
     RecyclerView recyclerView = binding.recipeList;
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
     cookbookRecyclerAdapter = new CookbookRecyclerAdapter(getContext(), recipes, (
-        (position, recipe) -> viewRecipe(recipe.getId())));
+        (position, recipe) -> getRecipe(recipe.getId())));
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(cookbookRecyclerAdapter);
   }
@@ -61,7 +57,7 @@ public class CookbookFragment extends Fragment {
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
     binding.setBindViewModel(viewModel);
     binding.setUiController(this);
-    return binding;
+    return binding.getRoot();
   }
 
   @Override
@@ -72,9 +68,10 @@ public class CookbookFragment extends Fragment {
 
   }
 
-  private void viewRecipe(long recipeId) {
-    ((MainActivity) getActivity())
-        .navigateTo(R.id.navigation_recipe);
+  private void getRecipe(long recipeId) {
+
+    viewModel.loadRecipe(recipeId);
+    ((MainActivity) getActivity()).navigateTo(R.id.navigation_recipe);
   }
 
   final Observer<List<Recipe>> recipeObserver = new Observer<List<Recipe>>() {

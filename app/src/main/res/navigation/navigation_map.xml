@@ -10,10 +10,13 @@
     android:name="edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment"
     tools:layout="@layout/fragment_home">
     <action
+      android:id="@+id/home_sel"
       app:destination="@id/navigation_selection"/>
     <action
+      android:id="@+id/home_edit"
       app:destination="@id/navigation_editing"/>
     <action
+      android:id="@+id/home_cook"
       app:destination="@id/navigation_cookbook"/>
   </fragment>
 
@@ -23,6 +26,7 @@
     android:name="edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment"
     tools:layout="@layout/fragment_selection">
     <action
+      android:id="@+id/sel_load"
       app:destination="@id/navigation_loading"/>
   </fragment>
 
@@ -32,6 +36,7 @@
     android:name="edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment"
     tools:layout="@layout/fragment_editing">
     <action
+      android:id="@+id/edit_rec"
       app:destination="@id/navigation_recipe"/>
   </fragment>
 
@@ -41,6 +46,7 @@
     android:name="edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment"
     tools:layout="@layout/fragment_cookbook">
       <action
+        android:id="@+id/cook_rec"
         app:destination="@id/navigation_recipe"/>
     </fragment>
 
@@ -50,6 +56,7 @@
     android:name="edu.cnm.deepdive.choppit.controller.ui.editing.LoadingFragment"
     tools:layout="@layout/fragment_loading">
       <action
+        android:id="@+id/load_edit"
         app:destination="@id/navigation_editing"/>
     </fragment>
 
@@ -58,5 +65,8 @@
     android:label="@string/recipe"
     android:name="edu.cnm.deepdive.choppit.controller.ui.cookbook.RecipeFragment"
     tools:layout="@layout/fragment_recipe"/>
+  <action
+    android:id="@+id/rec_edit"
+    app:destination="@id/navigation_editing"/>
 
 </navigation>
