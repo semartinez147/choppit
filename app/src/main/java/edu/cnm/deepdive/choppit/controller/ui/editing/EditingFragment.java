@@ -103,18 +103,11 @@ public class EditingFragment extends Fragment {
 
       Recipe recipe = new Recipe(recipeMeta[0], recipeMeta[1], false, steps);
 
-      repository.save(recipe).subscribe(
-          (value) -> ((MainActivity) getActivity())
-              .navigateTo(
-                  R.id.navigation_recipe, value),
-          ((MainActivity) getActivity()).showToast(getString(R.string.save_failed));
-
-      );
-
+      viewModel.saveRecipe(recipe);
 
       ((MainActivity) getActivity())
           .navigateTo(
-              R.id.navigation_cookbook); //TODO add recipe to database & navigate to cooking screen
+              R.id.navigation_cookbook);
     });
   }
 

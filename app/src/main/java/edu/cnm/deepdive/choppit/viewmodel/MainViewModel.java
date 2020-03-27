@@ -159,6 +159,11 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     ingredients.postValue(extracted);
   }
 
+  public void saveRecipe(Recipe newRecipe) {
+    repository.save(newRecipe);
+
+  }
+
 
   // switch back to public when implemented
   private void grantPermission(String permission) {

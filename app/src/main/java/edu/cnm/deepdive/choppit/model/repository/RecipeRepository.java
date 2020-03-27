@@ -55,9 +55,9 @@ public class RecipeRepository {
     retriever = JsoupRetriever.getInstance();
   }
 
-public Single<Long> save(Recipe recipe) {
+  public Single<Long> save(Recipe recipe) {
     return database.getRecipeDao().insert(recipe);
-}
+  }
 
   /**
    * @return all {@link Recipe}s for display in the {@link edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment}.
@@ -87,6 +87,12 @@ public Single<Long> save(Recipe recipe) {
   public Maybe<Recipe> getOne(String title) {
     RecipeDao dao = database.getRecipeDao();
     return dao.select(title)
+        .subscribeOn(Schedulers.io());
+  }
+
+  public Maybe<Recipe> getById(Long id) {
+    RecipeDao dao = database.getRecipeDao();
+    return dao.getOne(id)
         .subscribeOn(Schedulers.io());
   }
 
