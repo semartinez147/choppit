@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.Nonnull;
 
 public class MainViewModel extends AndroidViewModel implements LifecycleObserver {
 
@@ -160,10 +161,17 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     status.postValue("finishing");
   }
 
+  public void addRecipe() {
+    Recipe recipe = new Recipe();
+    recipe.setUrl(repository.getRecipeMeta()[0]);
+    recipe.setTitle(repository.getRecipeMeta()[1]);
+    recipe.setSteps(steps.getValue());
+    this.recipe.postValue(recipe);
+    status.postValue("finishing");
+  }
 
   public void saveRecipe(Recipe newRecipe) {
     throwable.setValue(null);
-    if (newRecipe != null) {
       if (newRecipe.getId() == 0) {
         repository.save(newRecipe)
             .doOnError(throwable::postValue)
@@ -173,14 +181,6 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
             .doOnError(throwable::postValue)
             .subscribe();
       }
-    } else {
-      Recipe recipe = new Recipe();
-      recipe.setUrl(repository.getRecipeMeta()[0]);
-      recipe.setTitle(repository.getRecipeMeta()[1]);
-      recipe.setSteps(steps.getValue());
-      this.recipe.postValue(recipe);
-      status.postValue("finishing");
-    }
   }
 
   public void loadRecipe(Long id) {

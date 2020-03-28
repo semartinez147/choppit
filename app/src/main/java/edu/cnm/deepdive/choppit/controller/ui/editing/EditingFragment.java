@@ -93,6 +93,7 @@ public class EditingFragment extends Fragment {
     binding.setRecipe(recipe);
     binding.setVariable(bindViewModel, viewModel);
     binding.setVariable(uiController, this);
+    binding.editingTitle.setText(recipe.getTitle());
     return binding.getRoot();
   }
 

@@ -110,7 +110,7 @@ public class LoadingFragment extends Fragment {
   final Observer<List<Ingredient>> ingredientObserver = ingredients -> {
     if (ingredients != null) {
       status.setText(R.string.finishing);
-      viewModel.saveRecipe(null);
+      viewModel.addRecipe();
     }
   };
 

@@ -39,7 +39,7 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/choppit_logo"
         android:scaleType="fitCenter"
-        app:layout_constraintBottom_toTopOf="@id/edit_title"
+        app:layout_constraintBottom_toTopOf="@id/title_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/small_logo"
@@ -51,22 +51,33 @@
 <!--        android:layout_height="wrap_content"-->
 <!--        android:orientation="horizontal"-->
 <!--        app:layout_constraintGuide_percent="0.25"/>-->
-      <TextView
-        android:id="@+id/edit_title"
+
+      <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/title_layout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/narrow_space"
         style="@style/TextAppearance.AppCompat.Display1"
-        android:text="Recipe title"
         app:layout_constraintBottom_toTopOf="@id/edit_url"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent">
+      <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/editing_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{recipe.title}"
+        android:hint="@string/edit_title"
+        android:inputType="textCapWords"
+        android:maxLines="1">
+      </com.google.android.material.textfield.TextInputEditText>
+      </com.google.android.material.textfield.TextInputLayout>
 
       <TextView
         android:id="@+id/edit_url"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
-        android:text="recipe url"
+        android:text="@{recipe.url}"
         android:visibility="@{recipe.url == null ? View.GONE : View.VISIBLE}"
         app:layout_constraintBottom_toTopOf="@id/editing_recycler_view"
         app:layout_constraintStart_toStartOf="parent"

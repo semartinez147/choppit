@@ -36,6 +36,9 @@
     android:name="edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment"
     tools:layout="@layout/fragment_editing">
     <action
+      android:id="@+id/edit_sel"
+      app:destination="@id/navigation_selection"/>
+    <action
       android:id="@+id/edit_rec"
       app:destination="@id/navigation_recipe"/>
   </fragment>
