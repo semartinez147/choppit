@@ -11,7 +11,9 @@ import edu.cnm.deepdive.choppit.BR;
 import edu.cnm.deepdive.choppit.databinding.EditIngredientItemBinding;
 import edu.cnm.deepdive.choppit.databinding.EditStepItemBinding;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
+import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -20,7 +22,8 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
   final int VIEW_TYPE_STEP = 1;
 
   private final Context context;
-  private final List<Ingredient> ingredients;
+  private final Recipe recipe;
+  private final List<Ingredient> ingredients = new ArrayList<>();
   private final List<Step> steps;
 
   /**
@@ -28,17 +31,17 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
    * and displays a list of {@link Ingredient}s and {@link Step}s.  The Recycler adapter determines
    * based on item position and the {@link List#size()} method whether it is displaying a {@link
    * Step} or {@link Ingredient} and inflates the appropriate binding layout.
-   *
-   * @param context     the {@link Context} where the adapter operates.
-   * @param steps       the list of Steps to be displayed
-   * @param ingredients the list of Ingredients to be displayed.
+   *  @param context     the {@link Context} where the adapter operates.
+   * @param recipe
    */
-  public EditingRecyclerAdapter(Context context, List<Ingredient> ingredients, List<Step> steps) {
+  public EditingRecyclerAdapter(Context context,
+      Recipe recipe) {
     this.context = context;
-    this.steps = steps;
-    this.ingredients = ingredients;
-    Log.d("ERA constructor had ",
-        ingredients.size() + " ingredients & " + steps.size() + " steps.");
+    this.recipe = recipe;
+    this.steps = recipe.getSteps();
+    for (Step step : steps) {
+      ingredients.addAll(step.getIngredients());
+    }
   }
 
   private void updateIngredients(List<Ingredient> newIngredients) {

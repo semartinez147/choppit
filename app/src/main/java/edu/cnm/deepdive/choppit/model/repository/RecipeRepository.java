@@ -59,6 +59,10 @@ public class RecipeRepository {
     return database.getRecipeDao().insert(recipe);
   }
 
+  public Single<Integer> update(Recipe recipe) {
+    return database.getRecipeDao().update(recipe);
+  }
+
   /**
    * @return all {@link Recipe}s for display in the {@link edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment}.
    */

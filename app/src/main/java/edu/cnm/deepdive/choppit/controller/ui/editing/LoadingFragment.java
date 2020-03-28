@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.MainActivity;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
+import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import java.util.List;
@@ -82,7 +83,9 @@ public class LoadingFragment extends Fragment {
           status.setText(R.string.processing);
           Log.d("LoadingFrag", "processing");
           viewModel.getSteps().observe(getActivity(), stepObserver);
-
+          break;
+        case "finishing":
+          viewModel.getRecipe().observe(getActivity(), recipeObserver);
       }
     }
   };
@@ -106,6 +109,13 @@ public class LoadingFragment extends Fragment {
    */
   final Observer<List<Ingredient>> ingredientObserver = ingredients -> {
     if (ingredients != null) {
+      status.setText(R.string.finishing);
+      viewModel.saveRecipe(null);
+    }
+  };
+
+  final Observer<Recipe> recipeObserver = recipe -> {
+    if (recipe != null) {
       ((MainActivity) getActivity()).navigateTo(R.id.navigation_editing);
     }
   };

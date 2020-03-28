@@ -31,9 +31,11 @@
   <string name="connecting">… Connecting to site …</string>
   <string name="gathering">… Gathering recipe data …</string>
   <string name="processing">… processing the data</string>
+  <string name="finishing">… finishing</string>
   <string name="octothorpe">#</string>
   <string name="loading_info">Have patience!  Your recipe should be processed soon.</string>
   <string name="unit_hint">unit</string>
   <string name="name_hint">name</string>
   <string name="save_failed">Failed to save recipe!</string>
+  <string name="recipe_fail">Failed to load recipe!</string>
 </resources>

@@ -44,18 +44,21 @@ public class EditingFragment extends Fragment {
 
   EditingRecyclerAdapter editingRecyclerAdapter;
   private MainViewModel viewModel;
-  private final List<Ingredient> ingredients = new ArrayList<>();
-  private final List<Step> steps = new ArrayList<>();
   private String[] recipeMeta = new String[2];
   private FragmentEditingBinding binding;
-  private RecipeRepository repository;
+  private Recipe recipe;
+
+  public EditingFragment() {
+  }
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 //    setRetainInstance(true);
     binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_editing);
-    Log.d("EditingFrag", "databinding completed");
+    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
+    recipe = viewModel.getRecipe().getValue();
+
     setupRecyclerView();
   }
 
@@ -68,7 +71,7 @@ public class EditingFragment extends Fragment {
   private void setupRecyclerView() {
     RecyclerView recyclerView = binding.editingRecyclerView;
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-    editingRecyclerAdapter = new EditingRecyclerAdapter(getContext(), ingredients, steps);
+    editingRecyclerAdapter = new EditingRecyclerAdapter(getContext(), recipe);
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(editingRecyclerAdapter);
     Log.d("EditingFrag", "RecyclerView set up");
@@ -81,10 +84,13 @@ public class EditingFragment extends Fragment {
     ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle(R.string.recipe_editing);
+
+
+
     FragmentEditingBinding binding;
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_editing, container, false);
     binding.setLifecycleOwner(this);
-    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
+    binding.setRecipe(recipe);
     binding.setVariable(bindViewModel, viewModel);
     binding.setVariable(uiController, this);
     return binding.getRoot();
@@ -95,54 +101,45 @@ public class EditingFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
     Log.d("EditingFrag", "onViewCreated");
     Button save_button = view.findViewById(R.id.editing_save);
-    viewModel.getIngredients().observe(getViewLifecycleOwner(), ingredientObserver);
-    Log.d("EditingFrag", ingredients.size() + " ingredients");
-    viewModel.getSteps().observe(getViewLifecycleOwner(), stepObserver);
-    recipeMeta = repository.getRecipeMeta();
+    Log.d("EditingFrag", recipe.getTitle());
+
     save_button.setOnClickListener(v -> {
-
-      Recipe recipe = new Recipe(recipeMeta[0], recipeMeta[1], false, steps);
-
       viewModel.saveRecipe(recipe);
-
-      ((MainActivity) getActivity())
-          .navigateTo(
-              R.id.navigation_cookbook);
+      ((MainActivity) getActivity()).navigateTo(R.id.navigation_cookbook);
     });
   }
 
   /**
    * This observer notifies the {@link EditingRecyclerAdapter} when the contents of an {@link
-   * Ingredient} changes.
+   * Ingredient} changes.  No longer implemented after changing input to Recipe.
    */
-  final Observer<List<Ingredient>> ingredientObserver = new Observer<List<Ingredient>>() {
-
-    @Override
-    public void onChanged(final List<Ingredient> result) {
-      Log.d("EditingFrag", "ingredientObserver");
-      if (result != null) {
-        ingredients.clear();
-        ingredients.addAll(result);
-        editingRecyclerAdapter.notifyDataSetChanged();
-      }
-    }
-  };
+//  final Observer<List<Ingredient>> ingredientObserver = new Observer<List<Ingredient>>() {
+//
+//    @Override
+//    public void onChanged(final List<Ingredient> result) {
+//      Log.d("EditingFrag", "ingredientObserver");
+//      if (result != null) {
+//        ingredients.clear();
+//        ingredients.addAll(result);
+//        editingRecyclerAdapter.notifyDataSetChanged();
+//      }
+//    }
+//  };
 
   /**
    * This observer notifies the {@link EditingRecyclerAdapter} when the contents of a {@link Step}
-   * changes.
+   * changes. No longer implemented after changing input to Recipe.
    */
-  final Observer<List<Step>> stepObserver = new Observer<List<Step>>() {
-    @Override
-    public void onChanged(List<Step> result) {
-      Log.d("EditingFrag", "stepObserver");
-      if (result != null) {
-        steps.clear();
-        steps.addAll(result);
-        editingRecyclerAdapter.notifyDataSetChanged();
-      }
-    }
-  };
-
+//  final Observer<List<Step>> stepObserver = new Observer<List<Step>>() {
+//    @Override
+//    public void onChanged(List<Step> result) {
+//      Log.d("EditingFrag", "stepObserver");
+//      if (result != null) {
+//        steps.clear();
+//        steps.addAll(result);
+//        editingRecyclerAdapter.notifyDataSetChanged();
+//      }
+//    }
+//  };
 
 }
