@@ -4,12 +4,10 @@ import static edu.cnm.deepdive.choppit.BR.bindViewModel;
 import static edu.cnm.deepdive.choppit.BR.uiController;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import androidx.annotation.NonNull;
@@ -18,30 +16,26 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.choppit.R;
-import edu.cnm.deepdive.choppit.controller.MainActivity;
 import edu.cnm.deepdive.choppit.databinding.FragmentEditingBinding;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient.Unit;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
-import edu.cnm.deepdive.choppit.model.repository.RecipeRepository;
 import edu.cnm.deepdive.choppit.view.EditingRecyclerAdapter;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 // FIXME: error when navigating away from this screen.
-// TODO: add itemDividerDecoration for RecyclerView headers
-// TODO: better spacing of unit field
-// TODO: populate empty fields for from-scratch recipes.
-// TODO: allow saving a recipe
+// FIXME: save button does not work.
+// TODO: add itemDividerDecoration for RecyclerView headers.
+// TODO: better spacing of unit field.
+// TODO: buttons to add/remove fields.
+// TODO: process new recipe through Repository to link Steps & Ingredients.
 
 
 public class EditingFragment extends Fragment {
@@ -60,7 +54,8 @@ public class EditingFragment extends Fragment {
 //    setRetainInstance(true);
     binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_editing);
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-    recipe = (viewModel.getRecipe().getValue() == null) ? emptyRecipe() : viewModel.getRecipe().getValue();
+    recipe = (viewModel.getRecipe().getValue() == null) ? emptyRecipe()
+        : viewModel.getRecipe().getValue();
     setupRecyclerView();
   }
 

@@ -2,7 +2,10 @@ package edu.cnm.deepdive.choppit.model.repository;
 
 import android.app.Application;
 import androidx.lifecycle.LiveData;
+import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
+import edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment;
 import edu.cnm.deepdive.choppit.model.dao.RecipeDao;
+import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
 import edu.cnm.deepdive.choppit.service.ChoppitDatabase;
@@ -134,14 +137,14 @@ public class RecipeRepository {
   }
 
   /**
-   * This method is called by the {@link edu.cnm.deepdive.choppit.viewmodel.MainViewModel} and
+   * This method is called by the {@link MainViewModel} and
    * passes the user inputs to the {@link JsoupRetriever} for processing.  The resulting data is
-   * passed back up to the {@link edu.cnm.deepdive.choppit.viewmodel.MainViewModel} and eventually
-   * displayed in the {@link edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment}.
+   * passed back up to the {@link MainViewModel} and eventually
+   * displayed in the {@link EditingFragment}.
    *
-   * @param ingredient  input by the user on the {@link edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment}
-   * @param instruction input by the user on the {@link edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment}
-   * @return a list of {@link Step} objects with attached {@link edu.cnm.deepdive.choppit.model.entity.Ingredient}s.
+   * @param ingredient  input by the user on the {@link SelectionFragment}
+   * @param instruction input by the user on the {@link SelectionFragment}
+   * @return a list of {@link Step} objects with attached {@link Ingredient}s.
    */
   public Single<List<Step>> process(String ingredient, String instruction) {
     List<Step> steps = retriever.process(ingredient, instruction);

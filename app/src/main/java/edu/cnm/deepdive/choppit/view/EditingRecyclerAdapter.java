@@ -31,7 +31,8 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
    * and displays a list of {@link Ingredient}s and {@link Step}s.  The Recycler adapter determines
    * based on item position and the {@link List#size()} method whether it is displaying a {@link
    * Step} or {@link Ingredient} and inflates the appropriate binding layout.
-   *  @param context     the {@link Context} where the adapter operates.
+   *
+   * @param context the {@link Context} where the adapter operates.
    * @param recipe
    */
   public EditingRecyclerAdapter(Context context,
