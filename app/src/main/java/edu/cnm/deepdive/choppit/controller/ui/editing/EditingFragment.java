@@ -44,7 +44,6 @@ public class EditingFragment extends Fragment {
 
   EditingRecyclerAdapter editingRecyclerAdapter;
   private MainViewModel viewModel;
-  private String[] recipeMeta = new String[2];
   private FragmentEditingBinding binding;
   private Recipe recipe;
 
@@ -74,7 +73,6 @@ public class EditingFragment extends Fragment {
     editingRecyclerAdapter = new EditingRecyclerAdapter(getContext(), recipe);
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(editingRecyclerAdapter);
-    Log.d("EditingFrag", "RecyclerView set up");
   }
 
   @Nullable
@@ -84,8 +82,6 @@ public class EditingFragment extends Fragment {
     ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setTitle(R.string.recipe_editing);
-
-
 
     FragmentEditingBinding binding;
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_editing, container, false);
@@ -100,10 +96,8 @@ public class EditingFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    Log.d("EditingFrag", "onViewCreated");
-    Button save_button = view.findViewById(R.id.editing_save);
-    Log.d("EditingFrag", recipe.getTitle());
 
+    Button save_button = view.findViewById(R.id.editing_save);
     save_button.setOnClickListener(v -> {
       viewModel.saveRecipe(recipe);
       ((MainActivity) getActivity()).navigateTo(R.id.navigation_cookbook);

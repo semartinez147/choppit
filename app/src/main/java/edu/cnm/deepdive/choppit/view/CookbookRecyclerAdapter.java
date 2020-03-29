@@ -15,7 +15,7 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
   private final Context context;
   private final List<Recipe> recipes;
-  private final OnRecipeClickListener listener;
+  private final OnRecipeClickListener onRecipeClickListener;
 
   /**
    * Handles Data Binding input from the database and displays a list of {@link Recipe}s
@@ -28,7 +28,7 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
       OnRecipeClickListener listener) {
     this.context = context;
     this.recipes = recipes;
-    this.listener = listener;
+    this.onRecipeClickListener = listener;
   }
 
   private void updateRecipes(List<Recipe> newRecipes) {
@@ -44,7 +44,7 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     LayoutInflater layoutInflater = LayoutInflater.from(context);
     CookbookListItemBinding cookbookListItemBinding = CookbookListItemBinding
         .inflate(layoutInflater, parent, false);
-    return new ViewHolder(cookbookListItemBinding);
+    return new ViewHolder(cookbookListItemBinding, onRecipeClickListener);
   }
 
   @Override
@@ -61,10 +61,10 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
   /**
    * The ViewHolder class coordinates between incoming data and the UI.
    */
-  static class ViewHolder extends RecyclerView.ViewHolder {
+  public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     private final View clickView;
-
+    OnRecipeClickListener onRecipeClickListener;
     private CookbookListItemBinding binding;
 
     /**
@@ -73,10 +73,13 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
      *
      * @param binding is the connection between the data and the interface.
      */
-    private ViewHolder(CookbookListItemBinding binding) {
+    public ViewHolder(CookbookListItemBinding binding,
+        OnRecipeClickListener onRecipeClickListener) {
       super(binding.getRoot());
       this.binding = binding;
+      this.onRecipeClickListener = onRecipeClickListener;
       clickView = binding.clickView;
+      clickView.setOnClickListener(this);
     }
 
     /**
@@ -88,10 +91,12 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
      */
     public void bind(Recipe recipe) {
       binding.setVariable(edu.cnm.deepdive.choppit.BR.recipe, recipe);
-      clickView.setOnClickListener((v) -> {
-
-      });
       binding.executePendingBindings();
+    }
+
+    @Override
+    public void onClick(View v) {
+      onRecipeClickListener.onRecipeClick(getAdapterPosition());
     }
   }
 
@@ -103,6 +108,6 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
   @FunctionalInterface
   public interface OnRecipeClickListener {
 
-    void onRecipeClick(int position, Recipe recipe);
+    void onRecipeClick(int position);
   }
 }

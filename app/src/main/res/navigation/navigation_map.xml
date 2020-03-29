@@ -67,7 +67,12 @@
     android:id="@+id/navigation_recipe"
     android:label="@string/recipe"
     android:name="edu.cnm.deepdive.choppit.controller.ui.cookbook.RecipeFragment"
-    tools:layout="@layout/fragment_recipe"/>
+    tools:layout="@layout/fragment_recipe">
+    <argument
+      android:name="recipeId"
+      app:argType="long"
+      android:defaultValue="0L"/>
+  </fragment>
   <action
     android:id="@+id/rec_edit"
     app:destination="@id/navigation_editing"/>

@@ -42,6 +42,6 @@ public interface RecipeDao {
   @Query("SELECT * FROM Recipe WHERE recipe_id = :id")
   Single<Recipe> getOne(long id);
 
-  @Insert
-  void populate(Recipe... recipes);
+  @Query("SELECT * FROM Recipe LIMIT 1")
+  Single<Recipe> check();
 }

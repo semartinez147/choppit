@@ -12,6 +12,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.MainActivity;
 
@@ -50,16 +53,21 @@ public class HomeFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
     ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(false);
-    myCookbook.setOnClickListener(
-        v -> ((MainActivity) getActivity()).navigateTo(R.id.navigation_cookbook));
+    myCookbook.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Navigation.findNavController(view).navigate(R.id.home_cook);
+
+      }
+
+    });
+
     // TODO disable for production
     urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
 
     newRecipe.setOnClickListener(v -> {
       url = urlInput.getText().toString().trim();
-
-      ((MainActivity) getActivity())
-          .navigateTo(url.isEmpty() ? R.id.navigation_editing : R.id.navigation_selection);
+      Navigation.findNavController(v).navigate(url.isEmpty() ? R.id.home_edit : R.id.home_sel);
 
     });
 

@@ -15,7 +15,7 @@ import java.util.List;
 public interface IngredientDao {
 
   @Insert
-  long insert(Ingredient ingredient);
+  Single<Long> insert(Ingredient ingredient);
 
   @Insert
   List<Long> insert(Collection<Ingredient> ingredients);

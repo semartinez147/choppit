@@ -10,6 +10,12 @@
       name="recipe"
       type="edu.cnm.deepdive.choppit.model.entity.Recipe"/>
     <variable
+      name="ingredient"
+      type="edu.cnm.deepdive.choppit.model.entity.Ingredient"/>
+    <variable
+      name="step"
+      type="edu.cnm.deepdive.choppit.model.entity.Step"/>
+    <variable
       name="bindViewModel"
       type="edu.cnm.deepdive.choppit.viewmodel.MainViewModel"/>
     <variable
@@ -28,19 +34,18 @@
 
   <ImageView
     android:id="@+id/small_logo"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    android:layout_marginTop="16dp"
-    android:layout_marginBottom="16dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/wide_space"
+    android:layout_marginBottom="@dimen/wide_space"
     android:adjustViewBounds="true"
     android:contentDescription="@string/choppit_logo"
-    android:cropToPadding="true"
     android:scaleType="fitCenter"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintBottom_toTopOf="@id/recipe_title"
-    app:srcCompat="@drawable/logo"/>
+    app:srcCompat="@drawable/small_logo"/>
 
     <TextView
       android:id="@+id/recipe_title"
