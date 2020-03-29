@@ -9,6 +9,7 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
+import edu.cnm.deepdive.choppit.controller.ui.editing.LoadingFragment;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
@@ -30,7 +31,6 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   private final MutableLiveData<String> status;
   private final CompositeDisposable pending;
   private final RecipeRepository repository;
-  private String[] recipeMeta;
 
   /**
    * Initializes the MainViewModel and the variables it contains.
@@ -48,7 +48,6 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     pending = new CompositeDisposable();
     status = new MutableLiveData<>();
     resetData();
-    recipeMeta = new String[2];
   }
 
   public LiveData<List<Recipe>> getAllRecipes() {
@@ -69,14 +68,6 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
 
   public MutableLiveData<String> getStatus() {
     return status;
-  }
-
-  public String[] getRecipeMeta() {
-    return recipeMeta;
-  }
-
-  public void setRecipeMeta(String[] recipeMeta) {
-    this.recipeMeta = recipeMeta;
   }
 
   public LiveData<Throwable> getThrowable() {
@@ -161,6 +152,11 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     status.postValue("finishing");
   }
 
+  /**
+   * This method adds the url and title to a {@link Recipe} from the {@link LoadingFragment}, then
+   * posts it to the {@link #recipe} field, which signals the {@link LoadingFragment} to navigate
+   * forward.
+   */
   public void addRecipe() {
     Recipe recipe = new Recipe();
     recipe.setUrl(repository.getRecipeMeta()[0]);
@@ -172,15 +168,15 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
 
   public void saveRecipe(Recipe newRecipe) {
     throwable.setValue(null);
-      if (newRecipe.getId() == 0) {
-        repository.save(newRecipe)
-            .doOnError(throwable::postValue)
-            .subscribe();
-      } else {
-        repository.update(newRecipe)
-            .doOnError(throwable::postValue)
-            .subscribe();
-      }
+    if (newRecipe.getId() == 0) {
+      repository.save(newRecipe)
+          .doOnError(throwable::postValue)
+          .subscribe();
+    } else {
+      repository.update(newRecipe)
+          .doOnError(throwable::postValue)
+          .subscribe();
+    }
   }
 
   public void loadRecipe(Long id) {

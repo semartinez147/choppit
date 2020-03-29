@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.MainActivity;
 import edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment;
@@ -66,7 +67,7 @@ public class SelectionFragment extends Fragment {
     continueButton.setOnClickListener(v -> {
       instruction = stepInput.getText().toString();
       ingredient = ingredientInput.getText().toString();
-      ((MainActivity) getActivity()).navigateTo(R.id.navigation_loading);
+      Navigation.findNavController(v).navigate(R.id.sel_load);
     });
     return root;
   }

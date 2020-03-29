@@ -12,11 +12,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.MainActivity;
+import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 
 /**
  * This fragment is the first to load.  The New Recipe {@link Button} navigates to {@link
@@ -31,6 +33,8 @@ public class HomeFragment extends Fragment {
   static String url = "";
   private Button newRecipe;
   private Button myCookbook;
+  private MainViewModel viewModel;
+
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +49,8 @@ public class HomeFragment extends Fragment {
     urlInput = root.findViewById(R.id.url_input);
     newRecipe = root.findViewById(R.id.new_recipe);
     myCookbook = root.findViewById(R.id.my_cookbook);
+    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
+    viewModel.resetData();
     return root;
   }
 

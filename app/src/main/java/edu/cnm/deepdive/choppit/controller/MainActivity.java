@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     return handled;
   }
 
-  @Override
+/*  @Override
   public void onBackPressed() {
     if (navController.getCurrentDestination().getId() == R.id.navigation_editing) {
       navigateTo(R.id.navigation_selection);
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
       a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
       startActivity(a);
     }
-  }
+  }*/
 
   private void setupNavigation() {
     navOptions = new NavOptions.Builder()

@@ -39,8 +39,8 @@
       android:id="@+id/edit_sel"
       app:destination="@id/navigation_selection"/>
     <action
-      android:id="@+id/edit_rec"
-      app:destination="@id/navigation_recipe"/>
+      android:id="@+id/edit_cook"
+      app:destination="@id/navigation_cookbook"/>
   </fragment>
 
     <fragment

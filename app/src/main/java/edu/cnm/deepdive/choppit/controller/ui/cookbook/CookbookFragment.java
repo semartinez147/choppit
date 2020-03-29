@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Displays the list of {@link Recipe}s stored in the local database
  */
-public class CookbookFragment extends Fragment implements OnRecipeClickListener{
+public class CookbookFragment extends Fragment implements OnRecipeClickListener {
 
   CookbookRecyclerAdapter cookbookRecyclerAdapter;
   private MainViewModel viewModel;
@@ -42,12 +42,11 @@ public class CookbookFragment extends Fragment implements OnRecipeClickListener{
     RecyclerView recyclerView = binding.recipeList;
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
     cookbookRecyclerAdapter = new CookbookRecyclerAdapter(getContext(), recipes,
-       this);
+        this);
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(cookbookRecyclerAdapter);
   }
 
-  @SuppressWarnings("DuplicatedCode")
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
@@ -77,6 +76,9 @@ public class CookbookFragment extends Fragment implements OnRecipeClickListener{
 
   }
 
+  /**
+   * This observer resets the dataset if there is a change to the list of {@link Recipce}s.
+   */
   final Observer<List<Recipe>> cookbookObserver = new Observer<List<Recipe>>() {
 
     @Override
@@ -90,6 +92,10 @@ public class CookbookFragment extends Fragment implements OnRecipeClickListener{
     }
   };
 
+  /**
+   * This observer checks the {@link MainViewModel} for an updated recipe before navigating to the
+   * {@link RecipeFragment}
+   */
   final Observer<Recipe> recipeObserver = new Observer<Recipe>() {
 
     @Override

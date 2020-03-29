@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.MainActivity;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
@@ -18,6 +19,7 @@ import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import java.util.List;
+import org.jsoup.nodes.Document;
 
 public class LoadingFragment extends Fragment {
 
@@ -60,8 +62,10 @@ public class LoadingFragment extends Fragment {
    * method call to {@link MainViewModel#makeItGo(String)} in {@link #onCreateView(LayoutInflater,
    * ViewGroup, Bundle), }based on {@link MainViewModel#getStatus()}. It updates the UI while data
    * is processing, and calls subsequent methods - {@link MainViewModel#processData(String, String)}
-   * once a {@link org.jsoup.nodes.Document} is retrieved, and {@link MainViewModel#getSteps()}
-   * after processing is finished.
+   * once a {@link Document} is retrieved, {@link MainViewModel#getSteps()} to wait for an update,
+   * {@link MainViewModel#finish(List)} and {@link MainViewModel#addRecipe()} to continue
+   * processing.  Finally, {@link MainViewModel#getRecipe()} notifies when the {@link
+   * EditingFragment can be loaded safely}.
    */
   final Observer<String> statusObserver = new Observer<String>() {
     @Override
@@ -103,9 +107,10 @@ public class LoadingFragment extends Fragment {
       }
     }
   };
+
   /**
-   * This is the final step in processing HTML into Choppit.  It navigates to {@link
-   * EditingFragment} when {@link MainViewModel} has a complete list of {@link Ingredient}s.
+   * This is the second to last step in processing HTML into Choppit.  It calls {@link
+   * MainViewModel#addRecipe()} when there is a complete list of {@link Ingredient}s.
    */
   final Observer<List<Ingredient>> ingredientObserver = ingredients -> {
     if (ingredients != null) {
@@ -114,9 +119,12 @@ public class LoadingFragment extends Fragment {
     }
   };
 
+  /**
+   * Navigates forward when processing is complete.
+   */
   final Observer<Recipe> recipeObserver = recipe -> {
     if (recipe != null) {
-      ((MainActivity) getActivity()).navigateTo(R.id.navigation_editing);
+      Navigation.findNavController(getView()).navigate(R.id.load_edit);
     }
   };
 
