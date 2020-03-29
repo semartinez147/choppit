@@ -2,6 +2,7 @@ package edu.cnm.deepdive.choppit.model.repository;
 
 import android.app.Application;
 import androidx.lifecycle.LiveData;
+import edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment;
 import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
 import edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment;
 import edu.cnm.deepdive.choppit.model.dao.RecipeDao;
@@ -87,8 +88,9 @@ public class RecipeRepository {
 
   /**
    * Not implemented yet.  Will be used for search/sort in the {@link
-   * edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment}.
+   * CookbookFragment}.
    *
+   * @param title a search string.
    * @return a {@link Recipe} with a matching {@link Recipe#getTitle()}.
    */
   public Maybe<Recipe> getOne(String title) {

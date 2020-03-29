@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment;
 import edu.cnm.deepdive.choppit.databinding.CookbookListItemBinding;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.view.CookbookRecyclerAdapter.ViewHolder;
@@ -72,6 +73,7 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
      * onClickListener.
      *
      * @param binding is the connection between the data and the interface.
+     * @param onRecipeClickListener handles click events within the Recycler Adapter
      */
     public ViewHolder(CookbookListItemBinding binding,
         OnRecipeClickListener onRecipeClickListener) {
@@ -84,7 +86,7 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     /**
      * This method attaches a specific {@link Recipe} to a specific entry in the {@link
-     * edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment}.  It attaches an
+     * CookbookFragment}.  It attaches an
      * onClickListener that will be used to navigate into the Recipe screen.
      *
      * @param recipe is received from the database

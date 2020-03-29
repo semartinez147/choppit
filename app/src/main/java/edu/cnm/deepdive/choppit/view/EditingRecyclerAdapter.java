@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import edu.cnm.deepdive.choppit.BR;
+import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
 import edu.cnm.deepdive.choppit.databinding.EditIngredientItemBinding;
 import edu.cnm.deepdive.choppit.databinding.EditStepItemBinding;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
@@ -33,7 +34,7 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
    * Step} or {@link Ingredient} and inflates the appropriate binding layout.
    *
    * @param context the {@link Context} where the adapter operates.
-   * @param recipe
+   * @param recipe is received from the {@link EditingFragment}.
    */
   public EditingRecyclerAdapter(Context context,
       Recipe recipe) {
