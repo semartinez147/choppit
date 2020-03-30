@@ -20,11 +20,13 @@ Choppit is not fully operational yet.  I struggled with the implementation of Re
 
 #### Basic Functions
 
-- Loading empty Ingredient and Step fields in the Editing Fragment for from-scratch recipes.
+- Support Recipes from scratch in the Editing Frgament.
 	
 - Access Editing screen from a saved Recipe.
 
-- Add a search option to the Cookbook Fragment.
+- Search option to the Cookbook Fragment.
+
+- Receive shared url instead of copying/pasting.
 
 - Turn Unit selection on the Editing Screen into a drop-down displaying the Enum values.
 
@@ -41,11 +43,9 @@ Choppit is not fully operational yet.  I struggled with the implementation of Re
 
 There are very few bugs in the functionality I do have, but work needs to be done in error handling.
 
-- Bug: UI hangs when trying to navigate away from Editing screen.
-- Bug: Sometimes the Up button back-navigation does not update the Action Bar title.
-	- Possible fix in .onResume Fragment method.
-- Error: There should be a UI message if a link fails to load.
-- Error: If there are zero or multiple HTML class results for either search string, the Loading Screen will display indefinitely.  The UI should return to the Selection screen and ask for valid input, or a longer string.
+- Bug: UI hangs when trying to navigate away from Editing & Recipe screens.
+- Error handling: There should be a UI message if a link fails to load.
+- Error handling: If there are zero or multiple HTML class results for either search string, the Loading Screen will display indefinitely.  The UI should return to the Selection screen and ask for valid input, or a longer string.
 	- Searching for two ingredient strings that are wrapped in matching classes, and ruling out any clas that contains both strings should address sites where the author talks about the recipe in depth before the actual recipe.
 
 #### Cosmetic Improvements
