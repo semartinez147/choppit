@@ -32,9 +32,9 @@ public class RecipeRepository {
 
   private static final int NETWORK_THREAD_COUNT = 10;
 
+  private static Application context;
   private final ChoppitDatabase database;
   private final Executor networkPool;
-  private static Application context;
   private JsoupRetriever retriever;
   private String[] recipeMeta = new String[2];
 

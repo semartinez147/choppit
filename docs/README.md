@@ -14,9 +14,13 @@ Choppit is not fully operational yet.  I struggled with the implementation of Re
 
 #### Critical problems
 
+
 ###### • Saving recipes
+
 ###### • Editing saved recipes
+
 ###### • Viewing saved recipes
+
 
 #### Basic Functions
 

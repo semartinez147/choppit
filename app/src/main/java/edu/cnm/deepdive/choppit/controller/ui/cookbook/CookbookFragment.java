@@ -77,7 +77,7 @@ public class CookbookFragment extends Fragment implements OnRecipeClickListener 
   }
 
   /**
-   * This observer resets the dataset if there is a change to the list of {@link Recipce}s.
+   * This observer resets the dataset if there is a change to the list of {@link Recipe}s.
    */
   final Observer<List<Recipe>> cookbookObserver = new Observer<List<Recipe>>() {
 
