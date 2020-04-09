@@ -8,23 +8,34 @@ Choppit will receive a recipe url, identify relevant text through user input and
 
 ## State of the App
 
-Choppit is not fully operational yet.  I struggled with the implementation of ReactiveX, and went down several blind alleys before I figured out how to handle an HTML request *not* on a UI thread.  If I had started with a loading screen between Selection and Editing, I could have saved two or three days of work.  Switching over from findViewById to Data Binding in my Recycler Views was challenging, but the effort will be worthwhile, especially when I incorporate two-way binding in user-editable fields.
+Choppit is not fully operational yet.  I struggled with the implementation of ReactiveX, and went 
+down several blind alleys before I figured out how to handle an HTML request *not* on a UI thread.  
+If I had started with a loading screen between Selection and Editing, I could have saved two or 
+three days of work.  Switching over from findViewById to Data Binding in my Recycler Views was 
+challenging, but the effort will be worthwhile, especially when I incorporate two-way binding for 
+Recipe editing.  This project was a huge learning experience.  The process was complicated by responses
+to the COVID-19 pandemic, andI had to change gears to my group project before I had Choppit in a
+state I was happy with.  I've learned a lot more in the few weeks since then, and I intend on applying
+ those lessons to making this app publishable.
 
 ### // TODO list
 
 #### Critical problems
 
 
-###### • Saving recipes
+- Saving recipes
+  - The save method needs to assign the returned Recipe Id to the Recipe's Step entities, and each Step Id to that Step's Ingredient Entities.
 
-###### • Editing saved recipes
+- Editing saved recipes
+  - Navigation from a single Recipe to the Editing screen needs to be added.
+  - I want to handle the changes to the database with two-way data binding.
 
-###### • Viewing saved recipes
-
+- Viewing saved recipes
+  - I have problems with navigation methods, but I believe I have a strategy to simplify them.
 
 #### Basic Functions
 
-- Support Recipes from scratch in the Editing Frgament.
+- Support Recipes from scratch in the Editing Fragment.
 	
 - Access Editing screen from a saved Recipe.
 
@@ -70,7 +81,8 @@ The interface is sparse by design, since the purpose of the app is to remove unn
 	- Configure multiple count-down timers with labels at a Recipe level to track different steps.
 	- (Maybe) an overall Recipe timer to track how long it *actually* takes you to cook it.
 
-		- \* The simplest approach is probably to write internal conversions of all US Standard values into teaspoons, and incorporate the Apache Commons Math library to help.
+\* The simplest approach is probably to write internal conversions of all US Standard values into teaspoons, and incorporate the Apache Commons Math library to help.
+
 ---
 
 ## Intended Users
@@ -92,11 +104,8 @@ The interface is sparse by design, since the purpose of the app is to remove unn
 * Any recipe website.
   * HTML will be retrieved from recipe sites and processed to extract ingredient and instruction details.
   * The websites will not be needed once data is retrieved.
-* [jsoup Java library](https://jsoup.org/) to parse HTML and extract relevant information.
-  * jsoup is an offline service that will be fully integrated as Choppit will rely on jsoup to parse websites into recipes.
-* [USDA Agricultural Research Service](https://www.ars.usda.gov/northeast-area/beltsville-md-bhnrc/beltsville-human-nutrition-research-center/methods-and-application-of-food-composition-laboratory/mafcl-site-pages/sr17-sr28/)  database of ingredients.
-  * This USDA dataset will be integral to Choppit's ingredient logic and necessary for the app to function properly.
-  * The unformatted ASCII database file is small enough (~1.3MB) to be used as an offline reference.  
+* [Jsoup Java library](https://jsoup.org/) to parse HTML and extract relevant information.
+  * The Jsoup library is fully integrated as Choppit relies on Jsoup to parse Html into recipes.
 
 ---
 
