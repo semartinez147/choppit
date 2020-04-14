@@ -22,7 +22,7 @@
 
   <fragment
     android:id="@+id/navigation_selection"
-    android:label="@string/selection"
+    android:label="@string/title_selection"
     android:name="edu.cnm.deepdive.choppit.controller.ui.editing.SelectionFragment"
     tools:layout="@layout/fragment_selection">
     <action
@@ -32,7 +32,7 @@
 
   <fragment
     android:id="@+id/navigation_editing"
-    android:label="@string/editing"
+    android:label="@string/title_editing"
     android:name="edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment"
     tools:layout="@layout/fragment_editing">
     <action

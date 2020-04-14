@@ -43,6 +43,8 @@ public class HomeFragment extends Fragment {
     setRetainInstance(true);
   }
 
+
+
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_home, container, false);
@@ -57,8 +59,6 @@ public class HomeFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(false);
     myCookbook.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {

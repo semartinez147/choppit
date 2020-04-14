@@ -50,9 +50,6 @@ public class CookbookFragment extends Fragment implements OnRecipeClickListener 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
-    ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setTitle(getString(R.string.cookbook));
 
     binding = FragmentCookbookBinding.inflate(inflater);
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);

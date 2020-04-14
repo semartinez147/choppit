@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -19,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import edu.cnm.deepdive.choppit.R;
-import edu.cnm.deepdive.choppit.controller.MainActivity;
 import edu.cnm.deepdive.choppit.controller.ui.home.HomeFragment;
 import javax.annotation.Nonnull;
 
@@ -58,10 +56,6 @@ public class SelectionFragment extends Fragment {
 //  TODO disable for production
     ingredientInput.setText("bread flour");
     stepInput.setText("melt the butter");
-
-    ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setTitle(R.string.detail_selection);
 
     Button continueButton = root.findViewById(R.id.selection_extract);
     continueButton.setOnClickListener(v -> {

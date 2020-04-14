@@ -1,19 +1,19 @@
 package edu.cnm.deepdive.choppit.controller;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager.OnBackStackChangedListener;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.ui.InfoFragment;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
@@ -24,19 +24,19 @@ import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
  * is set by the label of the active {@link androidx.fragment.app.Fragment} when the button is
  * pressed.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnBackStackChangedListener {
 
-  private NavOptions navOptions;
   private NavController navController;
-  static ActionBar actionBar;
+  AppBarConfiguration appBarConfiguration;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    actionBar = getActionBar();
+//    actionBar = getActionBar();
     setupNavigation();
     setupViewModel();
+    shouldDisplayHomeUp();
   }
 
   @Override
@@ -82,11 +82,9 @@ public class MainActivity extends AppCompatActivity {
     }
   }*/
 
-  private void setupNavigation() {
-    navOptions = new NavOptions.Builder()
-        .setPopUpTo(R.id.navigation_home, true)
-        .build();
-    navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+  private void setupViewModel() {
+    MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+    getLifecycle().addObserver(viewModel);
   }
 
   /**
@@ -100,23 +98,34 @@ public class MainActivity extends AppCompatActivity {
     toast.show();
   }
 
-  private void setupViewModel() {
-    MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-    getLifecycle().addObserver(viewModel);
-  }
-
-  /**
-   * Sets up basic navigation behavior.
-   * @param itemId must not match the destination, or there is no need to navigate.
-   */
-  public void navigateTo(int itemId) {
-    if (navController.getCurrentDestination().getId() != itemId) {
-      navController.navigate(itemId, null, navOptions);
-    }
-  }
-
   private void showInfo(int currentFragment, String fragmentLabel) {
     new InfoFragment(currentFragment, fragmentLabel)
         .show(getSupportFragmentManager(), InfoFragment.class.getName());
+  }
+
+  private void setupNavigation() {
+    navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+    appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
+    NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+  }
+
+
+
+  @Override
+  public void onBackStackChanged() {
+    shouldDisplayHomeUp();
+  }
+
+  public void shouldDisplayHomeUp() {
+    boolean canGoBack = getSupportFragmentManager().getBackStackEntryCount()>0;
+    getSupportActionBar().setDisplayHomeAsUpEnabled(canGoBack);
+  }
+
+  @Override
+  public boolean onSupportNavigateUp() {
+    getSupportFragmentManager().popBackStack();
+
+    return NavigationUI.navigateUp(navController, appBarConfiguration)
+        || super.onSupportNavigateUp();
   }
 }

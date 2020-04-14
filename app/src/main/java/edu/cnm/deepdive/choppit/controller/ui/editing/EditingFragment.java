@@ -89,9 +89,6 @@ public class EditingFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setTitle(R.string.recipe_editing);
 
     FragmentEditingBinding binding;
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_editing, container, false);

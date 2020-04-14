@@ -1,19 +1,19 @@
 <resources>
   <string name="app_name">Choppit</string>
-  <string name="title_home">Choppit</string>
+  <string name="title_home">Choppit Home</string>
   <string name="url_input_hint">Paste a recipe link or start from scratch</string>
   <string name="new_recipe">New Recipe</string>
   <string name="my_cookbook">My Cookbook</string>
   <string name="choppit_logo">Choppit Logo</string>
   <string name="help">Help</string>
-  <string name="editing">Editing</string>
+  <string name="title_editing">Recipe Editing</string>
   <string name="cookbook">Cookbook</string>
   <string name="recipe">Recipe</string>
   <string name="ingredient_input_hint">Paste the text of any ingredient here</string>
   <string name="step_input_hint">Paste text from any step here</string>
   <string name="save_button">Save Recipe</string>
   <string name="extract_button">Extract Recipe</string>
-  <string name="selection">Selection</string>
+  <string name="title_selection">Detail Selection</string>
   <string name="step_hint">Instructions</string>
   <string name="step_tag">Step </string>
   <string name="edit_button">Edited indicator</string>

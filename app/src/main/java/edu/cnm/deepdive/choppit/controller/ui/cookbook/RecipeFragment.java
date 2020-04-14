@@ -67,9 +67,6 @@ public class RecipeFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
-    actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setTitle(getString(R.string.recipe_screen));
 
     FragmentRecipeBinding binding;
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipe, container, false);
