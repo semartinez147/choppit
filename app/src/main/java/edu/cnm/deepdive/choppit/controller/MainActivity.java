@@ -105,16 +105,6 @@ public class MainActivity extends AppCompatActivity {
     getLifecycle().addObserver(viewModel);
   }
 
-  /**
-   * Sets up basic navigation behavior.
-   * @param itemId must not match the destination, or there is no need to navigate.
-   */
-  public void navigateTo(int itemId) {
-    if (navController.getCurrentDestination().getId() != itemId) {
-      navController.navigate(itemId, null, navOptions);
-    }
-  }
-
   private void showInfo(int currentFragment, String fragmentLabel) {
     new InfoFragment(currentFragment, fragmentLabel)
         .show(getSupportFragmentManager(), InfoFragment.class.getName());

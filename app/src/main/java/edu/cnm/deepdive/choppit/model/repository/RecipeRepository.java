@@ -61,26 +61,23 @@ public class RecipeRepository {
 
   public Single<Recipe> save(Recipe recipe) {
     return database.getRecipeDao().insert(recipe)
+        .subscribeOn(Schedulers.io())
         .map((id) -> {
           recipe.setId(id);
           for (Step step : recipe.getSteps()) {
             step.setRecipeId(recipe.getId());
             database.getStepDao().insert(step)
-                .subscribeOn(Schedulers.io())
                 .map((stepId) -> {
                   step.setStepId(stepId);
                   for (Ingredient ingredient : step.getIngredients()) {
                     ingredient.setStepId(step.getStepId());
-                    return database.getIngredientDao().insert(ingredient)
-                        .doOnSuccess(ingredient::setId)
-                        .subscribe();
+                    database.getIngredientDao().insert(ingredient).subscribe();
                   }
-                  return step;
+                return step;
                 })
-                .subscribeOn(Schedulers.io())
-                .subscribe();
+            .subscribe();
           }
-          return recipe;
+        return recipe;
         });
   }
 
