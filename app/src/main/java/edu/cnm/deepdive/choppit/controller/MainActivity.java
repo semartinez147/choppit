@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
   private NavOptions navOptions;
   private NavController navController;
   static ActionBar actionBar;
-  private ProgressBar loading;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
