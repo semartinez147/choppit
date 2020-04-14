@@ -16,7 +16,12 @@ import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.ui.InfoFragment;
+import edu.cnm.deepdive.choppit.model.entity.Recipe;
+import edu.cnm.deepdive.choppit.model.repository.RecipeRepository;
+import edu.cnm.deepdive.choppit.service.ChoppitDatabase;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
+import io.reactivex.schedulers.Schedulers;
+import java.util.Arrays;
 
 /**
  * This activity houses the UI {@link androidx.fragment.app.Fragment}s.  It also establishes {@link
@@ -37,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     actionBar = getActionBar();
     setupNavigation();
     setupViewModel();
+    preloadDatabase();
   }
 
   @Override
@@ -91,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
   /**
    * Useful for displaying error messages.
+   *
    * @param message will be displayed in the Toast.
    */
   public void showToast(String message) {
@@ -108,5 +115,20 @@ public class MainActivity extends AppCompatActivity {
   private void showInfo(int currentFragment, String fragmentLabel) {
     new InfoFragment(currentFragment, fragmentLabel)
         .show(getSupportFragmentManager(), InfoFragment.class.getName());
+  }
+
+  private void preloadDatabase() {
+    RecipeRepository repository = RecipeRepository.getInstance();
+    ChoppitDatabase.getInstance().getRecipeDao().check().subscribeOn(Schedulers.io())
+        .subscribe(
+            (recipe -> {
+            }),
+            (throwable -> {
+              for (Recipe recipe : Arrays.asList(Recipe.populateData())) {
+                repository.save(recipe).subscribe();
+              }
+            })
+        );
+
   }
 }

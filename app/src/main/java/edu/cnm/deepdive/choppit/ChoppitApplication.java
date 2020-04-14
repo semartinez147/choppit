@@ -22,13 +22,7 @@ public class ChoppitApplication extends Application {
 
     ChoppitDatabase.getInstance().getRecipeDao().delete();
 
-    preloadDatabase();
   }
 
-  private void preloadDatabase() {
-RecipeRepository repository = RecipeRepository.getInstance();
-    for (Recipe recipe : Arrays.asList(Recipe.populateData())) {
-      repository.save(recipe).subscribe();
-    }
-  }
+
 }
