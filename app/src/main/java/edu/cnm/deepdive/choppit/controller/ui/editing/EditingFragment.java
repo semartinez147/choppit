@@ -51,7 +51,7 @@ public class EditingFragment extends Fragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-//    setRetainInstance(true);
+    setRetainInstance(true);
     binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_editing);
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
     recipe = (viewModel.getRecipe().getValue() == null) ? emptyRecipe()

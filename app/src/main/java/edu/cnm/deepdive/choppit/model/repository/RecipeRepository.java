@@ -59,8 +59,26 @@ public class RecipeRepository {
     retriever = JsoupRetriever.getInstance();
   }
 
-  public Single<Long> save(Recipe recipe) {
-    return database.getRecipeDao().insert(recipe);
+  public Single<Recipe> save(Recipe recipe) {
+    return database.getRecipeDao().insert(recipe)
+        .subscribeOn(Schedulers.io())
+        .map((id) -> {
+          recipe.setId(id);
+          for (Step step : recipe.getSteps()) {
+            step.setRecipeId(recipe.getId());
+            database.getStepDao().insert(step)
+                .map((stepId) -> {
+                  step.setStepId(stepId);
+                  for (Ingredient ingredient : step.getIngredients()) {
+                    ingredient.setStepId(step.getStepId());
+                    database.getIngredientDao().insert(ingredient).subscribe();
+                  }
+                return step;
+                })
+            .subscribe();
+          }
+        return recipe;
+        });
   }
 
   public Single<Integer> update(Recipe recipe) {

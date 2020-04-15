@@ -16,7 +16,12 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import edu.cnm.deepdive.choppit.R;
 import edu.cnm.deepdive.choppit.controller.ui.InfoFragment;
+import edu.cnm.deepdive.choppit.model.entity.Recipe;
+import edu.cnm.deepdive.choppit.model.repository.RecipeRepository;
+import edu.cnm.deepdive.choppit.service.ChoppitDatabase;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
+import io.reactivex.schedulers.Schedulers;
+import java.util.Arrays;
 
 /**
  * This activity houses the UI {@link androidx.fragment.app.Fragment}s.  It also establishes {@link
@@ -37,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
     setupNavigation();
     setupViewModel();
     shouldDisplayHomeUp();
+    preloadDatabase();
   }
 
   @Override
@@ -82,13 +88,15 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
     }
   }*/
 
-  private void setupViewModel() {
-    MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-    getLifecycle().addObserver(viewModel);
+  private void setupNavigation() {
+    navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+    appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
+    NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
   }
 
   /**
    * Useful for displaying error messages.
+   *
    * @param message will be displayed in the Toast.
    */
   public void showToast(String message) {
@@ -98,17 +106,30 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
     toast.show();
   }
 
+  private void setupViewModel() {
+    MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+    getLifecycle().addObserver(viewModel);
+  }
+
   private void showInfo(int currentFragment, String fragmentLabel) {
     new InfoFragment(currentFragment, fragmentLabel)
         .show(getSupportFragmentManager(), InfoFragment.class.getName());
   }
 
-  private void setupNavigation() {
-    navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-    appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-    NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-  }
+  private void preloadDatabase() {
+    RecipeRepository repository = RecipeRepository.getInstance();
+    ChoppitDatabase.getInstance().getRecipeDao().check().subscribeOn(Schedulers.io())
+        .subscribe(
+            (recipe -> {
+            }),
+            (throwable -> {
+              for (Recipe recipe : Arrays.asList(Recipe.populateData())) {
+                repository.save(recipe).subscribe();
+              }
+            })
+        );
 
+  }
 
 
   @Override
