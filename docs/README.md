@@ -8,23 +8,18 @@ Choppit will receive a recipe url, identify relevant text through user input and
 
 ## State of the App
 
-Choppit is not fully operational yet.  I struggled with the implementation of ReactiveX, and went 
-down several blind alleys before I figured out how to handle an HTML request *not* on a UI thread.  
-If I had started with a loading screen between Selection and Editing, I could have saved two or 
-three days of work.  Switching over from findViewById to Data Binding in my Recycler Views was 
-challenging, but the effort will be worthwhile, especially when I incorporate two-way binding for 
-Recipe editing.  This project was a huge learning experience.  The process was complicated by responses
-to the COVID-19 pandemic, andI had to change gears to my group project before I had Choppit in a
-state I was happy with.  I've learned a lot more in the few weeks since then, and I intend on applying
- those lessons to making this app publishable.
+Choppit is not fully operational yet.  I struggled to understand the implementation of ReactiveX without the benefit of in-person classes, and explored several blind alleys before I figured out how to handle an HTML request on its own thread.  
+
+Switching over from findViewById to Data Binding in my Recycler Views was challenging, but the effort will be worthwhile, especially when I incorporate two-way binding for Recipe editing.  This project was a huge learning experience.  The process was complicated by responses to the COVID-19 pandemic, andI had to change gears to my group project before I had Choppit in a state I was happy with.  I've learned a lot more in the few weeks since then, and I am working steadily on applying those lessons to making this app publishable.
 
 ### // TODO list
 
 #### Critical problems
 
 
-- Saving recipes
-  - The save method needs to assign the returned Recipe Id to the Recipe's Step entities, and each Step Id to that Step's Ingredient Entities.
+- ~Saving recipes~
+  - ~The save method needs to assign the returned Recipe Id to the Recipe's Step entities, and each Step Id to that Step's Ingredient Entities.~
+  - Resolved 4/15/2020 by expanding the save method using .map().
 
 - Editing saved recipes
   - Navigation from a single Recipe to the Editing screen needs to be added.
@@ -32,6 +27,7 @@ state I was happy with.  I've learned a lot more in the few weeks since then, an
 
 - Viewing saved recipes
   - I have problems with navigation methods, but I believe I have a strategy to simplify them.
+  - This is in progress.
 
 #### Basic Functions
 
