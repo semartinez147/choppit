@@ -29,13 +29,10 @@ public class RecipeFragment extends Fragment {
 
   RecipeRecyclerAdapter recipeRecyclerAdapter;
   private MainViewModel viewModel;
+  private long recipeId;
   private Recipe recipe;
   private FragmentRecipeBinding binding;
-  private ActionBar actionBar;
 
-  public RecipeFragment() {
-
-  }
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +42,9 @@ public class RecipeFragment extends Fragment {
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
     recipe = viewModel.getRecipe().getValue();
 
+    RecipeFragmentArgs args = RecipeFragmentArgs.fromBundle(getArguments());
+    recipeId = args.getRecipeId();
+// TODO retrieve recipe from ViewModel
     setupRecyclerView();
   }
 
