@@ -16,7 +16,6 @@ import java.util.List;
 @Dao
 public interface RecipeDao {
 
-  String RECIPE_DETAILS_QUERY = "SELECT r.* FROM Recipe AS r"; // TODO write the rest of the query.
 
   @Insert(onConflict = OnConflictStrategy.IGNORE)
   Single<Long> insert(Recipe recipe);

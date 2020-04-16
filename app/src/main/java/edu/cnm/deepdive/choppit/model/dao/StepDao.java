@@ -15,8 +15,6 @@ import java.util.List;
 @Dao
 public interface StepDao {
 
-  String STEP_DETAILS_QUERY = "SELECT s.* FROM Step AS s"; //TODO write the query
-
   @Insert(onConflict = OnConflictStrategy.IGNORE)
   Single<Long> insert (Step step);
 

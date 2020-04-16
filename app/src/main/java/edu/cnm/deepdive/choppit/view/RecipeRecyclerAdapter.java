@@ -16,8 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.Nonnull;
 
-// FIXME complete data binding
-// FIXME handle incoming navigation
+// FIXME complete data binding based on EditingRecyclerAdapter.
 
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
@@ -45,6 +44,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
   }
 
+  @SuppressWarnings("ConstantConditions")
   @NonNull
   @Override
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
