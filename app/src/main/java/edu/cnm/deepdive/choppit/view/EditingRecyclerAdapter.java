@@ -58,10 +58,10 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     notifyDataSetChanged();
   }
 
+  @SuppressWarnings("ConstantConditions")
   @NonNull
   @Override
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    Log.d("ERA", "onCreateViewHolder called");
     if (viewType == VIEW_TYPE_INGREDIENT) {
       LayoutInflater layoutInflater = LayoutInflater.from(context);
       EditIngredientItemBinding editIngredientItemBinding = EditIngredientItemBinding
@@ -79,7 +79,6 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
   @Override
   public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-    Log.d("ERA", "onBindViewHolder called");
     if (viewHolder instanceof IngredientViewHolder) {
       Ingredient ingredient = ingredients.get(position);
       ((IngredientViewHolder) viewHolder).bind(ingredient);
@@ -92,7 +91,6 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
   @Override
   public int getItemCount() {
-    Log.d("ERA", "itemCount = " + (ingredients.size() + steps.size()));
     return ingredients.size() + steps.size();
   }
 
@@ -105,14 +103,6 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
       return VIEW_TYPE_STEP;
     }
     return -1;
-  }
-
-  public List<Ingredient> getIngredients() {
-    return ingredients;
-  }
-
-  public List<Step> getSteps() {
-    return steps;
   }
 
   /**
@@ -170,7 +160,6 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
      */
     public void bind(Step step) {
       binding.setVariable(BR.step, step);
-//      binding.setStep(step);
       step.setRecipeOrder(getAdapterPosition() - ingredients.size() + 1);
       Log.d("Bound step ", Integer.toString(getAdapterPosition() - ingredients.size()));
       binding.executePendingBindings();

@@ -11,17 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.choppit.R;
-import edu.cnm.deepdive.choppit.controller.MainActivity;
 import edu.cnm.deepdive.choppit.databinding.FragmentRecipeBinding;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.view.RecipeRecyclerAdapter;
@@ -88,7 +84,7 @@ public class RecipeFragment extends Fragment {
     @Override
     public void onChanged(final Recipe result) {
       if (result != null) {
-        recipe = result;
+        recipe = viewModel.getRecipe().getValue();
         setupRecyclerView();
         binding.setRecipe(recipe);
       }

@@ -30,7 +30,6 @@ import edu.cnm.deepdive.choppit.view.EditingRecyclerAdapter;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import java.util.Arrays;
 
-// FIXME: error when navigating away from this screen.
 // FIXME: save button does not work.
 // TODO: add itemDividerDecoration for RecyclerView headers.
 // TODO: better spacing of unit field.

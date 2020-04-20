@@ -45,7 +45,8 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintBottom_toTopOf="@id/recipe_title"
-    app:srcCompat="@drawable/small_logo"/>
+    app:srcCompat="@drawable/small_logo"
+    android:elevation="@dimen/wide_space"/>
 
     <TextView
       android:id="@+id/recipe_title"
@@ -64,24 +65,17 @@
       style="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
       android:text="@{recipe.url}"
       android:visibility="@{recipe.url == null ? View.GONE : View.VISIBLE}"
-      app:layout_constraintTop_toBottomOf="@id/small_logo"
+      app:layout_constraintTop_toBottomOf="@id/recipe_title"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toEndOf="parent"/>
-
-  <androidx.constraintlayout.widget.Guideline
-    android:id="@+id/divider"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    app:layout_constraintGuide_percent="0.25"/>
 
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/recipe_recycler_view"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:padding="4dp"
+      android:padding="@dimen/narrow_space"
       app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-      app:layout_constraintTop_toBottomOf="@id/divider"
+      app:layout_constraintTop_toBottomOf="@id/recipe_url"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toEndOf="parent"/>
