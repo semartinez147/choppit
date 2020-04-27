@@ -95,6 +95,7 @@
         app:layout_constraintBottom_toTopOf="@id/editing_save"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:nestedScrollingEnabled="false"
         />
 
       <Button

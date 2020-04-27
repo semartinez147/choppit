@@ -40,4 +40,5 @@
   <string name="recipe_fail">Failed to load recipe!</string>
   <string name="edit_title">Change Recipe Title</string>
   <string name="recipe_screen">Recipe Screen</string>
+  <string name="delete_ingredient">Delete Ingredient</string>
 </resources>

@@ -20,7 +20,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.choppit.R;
-import edu.cnm.deepdive.choppit.controller.ui.cookbook.RecipeFragment;
 import edu.cnm.deepdive.choppit.databinding.FragmentEditingBinding;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient.Unit;
@@ -32,7 +31,6 @@ import java.util.Arrays;
 
 // FIXME: save button does not work.
 // TODO: add itemDividerDecoration for RecyclerView headers.
-// TODO: better spacing of unit field.
 // TODO: buttons to add/remove fields.
 // TODO: process new recipe through Repository to link Steps & Ingredients.
 
