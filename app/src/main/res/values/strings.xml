@@ -38,6 +38,6 @@
   <string name="name_hint">name</string>
   <string name="save_failed">Failed to save recipe!</string>
   <string name="recipe_fail">Failed to load recipe!</string>
-  <string name="edit_title">Set Recipe Title</string>
+  <string name="edit_title">Change Recipe Title</string>
   <string name="recipe_screen">Recipe Screen</string>
 </resources>

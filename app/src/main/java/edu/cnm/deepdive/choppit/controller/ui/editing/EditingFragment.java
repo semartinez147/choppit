@@ -12,15 +12,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import edu.cnm.deepdive.choppit.R;
+import edu.cnm.deepdive.choppit.controller.ui.cookbook.RecipeFragment;
 import edu.cnm.deepdive.choppit.databinding.FragmentEditingBinding;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient.Unit;
@@ -51,11 +51,8 @@ public class EditingFragment extends Fragment {
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setRetainInstance(true);
-    binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_editing);
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-    recipe = (viewModel.getRecipe().getValue() == null) ? emptyRecipe()
-        : viewModel.getRecipe().getValue();
-    setupRecyclerView();
+
   }
 
   private Recipe emptyRecipe() {
@@ -89,13 +86,13 @@ public class EditingFragment extends Fragment {
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
 
-    FragmentEditingBinding binding;
+    viewModel.getRecipe().observe(getViewLifecycleOwner(), recipeObserver);
+
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_editing, container, false);
     binding.setLifecycleOwner(this);
-    binding.setRecipe(recipe);
     binding.setVariable(bindViewModel, viewModel);
     binding.setVariable(uiController, this);
-    binding.editingTitle.setText(recipe.getTitle());
+//    binding.editingTitle.setText(recipe.getTitle());
 
     Button saveButton = binding.editingSave;
     saveButton.setOnClickListener(v -> {
@@ -112,11 +109,21 @@ public class EditingFragment extends Fragment {
 
   }
 
+  /**
+   * This observer checks the {@link MainViewModel} for an updated recipe and sets its contents to
+   * the field {@link EditingFragment#recipe}.
+   */
+  final Observer<Recipe> recipeObserver = new Observer<Recipe>() {
 
-/*
-    v -> {
-    viewModel.saveRecipe(recipe);
-    Navigation.findNavController(view).navigate(R.id.edit_cook);
-  }
-  */
+    @Override
+    public void onChanged(final Recipe result) {
+      if (result != null) {
+        recipe = viewModel.getRecipe().getValue();
+      } else {
+        recipe = emptyRecipe();
+      }
+      setupRecyclerView();
+      binding.setRecipe(recipe);
+    }
+  };
 }

@@ -28,8 +28,8 @@ public class RecipeFragment extends Fragment {
 
   RecipeRecyclerAdapter recipeRecyclerAdapter;
   private MainViewModel viewModel;
-  private Recipe recipe;
   private FragmentRecipeBinding binding;
+  private Recipe recipe;
 
 
   @Override
@@ -65,7 +65,6 @@ public class RecipeFragment extends Fragment {
     viewModel.loadRecipe(args.getRecipeId());
     viewModel.getRecipe().observe(getViewLifecycleOwner(), recipeObserver);
 
-
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipe, container, false);
     binding.setLifecycleOwner(this);
     binding.setVariable(bindViewModel, viewModel);
@@ -76,8 +75,8 @@ public class RecipeFragment extends Fragment {
 
 
   /**
-   * This observer checks the {@link MainViewModel} for an updated recipe before navigating to the
-   * {@link RecipeFragment}
+   * This observer checks the {@link MainViewModel} for an updated recipe and sets its contents to
+   * the field {@link RecipeFragment#recipe}.
    */
   final Observer<Recipe> recipeObserver = new Observer<Recipe>() {
 

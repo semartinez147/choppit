@@ -10,6 +10,7 @@
   </style>
 
   <style name="RecipeItem" parent="AppTheme">
+    <item name="android:fontFamily">@font/droid_sans</item>
     <item name="android:textSize">@dimen/list_item_text_size</item>
     <item name="android:layout_margin">@dimen/list_content_spacing</item>
   </style>
@@ -23,5 +24,6 @@
     <item name="android:fontFamily">default</item>
     <item name="android:letterSpacing">0.05</item>
   </style>
+  
 
 </resources>
