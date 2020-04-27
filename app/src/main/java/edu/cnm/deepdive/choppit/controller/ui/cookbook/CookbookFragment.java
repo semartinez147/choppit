@@ -41,8 +41,7 @@ public class CookbookFragment extends Fragment implements OnRecipeClickListener 
   private void setupRecyclerView() {
     RecyclerView recyclerView = binding.recipeList;
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-    cookbookRecyclerAdapter = new CookbookRecyclerAdapter(getContext(), recipes,
-        this);
+    cookbookRecyclerAdapter = new CookbookRecyclerAdapter(getContext(), recipes);
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(cookbookRecyclerAdapter);
   }

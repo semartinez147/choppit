@@ -64,7 +64,7 @@
         android:hint="@string/unit_hint"
         android:text="@{ingredient.unit.toString()}"
         android:inputType="text"
-        android:minEms="6"
+        android:minEms="3"
         android:maxLength="10"
         android:maxLines="1">
       </com.google.android.material.textfield.TextInputEditText>
@@ -72,8 +72,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
       android:id="@+id/name_layout"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
       android:layout_margin="@dimen/narrow_space"
       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
       app:hintEnabled="true"
@@ -93,18 +93,14 @@
       </com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!--  Not friends with the ListAdapter:-->
-    <!--  <ImageView-->
-    <!--    android:id="@+id/delete_button"-->
-    <!--    app:layout_constraintStart_toEndOf="@id/name_layout"-->
-    <!--    app:layout_constraintEnd_toEndOf="parent"-->
-    <!--    android:layout_width="wrap_content"-->
-    <!--    android:layout_height="wrap_content">-->
-    <!--  <ImageButton-->
-    <!--    android:layout_width="wrap_content"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    app:srcCompat="@android:drawable/ic_menu_delete"/>-->
-    <!--  </ImageView>-->
+    <ImageButton
+      android:id="@+id/delete"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:layout_gravity="center"
+      android:background="@color/transparent"
+      app:srcCompat="@android:drawable/ic_delete"/>
 
 
   </LinearLayout>

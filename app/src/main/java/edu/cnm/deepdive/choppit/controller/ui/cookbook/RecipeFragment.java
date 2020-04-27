@@ -11,10 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,23 +28,17 @@ public class RecipeFragment extends Fragment {
 
   RecipeRecyclerAdapter recipeRecyclerAdapter;
   private MainViewModel viewModel;
-  private Recipe recipe;
   private FragmentRecipeBinding binding;
-  private ActionBar actionBar;
+  private Recipe recipe;
 
-  public RecipeFragment() {
-
-  }
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setRetainInstance(true);
-    binding = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_recipe);
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-    recipe = viewModel.getRecipe().getValue();
 
-    setupRecyclerView();
+
   }
 
   @Override
@@ -68,22 +61,34 @@ public class RecipeFragment extends Fragment {
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
 
-    FragmentRecipeBinding binding;
+    RecipeFragmentArgs args = RecipeFragmentArgs.fromBundle(getArguments());
+    viewModel.loadRecipe(args.getRecipeId());
+    viewModel.getRecipe().observe(getViewLifecycleOwner(), recipeObserver);
+
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipe, container, false);
     binding.setLifecycleOwner(this);
-    binding.setRecipe(recipe);
     binding.setVariable(bindViewModel, viewModel);
     binding.setVariable(uiController, this);
 
     return binding.getRoot();
   }
 
-  @Override
-  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
 
+  /**
+   * This observer checks the {@link MainViewModel} for an updated recipe and sets its contents to
+   * the field {@link RecipeFragment#recipe}.
+   */
+  final Observer<Recipe> recipeObserver = new Observer<Recipe>() {
 
-  }
+    @Override
+    public void onChanged(final Recipe result) {
+      if (result != null) {
+        recipe = viewModel.getRecipe().getValue();
+        setupRecyclerView();
+        binding.setRecipe(recipe);
+      }
+    }
+  };
 
 
 }

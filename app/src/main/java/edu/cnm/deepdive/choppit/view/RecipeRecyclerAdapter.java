@@ -9,15 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import edu.cnm.deepdive.choppit.R;
+import edu.cnm.deepdive.choppit.databinding.RecipeIngredientItemBinding;
+import edu.cnm.deepdive.choppit.databinding.RecipeStepItemBinding;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
+import edu.cnm.deepdive.choppit.view.RecipeRecyclerAdapter.StepViewHolder;
 import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.Nonnull;
 
-// FIXME complete data binding
-// FIXME handle incoming navigation
+// FIXME complete data binding based on EditingRecyclerAdapter.
 
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
@@ -32,7 +34,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
   /**
    * Handles Data Binding input from the database and displays the contents of a {@link Recipe}.
    *
-   * @param context  the {@link Context} where the adapter operates.
+   * @param context the {@link Context} where the adapter operates.
    * @param recipe  the {@link Recipe} to be displayed
    */
   public RecipeRecyclerAdapter(Context context, Recipe recipe) {
@@ -45,18 +47,21 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
   }
 
+  @SuppressWarnings("ConstantConditions")
   @NonNull
   @Override
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     if (viewType == VIEW_TYPE_INGREDIENT) {
-      View view = LayoutInflater.from(context)
-          .inflate(R.layout.recipe_ingredient_item, null, true);
-
-      return new IngredientViewHolder(view);
+      LayoutInflater layoutInflater = LayoutInflater.from(context);
+      RecipeIngredientItemBinding recipeIngredientItemBinding = RecipeIngredientItemBinding
+          .inflate(layoutInflater, parent, false);
+      return new IngredientViewHolder(recipeIngredientItemBinding);
     }
     if (viewType == VIEW_TYPE_STEP) {
-      View view = LayoutInflater.from(context).inflate(R.layout.recipe_step_item, null, true);
-      return new StepViewHolder(view);
+      LayoutInflater layoutInflater = LayoutInflater.from(context);
+      RecipeStepItemBinding recipeStepItemBinding = RecipeStepItemBinding
+          .inflate(layoutInflater, parent, false);
+      return new StepViewHolder(recipeStepItemBinding);
     }
     return null;
   }
@@ -65,6 +70,10 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
   public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
     if (viewHolder instanceof IngredientViewHolder) {
       ((IngredientViewHolder) viewHolder).bind(ingredients.get(position));
+    }
+    if (viewHolder instanceof StepViewHolder) {
+      Step step = steps.get(position - ingredients.size());
+      ((StepViewHolder) viewHolder).bind(step);
     }
   }
 
@@ -83,43 +92,38 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
     return -1;
   }
+
   /**
    * The ViewHolder class coordinates between incoming data and the UI.
    */
   static class IngredientViewHolder extends ViewHolder {
 
-    private TextView quantity;
-    private TextView unit;
-    private TextView name;
+    private RecipeIngredientItemBinding binding;
 
-    private IngredientViewHolder(@Nonnull View itemView) {
-      super(itemView);
-      quantity = itemView.findViewById(R.id.recipe_quantity);
-      unit = itemView.findViewById(R.id.recipe_unit);
-      name = itemView.findViewById(R.id.recipe_name);
+    private IngredientViewHolder(RecipeIngredientItemBinding binding) {
+      super(binding.getRoot());
+      this.binding = binding;
     }
 
     public void bind(Ingredient ingredient) {
-      quantity.setText(ingredient.getQuantity());
-      unit.setText(ingredient.getUnit().toString());
-      name.setText(ingredient.getName());
+      binding.setIngredient(ingredient);
+      binding.executePendingBindings();
     }
   }
 
   public static class StepViewHolder extends ViewHolder {
 
-    private TextView order;
-    private TextView step;
 
-    private StepViewHolder(@Nonnull View itemView) {
-      super(itemView);
-      order = itemView.findViewById(R.id.recipe_step_number);
-      step = itemView.findViewById(R.id.recipe_step);
+    private RecipeStepItemBinding binding;
+
+    private StepViewHolder(RecipeStepItemBinding binding) {
+      super(binding.getRoot());
+      this.binding = binding;
     }
 
     public void bind(Step step) {
-      order.setText(step.getRecipeOrder());
-      this.step.setText(step.getInstructions());
+      binding.setStep(step);
+      binding.executePendingBindings();
     }
   }
 }
