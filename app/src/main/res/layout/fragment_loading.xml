@@ -23,7 +23,7 @@
     android:layout_marginStart="@dimen/loading_margin"
     android:layout_marginEnd="@dimen/loading_margin"
     android:adjustViewBounds="true"
-    android:contentDescription="@string/choppit_logo"
+    android:contentDescription="@string/logo"
     android:scaleType="fitCenter"
     android:elevation="@dimen/narrow_space"
     android:layout_centerInParent="true"

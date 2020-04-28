@@ -39,7 +39,7 @@
         android:layout_marginTop="@dimen/wide_space"
         android:layout_marginBottom="@dimen/medium_space"
         android:adjustViewBounds="true"
-        android:contentDescription="@string/choppit_logo"
+        android:contentDescription="@string/logo"
         android:scaleType="fitCenter"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/title_layout"
@@ -48,12 +48,6 @@
         app:srcCompat="@drawable/small_logo"
         android:elevation="@dimen/wide_space"/>
 
-<!--      <androidx.constraintlayout.widget.Guideline-->
-<!--        android:id="@+id/divider"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal"-->
-<!--        app:layout_constraintGuide_percent="0.25"/>-->
 
       <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/title_layout"
@@ -64,15 +58,15 @@
         app:layout_constraintBottom_toTopOf="@id/edit_url"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-      <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editing_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@{recipe.title}"
-        android:hint="@string/edit_title"
-        android:inputType="textCapWords"
-        android:maxLines="1">
-      </com.google.android.material.textfield.TextInputEditText>
+        <com.google.android.material.textfield.TextInputEditText
+          android:id="@+id/editing_title"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@{recipe.title}"
+          android:hint="@string/edit_title"
+          android:inputType="textCapWords"
+          android:maxLines="1">
+        </com.google.android.material.textfield.TextInputEditText>
       </com.google.android.material.textfield.TextInputLayout>
 
       <TextView
@@ -82,20 +76,60 @@
         style="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
         android:text="@{recipe.url}"
         android:visibility="@{recipe.url == null ? View.GONE : View.VISIBLE}"
-        app:layout_constraintBottom_toTopOf="@id/editing_recycler_view"
+        app:layout_constraintBottom_toTopOf="@id/editing_ingredient_header_logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+      <ImageView
+        android:id="@+id/editing_ingredient_header_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/narrow_space"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/editing_recycler_view"
+        app:srcCompat="@drawable/tiny_logo"
+        android:contentDescription="@string/logo"/>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/narrow_space"
+        app:layout_constraintStart_toEndOf="@id/editing_ingredient_header_logo"
+        app:layout_constraintBottom_toBottomOf="@id/editing_ingredient_header_logo"
+        app:layout_constraintTop_toTopOf="@id/editing_ingredient_header_logo"
+        android:text="@string/ingredients"
+        />
 
       <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/editing_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/narrow_space"
+        android:layout_marginBottom="@dimen/wide_space"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/editing_recycler_view2"
+        app:layout_constraintBottom_toTopOf="@id/editing_step_header_logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:nestedScrollingEnabled="false"
+        />
+
+
+      <ImageView
+        android:id="@+id/editing_step_header_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/narrow_space"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/editing_recycler_view2"
+        app:srcCompat="@drawable/tiny_logo"
+        android:contentDescription="@string/logo"/>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/narrow_space"
+        app:layout_constraintStart_toEndOf="@id/editing_step_header_logo"
+        app:layout_constraintBottom_toBottomOf="@id/editing_step_header_logo"
+        app:layout_constraintTop_toTopOf="@id/editing_step_header_logo"
+        android:text="@string/instructions"
         />
 
       <androidx.recyclerview.widget.RecyclerView
@@ -118,7 +152,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-/>
+        />
     </androidx.constraintlayout.widget.ConstraintLayout>
   </ScrollView>
 </layout>
