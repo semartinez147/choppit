@@ -11,19 +11,26 @@
 
   <style name="RecipeItem" parent="AppTheme">
     <item name="android:fontFamily">@font/droid_sans</item>
-    <item name="android:textSize">@dimen/list_item_text_size</item>
-    <item name="android:layout_margin">@dimen/list_content_spacing</item>
   </style>
 
   <style name="RecipeItem.Title" parent="RecipeItem">
-    <item name="android:textSize">@dimen/list_item_title_size</item>
+    <item name="android:textSize">24sp</item>
     <item name="android:textStyle">bold</item>
   </style>
 
-  <style name="RecipeText" parent="">
-    <item name="android:fontFamily">default</item>
-    <item name="android:letterSpacing">0.05</item>
+  <style name="RecipeItem.Url" parent="RecipeItem">
+    <item name="android:textSize">10sp</item>
+    <item name="android:textStyle">italic</item>
   </style>
-  
+
+<style name="RecipeItem.Header" parent = "RecipeItem">
+  <item name="android:textSize">16sp</item>
+  <item name="android:textStyle">italic</item>
+</style>
+
+  <style name="RecipeItem.Text" parent="RecipeItem">
+    <item name="android:textSize">14sp</item>
+    <item name="android:lineSpacingExtra">6sp</item>
+  </style>
 
 </resources>

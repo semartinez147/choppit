@@ -44,4 +44,6 @@
   <string name="delete_button">Delete button</string>
   <string name="ingredients">Ingredients</string>
   <string name="instructions">Instructions</string>
+  <string name="add_ingredient">Add Ingredient</string>
+  <string name="add_step">Add Step</string>
 </resources>
