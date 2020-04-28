@@ -40,12 +40,12 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
     // enables fragment navigation
-    def nav_version = "2.2.1"
+    def nav_version = "2.2.2"
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
 
     //Preference/settings dependencies
-    implementation 'androidx.preference:preference:1.1.0'
+    implementation 'androidx.preference:preference:1.1.1'
 
     // live data & ViewModel dependencies
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
@@ -115,9 +116,7 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public IngredientViewHolder(EditIngredientItemBinding binding) {
       super(binding.getRoot());
-
       this.binding = binding;
-
     }
 
     /**
@@ -130,13 +129,7 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
       binding.setVariable(edu.cnm.deepdive.choppit.BR.ingredient, ingredient);
       binding.executePendingBindings();
     }
-/*
-    public void populate(Ingredient ingredient) {
-      quantity.setText(ingredient.getQuantity());
-      unit.setText(ingredient.getUnit().toString());
-      name.setText(ingredient.getName());
-    }
-*/
+
   }
 
   /**

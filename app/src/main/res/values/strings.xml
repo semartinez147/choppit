@@ -34,11 +34,12 @@
   <string name="finishing">… finishing</string>
   <string name="octothorpe">#</string>
   <string name="loading_info">Have patience!  Your recipe should be processed soon.</string>
-  <string name="unit_hint">unit</string>
-  <string name="name_hint">name</string>
+  <string name="unit_hint">Unit</string>
+  <string name="ingredient_hint">Ingredient</string>
   <string name="save_failed">Failed to save recipe!</string>
   <string name="recipe_fail">Failed to load recipe!</string>
   <string name="edit_title">Change Recipe Title</string>
   <string name="recipe_screen">Recipe Screen</string>
   <string name="delete_ingredient">Delete Ingredient</string>
+  <string name="delete_button">Delete button</string>
 </resources>

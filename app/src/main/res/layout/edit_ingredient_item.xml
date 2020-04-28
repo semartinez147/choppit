@@ -12,7 +12,7 @@
       type="edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment"/>
   </data>
 
-  <LinearLayout
+  <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="@dimen/medium_space"
@@ -28,9 +28,8 @@
       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
       app:hintEnabled="true"
       app:hintAnimationEnabled="true"
-      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBaseline_toBaselineOf="@id/name_layout"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toStartOf="@id/unit_layout"
       app:layout_constraintHorizontal_chainStyle="packed">
       <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/editing_quantity"
@@ -53,9 +52,8 @@
       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
       app:hintEnabled="true"
       app:hintAnimationEnabled="false"
-      app:layout_constraintTop_toTopOf="@id/measurement_layout"
       app:layout_constraintStart_toEndOf="@id/measurement_layout"
-      app:layout_constraintEnd_toStartOf="@id/name_layout"
+      app:layout_constraintBaseline_toBaselineOf="@id/name_layout"
       app:layout_constraintHorizontal_chainStyle="packed">
       <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/editing_unit"
@@ -72,36 +70,40 @@
 
     <com.google.android.material.textfield.TextInputLayout
       android:id="@+id/name_layout"
-      android:layout_width="wrap_content"
-      android:layout_height="match_parent"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
       android:layout_margin="@dimen/narrow_space"
       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
       app:hintEnabled="true"
       app:hintAnimationEnabled="true"
       app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_chainStyle="spread">
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toEndOf="@id/unit_layout"
+      app:layout_constraintEnd_toStartOf="@id/delete"
+      app:layout_constraintHorizontal_chainStyle="packed">
       <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/editing_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/name_hint"
+        android:hint="@string/ingredient_hint"
         android:text="@{ingredient.name}"
         android:inputType="text"
-        android:minEms="12"
+        android:minEms="8"
         android:maxLines="1">
       </com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageButton
       android:id="@+id/delete"
-      android:layout_width="0dp"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_weight="1"
-      android:layout_gravity="center"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"
       android:background="@color/transparent"
-      app:srcCompat="@android:drawable/ic_delete"/>
+      android:contentDescription="@string/delete_button"
+      android:src="@android:drawable/ic_delete"/>
 
 
-  </LinearLayout>
+  </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
