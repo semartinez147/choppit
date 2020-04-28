@@ -92,6 +92,18 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/narrow_space"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/editing_recycler_view2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:nestedScrollingEnabled="false"
+        />
+
+      <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/editing_recycler_view2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/narrow_space"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/editing_save"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

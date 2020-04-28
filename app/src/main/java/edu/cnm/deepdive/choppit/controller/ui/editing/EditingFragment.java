@@ -25,7 +25,8 @@ import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient.Unit;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
-import edu.cnm.deepdive.choppit.view.EditingRecyclerAdapter;
+import edu.cnm.deepdive.choppit.view.EditingIngredientRecyclerAdapter;
+import edu.cnm.deepdive.choppit.view.EditingStepRecyclerAdapter;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import java.util.Arrays;
 
@@ -37,7 +38,7 @@ import java.util.Arrays;
 
 public class EditingFragment extends Fragment {
 
-  EditingRecyclerAdapter editingRecyclerAdapter;
+  EditingIngredientRecyclerAdapter editingIngredientRecyclerAdapter;
   private MainViewModel viewModel;
   private FragmentEditingBinding binding;
   private Recipe recipe;
@@ -66,11 +67,15 @@ public class EditingFragment extends Fragment {
   }
 
   private void setupRecyclerView() {
-    RecyclerView recyclerView = binding.editingRecyclerView;
+    RecyclerView ingredientRecyclerView = binding.editingRecyclerView;
+    RecyclerView stepRecyclerView = binding.editingRecyclerView2;
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-    editingRecyclerAdapter = new EditingRecyclerAdapter(getContext(), recipe);
-    recyclerView.setLayoutManager(layoutManager);
-    recyclerView.setAdapter(editingRecyclerAdapter);
+    editingIngredientRecyclerAdapter = new EditingIngredientRecyclerAdapter(getContext(), recipe);
+    EditingStepRecyclerAdapter editingStepRecyclerAdapter = new EditingStepRecyclerAdapter(getContext(), recipe);
+    ingredientRecyclerView.setLayoutManager(layoutManager);
+    stepRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    ingredientRecyclerView.setAdapter(editingIngredientRecyclerAdapter);
+    stepRecyclerView.setAdapter(editingStepRecyclerAdapter);
   }
 
   @Override
