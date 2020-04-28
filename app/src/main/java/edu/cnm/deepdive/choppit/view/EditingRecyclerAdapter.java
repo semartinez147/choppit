@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
@@ -37,8 +36,7 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
    * @param context the {@link Context} where the adapter operates.
    * @param recipe is received from the {@link EditingFragment}.
    */
-  public EditingRecyclerAdapter(Context context,
-      Recipe recipe) {
+  public EditingRecyclerAdapter(Context context, Recipe recipe) {
     this.context = context;
     this.recipe = recipe;
     this.steps = recipe.getSteps();
@@ -67,6 +65,7 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
       LayoutInflater layoutInflater = LayoutInflater.from(context);
       EditIngredientItemBinding editIngredientItemBinding = EditIngredientItemBinding
           .inflate(layoutInflater, parent, false);
+
       return new IngredientViewHolder(editIngredientItemBinding);
     }
     if (viewType == VIEW_TYPE_STEP) {

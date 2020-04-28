@@ -48,13 +48,6 @@
         app:srcCompat="@drawable/small_logo"
         android:elevation="@dimen/wide_space"/>
 
-<!--      <androidx.constraintlayout.widget.Guideline-->
-<!--        android:id="@+id/divider"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal"-->
-<!--        app:layout_constraintGuide_percent="0.25"/>-->
-
       <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/title_layout"
         android:layout_width="wrap_content"
