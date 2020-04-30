@@ -7,20 +7,21 @@
   <data>
     <import type="android.view.View"/>
     <variable
-      name="recipe"
-      type="edu.cnm.deepdive.choppit.model.entity.Recipe"/>
+      name="recipe" type="edu.cnm.deepdive.choppit.model.entity.Recipe"/>
     <variable
-      name="ingredient"
-      type="edu.cnm.deepdive.choppit.model.entity.Ingredient"/>
+      name="ingredient" type="edu.cnm.deepdive.choppit.model.entity.Ingredient"/>
     <variable
-      name="step"
-      type="edu.cnm.deepdive.choppit.model.entity.Step"/>
+      name="step" type="edu.cnm.deepdive.choppit.model.entity.Step"/>
     <variable
-      name="bindViewModel"
-      type="edu.cnm.deepdive.choppit.viewmodel.MainViewModel"/>
+      name="bindViewModel" type="edu.cnm.deepdive.choppit.viewmodel.MainViewModel"/>
     <variable
-      name="uiController"
-      type="edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment"/>
+      name="uiController" type="edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment"/>
+    <variable
+      name="ingredientRecycler"
+      type="edu.cnm.deepdive.choppit.view.EditingIngredientRecyclerAdapter"/>
+  <variable
+      name="stepRecycler"
+      type="edu.cnm.deepdive.choppit.view.EditingStepRecyclerAdapter"/>
   </data>
 
   <ScrollView
@@ -118,26 +119,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:nestedScrollingEnabled="false"
         />
+      <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/add_ingredient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/editing_step_header_logo"
+        app:layout_constraintTop_toBottomOf="@id/editing_recycler_view"
+        app:layout_constraintEnd_toEndOf="parent">
+
       <TextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="@id/add_ingredient_button"
-        app:layout_constraintBottom_toBottomOf="@id/add_ingredient_button"
-        app:layout_constraintEnd_toStartOf="@id/add_ingredient_button"
+        app:layout_constraintTop_toTopOf="@id/add_icon"
+        app:layout_constraintBottom_toBottomOf="@id/add_icon"
+        app:layout_constraintEnd_toStartOf="@id/add_icon"
         android:text="@string/add_ingredient"/>
 
-      <ImageButton
-        android:id="@+id/add_ingredient_button"
+      <ImageView
+        android:id="@+id/add_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/editing_recycler_view"
-        app:layout_constraintBottom_toTopOf="@id/editing_step_header_logo"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="@dimen/wide_space"
         android:padding="@dimen/narrow_space"
         android:background="@color/transparent"
         android:src="@drawable/ic_add"
         android:contentDescription="@string/add_ingredient"/>
+      </androidx.constraintlayout.widget.ConstraintLayout>
 
       <ImageView
         android:id="@+id/editing_step_header_logo"
@@ -146,7 +156,7 @@
         android:layout_marginBottom="@dimen/narrow_space"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/editing_step_header"
-        app:layout_constraintTop_toBottomOf="@id/add_ingredient_button"
+        app:layout_constraintTop_toBottomOf="@id/add_ingredient"
         app:layout_constraintBottom_toTopOf="@id/editing_recycler_view2"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:srcCompat="@drawable/tiny_logo"
@@ -170,10 +180,27 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/narrow_space"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/add_step_button"
+        app:layout_constraintBottom_toTopOf="@id/add_step"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:nestedScrollingEnabled="false"
+        />
+
+      <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_step"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="4dp"
+        android:layout_marginEnd="4dp"
+        android:text="@string/add_step"
+        android:textAllCaps="false"
+        android:textColor="@color/colorOnPrimarySurface"
+        android:outlineProvider="background"
+        android:backgroundTint="@color/colorAccent"
+        android:drawableEnd="@drawable/ic_add"
+        app:layout_constraintBottom_toTopOf="@id/editing_save"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="@{uiController::addStep}"
         />
 
       <TextView

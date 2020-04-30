@@ -2,6 +2,7 @@ package edu.cnm.deepdive.choppit.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,6 +72,8 @@ public class EditingIngredientRecyclerAdapter extends RecyclerView.Adapter<Recyc
       binding.setVariable(edu.cnm.deepdive.choppit.BR.ingredient, ingredient);
       binding.executePendingBindings();
     }
+  }
+  public void addIngredient(View view) {
 
   }
 }

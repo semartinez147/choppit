@@ -3,6 +3,7 @@ package edu.cnm.deepdive.choppit.view;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,11 +43,18 @@ public class EditingStepRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
   public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
     Step step = steps.get(position);
     ((StepViewHolder) viewHolder).bind(step);
+    Log.d("StepOnBindViewHolder", "bound" + position);
   }
 
   @Override
   public int getItemCount() {
-    return steps.size();
+    return steps.size() +1;
+  }
+
+  public void addStep() {
+    Log.d("addStep", "Add Step Button");
+    steps.add(new Step());
+    notifyItemInserted(steps.size());
   }
 
   /**
@@ -71,7 +79,9 @@ public class EditingStepRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
     public void bind(Step step) {
       binding.setVariable(BR.step, step);
       step.setRecipeOrder(getAdapterPosition() + 1);
+      Log.d("StepBind", "Adapter Position:" + getAdapterPosition() + " ... Step number " + step.getRecipeOrder() + " ... " + step.getInstructions());
       binding.executePendingBindings();
     }
   }
+
 }

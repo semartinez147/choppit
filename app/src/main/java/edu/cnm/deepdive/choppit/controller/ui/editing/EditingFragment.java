@@ -4,6 +4,7 @@ import static edu.cnm.deepdive.choppit.BR.bindViewModel;
 import static edu.cnm.deepdive.choppit.BR.uiController;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,6 +43,7 @@ public class EditingFragment extends Fragment {
   private MainViewModel viewModel;
   private FragmentEditingBinding binding;
   private Recipe recipe;
+  private EditingStepRecyclerAdapter editingStepRecyclerAdapter;
 
   public EditingFragment() {
   }
@@ -71,7 +73,7 @@ public class EditingFragment extends Fragment {
     RecyclerView stepRecyclerView = binding.editingRecyclerView2;
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
     editingIngredientRecyclerAdapter = new EditingIngredientRecyclerAdapter(getContext(), recipe);
-    EditingStepRecyclerAdapter editingStepRecyclerAdapter = new EditingStepRecyclerAdapter(getContext(), recipe);
+    editingStepRecyclerAdapter = new EditingStepRecyclerAdapter(getContext(), recipe);
     ingredientRecyclerView.setLayoutManager(layoutManager);
     stepRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     ingredientRecyclerView.setAdapter(editingIngredientRecyclerAdapter);
@@ -95,7 +97,6 @@ public class EditingFragment extends Fragment {
     binding.setLifecycleOwner(this);
     binding.setVariable(bindViewModel, viewModel);
     binding.setVariable(uiController, this);
-//    binding.editingTitle.setText(recipe.getTitle());
 
     Button saveButton = binding.editingSave;
     saveButton.setOnClickListener(v -> {
@@ -129,4 +130,9 @@ public class EditingFragment extends Fragment {
       binding.setRecipe(recipe);
     }
   };
+
+  public void addStep(View view) {
+    Log.d("View ID", Integer.toString(view.getId()));
+    editingStepRecyclerAdapter.addStep();
+  }
 }
