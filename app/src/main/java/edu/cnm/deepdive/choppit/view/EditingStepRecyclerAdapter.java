@@ -3,18 +3,14 @@ package edu.cnm.deepdive.choppit.view;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import edu.cnm.deepdive.choppit.BR;
 import edu.cnm.deepdive.choppit.databinding.EditStepItemBinding;
-import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
-import edu.cnm.deepdive.choppit.view.EditingRecyclerAdapter.StepViewHolder;
-import java.util.ArrayList;
 import java.util.List;
 
 public class EditingStepRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -36,6 +32,7 @@ public class EditingStepRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
     LayoutInflater layoutInflater = LayoutInflater.from(context);
     EditStepItemBinding editStepItemBinding = EditStepItemBinding
         .inflate(layoutInflater, parent, false);
+    Log.d("StepOnCreateViewHolder", "done");
     return new StepViewHolder(editStepItemBinding);
   }
 
@@ -48,13 +45,16 @@ public class EditingStepRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
 
   @Override
   public int getItemCount() {
-    return steps.size() +1;
+    return steps.size();
   }
+
+
 
   public void addStep() {
     Log.d("addStep", "Add Step Button");
     steps.add(new Step());
     notifyItemInserted(steps.size());
+
   }
 
   /**

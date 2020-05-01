@@ -49,7 +49,6 @@
         app:srcCompat="@drawable/small_logo"
         android:elevation="@dimen/wide_space"/>
 
-
       <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/title_layout"
         android:layout_width="wrap_content"
@@ -85,11 +84,12 @@
         android:id="@+id/editing_ingredient_header_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/narrow_space"
         android:layout_marginBottom="@dimen/narrow_space"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/editing_ingredient_header"
         app:layout_constraintTop_toBottomOf="@id/edit_url"
-        app:layout_constraintBottom_toTopOf="@id/editing_recycler_view"
+        app:layout_constraintBottom_toTopOf="@id/editing_ingredient_list"
         app:srcCompat="@drawable/tiny_logo"
         android:contentDescription="@string/logo"
         app:layout_constraintVertical_chainStyle="packed"
@@ -107,24 +107,25 @@
         android:text="@string/ingredients"
         />
 
-      <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/editing_recycler_view"
+      <RelativeLayout
+        android:id="@+id/editing_ingredient_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/narrow_space"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/editing_ingredient_header_logo"
-        app:layout_constraintBottom_toTopOf="@id/editing_step_header_logo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:nestedScrollingEnabled="false"
-        />
+        app:layout_constraintEnd_toEndOf="parent">
+        <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/editing_recycler_view"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:nestedScrollingEnabled="false"/>
+      </RelativeLayout>
+
       <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/add_ingredient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/editing_step_header_logo"
-        app:layout_constraintTop_toBottomOf="@id/editing_recycler_view"
+        app:layout_constraintTop_toBottomOf="@id/editing_ingredient_list"
         app:layout_constraintEnd_toEndOf="parent">
 
       <TextView
@@ -134,7 +135,6 @@
         app:layout_constraintBottom_toBottomOf="@id/add_icon"
         app:layout_constraintEnd_toStartOf="@id/add_icon"
         android:text="@string/add_ingredient"/>
-
       <ImageView
         android:id="@+id/add_icon"
         android:layout_width="wrap_content"
@@ -157,7 +157,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/editing_step_header"
         app:layout_constraintTop_toBottomOf="@id/add_ingredient"
-        app:layout_constraintBottom_toTopOf="@id/editing_recycler_view2"
+        app:layout_constraintBottom_toTopOf="@id/editing_step_list"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:srcCompat="@drawable/tiny_logo"
         android:contentDescription="@string/logo"/>
@@ -174,17 +174,20 @@
         android:text="@string/instructions"
         />
 
-      <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/editing_recycler_view2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/narrow_space"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/add_step"
+      <RelativeLayout
+        android:id="@+id/editing_step_list"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/editing_step_header_logo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:nestedScrollingEnabled="false"
-        />
+        app:layout_constraintEnd_toEndOf="parent">
+        <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/editing_recycler_view2"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:padding="@dimen/narrow_space"
+          android:nestedScrollingEnabled="false"/>
+      </RelativeLayout>
 
       <com.google.android.material.button.MaterialButton
         android:id="@+id/add_step"
@@ -198,12 +201,12 @@
         android:outlineProvider="background"
         android:backgroundTint="@color/colorAccent"
         android:drawableEnd="@drawable/ic_add"
-        app:layout_constraintBottom_toTopOf="@id/editing_save"
+        app:layout_constraintTop_toBottomOf="@id/editing_step_list"
         app:layout_constraintEnd_toEndOf="parent"
         android:onClick="@{uiController::addStep}"
         />
 
-      <TextView
+<!--      <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/add_step_button"
@@ -221,7 +224,7 @@
         android:padding="@dimen/narrow_space"
         android:background="@color/transparent"
         android:src="@drawable/ic_add"
-        android:contentDescription="@string/add_step"/>
+        android:contentDescription="@string/add_step"/>-->
 
       <Button
         android:id="@+id/editing_save"
@@ -230,7 +233,7 @@
         android:text="@string/save_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_step"
         />
     </androidx.constraintlayout.widget.ConstraintLayout>
   </ScrollView>

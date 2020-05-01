@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.choppit.controller.ui.editing;
 
 import static edu.cnm.deepdive.choppit.BR.bindViewModel;
+import static edu.cnm.deepdive.choppit.BR.step;
 import static edu.cnm.deepdive.choppit.BR.uiController;
 
 import android.os.Bundle;
@@ -44,6 +45,8 @@ public class EditingFragment extends Fragment {
   private FragmentEditingBinding binding;
   private Recipe recipe;
   private EditingStepRecyclerAdapter editingStepRecyclerAdapter;
+  private LinearLayoutManager ingredientLayoutManager;
+  private LinearLayoutManager stepLayoutManager;
 
   public EditingFragment() {
   }
@@ -71,11 +74,12 @@ public class EditingFragment extends Fragment {
   private void setupRecyclerView() {
     RecyclerView ingredientRecyclerView = binding.editingRecyclerView;
     RecyclerView stepRecyclerView = binding.editingRecyclerView2;
-    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+    ingredientLayoutManager = new LinearLayoutManager(getContext());
+    stepLayoutManager = new LinearLayoutManager(getContext());
     editingIngredientRecyclerAdapter = new EditingIngredientRecyclerAdapter(getContext(), recipe);
     editingStepRecyclerAdapter = new EditingStepRecyclerAdapter(getContext(), recipe);
-    ingredientRecyclerView.setLayoutManager(layoutManager);
-    stepRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    ingredientRecyclerView.setLayoutManager(ingredientLayoutManager);
+    stepRecyclerView.setLayoutManager(stepLayoutManager);
     ingredientRecyclerView.setAdapter(editingIngredientRecyclerAdapter);
     stepRecyclerView.setAdapter(editingStepRecyclerAdapter);
   }
@@ -112,6 +116,7 @@ public class EditingFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
 
   }
+
 
   /**
    * This observer checks the {@link MainViewModel} for an updated recipe and sets its contents to

@@ -42,6 +42,7 @@ public class EditingIngredientRecyclerAdapter extends RecyclerView.Adapter<Recyc
   public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
     Ingredient ingredient = ingredients.get(position);
     ((IngredientViewHolder) viewHolder).bind(ingredient);
+
   }
 
   @Override
