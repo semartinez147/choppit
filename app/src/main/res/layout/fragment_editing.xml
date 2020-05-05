@@ -84,7 +84,7 @@
         android:id="@+id/editing_ingredient_header_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/narrow_space"
+        android:layout_marginTop="@dimen/medium_space"
         android:layout_marginBottom="@dimen/narrow_space"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/editing_ingredient_header"
@@ -121,38 +121,28 @@
           android:nestedScrollingEnabled="false"/>
       </RelativeLayout>
 
-      <androidx.constraintlayout.widget.ConstraintLayout
+      <com.google.android.material.button.MaterialButton
         android:id="@+id/add_ingredient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingEnd="4dp"
+        android:layout_marginEnd="4dp"
+        android:text="@string/add_ingredient"
+        android:textAllCaps="false"
+        android:textColor="@color/colorOnPrimarySurface"
+        android:outlineProvider="background"
+        android:backgroundTint="@color/colorAccent"
+        android:drawableEnd="@drawable/ic_add"
         app:layout_constraintTop_toBottomOf="@id/editing_ingredient_list"
-        app:layout_constraintEnd_toEndOf="parent">
-
-      <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="@id/add_icon"
-        app:layout_constraintBottom_toBottomOf="@id/add_icon"
-        app:layout_constraintEnd_toStartOf="@id/add_icon"
-        android:text="@string/add_ingredient"/>
-      <ImageView
-        android:id="@+id/add_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="@dimen/wide_space"
-        android:padding="@dimen/narrow_space"
-        android:background="@color/transparent"
-        android:src="@drawable/ic_add"
-        android:contentDescription="@string/add_ingredient"/>
-      </androidx.constraintlayout.widget.ConstraintLayout>
+        android:onClick="@{uiController::addIngredient}"
+        />
 
       <ImageView
         android:id="@+id/editing_step_header_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium_space"
         android:layout_marginBottom="@dimen/narrow_space"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/editing_step_header"
@@ -198,33 +188,12 @@
         android:text="@string/add_step"
         android:textAllCaps="false"
         android:textColor="@color/colorOnPrimarySurface"
-        android:outlineProvider="background"
         android:backgroundTint="@color/colorAccent"
         android:drawableEnd="@drawable/ic_add"
         app:layout_constraintTop_toBottomOf="@id/editing_step_list"
         app:layout_constraintEnd_toEndOf="parent"
         android:onClick="@{uiController::addStep}"
         />
-
-<!--      <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/add_step_button"
-        app:layout_constraintBottom_toBottomOf="@id/add_step_button"
-        app:layout_constraintEnd_toStartOf="@id/add_step_button"
-        android:text="@string/add_step"/>
-
-      <ImageButton
-        android:id="@+id/add_step_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/editing_save"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="@dimen/wide_space"
-        android:padding="@dimen/narrow_space"
-        android:background="@color/transparent"
-        android:src="@drawable/ic_add"
-        android:contentDescription="@string/add_step"/>-->
 
       <Button
         android:id="@+id/editing_save"
@@ -233,8 +202,7 @@
         android:text="@string/save_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_step"
-        />
+        app:layout_constraintTop_toBottomOf="@id/add_step"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
   </ScrollView>
 </layout>

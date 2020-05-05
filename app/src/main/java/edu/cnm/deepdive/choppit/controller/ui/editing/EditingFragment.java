@@ -76,7 +76,7 @@ public class EditingFragment extends Fragment {
     RecyclerView stepRecyclerView = binding.editingRecyclerView2;
     ingredientLayoutManager = new LinearLayoutManager(getContext());
     stepLayoutManager = new LinearLayoutManager(getContext());
-    editingIngredientRecyclerAdapter = new EditingIngredientRecyclerAdapter(getContext(), recipe);
+    editingIngredientRecyclerAdapter = new EditingIngredientRecyclerAdapter(getContext(), recipe, this);
     editingStepRecyclerAdapter = new EditingStepRecyclerAdapter(getContext(), recipe);
     ingredientRecyclerView.setLayoutManager(ingredientLayoutManager);
     stepRecyclerView.setLayoutManager(stepLayoutManager);
@@ -137,7 +137,15 @@ public class EditingFragment extends Fragment {
   };
 
   public void addStep(View view) {
-    Log.d("View ID", Integer.toString(view.getId()));
     editingStepRecyclerAdapter.addStep();
+  }
+
+  public void addIngredient(View view) {
+    editingIngredientRecyclerAdapter.addIngredient();
+      }
+
+  public void deleteIngredient(int position) {
+    Log.d("deleteIngredient", "method call");
+        editingIngredientRecyclerAdapter.deleteIngredient(position);
   }
 }

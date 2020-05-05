@@ -1,12 +1,14 @@
 package edu.cnm.deepdive.choppit.view;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
 import edu.cnm.deepdive.choppit.databinding.EditIngredientItemBinding;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
@@ -18,11 +20,13 @@ public class EditingIngredientRecyclerAdapter extends RecyclerView.Adapter<Recyc
 
   private final Context context;
   private final Recipe recipe;
+  private EditingFragment uiController;
   private final List<Ingredient> ingredients = new ArrayList<>();
 
   public EditingIngredientRecyclerAdapter(Context context,
-      Recipe recipe) {
+      Recipe recipe, EditingFragment editingFragment) {
     this.context = context;
+    this.uiController = editingFragment;
     this.recipe = recipe;
     for (Step step : recipe.getSteps()) {
       ingredients.addAll(step.getIngredients());
@@ -41,7 +45,7 @@ public class EditingIngredientRecyclerAdapter extends RecyclerView.Adapter<Recyc
   @Override
   public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
     Ingredient ingredient = ingredients.get(position);
-    ((IngredientViewHolder) viewHolder).bind(ingredient);
+    ((IngredientViewHolder) viewHolder).bind(ingredient, uiController);
 
   }
 
@@ -69,12 +73,28 @@ public class EditingIngredientRecyclerAdapter extends RecyclerView.Adapter<Recyc
      *
      * @param ingredient the item to be bound.
      */
-    public void bind(Ingredient ingredient) {
+    public void bind(Ingredient ingredient, EditingFragment uiController) {
       binding.setVariable(edu.cnm.deepdive.choppit.BR.ingredient, ingredient);
+      binding.setPosition(getAdapterPosition());
+      binding.setUiController(uiController);
       binding.executePendingBindings();
     }
-  }
-  public void addIngredient(View view) {
+
+    public void delete() {
+
+    }
 
   }
+  public void addIngredient() {
+    Log.d("Add ingredient", "Position " + ingredients.size());
+    ingredients.add(new Ingredient());
+    notifyItemInserted(ingredients.size());
+  }
+
+  public void deleteIngredient(int position) {
+    Log.d("Adapter delete", "Position " + position);
+    ingredients.remove(position);
+    notifyItemRemoved(position);
+  }
+
 }

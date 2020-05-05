@@ -10,6 +10,9 @@
     <variable
       name="uiController"
       type="edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment"/>
+    <variable
+      name="position"
+      type="int"/>
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -100,8 +103,9 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintBottom_toBottomOf="parent"
-      android:background="@color/transparent"
+      android:background="?android:attr/selectableItemBackground"
       android:contentDescription="@string/delete_button"
+      android:onClick="@{() -> uiController.deleteIngredient(position)}"
       android:src="@drawable/ic_remove"/>
 
 
