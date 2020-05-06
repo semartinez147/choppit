@@ -25,12 +25,13 @@ The process was complicated by responses to the COVID-19 pandemic, and I had to 
 
 - Editing saved recipes
   - Navigation from a single Recipe to the Editing screen needs to be added.
-  - I want to handle the changes to the database with two-way data binding.
+  - ~~I want to handle the changes to the database with two-way data binding.~~
+      - Decided against this to prevent saving changes prematurely.
 
 - Viewing saved recipes
   - ~~I have problems with navigation methods, but I believe I have a strategy to simplify them.~~
     - Resolved 4/16/20 using SafeArgs to pass a recipeId into the fragment.
-  - DataBinding code in the RecipeRecyclerAdapter needs to be written.
+  - Only retrieving the Recipe object without Steps or Ingredients.
 
 #### Basic Functions
 
@@ -44,7 +45,7 @@ The process was complicated by responses to the COVID-19 pandemic, and I had to 
 
 - Turn Unit selection on the Editing Screen into a drop-down displaying the Enum values.
 
-- Changing font through Settings *(this is not cosmetic because readability from a few feet away is a basic feature)*
+- Changing font through Settings *(readability from a few feet away is a basic feature)*
     - Typeface and size
     - Possibly vertical and horizontal spacing
 	- I would like to add the [Open Dyslexic](opendyslexic.org) font to increase accessibility.
@@ -57,7 +58,8 @@ The process was complicated by responses to the COVID-19 pandemic, and I had to 
 
 There are very few bugs in the functionality I do have, but work needs to be done in error handling.
 
-- Bug: UI hangs when trying to navigate away from Editing ~~& Recipe~~ screens.
+- ~~Bug: UI hangs when trying to navigate away from Editing & Recipe screens.~~
+    - Resolved 5/6/20 using Jetpack Navigation and removing Loading fragment from the backstack.
 - Error handling: There should be a UI message if a link fails to load.
 - Error handling: If there are zero or multiple HTML class results for either search string, the Loading Screen will display indefinitely.  The UI should return to the Selection screen and ask for valid input, or a longer string.
 	- Searching for two ingredient strings that are wrapped in matching classes, and ruling out any clas that contains both strings should address sites where the author talks about the recipe in depth before the actual recipe.
@@ -66,7 +68,8 @@ There are very few bugs in the functionality I do have, but work needs to be don
 
 The interface is sparse by design, since the purpose of the app is to remove unnecessary clutter.  I don't want to add anything that isn't functional.
 
-- Improve Editing Fragment by using Divider Decorations (or another method) to display **Ingredient** and **Step** headers before each section.
+- ~~Improve Editing Fragment by using Divider Decorations (or another method) to display **Ingredient** and **Step** headers before each section.~~
+    - Split the fragment into two RecyclerViews to simplify header and add/remove buttons.  
 - Add a Theme setting, including (maybe starting with) dark mode.  
 	- Multiple versions of the logo to match whatever theme is selected.
 	

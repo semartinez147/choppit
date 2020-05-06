@@ -1,15 +1,18 @@
 package edu.cnm.deepdive.choppit.controller.ui.editing;
 
 import static edu.cnm.deepdive.choppit.BR.bindViewModel;
+import static edu.cnm.deepdive.choppit.BR.step;
 import static edu.cnm.deepdive.choppit.BR.uiController;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -25,22 +28,24 @@ import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient.Unit;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
-import edu.cnm.deepdive.choppit.view.EditingRecyclerAdapter;
+import edu.cnm.deepdive.choppit.view.EditingIngredientRecyclerAdapter;
+import edu.cnm.deepdive.choppit.view.EditingStepRecyclerAdapter;
 import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import java.util.Arrays;
 
 // FIXME: save button does not work.
-// TODO: add itemDividerDecoration for RecyclerView headers.
-// TODO: buttons to add/remove fields.
 // TODO: process new recipe through Repository to link Steps & Ingredients.
 
 
 public class EditingFragment extends Fragment {
 
-  EditingRecyclerAdapter editingRecyclerAdapter;
+  EditingIngredientRecyclerAdapter editingIngredientRecyclerAdapter;
   private MainViewModel viewModel;
   private FragmentEditingBinding binding;
   private Recipe recipe;
+  private EditingStepRecyclerAdapter editingStepRecyclerAdapter;
+  private LinearLayoutManager ingredientLayoutManager;
+  private LinearLayoutManager stepLayoutManager;
 
   public EditingFragment() {
   }
@@ -66,11 +71,17 @@ public class EditingFragment extends Fragment {
   }
 
   private void setupRecyclerView() {
-    RecyclerView recyclerView = binding.editingRecyclerView;
-    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-    editingRecyclerAdapter = new EditingRecyclerAdapter(getContext(), recipe);
-    recyclerView.setLayoutManager(layoutManager);
-    recyclerView.setAdapter(editingRecyclerAdapter);
+    RecyclerView ingredientRecyclerView = binding.editingRecyclerView;
+    RecyclerView stepRecyclerView = binding.editingRecyclerView2;
+    ingredientLayoutManager = new LinearLayoutManager(getContext());
+    stepLayoutManager = new LinearLayoutManager(getContext());
+    editingIngredientRecyclerAdapter = new EditingIngredientRecyclerAdapter(getContext(), recipe,
+        this);
+    editingStepRecyclerAdapter = new EditingStepRecyclerAdapter(getContext(), recipe, this);
+    ingredientRecyclerView.setLayoutManager(ingredientLayoutManager);
+    stepRecyclerView.setLayoutManager(stepLayoutManager);
+    ingredientRecyclerView.setAdapter(editingIngredientRecyclerAdapter);
+    stepRecyclerView.setAdapter(editingStepRecyclerAdapter);
   }
 
   @Override
@@ -90,7 +101,6 @@ public class EditingFragment extends Fragment {
     binding.setLifecycleOwner(this);
     binding.setVariable(bindViewModel, viewModel);
     binding.setVariable(uiController, this);
-//    binding.editingTitle.setText(recipe.getTitle());
 
     Button saveButton = binding.editingSave;
     saveButton.setOnClickListener(v -> {
@@ -106,6 +116,7 @@ public class EditingFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
 
   }
+
 
   /**
    * This observer checks the {@link MainViewModel} for an updated recipe and sets its contents to
@@ -124,4 +135,21 @@ public class EditingFragment extends Fragment {
       binding.setRecipe(recipe);
     }
   };
+
+  public void addStep(View view) {
+    editingStepRecyclerAdapter.addStep();
+  }
+
+  public void addIngredient(View view) {
+    editingIngredientRecyclerAdapter.addIngredient();
+  }
+
+  public void deleteIngredient(int position) {
+    Log.d("deleteIngredient", "method call");
+    editingIngredientRecyclerAdapter.deleteIngredient(position);
+  }
+
+  public void deleteStep(int position) {
+    editingStepRecyclerAdapter.deleteStep(position);
+  }
 }

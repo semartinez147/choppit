@@ -73,7 +73,15 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
     return handled;
   }
 
-/*  @Override
+  @Override
+  public void onBackPressed() {
+    if (navController.getCurrentDestination().getId() == R.id.navigation_editing) {
+//      Navigation.findNavController().navigate(R.id.navigation_selection);
+    }
+    super.onBackPressed();
+  }
+
+  /*  @Override
   public void onBackPressed() {
     if (navController.getCurrentDestination().getId() == R.id.navigation_editing) {
       navigateTo(R.id.navigation_selection);
