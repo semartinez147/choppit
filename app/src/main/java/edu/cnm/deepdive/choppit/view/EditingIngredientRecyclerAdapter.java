@@ -3,7 +3,6 @@ package edu.cnm.deepdive.choppit.view;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,6 +53,18 @@ public class EditingIngredientRecyclerAdapter extends RecyclerView.Adapter<Recyc
     return ingredients.size();
   }
 
+  public void addIngredient() {
+    Log.d("Add ingredient", "Position " + ingredients.size());
+    ingredients.add(new Ingredient());
+    notifyItemInserted(ingredients.size());
+  }
+
+  public void deleteIngredient(int position) {
+    Log.d("Adapter delete", "Position " + position);
+    ingredients.remove(position);
+    notifyItemRemoved(position);
+  }
+
   /**
    * The ViewHolder class coordinates between incoming data and the UI.  This handles {@link
    * Ingredient}s.
@@ -80,21 +91,6 @@ public class EditingIngredientRecyclerAdapter extends RecyclerView.Adapter<Recyc
       binding.executePendingBindings();
     }
 
-    public void delete() {
-
-    }
-
-  }
-  public void addIngredient() {
-    Log.d("Add ingredient", "Position " + ingredients.size());
-    ingredients.add(new Ingredient());
-    notifyItemInserted(ingredients.size());
-  }
-
-  public void deleteIngredient(int position) {
-    Log.d("Adapter delete", "Position " + position);
-    ingredients.remove(position);
-    notifyItemRemoved(position);
   }
 
 }

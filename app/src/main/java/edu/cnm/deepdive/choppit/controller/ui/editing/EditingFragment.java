@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -33,8 +34,6 @@ import edu.cnm.deepdive.choppit.viewmodel.MainViewModel;
 import java.util.Arrays;
 
 // FIXME: save button does not work.
-// TODO: add itemDividerDecoration for RecyclerView headers.
-// TODO: buttons to add/remove fields.
 // TODO: process new recipe through Repository to link Steps & Ingredients.
 
 
@@ -76,8 +75,9 @@ public class EditingFragment extends Fragment {
     RecyclerView stepRecyclerView = binding.editingRecyclerView2;
     ingredientLayoutManager = new LinearLayoutManager(getContext());
     stepLayoutManager = new LinearLayoutManager(getContext());
-    editingIngredientRecyclerAdapter = new EditingIngredientRecyclerAdapter(getContext(), recipe, this);
-    editingStepRecyclerAdapter = new EditingStepRecyclerAdapter(getContext(), recipe);
+    editingIngredientRecyclerAdapter = new EditingIngredientRecyclerAdapter(getContext(), recipe,
+        this);
+    editingStepRecyclerAdapter = new EditingStepRecyclerAdapter(getContext(), recipe, this);
     ingredientRecyclerView.setLayoutManager(ingredientLayoutManager);
     stepRecyclerView.setLayoutManager(stepLayoutManager);
     ingredientRecyclerView.setAdapter(editingIngredientRecyclerAdapter);
@@ -142,10 +142,14 @@ public class EditingFragment extends Fragment {
 
   public void addIngredient(View view) {
     editingIngredientRecyclerAdapter.addIngredient();
-      }
+  }
 
   public void deleteIngredient(int position) {
     Log.d("deleteIngredient", "method call");
-        editingIngredientRecyclerAdapter.deleteIngredient(position);
+    editingIngredientRecyclerAdapter.deleteIngredient(position);
+  }
+
+  public void deleteStep(int position) {
+    editingStepRecyclerAdapter.deleteStep(position);
   }
 }

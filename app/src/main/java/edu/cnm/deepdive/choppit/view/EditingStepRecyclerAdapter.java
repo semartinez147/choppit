@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import edu.cnm.deepdive.choppit.BR;
+import edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment;
 import edu.cnm.deepdive.choppit.databinding.EditStepItemBinding;
 import edu.cnm.deepdive.choppit.model.entity.Recipe;
 import edu.cnm.deepdive.choppit.model.entity.Step;
@@ -17,11 +18,13 @@ public class EditingStepRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
 
   private final Context context;
   private final Recipe recipe;
+  private EditingFragment uiController;
   private final List<Step> steps;
 
   public EditingStepRecyclerAdapter(Context context,
-      Recipe recipe) {
+      Recipe recipe, EditingFragment editingFragment) {
     this.context = context;
+    this.uiController = editingFragment;
     this.recipe = recipe;
     this.steps = recipe.getSteps();
   }
@@ -48,14 +51,17 @@ public class EditingStepRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
     return steps.size();
   }
 
-
-
   public void addStep() {
     Log.d("addStep", "Add Step Button");
     steps.add(new Step());
     notifyItemInserted(steps.size());
-
   }
+
+  public void deleteStep(int position) {
+    steps.remove(position);
+    notifyDataSetChanged();
+    }
+
 
   /**
    * The ViewHolder class coordinates between incoming data and the UI.  This handles {@link
@@ -78,6 +84,7 @@ public class EditingStepRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
      */
     public void bind(Step step) {
       binding.setVariable(BR.step, step);
+      binding.setUiController(uiController);
       step.setRecipeOrder(getAdapterPosition() + 1);
       Log.d("StepBind", "Adapter Position:" + getAdapterPosition() + " ... Step number " + step.getRecipeOrder() + " ... " + step.getInstructions());
       binding.executePendingBindings();

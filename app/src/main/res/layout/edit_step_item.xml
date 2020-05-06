@@ -9,6 +9,9 @@
     <variable
       name="uiController"
       type="edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment"/>
+    <variable
+      name="position"
+      type="int"/>
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,6 +34,18 @@
       android:text="@{Integer.toString(step.recipeOrder)}"
       app:layout_constraintEnd_toEndOf="@id/step_tag"
       app:layout_constraintTop_toBottomOf="@id/step_tag"/>
+    <ImageButton
+      android:id="@+id/delete"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:layout_constraintTop_toBottomOf="@id/step_number"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="@id/step_number"
+      app:layout_constraintBottom_toBottomOf="@id/step_layout"
+      android:background="?android:attr/selectableItemBackground"
+      android:contentDescription="@string/delete_button"
+      android:onClick="@{() -> uiController.deleteStep(position)}"
+      android:src="@drawable/ic_remove"/>
 
     <com.google.android.material.textfield.TextInputLayout
       android:id="@+id/step_layout"

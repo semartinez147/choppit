@@ -57,12 +57,13 @@
 
     <fragment
     android:id="@+id/navigation_loading"
-    android:label="@string/cookbook"
+    android:label="@string/loading"
     android:name="edu.cnm.deepdive.choppit.controller.ui.editing.LoadingFragment"
     tools:layout="@layout/fragment_loading">
       <action
         android:id="@+id/load_edit"
-        app:destination="@id/navigation_editing"/>
+        app:destination="@id/navigation_editing"
+        app:popUpTo="@id/navigation_selection"/>
     </fragment>
 
   <fragment
