@@ -69,7 +69,8 @@ public class HomeFragment extends Fragment {
     });
 
     // TODO disable for production
-    urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
+//    urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
+    urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/baked-macaroni-and-cheese-recipe-1939524");
 
     newRecipe.setOnClickListener(v -> {
       url = urlInput.getText().toString().trim();

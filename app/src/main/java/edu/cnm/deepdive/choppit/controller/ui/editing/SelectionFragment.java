@@ -54,8 +54,8 @@ public class SelectionFragment extends Fragment {
     stepInput = root.findViewById(R.id.step_input);
 
 //  TODO disable for production
-    ingredientInput.setText("bread flour");
-    stepInput.setText("melt the butter");
+    ingredientInput.setText("1/2 pound elbow macaroni");
+    stepInput.setText("oven to 350");
 
     Button continueButton = root.findViewById(R.id.selection_extract);
     continueButton.setOnClickListener(v -> {
