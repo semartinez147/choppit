@@ -123,6 +123,6 @@ The interface is sparse by design, since the purpose of the app is to remove unn
 
 ## Build Instructions
 
-- Clone the Choppit Git Repository [here](git@github.com:semartinez147/choppit.git).
+- Clone the [Choppit Git Repository](https://github.com/semartinez147/choppit).
 
 - From your IDE, import Choppit as a **Gradle** project
