@@ -7,21 +7,21 @@
   <data>
     <import type="android.view.View"/>
     <variable
-      name="recipe" type="edu.cnm.deepdive.choppit.model.entity.Recipe"/>
+      name="recipe" type="com.semartinez.projects.choppit.model.entity.Recipe"/>
     <variable
-      name="ingredient" type="edu.cnm.deepdive.choppit.model.entity.Ingredient"/>
+      name="ingredient" type="com.semartinez.projects.choppit.model.entity.Ingredient"/>
     <variable
-      name="step" type="edu.cnm.deepdive.choppit.model.entity.Step"/>
+      name="step" type="com.semartinez.projects.choppit.model.entity.Step"/>
     <variable
-      name="bindViewModel" type="edu.cnm.deepdive.choppit.viewmodel.MainViewModel"/>
+      name="bindViewModel" type="com.semartinez.projects.choppit.viewmodel.MainViewModel"/>
     <variable
-      name="uiController" type="edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment"/>
+      name="uiController" type="com.semartinez.projects.choppit.controller.ui.editing.EditingFragment"/>
     <variable
       name="ingredientRecycler"
-      type="edu.cnm.deepdive.choppit.view.EditingIngredientRecyclerAdapter"/>
+      type="com.semartinez.projects.choppit.view.EditingIngredientRecyclerAdapter"/>
   <variable
       name="stepRecycler"
-      type="edu.cnm.deepdive.choppit.view.EditingStepRecyclerAdapter"/>
+      type="com.semartinez.projects.choppit.view.EditingStepRecyclerAdapter"/>
   </data>
 
   <ScrollView

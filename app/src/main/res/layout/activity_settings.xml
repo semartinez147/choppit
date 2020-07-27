@@ -9,7 +9,7 @@
 
   <fragment
     android:id="@+id/settings_fragment"
-    android:name="edu.cnm.deepdive.choppit.controller.SettingsActivity$SettingsFragment"
+    android:name="com.semartinez.projects.choppit.controller.SettingsActivity$SettingsFragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layout_constraintTop_toTopOf="parent"

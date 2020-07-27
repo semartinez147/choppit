@@ -7,13 +7,13 @@
     <import type="android.view.View"/>
     <variable
       name="ingredient"
-      type="edu.cnm.deepdive.choppit.model.entity.Ingredient"/>
+      type="com.semartinez.projects.choppit.model.entity.Ingredient"/>
     <variable
       name="unitEnum"
-      type="edu.cnm.deepdive.choppit.model.entity.Ingredient.Unit"/>
+      type="com.semartinez.projects.choppit.model.entity.Ingredient.Unit"/>
     <variable
       name="uiController"
-      type="edu.cnm.deepdive.choppit.controller.ui.cookbook.RecipeFragment"/>
+      type="com.semartinez.projects.choppit.controller.ui.cookbook.RecipeFragment"/>
   </data>
 
 <LinearLayout

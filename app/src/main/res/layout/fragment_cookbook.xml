@@ -7,13 +7,13 @@
   <data>
     <variable
       name="recipe"
-      type="edu.cnm.deepdive.choppit.model.entity.Recipe"/>
+      type="com.semartinez.projects.choppit.model.entity.Recipe"/>
     <variable
       name="bindViewModel"
-      type="edu.cnm.deepdive.choppit.viewmodel.MainViewModel"/>
+      type="com.semartinez.projects.choppit.viewmodel.MainViewModel"/>
     <variable
       name="uiController"
-      type="edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment"/>
+      type="com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragment"/>
   </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout

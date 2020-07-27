@@ -5,10 +5,10 @@
   <data>
     <variable
       name="step"
-      type="edu.cnm.deepdive.choppit.model.entity.Step"/>
+      type="com.semartinez.projects.choppit.model.entity.Step"/>
     <variable
       name="uiController"
-      type="edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment"/>
+      type="com.semartinez.projects.choppit.controller.ui.editing.EditingFragment"/>
     <variable
       name="position"
       type="int"/>

@@ -6,10 +6,10 @@
 <data>
   <variable
     name="recipe"
-    type="edu.cnm.deepdive.choppit.model.entity.Recipe"/>
+    type="com.semartinez.projects.choppit.model.entity.Recipe"/>
   <variable
     name="uiController"
-    type="edu.cnm.deepdive.choppit.controller.ui.cookbook.CookbookFragment"/>
+    type="com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragment"/>
 </data>
 
 <androidx.cardview.widget.CardView

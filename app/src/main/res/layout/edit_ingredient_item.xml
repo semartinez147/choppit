@@ -6,10 +6,10 @@
   <data>
     <variable
       name="ingredient"
-      type="edu.cnm.deepdive.choppit.model.entity.Ingredient"/>
+      type="com.semartinez.projects.choppit.model.entity.Ingredient"/>
     <variable
       name="uiController"
-      type="edu.cnm.deepdive.choppit.controller.ui.editing.EditingFragment"/>
+      type="com.semartinez.projects.choppit.controller.ui.editing.EditingFragment"/>
     <variable
       name="position"
       type="int"/>
