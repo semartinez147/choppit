@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.choppit.service;
 
+import android.util.Log;
 import edu.cnm.deepdive.choppit.model.entity.Ingredient;
 import edu.cnm.deepdive.choppit.model.entity.Step;
 import java.util.ArrayList;
@@ -49,9 +50,11 @@ public class JsoupRetriever {
     List<Step> steps = new ArrayList<>(buildSteps());
     List<Ingredient> ingredients = new ArrayList<>(buildIngredients());
 
+    // FIXME choking on something null using second recipe.
+
     for (Ingredient item : ingredients) {
       Pattern ingredientPattern =
-          Pattern.compile(item.getName().trim().replaceAll("\\s", "|"),
+      Pattern.compile(item.getName().trim().replaceAll("\\s", "|"),
               Pattern.CASE_INSENSITIVE);
       for (Step step : steps) {
         if (ingredientPattern.matcher(step.getInstructions()).find()) {
@@ -111,6 +114,9 @@ public class JsoupRetriever {
       if (matcher.find()) {
         ingredient.setQuantity(matcher.group(1));
         ingredient.setUnit(Ingredient.Unit.toUnit(matcher.group(2)));
+        if (matcher.group(2) == null) {
+          ingredient.setUnitAlt("whole");
+        }
         ingredient.setName(matcher.group(3).trim());
       }
       ingredients.add(ingredient);

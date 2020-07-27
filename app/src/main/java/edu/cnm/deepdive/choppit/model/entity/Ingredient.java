@@ -41,7 +41,6 @@ public class Ingredient {
   @ColumnInfo
   private String name;
 
-  @NonNull
   @ColumnInfo(name = "unit", typeAffinity = ColumnInfo.TEXT, collate = ColumnInfo.NOCASE)
   private Unit unit;
 
@@ -143,7 +142,7 @@ public class Ingredient {
     public static Unit toUnit(
         String value) {
       if (value == null) {
-        return null;
+        return Unit.OTHER;
       } else {
         try {
           return Unit.valueOf(value);
