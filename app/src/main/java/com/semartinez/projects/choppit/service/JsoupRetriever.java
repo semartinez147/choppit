@@ -1,6 +1,7 @@
 package com.semartinez.projects.choppit.service;
 
 import com.semartinez.projects.choppit.model.entity.Ingredient;
+import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
 import com.semartinez.projects.choppit.model.entity.Step;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ public class JsoupRetriever {
   private List<String> listInstructions = new ArrayList<>();
 
 
-  private JsoupRetriever() {
+  JsoupRetriever() {
 
   }
 
@@ -73,7 +74,7 @@ public class JsoupRetriever {
    * @param text is either the ingredient or instruction text input by the user
    * @return the HTML "class" attribute enclosing the input {@link String}.
    */
-  private String getClass(String text) {
+  protected String getClass(String text) {
     Elements e = document.select(String.format("*:containsOwn(%s)", text));
     // TODO error handling (no matching text just returns an empty List).
 
@@ -88,12 +89,12 @@ public class JsoupRetriever {
    * @return the contents of each HTML element matching the provided "class" attribute as a {@link
    * String}.
    */
-  private List<String> getClassContents(String klass) {
+  protected List<String> getClassContents(String klass) {
     Elements e = document.getElementsByClass(klass);
     return e.eachText();
   }
 
-  private List<Step> buildSteps() {
+  protected List<Step> buildSteps() {
     List<Step> steps = new ArrayList<>();
     for (int i = 0, j = 1; i < this.listInstructions.size(); i++, j++) {
       Step step = new Step();
@@ -104,19 +105,26 @@ public class JsoupRetriever {
     return (steps);
   }
 
-  private List<Ingredient> buildIngredients() {
+  //FIXME choking on "fresh black pepper"
+
+  protected List<Ingredient> buildIngredients() {
     List<Ingredient> ingredients = new ArrayList<>();
     Pattern pattern = Pattern.compile(MAGIC_INGREDIENT_REGEX);
-    for (String rawIngredient : this.listRawIngredients) {
+    List<String> rawIngredients = this.listRawIngredients;
+    for (String rawIngredient : rawIngredients) {
       Matcher matcher = pattern.matcher(rawIngredient);
       Ingredient ingredient = new Ingredient();
       if (matcher.find()) {
         ingredient.setQuantity(matcher.group(1));
-        ingredient.setUnit(Ingredient.Unit.toUnit(matcher.group(2)));
+        ingredient.setUnit(Unit.toUnit(matcher.group(2)));
         if (matcher.group(2) == null) {
-          ingredient.setUnitAlt("whole");
+          ingredient.setUnitAlt("");
         }
         ingredient.setName(matcher.group(3).trim());
+      } else {
+        ingredient.setQuantity("1");
+        ingredient.setUnitAlt("");
+        ingredient.setName(rawIngredient);
       }
       ingredients.add(ingredient);
     }
