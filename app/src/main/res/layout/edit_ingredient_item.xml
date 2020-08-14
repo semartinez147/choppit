@@ -63,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/unit_hint"
-        android:text="@{ingredient.unit.toString()}"
+        android:text="@{ingredient.unitText}"
         android:inputType="text"
         android:minEms="3"
         android:maxLength="10"

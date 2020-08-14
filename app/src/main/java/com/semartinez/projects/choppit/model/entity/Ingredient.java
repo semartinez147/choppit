@@ -103,6 +103,10 @@ public class Ingredient {
     this.unit = unit;
   }
 
+  public String getUnitText() {
+    return unit != Unit.OTHER ? unit.toString() : unitAlt;
+  }
+
   public String getUnitAlt() {
     return unitAlt;
   }

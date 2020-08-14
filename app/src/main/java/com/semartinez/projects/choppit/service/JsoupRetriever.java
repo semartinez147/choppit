@@ -50,8 +50,6 @@ public class JsoupRetriever {
     List<Step> steps = new ArrayList<>(buildSteps());
     List<Ingredient> ingredients = new ArrayList<>(buildIngredients());
 
-    // FIXME choking on something null using second recipe.
-
     for (Ingredient item : ingredients) {
       Pattern ingredientPattern =
       Pattern.compile(item.getName().trim().replaceAll("\\s", "|"),
@@ -105,7 +103,6 @@ public class JsoupRetriever {
     return (steps);
   }
 
-  //FIXME choking on "fresh black pepper"
 
   protected List<Ingredient> buildIngredients() {
     List<Ingredient> ingredients = new ArrayList<>();
@@ -115,14 +112,17 @@ public class JsoupRetriever {
       Matcher matcher = pattern.matcher(rawIngredient);
       Ingredient ingredient = new Ingredient();
       if (matcher.find()) {
+        // group 1 = measurement | group 2 = unit | group 3 = name //
         ingredient.setQuantity(matcher.group(1));
         ingredient.setUnit(Unit.toUnit(matcher.group(2)));
         if (matcher.group(2) == null) {
+          ingredient.setUnit(Unit.toUnit("other"));
           ingredient.setUnitAlt("");
         }
         ingredient.setName(matcher.group(3).trim());
       } else {
         ingredient.setQuantity("1");
+        ingredient.setUnit(Unit.toUnit("other"));
         ingredient.setUnitAlt("");
         ingredient.setName(rawIngredient);
       }
