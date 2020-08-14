@@ -184,9 +184,15 @@ public class Ingredient {
         + " " + getName());
   }
 
+  @Ignore
+  private int hashCode;
+
   @Override
   public int hashCode() {
-    return Objects.hash(quantity, unit, name); // TODO Compute lazily & cache.
+    if (hashCode == 0) {
+      hashCode = Objects.hash(quantity, unit, name);
+    }
+    return hashCode;
   }
 
   @Override
