@@ -28,7 +28,11 @@ public class EditingIngredientRecyclerAdapter extends RecyclerView.Adapter<Recyc
     this.uiController = editingFragment;
     this.recipe = recipe;
     for (Step step : recipe.getSteps()) {
-      ingredients.addAll(step.getIngredients());
+      for (Ingredient ingredient : step.getIngredients()) {
+        if (!ingredients.contains(ingredient)) {
+          ingredients.add(ingredient);
+        }
+      }
     }
   }
 

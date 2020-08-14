@@ -31,7 +31,7 @@ The process was complicated by responses to the COVID-19 pandemic, and I had to 
 - Viewing saved recipes
   - ~~I have problems with navigation methods, but I believe I have a strategy to simplify them.~~
     - Resolved 4/16/20 using SafeArgs to pass a recipeId into the fragment.
-  - Only retrieving the Recipe object without Steps or Ingredients.
+  - Currently only retrieving the Recipe object without Steps or Ingredients.
 
 #### Basic Functions
 
@@ -48,7 +48,7 @@ The process was complicated by responses to the COVID-19 pandemic, and I had to 
 - Changing font through Settings *(readability from a few feet away is a basic feature)*
     - Typeface and size
     - Possibly vertical and horizontal spacing
-	- I would like to add the [Open Dyslexic](opendyslexic.org) font to increase accessibility.
+	- I would like to add the [Open Dyslexic](http://www.opendyslexic.org) font to increase accessibility.
 	
 - Figure out how to display the right ingredient (and only the right ingredient) as a pop-up while cooking.
 	- An alternative to my original idea is to have a "Cooking mode" that displays Steps full-screen, then opens an AlertDialog with a checklist of Ingredients, so they can be cleared one at a time. 
@@ -69,7 +69,7 @@ There are very few bugs in the functionality I do have, but work needs to be don
 The interface is sparse by design, since the purpose of the app is to remove unnecessary clutter.  I don't want to add anything that isn't functional.
 
 - ~~Improve Editing Fragment by using Divider Decorations (or another method) to display **Ingredient** and **Step** headers before each section.~~
-    - Split the fragment into two RecyclerViews to simplify header and add/remove buttons.  
+    - Resolved by splitting the fragment into two RecyclerViews to simplify header and add/remove buttons.  
 - Add a Theme setting, including (maybe starting with) dark mode.  
 	- Multiple versions of the logo to match whatever theme is selected.
 	
