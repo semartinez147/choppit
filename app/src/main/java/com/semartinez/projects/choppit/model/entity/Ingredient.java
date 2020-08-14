@@ -199,7 +199,7 @@ public class Ingredient {
       result = quantity.equals(other.quantity)
           && name.equals(other.name)
           && unit.equals(other.unit)
-          && (unitAlt == null && other.unitAlt == null) || (unitAlt.equalsIgnoreCase(other.unitAlt));
+          && unitAlt == null ? other.unitAlt == null : (unitAlt.equalsIgnoreCase(other.unitAlt));
     }
     return result;
   }
