@@ -5,27 +5,48 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+import com.semartinez.projects.choppit.BR;
+import com.semartinez.projects.choppit.controller.ui.cookbook.RecipeFragment;
 import com.semartinez.projects.choppit.controller.ui.editing.EditingFragment;
 import com.semartinez.projects.choppit.databinding.EditIngredientItemBinding;
+import com.semartinez.projects.choppit.databinding.RecipeIngredientItemBinding;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.entity.Step;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditingIngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
   private final Context context;
   private final Recipe recipe;
-  private EditingFragment uiController;
+  private Fragment uiController;
+  private boolean edit;
   private final List<Ingredient> ingredients = new ArrayList<>();
 
-  public EditingIngredientRecyclerAdapter(Context context,
+  public IngredientRecyclerAdapter(Context context,
       Recipe recipe, EditingFragment editingFragment) {
     this.context = context;
+    this.edit = true;
     this.uiController = editingFragment;
+    this.recipe = recipe;
+    for (Step step : recipe.getSteps()) {
+      for (Ingredient ingredient : step.getIngredients()) {
+        if (!ingredients.contains(ingredient)) {
+          ingredients.add(ingredient);
+        }
+      }
+    }
+  }
+
+  public IngredientRecyclerAdapter(Context context,
+      Recipe recipe, RecipeFragment recipeFragment) {
+    this.context = context;
+    this.edit = false;
+    this.uiController = recipeFragment;
     this.recipe = recipe;
     for (Step step : recipe.getSteps()) {
       for (Ingredient ingredient : step.getIngredients()) {
@@ -40,16 +61,25 @@ public class EditingIngredientRecyclerAdapter extends RecyclerView.Adapter<Recyc
   @Override
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     LayoutInflater layoutInflater = LayoutInflater.from(context);
-    EditIngredientItemBinding editIngredientItemBinding = EditIngredientItemBinding
-        .inflate(layoutInflater, parent, false);
-    return new IngredientViewHolder(editIngredientItemBinding);
+    if (edit) {
+      EditIngredientItemBinding editIngredientItemBinding = EditIngredientItemBinding
+          .inflate(layoutInflater, parent, false);
+      return new EditIngredientViewHolder(editIngredientItemBinding);
+    } else {
+      RecipeIngredientItemBinding recipeIngredientItemBinding = RecipeIngredientItemBinding
+          .inflate(layoutInflater, parent, false);
+      return new RecipeIngredientViewHolder(recipeIngredientItemBinding);
+    }
   }
 
   @Override
   public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
     Ingredient ingredient = ingredients.get(position);
-    ((IngredientViewHolder) viewHolder).bind(ingredient, uiController);
-
+    if (edit) {
+      ((EditIngredientViewHolder) viewHolder).bind(ingredient);
+    } else {
+      ((RecipeIngredientViewHolder) viewHolder).bind(ingredient);
+    }
   }
 
   @Override
@@ -73,11 +103,11 @@ public class EditingIngredientRecyclerAdapter extends RecyclerView.Adapter<Recyc
    * The ViewHolder class coordinates between incoming data and the UI.  This handles {@link
    * Ingredient}s.
    */
-  static class IngredientViewHolder extends RecyclerView.ViewHolder {
+  public class EditIngredientViewHolder extends RecyclerView.ViewHolder {
 
     private EditIngredientItemBinding binding;
 
-    public IngredientViewHolder(EditIngredientItemBinding binding) {
+    public EditIngredientViewHolder(EditIngredientItemBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
     }
@@ -88,10 +118,33 @@ public class EditingIngredientRecyclerAdapter extends RecyclerView.Adapter<Recyc
      *
      * @param ingredient the item to be bound.
      */
-    public void bind(Ingredient ingredient, EditingFragment uiController) {
+    public void bind(Ingredient ingredient) {
       binding.setVariable(com.semartinez.projects.choppit.BR.ingredient, ingredient);
       binding.setPosition(getAdapterPosition());
-      binding.setUiController(uiController);
+      binding.setUiController((EditingFragment) uiController);
+      binding.executePendingBindings();
+    }
+
+  }
+
+public class RecipeIngredientViewHolder extends RecyclerView.ViewHolder {
+
+    private RecipeIngredientItemBinding binding;
+
+    public RecipeIngredientViewHolder(RecipeIngredientItemBinding binding) {
+      super(binding.getRoot());
+      this.binding = binding;
+    }
+
+    /**
+     * This method attaches a specific {@link Ingredient} to a specific entry in the {@link
+     * com.semartinez.projects.choppit.controller.ui.editing.EditingFragment}.
+     *
+     * @param ingredient the item to be bound.
+     */
+    public void bind(Ingredient ingredient) {
+      binding.setVariable(BR.ingredient, ingredient);
+      binding.setUiController((RecipeFragment) uiController);
       binding.executePendingBindings();
     }
 

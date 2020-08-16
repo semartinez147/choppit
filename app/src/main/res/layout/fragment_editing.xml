@@ -7,21 +7,26 @@
   <data>
     <import type="android.view.View"/>
     <variable
-      name="recipe" type="com.semartinez.projects.choppit.model.entity.Recipe"/>
+      name="recipe"
+      type="com.semartinez.projects.choppit.model.entity.Recipe"/>
     <variable
-      name="ingredient" type="com.semartinez.projects.choppit.model.entity.Ingredient"/>
+      name="ingredient"
+      type="com.semartinez.projects.choppit.model.entity.Ingredient"/>
     <variable
-      name="step" type="com.semartinez.projects.choppit.model.entity.Step"/>
+      name="step"
+      type="com.semartinez.projects.choppit.model.entity.Step"/>
     <variable
-      name="bindViewModel" type="com.semartinez.projects.choppit.viewmodel.MainViewModel"/>
+      name="bindViewModel"
+      type="com.semartinez.projects.choppit.viewmodel.MainViewModel"/>
     <variable
-      name="uiController" type="com.semartinez.projects.choppit.controller.ui.editing.EditingFragment"/>
+      name="uiController"
+      type="com.semartinez.projects.choppit.controller.ui.editing.EditingFragment"/>
     <variable
       name="ingredientRecycler"
-      type="com.semartinez.projects.choppit.view.EditingIngredientRecyclerAdapter"/>
-  <variable
+      type="com.semartinez.projects.choppit.view.IngredientRecyclerAdapter"/>
+    <variable
       name="stepRecycler"
-      type="com.semartinez.projects.choppit.view.EditingStepRecyclerAdapter"/>
+      type="com.semartinez.projects.choppit.view.StepRecyclerAdapter"/>
   </data>
 
   <ScrollView
@@ -115,7 +120,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
         <androidx.recyclerview.widget.RecyclerView
-          android:id="@+id/editing_recycler_view"
+          android:id="@+id/editing_ingredient_recycler_view"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
           android:nestedScrollingEnabled="false"/>
@@ -172,7 +177,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
         <androidx.recyclerview.widget.RecyclerView
-          android:id="@+id/editing_recycler_view2"
+          android:id="@+id/editing_step_recycler_view"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
           android:padding="@dimen/narrow_space"

@@ -1,7 +1,6 @@
 package com.semartinez.projects.choppit.controller.ui.editing;
 
 import static com.semartinez.projects.choppit.BR.bindViewModel;
-import static com.semartinez.projects.choppit.BR.step;
 import static com.semartinez.projects.choppit.BR.uiController;
 
 import android.os.Bundle;
@@ -27,8 +26,8 @@ import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.entity.Step;
-import com.semartinez.projects.choppit.view.EditingIngredientRecyclerAdapter;
-import com.semartinez.projects.choppit.view.EditingStepRecyclerAdapter;
+import com.semartinez.projects.choppit.view.IngredientRecyclerAdapter;
+import com.semartinez.projects.choppit.view.StepRecyclerAdapter;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import java.util.Arrays;
 
@@ -38,13 +37,11 @@ import java.util.Arrays;
 
 public class EditingFragment extends Fragment {
 
-  EditingIngredientRecyclerAdapter editingIngredientRecyclerAdapter;
   private MainViewModel viewModel;
   private FragmentEditingBinding binding;
   private Recipe recipe;
-  private EditingStepRecyclerAdapter editingStepRecyclerAdapter;
-  private LinearLayoutManager ingredientLayoutManager;
-  private LinearLayoutManager stepLayoutManager;
+  private IngredientRecyclerAdapter ingredientRecyclerAdapter;
+  private StepRecyclerAdapter stepRecyclerAdapter;
 
   public EditingFragment() {
   }
@@ -70,17 +67,17 @@ public class EditingFragment extends Fragment {
   }
 
   private void setupRecyclerView() {
-    RecyclerView ingredientRecyclerView = binding.editingRecyclerView;
-    RecyclerView stepRecyclerView = binding.editingRecyclerView2;
-    ingredientLayoutManager = new LinearLayoutManager(getContext());
-    stepLayoutManager = new LinearLayoutManager(getContext());
-    editingIngredientRecyclerAdapter = new EditingIngredientRecyclerAdapter(getContext(), recipe,
+    RecyclerView ingredientRecyclerView = binding.editingIngredientRecyclerView;
+    RecyclerView stepRecyclerView = binding.editingStepRecyclerView;
+    LinearLayoutManager ingredientLayoutManager = new LinearLayoutManager(getContext());
+    LinearLayoutManager stepLayoutManager = new LinearLayoutManager(getContext());
+    ingredientRecyclerAdapter = new IngredientRecyclerAdapter(getContext(), recipe,
         this);
-    editingStepRecyclerAdapter = new EditingStepRecyclerAdapter(getContext(), recipe, this);
+    stepRecyclerAdapter = new StepRecyclerAdapter(getContext(), recipe, this);
     ingredientRecyclerView.setLayoutManager(ingredientLayoutManager);
     stepRecyclerView.setLayoutManager(stepLayoutManager);
-    ingredientRecyclerView.setAdapter(editingIngredientRecyclerAdapter);
-    stepRecyclerView.setAdapter(editingStepRecyclerAdapter);
+    ingredientRecyclerView.setAdapter(ingredientRecyclerAdapter);
+    stepRecyclerView.setAdapter(stepRecyclerAdapter);
   }
 
   @Override
@@ -136,19 +133,19 @@ public class EditingFragment extends Fragment {
   };
 
   public void addStep(View view) {
-    editingStepRecyclerAdapter.addStep();
+    stepRecyclerAdapter.addStep();
   }
 
   public void addIngredient(View view) {
-    editingIngredientRecyclerAdapter.addIngredient();
+    ingredientRecyclerAdapter.addIngredient();
+  }
+
+  public void deleteStep(int position) {
+    stepRecyclerAdapter.deleteStep(position);
   }
 
   public void deleteIngredient(int position) {
     Log.d("deleteIngredient", "method call");
-    editingIngredientRecyclerAdapter.deleteIngredient(position);
-  }
-
-  public void deleteStep(int position) {
-    editingStepRecyclerAdapter.deleteStep(position);
+    ingredientRecyclerAdapter.deleteIngredient(position);
   }
 }
