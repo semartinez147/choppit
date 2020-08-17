@@ -28,19 +28,11 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
   public StepRecyclerAdapter(Context context,
       Recipe recipe, Fragment uiFragment) {
     this.context = context;
-    this.edit = true;
+    this.edit = uiFragment instanceof EditingFragment;
     this.editingController = uiFragment instanceof EditingFragment ? (EditingFragment) uiFragment: null;
     this.recipeController = uiFragment instanceof RecipeFragment ? (RecipeFragment) uiFragment : null;
     this.steps = recipe.getSteps();
   }
-
-//  public StepRecyclerAdapter(Context context,
-//      Recipe recipe, RecipeFragment recipeFragment) {
-//    this.context = context;
-//    this.edit = true;
-//    this.uiController = recipeFragment;
-//    this.steps = recipe.getSteps();
-//  }
 
   @NonNull
   @Override
@@ -135,6 +127,7 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void bind(Step step) {
       binding.setVariable(BR.step, step);
       binding.setUiController(recipeController);
+
       Log.d("StepBind",
           "Adapter Position:" + getAdapterPosition() + " ... Step number " + step.getRecipeOrder()
               + " ... " + step.getInstructions());

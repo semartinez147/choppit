@@ -159,7 +159,7 @@ public class Recipe {
     List<Ingredient> fakeIngredients = new ArrayList<>(Arrays.asList(phonyIngredients));
     for (int j = 0, i = 0; i < 5; i++, j++) {
       Step step = new Step();
-      step.setRecipeOrder(i);
+      step.setRecipeOrder(i+1);
       step.addIngredient(fakeIngredients.get(j));
       step.setInstructions("Follow instructions " + (5 - i) + " more times");
       fakeSteps.add(step);

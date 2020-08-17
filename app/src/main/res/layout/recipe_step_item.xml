@@ -33,7 +33,7 @@
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_weight="1"
-    android:text="@{step.recipeOrder}"
+    android:text="@{Integer.toString(step.recipeOrder)}"
     app:layout_constraintEnd_toStartOf="@id/recipe_step"/>
 
   <TextView
@@ -49,20 +49,6 @@
     app:layout_constraintStart_toEndOf="@id/recipe_step_number"
     app:layout_constraintEnd_toStartOf="parent">
   </TextView>
-
-<!--  Not friends with the ListAdapter:-->
-<!--  <ImageView-->
-<!--    android:id="@+id/delete_button"-->
-<!--    app:layout_constraintStart_toEndOf="@id/name_layout"-->
-<!--    app:layout_constraintEnd_toEndOf="parent"-->
-<!--    android:layout_width="wrap_content"-->
-<!--    android:layout_height="wrap_content">-->
-<!--  <ImageButton-->
-<!--    android:layout_width="wrap_content"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    app:srcCompat="@android:drawable/ic_menu_delete"/>-->
-<!--  </ImageView>-->
-
 
 </LinearLayout>
 </layout>

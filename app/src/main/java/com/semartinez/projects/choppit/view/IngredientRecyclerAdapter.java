@@ -3,7 +3,6 @@ package com.semartinez.projects.choppit.view;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -23,29 +22,30 @@ import java.util.List;
 public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
   private final Context context;
-  private final Fragment uiController;
+  private final EditingFragment editingController;
+  private final RecipeFragment recipeController;
   private final boolean edit;
   private final List<Ingredient> ingredients = new ArrayList<>();
 
-  public IngredientRecyclerAdapter(Context context,
-      Recipe recipe, EditingFragment editingFragment) {
-    this.context = context;
-    this.edit = true;
-    this.uiController = editingFragment;
-    for (Step step : recipe.getSteps()) {
-      for (Ingredient ingredient : step.getIngredients()) {
-        if (!ingredients.contains(ingredient)) {
-          ingredients.add(ingredient);
-        }
-      }
-    }
-  }
+//  public IngredientRecyclerAdapter(Context context,
+//      Recipe recipe, EditingFragment editingFragment) {
+//    this.context = context;
+//    this.edit = true;
+//    this.uiController = editingFragment;
+//    for (Step step : recipe.getSteps()) {
+//      for (Ingredient ingredient : step.getIngredients()) {
+//        if (!ingredients.contains(ingredient)) {
+//          ingredients.add(ingredient);
+//        }
+//      }
+//    }
+//  }
 
-  public IngredientRecyclerAdapter(Context context,
-      Recipe recipe, RecipeFragment recipeFragment) {
+  public IngredientRecyclerAdapter (Context context, Recipe recipe, Fragment uiFragment) {
     this.context = context;
-    this.edit = false;
-    this.uiController = recipeFragment;
+    this.edit = uiFragment instanceof EditingFragment;
+    this.editingController = uiFragment instanceof EditingFragment ? (EditingFragment) uiFragment: null;
+    this.recipeController = uiFragment instanceof RecipeFragment ? (RecipeFragment) uiFragment : null;
     for (Step step : recipe.getSteps()) {
       for (Ingredient ingredient : step.getIngredients()) {
         if (!ingredients.contains(ingredient)) {
@@ -54,6 +54,20 @@ public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
       }
     }
   }
+//
+//  public IngredientRecyclerAdapter(Context context,
+//      Recipe recipe, RecipeFragment recipeFragment) {
+//    this.context = context;
+//    this.edit = false;
+//    this.uiController = recipeFragment;
+//    for (Step step : recipe.getSteps()) {
+//      for (Ingredient ingredient : step.getIngredients()) {
+//        if (!ingredients.contains(ingredient)) {
+//          ingredients.add(ingredient);
+//        }
+//      }
+//    }
+//  }
 
   @NonNull
   @Override
@@ -119,7 +133,7 @@ public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
     public void bind(Ingredient ingredient) {
       binding.setVariable(com.semartinez.projects.choppit.BR.ingredient, ingredient);
       binding.setPosition(getAdapterPosition());
-      binding.setUiController((EditingFragment) uiController);
+      binding.setUiController(editingController);
       binding.executePendingBindings();
     }
 
@@ -142,7 +156,7 @@ public class RecipeIngredientViewHolder extends RecyclerView.ViewHolder {
      */
     public void bind(Ingredient ingredient) {
       binding.setVariable(BR.ingredient, ingredient);
-      binding.setUiController((RecipeFragment) uiController);
+      binding.setUiController(recipeController);
       binding.executePendingBindings();
     }
 
