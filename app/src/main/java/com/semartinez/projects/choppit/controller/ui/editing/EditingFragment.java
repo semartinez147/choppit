@@ -30,6 +30,7 @@ import com.semartinez.projects.choppit.view.IngredientRecyclerAdapter;
 import com.semartinez.projects.choppit.view.StepRecyclerAdapter;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import java.util.Arrays;
+import java.util.Collections;
 
 // FIXME: save button does not work.
 // TODO: process new recipe through Repository to link Steps & Ingredients.
@@ -50,6 +51,7 @@ public class EditingFragment extends Fragment {
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setRetainInstance(true);
+    assert getActivity() != null;
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
 
   }
@@ -58,14 +60,18 @@ public class EditingFragment extends Fragment {
     Recipe recipe = new Recipe();
 
     recipe.setSteps(Arrays.asList(
-        new Step(recipe.getId(), "", 1, Arrays.asList(new Ingredient(0, "", Unit.C, null, ""))),
-        new Step(recipe.getId(), "", 2, Arrays.asList(new Ingredient(0, "", Unit.C, null, ""))),
-        new Step(recipe.getId(), "", 3, Arrays.asList(new Ingredient(0, "", Unit.C, null, "")))
+        new Step(recipe.getId(), "", 1,
+            Collections.singletonList(new Ingredient(0, "", Unit.C, null, ""))),
+        new Step(recipe.getId(), "", 2,
+            Collections.singletonList(new Ingredient(0, "", Unit.C, null, ""))),
+        new Step(recipe.getId(), "", 3,
+            Collections.singletonList(new Ingredient(0, "", Unit.C, null, "")))
         )
     );
     return recipe;
   }
 
+  @SuppressWarnings("DuplicatedCode")
   private void setupRecyclerView() {
     RecyclerView ingredientRecyclerView = binding.editingIngredientRecyclerView;
     RecyclerView stepRecyclerView = binding.editingStepRecyclerView;
@@ -132,11 +138,11 @@ public class EditingFragment extends Fragment {
     }
   };
 
-  public void addStep(View view) {
+  public void addStep() {
     stepRecyclerAdapter.addStep();
   }
 
-  public void addIngredient(View view) {
+  public void addIngredient() {
     ingredientRecyclerAdapter.addIngredient();
   }
 

@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.fragment.app.DialogFragment;
 import com.semartinez.projects.choppit.R;
@@ -32,15 +31,15 @@ public class InfoFragment extends DialogFragment {
   @NonNull
   @Override
   public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+    assert getContext() != null;
     dialogView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_info, null);
-    AlertDialog alert = new Builder(getContext())
+    return new Builder(getContext())
         .setIcon(R.drawable.ic_help)
         .setTitle(fragLabel + " Information")
         .setView(dialogView)
         .setNeutralButton("OK", (dlg, which) -> {
         })
         .create();
-    return alert;
   }
 
   @Nullable

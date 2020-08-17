@@ -9,7 +9,9 @@ import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
 import java.util.LinkedList;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings({"NullableProblems", "NotNullFieldNotInitialized"})
 @Entity(
     indices = {
         @Index(value = {"recipe_id", "recipe_order"}, unique = true)
@@ -53,7 +55,7 @@ public class Step {
   }
 
   @Ignore
-  public Step(long recipeId, String instructions, int recipeOrder, List<Ingredient> ingredients) {
+  public Step(long recipeId, @NotNull String instructions, int recipeOrder, List<Ingredient> ingredients) {
     super();
     this.recipeId = recipeId;
     this.instructions = instructions;
@@ -77,11 +79,11 @@ public class Step {
     this.recipeId = recipeId;
   }
 
-  public String getInstructions() {
+  public @NotNull String getInstructions() {
     return instructions;
   }
 
-  public void setInstructions(String instructions) {
+  public void setInstructions(@NotNull String instructions) {
     this.instructions = instructions;
   }
 

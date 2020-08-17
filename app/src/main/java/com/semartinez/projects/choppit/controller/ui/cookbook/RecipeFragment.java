@@ -4,7 +4,6 @@ import static com.semartinez.projects.choppit.BR.bindViewModel;
 import static com.semartinez.projects.choppit.BR.uiController;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,7 +22,6 @@ import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.databinding.FragmentRecipeBinding;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.view.IngredientRecyclerAdapter;
-import com.semartinez.projects.choppit.view.RecipeRecyclerAdapter;
 import com.semartinez.projects.choppit.view.StepRecyclerAdapter;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 
@@ -41,11 +39,13 @@ public class RecipeFragment extends Fragment {
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setRetainInstance(true);
+    assert getActivity() != null;
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
 
 
   }
 
+  @SuppressWarnings("DuplicatedCode")
   private void setupRecyclerView() {
     RecyclerView ingredientRecyclerView = binding.recipeIngredientRecyclerView;
     RecyclerView stepRecyclerView = binding.recipeStepRecyclerView;
@@ -71,7 +71,7 @@ public class RecipeFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
-
+    assert getArguments() != null;
     RecipeFragmentArgs args = RecipeFragmentArgs.fromBundle(getArguments());
     viewModel.loadRecipe(args.getRecipeId());
     viewModel.getRecipe().observe(getViewLifecycleOwner(), recipeObserver);

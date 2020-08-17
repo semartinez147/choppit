@@ -47,8 +47,8 @@ public class CookbookFragment extends Fragment implements OnRecipeClickListener 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
-
     binding = FragmentCookbookBinding.inflate(inflater);
+    assert getActivity() != null;
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
     binding.setBindViewModel(viewModel);
     binding.setUiController(this);
@@ -90,15 +90,13 @@ public class CookbookFragment extends Fragment implements OnRecipeClickListener 
    * This observer checks the {@link MainViewModel} for an updated recipe before navigating to the
    * {@link RecipeFragment}
    */
-  final Observer<Recipe> recipeObserver = new Observer<Recipe>() {
-
-    @Override
-    public void onChanged(final Recipe result) {
-      if (result != null) {
-        Navigation.findNavController(getView()).navigate(R.id.cook_rec);
-      } else {
-        ((MainActivity) getActivity()).showToast("Recipe failed to load!");
-      }
+  final Observer<Recipe> recipeObserver = result -> {
+    if (result != null) {
+      assert getView() != null;
+      Navigation.findNavController(getView()).navigate(R.id.cook_rec);
+    } else {
+      assert getActivity() != null;
+      ((MainActivity) getActivity()).showToast("Recipe failed to load!");
     }
   };
 

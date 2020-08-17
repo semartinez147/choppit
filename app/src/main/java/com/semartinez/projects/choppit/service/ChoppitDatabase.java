@@ -15,8 +15,7 @@ import com.semartinez.projects.choppit.model.entity.Step;
 
 @Database(
     entities = {Ingredient.class, Recipe.class, Step.class},
-    version = 1,
-    exportSchema = true
+    version = 1
 )
 @TypeConverters({Unit.class})
 public abstract class ChoppitDatabase extends RoomDatabase {

@@ -21,7 +21,6 @@ import com.semartinez.projects.choppit.model.repository.RecipeRepository;
 import com.semartinez.projects.choppit.service.ChoppitDatabase;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import io.reactivex.schedulers.Schedulers;
-import java.util.Arrays;
 
 /**
  * This activity houses the UI {@link androidx.fragment.app.Fragment}s.  It also establishes {@link
@@ -131,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
             (recipe -> {
             }),
             (throwable -> {
-              for (Recipe recipe : Arrays.asList(Recipe.populateData())) {
+              for (Recipe recipe : Recipe.populateData()) {
                 repository.save(recipe).subscribe();
               }
             })

@@ -22,7 +22,6 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
   final int VIEW_TYPE_STEP = 1;
 
   private final Context context;
-  private final Recipe recipe;
   private final List<Ingredient> ingredients;
   private final List<Step> steps;
 
@@ -34,8 +33,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
    */
   public RecipeRecyclerAdapter(Context context, Recipe recipe) {
     this.context = context;
-    this.recipe = recipe;
-    this.steps = this.recipe.getSteps();
+    this.steps = recipe.getSteps();
     this.ingredients = new LinkedList<>();
     for (Step step : steps) {
       ingredients.addAll(step.getIngredients());
@@ -93,7 +91,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
    */
   static class IngredientViewHolder extends ViewHolder {
 
-    private RecipeIngredientItemBinding binding;
+    private final RecipeIngredientItemBinding binding;
 
     private IngredientViewHolder(RecipeIngredientItemBinding binding) {
       super(binding.getRoot());
@@ -109,7 +107,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
   public static class StepViewHolder extends ViewHolder {
 
 
-    private RecipeStepItemBinding binding;
+    private final RecipeStepItemBinding binding;
 
     private StepViewHolder(RecipeStepItemBinding binding) {
       super(binding.getRoot());

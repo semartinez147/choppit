@@ -23,7 +23,6 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
   final int VIEW_TYPE_STEP = 1;
 
   private final Context context;
-  private final Recipe recipe;
   private final List<Ingredient> ingredients = new ArrayList<>();
   private final List<Step> steps;
 
@@ -38,19 +37,20 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
    */
   public EditingRecyclerAdapter(Context context, Recipe recipe) {
     this.context = context;
-    this.recipe = recipe;
     this.steps = recipe.getSteps();
     for (Step step : steps) {
       ingredients.addAll(step.getIngredients());
     }
   }
 
+  @SuppressWarnings("unused")
   private void updateIngredients(List<Ingredient> newIngredients) {
     ingredients.clear();
     ingredients.addAll(newIngredients);
     notifyDataSetChanged();
   }
 
+  @SuppressWarnings("unused")
   private void updateSteps(List<Step> newSteps) {
     steps.clear();
     steps.addAll(newSteps);
@@ -111,7 +111,7 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
    */
   static class IngredientViewHolder extends RecyclerView.ViewHolder {
 
-    private EditIngredientItemBinding binding;
+    private final EditIngredientItemBinding binding;
 
     public IngredientViewHolder(EditIngredientItemBinding binding) {
       super(binding.getRoot());
@@ -137,7 +137,7 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
    */
   public class StepViewHolder extends RecyclerView.ViewHolder {
 
-    private EditStepItemBinding binding;
+    private final EditStepItemBinding binding;
 
     public StepViewHolder(EditStepItemBinding binding) {
       super(binding.getRoot());

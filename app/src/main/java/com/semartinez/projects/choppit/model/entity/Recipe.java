@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("NotNullFieldNotInitialized")
 @Entity(
     indices = {
         @Index(value = {"title", "url"}, unique = true),
@@ -46,7 +48,7 @@ public class Recipe {
   }
 
   @Ignore
-  public Recipe(String url, String title, boolean favorite, List<Step> steps) {
+  public Recipe(String url, @NotNull String title, boolean favorite, List<Step> steps) {
     super();
     this.url = url;
     this.title = title;
@@ -76,11 +78,11 @@ public class Recipe {
     this.url = url;
   }
 
-  public String getTitle() {
+  public @NotNull String getTitle() {
     return title;
   }
 
-  public void setTitle(String title) {
+  public void setTitle(@NotNull String title) {
     this.title = title;
   }
 
@@ -109,6 +111,7 @@ public class Recipe {
   // TODO delete everything below here for production.
   /* PAY NO ATTENTION TO THE DATABASE METHODS BELOW */
 
+  @SuppressWarnings("SpellCheckingInspection")
   private static final Ingredient[] phonyIngredients = {
       new Ingredient(0, "3", Unit.OZ, null, "cardamom"),
       new Ingredient(0, "2 1/2", Unit.DASH, null, "uranium"),
@@ -125,8 +128,7 @@ public class Recipe {
 
   private static List<Step> fakeSteps() {
     List<Step> fakeSteps = new ArrayList<>();
-    List<Ingredient> fakeIngredients = new ArrayList<>();
-    fakeIngredients.addAll(Arrays.asList(phonyIngredients));
+    List<Ingredient> fakeIngredients = new ArrayList<>(Arrays.asList(phonyIngredients));
     for (int j = 0, i = 0; i < 5; i++, j++) {
       Step step = new Step();
       step.setRecipeOrder(i);
@@ -142,6 +144,7 @@ public class Recipe {
    *
    * @return a list of bogus recipe objects.
    */
+  @SuppressWarnings("SpellCheckingInspection")
   public static Recipe[] populateData() {
     return new Recipe[]{
         new Recipe("www.cookies.com", "Cookies", false, fakeSteps()),

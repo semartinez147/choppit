@@ -191,8 +191,10 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
 
 
   // switch back to public when implemented
+  @SuppressWarnings("unused")
   private void grantPermission(String permission) {
     Set<String> permissions = this.permissions.getValue();
+    assert permissions != null;
     if (permissions.add(permission)) {
       this.permissions.setValue(permissions);
     }
@@ -201,6 +203,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   // switch back to public when implemented
   public void revokePermission(String permission) {
     Set<String> permissions = this.permissions.getValue();
+    assert permissions != null;
     if (permissions.remove(permission)) {
       this.permissions.setValue(permissions);
     }

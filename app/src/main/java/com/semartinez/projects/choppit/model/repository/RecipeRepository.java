@@ -35,7 +35,7 @@ public class RecipeRepository {
   private static Application context;
   private final ChoppitDatabase database;
   private final Executor networkPool;
-  private JsoupRetriever retriever;
+  private final JsoupRetriever retriever;
   private String[] recipeMeta = new String[2];
 
   public static void setContext(Application context) {
@@ -152,6 +152,7 @@ public class RecipeRepository {
         e.printStackTrace();
       }
       retriever.setDocument(doc);
+      assert doc != null;
       recipeMeta = new String[]{url, doc.title()};
     };
   }

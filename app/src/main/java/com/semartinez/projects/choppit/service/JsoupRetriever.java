@@ -119,6 +119,7 @@ public class JsoupRetriever {
           ingredient.setUnit(Unit.toUnit("other"));
           ingredient.setUnitAlt("");
         }
+        //noinspection ConstantConditions
         ingredient.setName(matcher.group(3).trim());
       } else {
         ingredient.setQuantity("1");

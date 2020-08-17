@@ -22,9 +22,8 @@ import java.util.List;
 public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
   private final Context context;
-  private final Recipe recipe;
-  private Fragment uiController;
-  private boolean edit;
+  private final Fragment uiController;
+  private final boolean edit;
   private final List<Ingredient> ingredients = new ArrayList<>();
 
   public IngredientRecyclerAdapter(Context context,
@@ -32,7 +31,6 @@ public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
     this.context = context;
     this.edit = true;
     this.uiController = editingFragment;
-    this.recipe = recipe;
     for (Step step : recipe.getSteps()) {
       for (Ingredient ingredient : step.getIngredients()) {
         if (!ingredients.contains(ingredient)) {
@@ -47,7 +45,6 @@ public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
     this.context = context;
     this.edit = false;
     this.uiController = recipeFragment;
-    this.recipe = recipe;
     for (Step step : recipe.getSteps()) {
       for (Ingredient ingredient : step.getIngredients()) {
         if (!ingredients.contains(ingredient)) {
@@ -105,7 +102,7 @@ public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
    */
   public class EditIngredientViewHolder extends RecyclerView.ViewHolder {
 
-    private EditIngredientItemBinding binding;
+    private final EditIngredientItemBinding binding;
 
     public EditIngredientViewHolder(EditIngredientItemBinding binding) {
       super(binding.getRoot());
@@ -129,7 +126,7 @@ public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
 
 public class RecipeIngredientViewHolder extends RecyclerView.ViewHolder {
 
-    private RecipeIngredientItemBinding binding;
+    private final RecipeIngredientItemBinding binding;
 
     public RecipeIngredientViewHolder(RecipeIngredientItemBinding binding) {
       super(binding.getRoot());

@@ -20,9 +20,8 @@ import java.util.List;
 public class StepRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
   private final Context context;
-  private final Recipe recipe;
-  private Fragment uiController;
-  private boolean edit;
+  private final Fragment uiController;
+  private final boolean edit;
   private final List<Step> steps;
 
   public StepRecyclerAdapter(Context context,
@@ -30,7 +29,6 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     this.context = context;
     this.edit = true;
     this.uiController = editingFragment;
-    this.recipe = recipe;
     this.steps = recipe.getSteps();
   }
 
@@ -39,7 +37,6 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     this.context = context;
     this.edit = true;
     this.uiController = recipeFragment;
-    this.recipe = recipe;
     this.steps = recipe.getSteps();
   }
 
@@ -94,7 +91,7 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
    */
   public class EditStepViewHolder extends RecyclerView.ViewHolder {
 
-    private EditStepItemBinding binding;
+    private final EditStepItemBinding binding;
 
     public EditStepViewHolder(EditStepItemBinding binding) {
       super(binding.getRoot());
@@ -120,7 +117,7 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
   public class RecipeStepViewHolder extends RecyclerView.ViewHolder {
 
-    private RecipeStepItemBinding binding;
+    private final RecipeStepItemBinding binding;
 
     public RecipeStepViewHolder(RecipeStepItemBinding binding) {
       super(binding.getRoot());

@@ -30,6 +30,7 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     this.recipes = recipes;
   }
 
+  @SuppressWarnings("unused")
   private void updateRecipes(List<Recipe> newRecipes) {
     recipes.clear();
     recipes.addAll(newRecipes);
@@ -60,9 +61,9 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
   /**
    * The ViewHolder class coordinates between incoming data and the UI.
    */
-  public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+  public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    private CookbookListItemBinding binding;
+    private final CookbookListItemBinding binding;
 
     /**
      * The ViewHolder constructor attaches a {@link View} to each binding to support an
