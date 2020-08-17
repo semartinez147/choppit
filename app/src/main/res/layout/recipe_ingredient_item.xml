@@ -73,19 +73,5 @@
     app:layout_constraintHorizontal_chainStyle="packed">
   </TextView>
 
-<!--  Not friends with the ListAdapter:-->
-<!--  <ImageView-->
-<!--    android:id="@+id/delete_button"-->
-<!--    app:layout_constraintStart_toEndOf="@id/recipe_name"-->
-<!--    app:layout_constraintEnd_toEndOf="parent"-->
-<!--    android:layout_width="wrap_content"-->
-<!--    android:layout_height="wrap_content">-->
-<!--  <ImageButton-->
-<!--    android:layout_width="wrap_content"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    app:srcCompat="@android:drawable/ic_menu_delete"/>-->
-<!--  </ImageView>-->
-
-
 </LinearLayout>
 </layout>

@@ -32,7 +32,7 @@ import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import java.util.Arrays;
 import java.util.Collections;
 
-// FIXME: save button does not work.
+// FIXME: Saving a duplicate crashes.
 // TODO: process new recipe through Repository to link Steps & Ingredients.
 
 
@@ -107,6 +107,7 @@ public class EditingFragment extends Fragment {
     Button saveButton = binding.editingSave;
     saveButton.setOnClickListener(v -> {
       viewModel.saveRecipe(recipe);
+      viewModel.resetData();
       Navigation.findNavController(v).navigate(R.id.edit_cook);
     });
 
