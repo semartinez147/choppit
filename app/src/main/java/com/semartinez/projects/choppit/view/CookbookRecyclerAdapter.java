@@ -92,7 +92,7 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onClick(View v) {
       CookbookFragmentDirections.CookRec action = CookbookFragmentDirections.cookRec();
-      action.setRecipeId(binding.getRecipe().getId());
+      action.setRecipeId(binding.getRecipe().getRecipeId());
       Navigation.findNavController(v).navigate(action);
 
     }

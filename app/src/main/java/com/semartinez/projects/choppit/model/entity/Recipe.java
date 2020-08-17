@@ -7,6 +7,8 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
 import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
+import com.semartinez.projects.choppit.model.pojo.RecipePojo;
+import com.semartinez.projects.choppit.model.pojo.StepPojo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -24,7 +26,7 @@ public class Recipe {
 
   @ColumnInfo(name = "recipe_id")
   @PrimaryKey(autoGenerate = true)
-  private long id;
+  private long recipeId;
 
   @ColumnInfo(name = "url", collate = ColumnInfo.NOCASE)
   private String url;
@@ -56,18 +58,28 @@ public class Recipe {
     this.steps = steps;
   }
 
+  public Recipe (RecipePojo recipePojo) {
+    this.recipeId = recipePojo.getRecipe().getRecipeId();
+    this.url = recipePojo.getRecipe().getUrl();
+    this.title = recipePojo.getRecipe().getTitle();
+    this.favorite = recipePojo.getRecipe().isFavorite();
+    this.steps = this.getSteps(recipePojo.getSteps());
+  }
+
+
+
   /* Stretch goal fields (nullable):
   private String meal;
   private List<String> tag;
   private String image;
   */
 
-  public long getId() {
-    return id;
+  public long getRecipeId() {
+    return recipeId;
   }
 
-  public void setId(long id) {
-    this.id = id;
+  public void setRecipeId(long recipeId) {
+    this.recipeId = recipeId;
   }
 
   public String getUrl() {
@@ -98,8 +110,24 @@ public class Recipe {
     return steps;
   }
 
+  private List<Step> getSteps(List<StepPojo> stepPojos) {
+    for (StepPojo stepPojo : stepPojos) {
+      Step step = stepPojo.getStep();
+      step.setIngredients(stepPojo.getIngredientList());
+      this.setStep(stepPojo.getStep());
+    }
+    return this.steps;
+  }
+
   public void setSteps(List<Step> steps) {
     this.steps = steps;
+  }
+
+  public void setStep(Step step) {
+    if (this.steps == null) {
+      this.steps = new LinkedList<>();
+    }
+    this.steps.add(step);
   }
 
   @NonNull

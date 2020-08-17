@@ -65,7 +65,7 @@ public class CookbookFragment extends Fragment implements OnRecipeClickListener 
 
   @Override
   public void onRecipeClick(int position) {
-    viewModel.loadRecipe(recipes.get(position).getId());
+    viewModel.loadRecipe(recipes.get(position).getRecipeId());
     viewModel.getRecipe().observe(getViewLifecycleOwner(), recipeObserver);
 
   }

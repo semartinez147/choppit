@@ -167,7 +167,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
 
   public void saveRecipe(Recipe newRecipe) {
     throwable.setValue(null);
-    if (newRecipe.getId() == 0) {
+    if (newRecipe.getRecipeId() == 0) {
       repository.save(newRecipe)
           .doOnError(throwable::postValue)
           .subscribe();

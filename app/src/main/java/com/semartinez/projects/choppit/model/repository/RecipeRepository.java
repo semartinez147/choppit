@@ -63,9 +63,9 @@ public class RecipeRepository {
     return database.getRecipeDao().insert(recipe)
         .subscribeOn(Schedulers.io())
         .map((id) -> {
-          recipe.setId(id);
+          recipe.setRecipeId(id);
           for (Step step : recipe.getSteps()) {
-            step.setRecipeId(recipe.getId());
+            step.setRecipeId(recipe.getRecipeId());
             database.getStepDao().insert(step)
                 .map((stepId) -> {
                   step.setStepId(stepId);

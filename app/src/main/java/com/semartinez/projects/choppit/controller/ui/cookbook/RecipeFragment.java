@@ -31,8 +31,6 @@ public class RecipeFragment extends Fragment {
   private MainViewModel viewModel;
   private FragmentRecipeBinding binding;
   private Recipe recipe;
-  private IngredientRecyclerAdapter ingredientRecyclerAdapter;
-  private StepRecyclerAdapter stepRecyclerAdapter;
 
 
   @Override
@@ -51,9 +49,10 @@ public class RecipeFragment extends Fragment {
     RecyclerView stepRecyclerView = binding.recipeStepRecyclerView;
     LinearLayoutManager ingredientLayoutManager = new LinearLayoutManager(getContext());
     LinearLayoutManager stepLayoutManager = new LinearLayoutManager(getContext());
-    ingredientRecyclerAdapter = new IngredientRecyclerAdapter(getContext(), recipe,
+    IngredientRecyclerAdapter ingredientRecyclerAdapter = new IngredientRecyclerAdapter(
+        getContext(), recipe,
         this);
-    stepRecyclerAdapter = new StepRecyclerAdapter(getContext(), recipe, this);
+    StepRecyclerAdapter stepRecyclerAdapter = new StepRecyclerAdapter(getContext(), recipe, this);
     ingredientRecyclerView.setLayoutManager(ingredientLayoutManager);
     stepRecyclerView.setLayoutManager(stepLayoutManager);
     ingredientRecyclerView.setAdapter(ingredientRecyclerAdapter);

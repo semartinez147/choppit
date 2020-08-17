@@ -60,11 +60,11 @@ public class EditingFragment extends Fragment {
     Recipe recipe = new Recipe();
 
     recipe.setSteps(Arrays.asList(
-        new Step(recipe.getId(), "", 1,
+        new Step(recipe.getRecipeId(), "", 1,
             Collections.singletonList(new Ingredient(0, "", Unit.C, null, ""))),
-        new Step(recipe.getId(), "", 2,
+        new Step(recipe.getRecipeId(), "", 2,
             Collections.singletonList(new Ingredient(0, "", Unit.C, null, ""))),
-        new Step(recipe.getId(), "", 3,
+        new Step(recipe.getRecipeId(), "", 3,
             Collections.singletonList(new Ingredient(0, "", Unit.C, null, "")))
         )
     );
@@ -137,12 +137,15 @@ public class EditingFragment extends Fragment {
       binding.setRecipe(recipe);
     }
   };
-
-  public void addStep() {
+  @SuppressWarnings("unused")
+  //View parameter is required by databinding onClick function
+  public void addStep(View view) {
     stepRecyclerAdapter.addStep();
   }
 
-  public void addIngredient() {
+  @SuppressWarnings("unused")
+  //View parameter is required by databinding onClick function
+  public void addIngredient(View view) {
     ingredientRecyclerAdapter.addIngredient();
   }
 

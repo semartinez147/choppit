@@ -6,8 +6,10 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 import com.semartinez.projects.choppit.model.entity.Recipe;
+import com.semartinez.projects.choppit.model.pojo.RecipePojo;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import java.util.Collection;
@@ -43,4 +45,8 @@ public interface RecipeDao {
 
   @Query("SELECT * FROM Recipe LIMIT 1")
   Single<Recipe> check();
+
+  @Transaction
+  @Query("SELECT * FROM Recipe")
+  LiveData<RecipePojo> loadRecipeData();
 }
