@@ -9,6 +9,7 @@ import com.semartinez.projects.choppit.model.dao.RecipeDao;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.entity.Step;
+import com.semartinez.projects.choppit.model.pojo.RecipePojo;
 import com.semartinez.projects.choppit.service.ChoppitDatabase;
 import com.semartinez.projects.choppit.service.JsoupRetriever;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
@@ -121,6 +122,12 @@ public class RecipeRepository {
     RecipeDao dao = database.getRecipeDao();
     return dao.getOne(id)
         .subscribeOn(Schedulers.io());
+  }
+
+  public Single<Recipe> loadDetails (long id) {
+    RecipeDao dao = database.getRecipeDao();
+    return dao.loadRecipeData(id)
+        .subscribeOn(Schedulers.io()).map(Recipe::new);
   }
 
   /**

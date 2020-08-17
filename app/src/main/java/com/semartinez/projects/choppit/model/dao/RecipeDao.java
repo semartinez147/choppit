@@ -47,6 +47,6 @@ public interface RecipeDao {
   Single<Recipe> check();
 
   @Transaction
-  @Query("SELECT * FROM Recipe")
-  LiveData<RecipePojo> loadRecipeData();
+  @Query("SELECT * FROM Recipe WHERE recipe_id = :id")
+  Single<RecipePojo> loadRecipeData(long id);
 }

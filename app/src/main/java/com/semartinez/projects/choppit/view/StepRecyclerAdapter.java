@@ -3,7 +3,6 @@ package com.semartinez.projects.choppit.view;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -21,25 +20,27 @@ import java.util.List;
 public class StepRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
   private final Context context;
-  private final Fragment uiController;
+  private final EditingFragment editingController;
+  private final RecipeFragment recipeController;
   private final boolean edit;
   private final List<Step> steps;
 
   public StepRecyclerAdapter(Context context,
-      Recipe recipe, EditingFragment editingFragment) {
+      Recipe recipe, Fragment uiFragment) {
     this.context = context;
     this.edit = true;
-    this.uiController = editingFragment;
+    this.editingController = uiFragment instanceof EditingFragment ? (EditingFragment) uiFragment: null;
+    this.recipeController = uiFragment instanceof RecipeFragment ? (RecipeFragment) uiFragment : null;
     this.steps = recipe.getSteps();
   }
 
-  public StepRecyclerAdapter(Context context,
-      Recipe recipe, RecipeFragment recipeFragment) {
-    this.context = context;
-    this.edit = true;
-    this.uiController = recipeFragment;
-    this.steps = recipe.getSteps();
-  }
+//  public StepRecyclerAdapter(Context context,
+//      Recipe recipe, RecipeFragment recipeFragment) {
+//    this.context = context;
+//    this.edit = true;
+//    this.uiController = recipeFragment;
+//    this.steps = recipe.getSteps();
+//  }
 
   @NonNull
   @Override
@@ -107,7 +108,7 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     public void bind(Step step) {
       binding.setVariable(BR.step, step);
-      binding.setUiController((EditingFragment) uiController);
+      binding.setUiController(editingController);
       step.setRecipeOrder(getAdapterPosition() + 1);
       Log.d("StepBind",
           "Adapter Position:" + getAdapterPosition() + " ... Step number " + step.getRecipeOrder()
@@ -133,7 +134,7 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     public void bind(Step step) {
       binding.setVariable(BR.step, step);
-      binding.setUiController((RecipeFragment) uiController);
+      binding.setUiController(recipeController);
       Log.d("StepBind",
           "Adapter Position:" + getAdapterPosition() + " ... Step number " + step.getRecipeOrder()
               + " ... " + step.getInstructions());

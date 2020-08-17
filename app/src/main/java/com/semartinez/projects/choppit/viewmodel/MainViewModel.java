@@ -13,6 +13,7 @@ import com.semartinez.projects.choppit.controller.ui.editing.LoadingFragment;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.entity.Step;
+import com.semartinez.projects.choppit.model.pojo.RecipePojo;
 import com.semartinez.projects.choppit.model.repository.RecipeRepository;
 import io.reactivex.disposables.CompositeDisposable;
 import java.util.ArrayList;
@@ -181,7 +182,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   public void loadRecipe(Long id) {
     throwable.setValue(null);
     pending.add(
-        repository.getById(id)
+        repository.loadDetails(id)
             .subscribe(
                 recipe::postValue,
                 throwable::postValue
