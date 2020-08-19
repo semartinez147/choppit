@@ -26,9 +26,6 @@
   android:background="?android:attr/selectableItemBackground"
   android:layout_margin="@dimen/narrow_space">
 
-<!--
--->
-
   <ImageView
     android:id="@+id/recipe_favorite"
     android:layout_width="wrap_content"
@@ -43,13 +40,14 @@
   <TextView
     android:id="@+id/recipe_title"
     style="@style/RecipeItem.Title"
-    android:layout_width="wrap_content"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/medium_space"
+    android:layout_marginHorizontal="@dimen/medium_space"
     android:text="@{recipe.title}"
     app:layout_constraintStart_toEndOf="@id/recipe_favorite"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintHorizontal_chainStyle="packed"/>
+    app:layout_constraintEnd_toStartOf="@id/edit"
+    app:layout_constraintTop_toTopOf="parent"/>
+
 
   <ImageView
     android:id="@+id/edit"

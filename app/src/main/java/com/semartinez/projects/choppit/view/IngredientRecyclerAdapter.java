@@ -27,20 +27,6 @@ public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
   private final boolean edit;
   private final List<Ingredient> ingredients = new ArrayList<>();
 
-//  public IngredientRecyclerAdapter(Context context,
-//      Recipe recipe, EditingFragment editingFragment) {
-//    this.context = context;
-//    this.edit = true;
-//    this.uiController = editingFragment;
-//    for (Step step : recipe.getSteps()) {
-//      for (Ingredient ingredient : step.getIngredients()) {
-//        if (!ingredients.contains(ingredient)) {
-//          ingredients.add(ingredient);
-//        }
-//      }
-//    }
-//  }
-
   public IngredientRecyclerAdapter (Context context, Recipe recipe, Fragment uiFragment) {
     this.context = context;
     this.edit = uiFragment instanceof EditingFragment;
@@ -54,20 +40,7 @@ public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
       }
     }
   }
-//
-//  public IngredientRecyclerAdapter(Context context,
-//      Recipe recipe, RecipeFragment recipeFragment) {
-//    this.context = context;
-//    this.edit = false;
-//    this.uiController = recipeFragment;
-//    for (Step step : recipe.getSteps()) {
-//      for (Ingredient ingredient : step.getIngredients()) {
-//        if (!ingredients.contains(ingredient)) {
-//          ingredients.add(ingredient);
-//        }
-//      }
-//    }
-//  }
+
 
   @NonNull
   @Override

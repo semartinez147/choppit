@@ -37,6 +37,10 @@
     android:label="@string/title_editing"
     android:name="com.semartinez.projects.choppit.controller.ui.editing.EditingFragment"
     tools:layout="@layout/fragment_editing">
+    <argument
+      android:name="recipeId"
+      app:argType="long"
+      android:defaultValue="0L"/>
     <action
       android:id="@+id/edit_sel"
       app:destination="@id/navigation_selection"/>
@@ -53,6 +57,9 @@
       <action
         android:id="@+id/cook_rec"
         app:destination="@id/navigation_recipe"/>
+      <action
+        android:id="@+id/cook_edit"
+        app:destination="@id/navigation_editing"/>
     </fragment>
 
     <fragment

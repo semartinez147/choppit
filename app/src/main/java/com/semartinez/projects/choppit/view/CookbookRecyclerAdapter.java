@@ -78,6 +78,7 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
       this.binding = binding;
       binding.recipeTitle.setOnClickListener(this);
       binding.recipeFavorite.setOnClickListener(this);
+      binding.edit.setOnClickListener(this);
     }
 
     /**
@@ -102,6 +103,12 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
           break;
         case R.id.recipe_favorite:
           binding.getRecipe().setFavorite(!binding.getRecipe().isFavorite());
+          break;
+        case R.id.edit:
+          CookbookFragmentDirections.CookEdit toEdit = CookbookFragmentDirections.cookEdit();
+          toEdit.setRecipeId(binding.getRecipe().getRecipeId());
+          Navigation.findNavController(v).navigate(toEdit);
+          break;
       }
     }
   }
