@@ -15,10 +15,10 @@ import java.util.List;
 @Dao
 public interface StepDao {
 
-  @Insert(onConflict = OnConflictStrategy.IGNORE)
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
   Single<Long> insert (Step step);
 
-  @Insert(onConflict = OnConflictStrategy.IGNORE)
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
   Single<List<Long>> insert (Collection<Step> steps);
 
   @Update

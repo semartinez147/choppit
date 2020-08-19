@@ -76,6 +76,7 @@ public class RecipeRepository {
                   }
                 return step;
                 })
+                .onErrorReturnItem(step)
             .subscribe();
           }
         return recipe;
@@ -83,7 +84,7 @@ public class RecipeRepository {
   }
 
   public Single<Integer> update(Recipe recipe) {
-    return database.getRecipeDao().update(recipe);
+    return database.getRecipeDao().update(recipe).subscribeOn(Schedulers.io());
   }
 
   /**

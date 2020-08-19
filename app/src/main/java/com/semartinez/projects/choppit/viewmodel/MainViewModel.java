@@ -16,6 +16,7 @@ import com.semartinez.projects.choppit.model.entity.Step;
 import com.semartinez.projects.choppit.model.pojo.RecipePojo;
 import com.semartinez.projects.choppit.model.repository.RecipeRepository;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -175,6 +176,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     } else {
       repository.update(newRecipe)
           .doOnError(throwable::postValue)
+          .subscribeOn(Schedulers.io())
           .subscribe();
     }
   }

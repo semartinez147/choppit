@@ -32,7 +32,6 @@ import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import java.util.Arrays;
 import java.util.Collections;
 
-// FIXME: Saving a duplicate crashes.
 // TODO: double-check that new recipes are processed through Repository correctly to link Steps &
 //  Ingredients.
 
@@ -97,7 +96,10 @@ public class EditingFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-
+    if (getArguments() != null) {
+      EditingFragmentArgs args = EditingFragmentArgs.fromBundle(getArguments());
+      viewModel.loadRecipe(args.getRecipeId());
+    }
     viewModel.getRecipe().observe(getViewLifecycleOwner(), recipeObserver);
 
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_editing, container, false);

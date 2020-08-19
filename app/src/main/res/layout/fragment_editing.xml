@@ -66,7 +66,7 @@
           android:id="@+id/editing_title"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="@{recipe.title}"
+          android:text="@={recipe.title}"
           android:hint="@string/edit_title"
           style="@style/RecipeItem.Title"
           android:inputType="textCapWords|textMultiLine"
