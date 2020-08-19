@@ -33,7 +33,8 @@ import java.util.Arrays;
 import java.util.Collections;
 
 // FIXME: Saving a duplicate crashes.
-// TODO: process new recipe through Repository to link Steps & Ingredients.
+// TODO: double-check that new recipes are processed through Repository correctly to link Steps &
+//  Ingredients.
 
 
 public class EditingFragment extends Fragment {

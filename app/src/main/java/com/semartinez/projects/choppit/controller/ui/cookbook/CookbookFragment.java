@@ -17,7 +17,6 @@ import com.semartinez.projects.choppit.controller.MainActivity;
 import com.semartinez.projects.choppit.databinding.FragmentCookbookBinding;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.view.CookbookRecyclerAdapter;
-import com.semartinez.projects.choppit.view.CookbookRecyclerAdapter.OnRecipeClickListener;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ import java.util.List;
 /**
  * Displays the list of {@link Recipe}s stored in the local database
  */
-public class CookbookFragment extends Fragment implements OnRecipeClickListener {
+public class CookbookFragment extends Fragment {
 
   CookbookRecyclerAdapter cookbookRecyclerAdapter;
   private MainViewModel viewModel;
@@ -63,13 +62,6 @@ public class CookbookFragment extends Fragment implements OnRecipeClickListener 
 
   }
 
-  @Override
-  public void onRecipeClick(int position) {
-    viewModel.loadRecipe(recipes.get(position).getRecipeId());
-    viewModel.getRecipe().observe(getViewLifecycleOwner(), recipeObserver);
-
-  }
-
   /**
    * This observer resets the dataset if there is a change to the list of {@link Recipe}s.
    */
@@ -85,19 +77,4 @@ public class CookbookFragment extends Fragment implements OnRecipeClickListener 
       }
     }
   };
-
-  /**
-   * This observer checks the {@link MainViewModel} for an updated recipe before navigating to the
-   * {@link RecipeFragment}
-   */
-  final Observer<Recipe> recipeObserver = result -> {
-    if (result != null) {
-      assert getView() != null;
-      Navigation.findNavController(getView()).navigate(R.id.cook_rec);
-    } else {
-      assert getActivity() != null;
-      ((MainActivity) getActivity()).showToast("Recipe failed to load!");
-    }
-  };
-
 }

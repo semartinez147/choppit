@@ -26,12 +26,16 @@
   android:background="?android:attr/selectableItemBackground"
   android:layout_margin="@dimen/narrow_space">
 
+<!--
+-->
+
   <ImageView
-    android:id="@+id/favorite"
+    android:id="@+id/recipe_favorite"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:src="@{recipe.favorite == true ? @drawable/ic_favorite : @drawable/ic_not_favorite}"
     app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintHorizontal_chainStyle="spread"
     android:contentDescription="@string/favorite_button"/>
@@ -39,13 +43,13 @@
   <TextView
     android:id="@+id/recipe_title"
     style="@style/RecipeItem.Title"
-    android:layout_width="0dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/medium_space"
     android:text="@{recipe.title}"
-    app:layout_constraintEnd_toStartOf="@id/edit"
-    app:layout_constraintStart_toEndOf="@id/favorite"
+    app:layout_constraintStart_toEndOf="@id/recipe_favorite"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintHorizontal_chainStyle="spread"/>
+    app:layout_constraintHorizontal_chainStyle="packed"/>
 
   <ImageView
     android:id="@+id/edit"

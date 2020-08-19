@@ -1,11 +1,14 @@
 package com.semartinez.projects.choppit.model.entity;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
+import com.semartinez.projects.choppit.BR;
 import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
 import com.semartinez.projects.choppit.model.pojo.RecipePojo;
 import com.semartinez.projects.choppit.model.pojo.StepPojo;
@@ -22,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
     }
 )
 
-public class Recipe {
+public class Recipe extends BaseObservable {
 
   @ColumnInfo(name = "recipe_id")
   @PrimaryKey(autoGenerate = true)
@@ -90,20 +93,24 @@ public class Recipe {
     this.url = url;
   }
 
+  @Bindable
   public @NotNull String getTitle() {
     return title;
   }
 
   public void setTitle(@NotNull String title) {
     this.title = title;
+    notifyPropertyChanged(BR.title);
   }
 
+  @Bindable
   public boolean isFavorite() {
     return favorite;
   }
 
   public void setFavorite(boolean favorite) {
     this.favorite = favorite;
+    notifyPropertyChanged(BR.favorite);
   }
 
   public List<Step> getSteps() {
