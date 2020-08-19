@@ -12,7 +12,7 @@ import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.fragment.app.DialogFragment;
 import com.semartinez.projects.choppit.R;
 
-public class InfoFragment extends DialogFragment {
+public class InfoDialog extends DialogFragment {
 
   private View dialogView;
   private final int currentLocation;
@@ -23,7 +23,7 @@ public class InfoFragment extends DialogFragment {
    * @param navFragment is the Switch input, taken from the visible {@link androidx.fragment.app.Fragment} id when the Help button is pressed.
    * @param fragLabel is populated from the navFragment and displayed in the {@link android.app.ActionBar}.
    */
-  public InfoFragment(int navFragment, String fragLabel) {
+  public InfoDialog(int navFragment, String fragLabel) {
     currentLocation = navFragment;
     this.fragLabel = fragLabel;
   }
@@ -32,7 +32,7 @@ public class InfoFragment extends DialogFragment {
   @Override
   public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
     assert getContext() != null;
-    dialogView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_info, null);
+    dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_info, null);
     return new Builder(getContext())
         .setIcon(R.drawable.ic_help)
         .setTitle(fragLabel + " Information")

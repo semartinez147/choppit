@@ -15,7 +15,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.semartinez.projects.choppit.R;
-import com.semartinez.projects.choppit.controller.ui.InfoFragment;
+import com.semartinez.projects.choppit.controller.ui.InfoDialog;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.repository.RecipeRepository;
 import com.semartinez.projects.choppit.service.ChoppitDatabase;
@@ -119,8 +119,8 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
   }
 
   private void showInfo(int currentFragment, String fragmentLabel) {
-    new InfoFragment(currentFragment, fragmentLabel)
-        .show(getSupportFragmentManager(), InfoFragment.class.getName());
+    new InfoDialog(currentFragment, fragmentLabel)
+        .show(getSupportFragmentManager(), InfoDialog.class.getName());
   }
 
   private void preloadDatabase() {

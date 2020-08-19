@@ -85,10 +85,10 @@ public class LoadingFragment extends Fragment {
         case "processing":
           status.setText(R.string.processing);
           Log.d("LoadingFrag", "processing");
-          viewModel.getSteps().observe(getActivity(), stepObserver);
+          viewModel.getSteps().observe(getViewLifecycleOwner(), stepObserver);
           break;
         case "finishing":
-          viewModel.getRecipe().observe(getActivity(), recipeObserver);
+          viewModel.getRecipe().observe(getViewLifecycleOwner(), recipeObserver);
       }
     }
   };
@@ -124,7 +124,6 @@ public class LoadingFragment extends Fragment {
   final Observer<Recipe> recipeObserver = recipe -> {
     if (recipe != null) {
       Navigation.findNavController(getView()).navigate(R.id.load_edit);
-
     }
   };
 

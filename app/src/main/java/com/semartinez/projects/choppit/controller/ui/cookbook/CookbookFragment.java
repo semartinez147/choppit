@@ -9,11 +9,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.semartinez.projects.choppit.R;
-import com.semartinez.projects.choppit.controller.MainActivity;
+import com.semartinez.projects.choppit.controller.ui.DeleteDialog;
 import com.semartinez.projects.choppit.databinding.FragmentCookbookBinding;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.view.CookbookRecyclerAdapter;
@@ -21,7 +19,6 @@ import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO implement onClickListener to toggle recipe favorite state
 // TODO access editing screen via long press or pencil icon
 
 /**
@@ -34,14 +31,6 @@ public class CookbookFragment extends Fragment {
   private final List<Recipe> recipes = new ArrayList<>();
   public FragmentCookbookBinding binding;
 
-
-  private void setupRecyclerView() {
-    RecyclerView recyclerView = binding.recipeList;
-    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-    cookbookRecyclerAdapter = new CookbookRecyclerAdapter(getContext(), recipes);
-    recyclerView.setLayoutManager(layoutManager);
-    recyclerView.setAdapter(cookbookRecyclerAdapter);
-  }
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater,
@@ -62,6 +51,18 @@ public class CookbookFragment extends Fragment {
 
   }
 
+  private void setupRecyclerView() {
+    RecyclerView recyclerView = binding.recipeList;
+    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+    cookbookRecyclerAdapter = new CookbookRecyclerAdapter(getContext(), recipes, this);
+    recyclerView.setLayoutManager(layoutManager);
+    recyclerView.setAdapter(cookbookRecyclerAdapter);
+  }
+
+  public void deleteRecipe(Recipe recipe) {
+    new DeleteDialog(recipe, viewModel).show(getActivity().getSupportFragmentManager(), recipe.getTitle()+" delete");
+  }
+
   /**
    * This observer resets the dataset if there is a change to the list of {@link Recipe}s.
    */
@@ -77,4 +78,5 @@ public class CookbookFragment extends Fragment {
       }
     }
   };
+
 }

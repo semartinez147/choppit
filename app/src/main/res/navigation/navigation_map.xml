@@ -46,7 +46,8 @@
       app:destination="@id/navigation_selection"/>
     <action
       android:id="@+id/edit_cook"
-      app:destination="@id/navigation_cookbook"/>
+      app:destination="@id/navigation_cookbook"
+      app:popUpTo="@id/navigation_home"/>
   </fragment>
 
     <fragment

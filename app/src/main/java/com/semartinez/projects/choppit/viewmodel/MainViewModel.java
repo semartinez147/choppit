@@ -112,8 +112,8 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
    * This method is called by the {@link com.semartinez.projects.choppit.controller.ui.editing.LoadingFragment}
    * when it receives the {@link #status} data indicating {@link #makeItGo(String)} has completed
    * successfully.  It passes parameters into {@link RecipeRepository#process(String, String)},
-   * notifies the {@link com.semartinez.projects.choppit.controller.ui.editing.LoadingFragment} via {@link
-   * #status}, and posts the resulting {@link List} of {@link Step}s to {@link #steps}.
+   * notifies the {@link com.semartinez.projects.choppit.controller.ui.editing.LoadingFragment} via
+   * {@link #status}, and posts the resulting {@link List} of {@link Step}s to {@link #steps}.
    *
    * @param ingredient  from user input on the {@link com.semartinez.projects.choppit.controller.ui.editing.SelectionFragment}.
    * @param instruction from user input on the {@link com.semartinez.projects.choppit.controller.ui.editing.SelectionFragment}.
@@ -190,6 +190,15 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     );
   }
 
+  public void deleteRecipe(Recipe r) {
+    throwable.setValue(null);
+    pending.add(repository.delete(r)
+        .subscribe(
+            value -> recipe.postValue(null),
+            throwable::postValue
+        )
+    );
+  }
 
   // switch back to public when implemented
   @SuppressWarnings("unused")

@@ -130,6 +130,12 @@ public class RecipeRepository {
         .subscribeOn(Schedulers.io()).map(Recipe::new);
   }
 
+  public Single<Integer> delete(Recipe recipe) {
+    RecipeDao dao = database.getRecipeDao();
+    return dao.delete(recipe)
+        .subscribeOn(Schedulers.io());
+  }
+
   /**
    * Calls the {@link Runnable} that processes the HTTP request.  Subscribes on {@link Thread}s from
    * the {@link #networkPool} to avoid touching the UI.  There may be a more direct way to do this.

@@ -3,11 +3,11 @@ package com.semartinez.projects.choppit.view;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
-import com.semartinez.projects.choppit.BR;
 import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragment;
 import com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragmentDirections;
@@ -20,16 +20,19 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
   private final Context context;
   private final List<Recipe> recipes;
+  private final CookbookFragment cookbookFragment;
 
   /**
    * Handles Data Binding input from the database and displays a list of {@link Recipe}s
-   *
-   * @param context the {@link Context} where the adapter operates.
+   *  @param context the {@link Context} where the adapter operates.
    * @param recipes the list of {@link Recipe}s to be displayed
+   * @param cookbookFragment
    */
-  public CookbookRecyclerAdapter(Context context, List<Recipe> recipes) {
+  public CookbookRecyclerAdapter(Context context, List<Recipe> recipes,
+      CookbookFragment cookbookFragment) {
     this.context = context;
     this.recipes = recipes;
+    this.cookbookFragment = cookbookFragment;
   }
 
   @SuppressWarnings("unused")
@@ -38,7 +41,6 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     recipes.addAll(newRecipes);
     notifyDataSetChanged();
   }
-
 
   @NonNull
   @Override
@@ -52,7 +54,7 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
   @Override
   public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
     Recipe recipe = recipes.get(position);
-    holder.bind(recipe);
+    holder.bind(recipe, cookbookFragment);
   }
 
   @Override
@@ -79,6 +81,14 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
       binding.recipeTitle.setOnClickListener(this);
       binding.recipeFavorite.setOnClickListener(this);
       binding.edit.setOnClickListener(this);
+
+      binding.recipeTitle.setOnLongClickListener(new OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+          binding.getUiController().deleteRecipe(binding.getRecipe());
+          return false;
+        }
+      });
     }
 
     /**
@@ -88,7 +98,8 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
      *
      * @param recipe is received from the database
      */
-    public void bind(Recipe recipe) {
+    public void bind(Recipe recipe, CookbookFragment cookbookFragment) {
+      binding.setUiController(cookbookFragment);
       binding.setVariable(com.semartinez.projects.choppit.BR.recipe, recipe);
       binding.executePendingBindings();
     }
