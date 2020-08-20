@@ -57,6 +57,7 @@ public class JsoupRetriever {
       for (Step step : steps) {
         if (ingredientPattern.matcher(step.getInstructions()).find()) {
           step.addIngredient(item);
+          break;
         }
       }
     }

@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -184,6 +185,13 @@ public class RecipeRepository {
   public Single<List<Step>> process(String ingredient, String instruction) {
     List<Step> steps = retriever.process(ingredient, instruction);
     return Single.just(steps);
+  }
+
+  public Single<Recipe> updateEdited(Recipe recipe) {
+
+    // TODO: write this method.
+
+    return Single.just(recipe);
   }
 
 
