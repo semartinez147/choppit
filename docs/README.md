@@ -19,25 +19,33 @@ The process was complicated by responses to the COVID-19 pandemic, and I had to 
 #### Critical problems
 
 
-- ~~Saving recipes~~
+- Saving recipes
   - ~~The save method needs to assign the returned Recipe Id to the Recipe's Step entities, and each Step Id to that Step's Ingredient Entities.~~
-  - Resolved 4/15/2020 by expanding the save method using .map().
+      - Resolved 4/15/2020 by expanding the save method using .map().
+  - Edited recipes need to be re-processed before saving.
 
 - Editing saved recipes
-  - Navigation from a single Recipe to the Editing screen needs to be added.
+  - ~~Navigation from a single Recipe to the Editing screen needs to be added.~~
+      - Implemented on 8/19/2020.  
   - ~~I want to handle the changes to the database with two-way data binding.~~
-      - Decided against this to prevent saving changes prematurely.
+      - Used two-way databinding for the "Favorite" button to toggle true/false.
 
 - Viewing saved recipes
   - ~~I have problems with navigation methods, but I believe I have a strategy to simplify them.~~
     - Resolved 4/16/20 using SafeArgs to pass a recipeId into the fragment.
   - Currently only retrieving the Recipe object without Steps or Ingredients.
+    - Resolved 8/19/2020 using POJOs.
 
 #### Basic Functions
 
-- Support Recipes from scratch in the Editing Fragment.
+- Considering flattening hierarchy by nesting Ingredients directly in Recipes rather than Steps.  
+    - This will simplify processing and avoid complications processing natural language (i.e. 
+    understanding that "fresh black pepper" is equivalent to "pepper", "black pepper", "pepper, 
+    black", etc. but "fresh black pepper" and "fresh black currants" are totally different)
+
+- ~~Support Recipes from scratch in the Editing Fragment.~~ Done.
 	
-- Access Editing screen from a saved Recipe.
+- ~~Access Editing screen from a saved Recipe.~~ Done.
 
 - Search option to the Cookbook Fragment.
 
@@ -46,6 +54,7 @@ The process was complicated by responses to the COVID-19 pandemic, and I had to 
 - Turn Unit selection on the Editing Screen into a drop-down displaying the Enum values.
 
 - Changing font through Settings *(readability from a few feet away is a basic feature)*
+    - Text formatting in general needs some work, particularly font sizes.
     - Typeface and size
     - Possibly vertical and horizontal spacing
 	- I would like to add the [Open Dyslexic](http://www.opendyslexic.org) font to increase accessibility.
