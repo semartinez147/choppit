@@ -14,7 +14,6 @@ import com.semartinez.projects.choppit.model.entity.Step;
 import java.util.LinkedList;
 import java.util.List;
 
-// FIXME complete data binding based on EditingRecyclerAdapter.
 
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 

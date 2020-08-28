@@ -13,6 +13,26 @@ import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.entity.Step;
 
+/* Hierarchy restructuring task list:
+ TODO: Add Recipe foreign key to Ingredient
+ TODO: Remove Step foreign key from Ingredient
+ TODO: Add List<Ingredient> to Recipe
+ TODO: Remove List<Ingredient> from Step
+ TODO: add Ingredient logic to RecipePojo & delete StepPojo
+
+ TODO: Update IngredientRecyclerAdapter to get List<Ingredient> from Recipe
+ TODO: Update RecipeRecyclerAdapter to get List<Ingredient> from Recipe
+ TODO: Update EditingRecyclerAdapter to get List<Ingredient> from Recipe
+ TODO: Update EditingFragment.emptyRecipe() for new hierarchy
+
+ TODO: Update RecipeRepository.save() to assign RecipeIds instead of StepIds to Ingredients
+ TODO: Update JsoupRetriever.process() and/or rewrite most of the retriever logic
+ TODO: Update MVM to match new retriever logic
+ TODO: Make sure LoadingFragment process matches MVM logic
+
+ TODO: Update Recipe.populateData() and Step/Ingredient methods
+  */
+
 @Database(
     entities = {Ingredient.class, Recipe.class, Step.class},
     version = 1

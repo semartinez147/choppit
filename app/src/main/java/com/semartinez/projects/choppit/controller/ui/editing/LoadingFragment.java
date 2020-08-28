@@ -102,7 +102,7 @@ public class LoadingFragment extends Fragment {
     public void onChanged(List<Step> steps) {
       if (steps != null) {
         viewModel.finish(steps);
-        viewModel.getIngredients().observe(getActivity(), ingredientObserver);
+        viewModel.getIngredients().observe(getViewLifecycleOwner(), ingredientObserver);
       }
     }
   };
@@ -122,7 +122,7 @@ public class LoadingFragment extends Fragment {
    * Navigates forward when processing is complete.
    */
   final Observer<Recipe> recipeObserver = recipe -> {
-    if (recipe != null) {
+    if (recipe != null && getView() != null) {
       Navigation.findNavController(getView()).navigate(R.id.load_edit);
     }
   };
