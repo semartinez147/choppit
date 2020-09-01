@@ -51,7 +51,7 @@ The process was complicated by responses to the COVID-19 pandemic, and I had to 
 
 - Receive shared url instead of copying/pasting.
 
-- Turn Unit selection on the Editing Screen into a drop-down displaying the Enum values.
+- Turn Unit selection on the Editing Screen into a drop-down displaying the Enum values including OTHER.
 
 - Changing font through Settings *(readability from a few feet away is a basic feature)*
     - Text formatting in general needs some work, particularly font sizes.
@@ -60,7 +60,8 @@ The process was complicated by responses to the COVID-19 pandemic, and I had to 
 	- I would like to add the [Open Dyslexic](http://www.opendyslexic.org) font to increase accessibility.
 	
 - Figure out how to display the right ingredient (and only the right ingredient) as a pop-up while cooking.
-	- An alternative to my original idea is to have a "Cooking mode" that displays Steps full-screen, then opens an AlertDialog with a checklist of Ingredients, so they can be cleared one at a time. 
+    - I plan to do this using Apache OpenNLP.  I have found some useful datasets, but will need to do a significant amount of work to adapt them.  This will have to be a distant-future stretch goal.
+	- An alternative to my original idea is to have a "Cooking mode" that displays Steps full-screen and opens an AlertDialog with a checklist of Ingredients, so they can be cleared one at a time. 
 
 	
 #### Bugs & Errors

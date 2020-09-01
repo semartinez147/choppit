@@ -58,8 +58,8 @@ dependencies {
     // HTML parsing library
     implementation 'org.jsoup:jsoup:1.12.2'
 
-    // NLP library
-    implementation'org.apache.opennlp:opennlp-tools:1.9.3'
+    // NLP library - this will be used eventually.
+    // implementation'org.apache.opennlp:opennlp-tools:1.9.3'
 
     //Reactive X dependencies
     implementation 'io.reactivex.rxjava2:rxjava:2.2.17'
