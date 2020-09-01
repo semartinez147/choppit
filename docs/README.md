@@ -33,7 +33,7 @@ The process was complicated by responses to the COVID-19 pandemic, and I had to 
 - Viewing saved recipes
   - ~~I have problems with navigation methods, but I believe I have a strategy to simplify them.~~
     - Resolved 4/16/20 using SafeArgs to pass a recipeId into the fragment.
-  - Currently only retrieving the Recipe object without Steps or Ingredients.
+  - ~~Currently only retrieving the Recipe object without Steps or Ingredients.~~
     - Resolved 8/19/2020 using POJOs.
 
 #### Basic Functions

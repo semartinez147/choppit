@@ -14,7 +14,7 @@
   </style>
 
   <style name="RecipeItem.Title" parent="RecipeItem">
-    <item name="android:textSize">24sp</item>
+    <item name="android:textSize">20sp</item>
     <item name="android:textStyle">bold</item>
   </style>
 
@@ -24,7 +24,7 @@
   </style>
 
 <style name="RecipeItem.Header" parent = "RecipeItem">
-  <item name="android:textSize">16sp</item>
+  <item name="android:textSize">18sp</item>
   <item name="android:textStyle">italic</item>
 </style>
 
