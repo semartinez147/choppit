@@ -12,13 +12,13 @@ import java.util.Objects;
 
 @Entity(
     indices = {
-        @Index(value = "step_id")
+        @Index(value = "recipe_id")
     },
     foreignKeys = {
         @ForeignKey(
-            entity = Step.class,
-            parentColumns = "step_id",
-            childColumns = "step_id",
+            entity = Recipe.class,
+            parentColumns = "ingredient_id",
+            childColumns = "ingredient_id",
             onDelete = ForeignKey.CASCADE,
             onUpdate = ForeignKey.CASCADE
         )
@@ -31,8 +31,8 @@ public class Ingredient {
   private long id;
 
 
-  @ColumnInfo(name = "step_id")
-  private long stepId;
+  @ColumnInfo(name = "recipe_id")
+  private long recipeId;
 
 
   @ColumnInfo(name = "quantity")
@@ -61,10 +61,10 @@ public class Ingredient {
   }
 
   @Ignore
-  public Ingredient(long stepId, String quantity, Unit unit, String unitAlt,
+  public Ingredient(long recipeId, String quantity, Unit unit, String unitAlt,
       String name) {
     super();
-    this.stepId = stepId;
+    this.recipeId = recipeId;
     this.quantity = quantity;
     this.unit = unit;
     this.unitAlt = unitAlt;
@@ -79,12 +79,12 @@ public class Ingredient {
     this.id = id;
   }
 
-  public long getStepId() {
-    return stepId;
+  public long getRecipeId() {
+    return recipeId;
   }
 
-  public void setStepId(long stepId) {
-    this.stepId = stepId;
+  public void setRecipeId(long recipeId) {
+    this.recipeId = recipeId;
   }
 
   public String getQuantity() {

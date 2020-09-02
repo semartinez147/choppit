@@ -9,7 +9,6 @@ import com.semartinez.projects.choppit.model.dao.RecipeDao;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.entity.Step;
-import com.semartinez.projects.choppit.model.pojo.RecipePojo;
 import com.semartinez.projects.choppit.service.ChoppitDatabase;
 import com.semartinez.projects.choppit.service.JsoupRetriever;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
@@ -21,7 +20,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -72,7 +70,7 @@ public class RecipeRepository {
                 .map((stepId) -> {
                   step.setStepId(stepId);
                   for (Ingredient ingredient : step.getIngredients()) {
-                    ingredient.setStepId(step.getStepId());
+                    ingredient.setRecipeId(step.getStepId());
                     database.getIngredientDao().insert(ingredient).subscribe();
                   }
                 return step;

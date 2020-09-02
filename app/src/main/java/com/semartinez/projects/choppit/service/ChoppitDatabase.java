@@ -14,11 +14,11 @@ import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.entity.Step;
 
 /* Hierarchy restructuring task list:
- TODO: Add Recipe foreign key to Ingredient
- TODO: Remove Step foreign key from Ingredient
- TODO: Add List<Ingredient> to Recipe
- TODO: Remove List<Ingredient> from Step
- TODO: add Ingredient logic to RecipePojo & delete StepPojo
+ DONE: Add Recipe foreign key to Ingredient
+ DONE: Remove Step foreign key from Ingredient
+ DONE: Add List<Ingredient> to Recipe
+ DONE: Remove List<Ingredient> from Step
+ DONE: Add Ingredient logic to RecipePojo & delete StepPojo
 
  TODO: Update IngredientRecyclerAdapter to get List<Ingredient> from Recipe
  TODO: Update RecipeRecyclerAdapter to get List<Ingredient> from Recipe
