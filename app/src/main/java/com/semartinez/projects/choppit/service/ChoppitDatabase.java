@@ -25,7 +25,7 @@ import com.semartinez.projects.choppit.model.entity.Step;
  TODO: Update EditingRecyclerAdapter to get List<Ingredient> from Recipe
  TODO: Update EditingFragment.emptyRecipe() for new hierarchy
 
- TODO: Update RecipeRepository.save() to assign RecipeIds instead of StepIds to Ingredients
+ DONE: Update RecipeRepository.save() to assign RecipeIds instead of StepIds to Ingredients
  TODO: Update JsoupRetriever.process() and/or rewrite most of the retriever logic
  TODO: Update MVM to match new retriever logic
  TODO: Make sure LoadingFragment process matches MVM logic

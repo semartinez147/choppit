@@ -18,7 +18,7 @@ public class RecipePojo {
   @Relation(parentColumn = "recipe_id", entityColumn = "recipe_id", entity = Step.class)
   private List<Step> steps;
 
-  @Relation(parentColumn = "recipe_id", entityColumn = "recipe_id", entity = Step.class)
+  @Relation(parentColumn = "recipe_id", entityColumn = "recipe_id", entity = Ingredient.class)
   private List<Ingredient> ingredients;
 
   public Recipe getRecipe() {

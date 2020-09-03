@@ -17,8 +17,8 @@ import java.util.Objects;
     foreignKeys = {
         @ForeignKey(
             entity = Recipe.class,
-            parentColumns = "ingredient_id",
-            childColumns = "ingredient_id",
+            parentColumns = "recipe_id",
+            childColumns = "recipe_id",
             onDelete = ForeignKey.CASCADE,
             onUpdate = ForeignKey.CASCADE
         )

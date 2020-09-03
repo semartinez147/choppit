@@ -69,14 +69,24 @@ public class RecipeRepository {
             database.getStepDao().insert(step)
                 .map((stepId) -> {
                   step.setStepId(stepId);
-                  for (Ingredient ingredient : step.getIngredients()) {
-                    ingredient.setRecipeId(step.getStepId());
-                    database.getIngredientDao().insert(ingredient).subscribe();
-                  }
+//                  for (Ingredient ingredient : step.getIngredients()) {
+//                    ingredient.setRecipeId(step.getStepId());
+//                    database.getIngredientDao().insert(ingredient).subscribe();
+//                  }
                 return step;
                 })
                 .onErrorReturnItem(step)
             .subscribe();
+          }
+          for (Ingredient ingredient : recipe.getIngredients()) {
+            ingredient.setRecipeId(recipe.getRecipeId());
+            database.getIngredientDao().insert(ingredient)
+                .map((ingredientId) -> {
+                  ingredient.setId(ingredientId);
+                  return ingredient;
+                })
+                .onErrorReturnItem(ingredient)
+                .subscribe();
           }
         return recipe;
         });
