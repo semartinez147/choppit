@@ -12,6 +12,7 @@ import androidx.lifecycle.OnLifecycleEvent;
 import com.semartinez.projects.choppit.controller.ui.editing.LoadingFragment;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Recipe;
+import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
 import com.semartinez.projects.choppit.model.entity.Step;
 import com.semartinez.projects.choppit.model.pojo.RecipePojo;
 import com.semartinez.projects.choppit.model.repository.RecipeRepository;
@@ -19,7 +20,9 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class MainViewModel extends AndroidViewModel implements LifecycleObserver {
@@ -109,47 +112,28 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     );
   }
 
-  /**
-   * This method is called by the {@link com.semartinez.projects.choppit.controller.ui.editing.LoadingFragment}
-   * when it receives the {@link #status} data indicating {@link #makeItGo(String)} has completed
-   * successfully.  It passes parameters into {@link RecipeRepository#process(String, String)},
-   * notifies the {@link com.semartinez.projects.choppit.controller.ui.editing.LoadingFragment} via
-   * {@link #status}, and posts the resulting {@link List} of {@link Step}s to {@link #steps}.
-   *
-   * @param ingredient  from user input on the {@link com.semartinez.projects.choppit.controller.ui.editing.SelectionFragment}.
-   * @param instruction from user input on the {@link com.semartinez.projects.choppit.controller.ui.editing.SelectionFragment}.
-   */
   public void processData(String ingredient, String instruction) {
     Log.d("MVM", "beginning processData");
     throwable.setValue(null);
     status.postValue("processing");
     pending.add(
         repository.process(ingredient, instruction)
-            .subscribe(steps::postValue)
+            .subscribe(this::finish)
     );
   }
 
-  /**
-   * This method is called by the {@link com.semartinez.projects.choppit.controller.ui.editing.LoadingFragment}
-   * when it sees {@link #steps} update, indicating {@link #processData(String, String)} has
-   * completed successfully.  This method ensures that there are no duplicate values in {@link
-   * #ingredients} before updating it.
-   *
-   * @param steps retrieved from {@link #steps} when the method is called.
-   */
-  public void finish(List<Step> steps) {
-    List<Ingredient> extract = new ArrayList<>();
-    List<Ingredient> extracted = new ArrayList<>();
-    for (Step step : steps) {
-      extract.addAll(step.getIngredients());
+  public void finish(Map<String, List<? extends RecipeComponent>> data) {
+    List<Ingredient> ingredientData = new LinkedList<>();
+    for (RecipeComponent recipeComponent : data.get("ingredients")) {
+      ingredientData.add((Ingredient) recipeComponent);
+    }
+    ingredients.postValue(ingredientData);
 
+    List<Step> stepData = new LinkedList<>();
+    for (RecipeComponent recipeComponent : data.get("steps")) {
+      stepData.add((Step) recipeComponent);
     }
-    for (Ingredient ex : extract) {
-      if (!extracted.contains(ex)) {
-        extracted.add(ex);
-      }
-    }
-    ingredients.postValue(extracted);
+    steps.postValue(stepData);
     status.postValue("finishing");
   }
 
@@ -163,8 +147,9 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     recipe.setUrl(repository.getRecipeMeta()[0]);
     recipe.setTitle(repository.getRecipeMeta()[1]);
     recipe.setSteps(steps.getValue());
+    recipe.setIngredients(ingredients.getValue());
     this.recipe.postValue(recipe);
-    status.postValue("finishing");
+    status.postValue("finished");
   }
 
   public void saveRecipe(Recipe newRecipe) {

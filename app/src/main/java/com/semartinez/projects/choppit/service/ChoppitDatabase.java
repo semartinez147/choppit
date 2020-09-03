@@ -26,11 +26,13 @@ import com.semartinez.projects.choppit.model.entity.Step;
  DONE: Update EditingFragment.emptyRecipe() for new hierarchy
 
  DONE: Update RecipeRepository.save() to assign RecipeIds instead of StepIds to Ingredients
- TODO: Update JsoupRetriever.process() and/or rewrite most of the retriever logic
- TODO: Update MVM to match new retriever logic
- TODO: Make sure LoadingFragment process matches MVM logic
+ DONE: Update JsoupRetriever.process() and/or rewrite most of the retriever logic
+ DONE: Update MVM to match new retriever logic
+ DONE: Make sure LoadingFragment process matches MVM logic
 
  DONE: Update Recipe.populateData() and Step/Ingredient methods
+ TODO: Test results
+ TODO: Update ERD
   */
 
 @Database(

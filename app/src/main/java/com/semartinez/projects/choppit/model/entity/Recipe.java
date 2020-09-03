@@ -162,6 +162,10 @@ public class Recipe extends BaseObservable {
     this.ingredients.add(ingredient);
   }
 
+  public interface RecipeComponent {
+    // exists to group Ingredient and Step objects
+  }
+
   @NonNull
   @Override
   public String toString() {

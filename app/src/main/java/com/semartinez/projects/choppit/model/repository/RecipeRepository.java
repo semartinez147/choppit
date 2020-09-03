@@ -8,6 +8,7 @@ import com.semartinez.projects.choppit.controller.ui.editing.SelectionFragment;
 import com.semartinez.projects.choppit.model.dao.RecipeDao;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Recipe;
+import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
 import com.semartinez.projects.choppit.model.entity.Step;
 import com.semartinez.projects.choppit.service.ChoppitDatabase;
 import com.semartinez.projects.choppit.service.JsoupRetriever;
@@ -18,6 +19,7 @@ import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import org.jsoup.Jsoup;
@@ -190,9 +192,9 @@ public class RecipeRepository {
    * @param instruction input by the user on the {@link SelectionFragment}
    * @return a list of {@link Step} objects with attached {@link Ingredient}s.
    */
-  public Single<List<Step>> process(String ingredient, String instruction) {
-    List<Step> steps = retriever.process(ingredient, instruction);
-    return Single.just(steps);
+  public Single<Map<String, List<? extends RecipeComponent>>> process(String ingredient, String instruction) {
+    Map<String, List<? extends RecipeComponent>> data = retriever.process(ingredient, instruction);
+    return Single.just(data);
   }
 
   public Single<Recipe> updateEdited(Recipe recipe) {

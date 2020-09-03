@@ -8,6 +8,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
 import androidx.annotation.NonNull;
+import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
 import java.util.Objects;
 
 @Entity(
@@ -24,7 +25,7 @@ import java.util.Objects;
         )
     }
 )
-public class Ingredient {
+public class Ingredient implements RecipeComponent {
 
   @ColumnInfo(name = "ingredient_id")
   @PrimaryKey(autoGenerate = true)
