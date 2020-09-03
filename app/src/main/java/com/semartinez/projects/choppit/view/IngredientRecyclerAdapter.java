@@ -32,13 +32,7 @@ public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
     this.edit = uiFragment instanceof EditingFragment;
     this.editingController = uiFragment instanceof EditingFragment ? (EditingFragment) uiFragment: null;
     this.recipeController = uiFragment instanceof RecipeFragment ? (RecipeFragment) uiFragment : null;
-    for (Step step : recipe.getSteps()) {
-      for (Ingredient ingredient : step.getIngredients()) {
-        if (!ingredients.contains(ingredient)) {
-          ingredients.add(ingredient);
-        }
-      }
-    }
+    this.ingredients.addAll(recipe.getIngredients());
   }
 
 

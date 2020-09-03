@@ -20,17 +20,17 @@ import com.semartinez.projects.choppit.model.entity.Step;
  DONE: Remove List<Ingredient> from Step
  DONE: Add Ingredient logic to RecipePojo & delete StepPojo
 
- TODO: Update IngredientRecyclerAdapter to get List<Ingredient> from Recipe
- TODO: Update RecipeRecyclerAdapter to get List<Ingredient> from Recipe
- TODO: Update EditingRecyclerAdapter to get List<Ingredient> from Recipe
- TODO: Update EditingFragment.emptyRecipe() for new hierarchy
+ DONE: Update IngredientRecyclerAdapter to get List<Ingredient> from Recipe
+ DONE: Update RecipeRecyclerAdapter to get List<Ingredient> from Recipe
+ DONE: Update EditingRecyclerAdapter to get List<Ingredient> from Recipe
+ DONE: Update EditingFragment.emptyRecipe() for new hierarchy
 
  DONE: Update RecipeRepository.save() to assign RecipeIds instead of StepIds to Ingredients
  TODO: Update JsoupRetriever.process() and/or rewrite most of the retriever logic
  TODO: Update MVM to match new retriever logic
  TODO: Make sure LoadingFragment process matches MVM logic
 
- TODO: Update Recipe.populateData() and Step/Ingredient methods
+ DONE: Update Recipe.populateData() and Step/Ingredient methods
   */
 
 @Database(
