@@ -61,7 +61,7 @@ public class RecipeRepository {
     retriever = JsoupRetriever.getInstance();
   }
 
-  public Single<Recipe> save(Recipe recipe) {
+  public Single<Recipe> saveNew(Recipe recipe) {
     return database.getRecipeDao().insert(recipe)
         .subscribeOn(Schedulers.io())
         .map((id) -> {
@@ -71,10 +71,6 @@ public class RecipeRepository {
             database.getStepDao().insert(step)
                 .map((stepId) -> {
                   step.setStepId(stepId);
-//                  for (Ingredient ingredient : step.getIngredients()) {
-//                    ingredient.setRecipeId(step.getStepId());
-//                    database.getIngredientDao().insert(ingredient).subscribe();
-//                  }
                 return step;
                 })
                 .onErrorReturnItem(step)

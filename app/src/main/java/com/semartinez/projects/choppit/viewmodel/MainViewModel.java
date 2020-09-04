@@ -135,12 +135,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     status.postValue("finishing");
   }
 
-  /**
-   * This method adds the url and title to a {@link Recipe} from the {@link LoadingFragment}, then
-   * posts it to the {@link #recipe} field, which signals the {@link LoadingFragment} to navigate
-   * forward.
-   */
-  public void addRecipe() {
+  public void postRecipe() {
     Recipe recipe = new Recipe();
     recipe.setUrl(repository.getRecipeMeta()[0]);
     recipe.setTitle(repository.getRecipeMeta()[1]);
@@ -152,16 +147,16 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
 
   public void saveRecipe(Recipe newRecipe) {
     throwable.setValue(null);
-    if (newRecipe.getRecipeId() == 0) {
-      repository.save(newRecipe)
+      repository.saveNew(newRecipe)
           .doOnError(throwable::postValue)
           .subscribe();
-    } else {
-      repository.update(newRecipe)
-          .doOnError(throwable::postValue)
-          .subscribeOn(Schedulers.io())
-          .subscribe();
-    }
+  }
+
+  public void updateRecipe(Recipe recipe) {
+    repository.update(recipe)
+        .doOnError(throwable::postValue)
+        .subscribeOn(Schedulers.io())
+        .subscribe();
   }
 
   public void loadRecipe(Long id) {

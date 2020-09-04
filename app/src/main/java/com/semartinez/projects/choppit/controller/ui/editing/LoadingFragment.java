@@ -74,7 +74,7 @@ public class LoadingFragment extends Fragment {
           break;
         case "finishing":
           status.setText(R.string.finishing);
-          viewModel.addRecipe();
+          viewModel.postRecipe();
           break;
         case "finished":
           viewModel.getRecipe().observe(getViewLifecycleOwner(), recipeObserver);

@@ -70,6 +70,8 @@ public class InfoDialog extends DialogFragment {
       case R.id.navigation_cookbook:
       info.setText(R.string.cookbook_info);
       break;
+      case R.id.navigation_recipe:
+        info.setText(R.string.recipe_info);
       default:
       info.setText(R.string.default_info);
       break;

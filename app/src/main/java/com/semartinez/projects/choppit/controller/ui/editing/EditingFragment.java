@@ -32,10 +32,6 @@ import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import java.util.Arrays;
 import java.util.Collections;
 
-// TODO: double-check that new recipes are processed through Repository correctly to link Steps &
-//  Ingredients.
-
-
 public class EditingFragment extends Fragment {
 
   private MainViewModel viewModel;
@@ -108,7 +104,12 @@ public class EditingFragment extends Fragment {
 
     Button saveButton = binding.editingSave;
     saveButton.setOnClickListener(v -> {
-      viewModel.saveRecipe(recipe);
+      if (recipe.getRecipeId() == 0) {
+        viewModel.saveRecipe(recipe);
+      } else {
+        // TODO call DeleteDialog and implement.
+        viewModel.updateRecipe(recipe);
+      }
       viewModel.resetData();
       Navigation.findNavController(v).navigate(R.id.edit_cook);
     });
