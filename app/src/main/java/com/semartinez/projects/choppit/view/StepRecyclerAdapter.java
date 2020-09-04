@@ -73,6 +73,7 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     notifyItemInserted(steps.size());
   }
 
+  // TODO: only deletes the first step
   public void deleteStep(int position) {
     steps.remove(position);
     notifyDataSetChanged();
@@ -100,6 +101,7 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     public void bind(Step step) {
       binding.setVariable(BR.step, step);
+      binding.setPosition(getAdapterPosition());
       binding.setUiController(editingController);
       step.setRecipeOrder(getAdapterPosition() + 1);
       Log.d("StepBind",
