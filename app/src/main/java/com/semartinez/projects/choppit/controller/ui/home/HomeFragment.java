@@ -54,7 +54,9 @@ public class HomeFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     myCookbook.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.home_cook));
-
+      if(urlInput.isInEditMode()) {
+        urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
+      }
     // TODO disable for production
 //    urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
     urlInput.setText(
