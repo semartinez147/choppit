@@ -14,11 +14,9 @@ import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
 import com.semartinez.projects.choppit.model.entity.Step;
-import com.semartinez.projects.choppit.model.pojo.RecipePojo;
 import com.semartinez.projects.choppit.model.repository.RecipeRepository;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -118,7 +116,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     status.postValue("processing");
     pending.add(
         repository.process(ingredient, instruction)
-            .subscribe(this::finish)
+            .subscribe(data -> finish(data))
     );
   }
 
@@ -127,13 +125,13 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     for (RecipeComponent recipeComponent : data.get("ingredients")) {
       ingredientData.add((Ingredient) recipeComponent);
     }
-    ingredients.postValue(ingredientData);
+    ingredients.setValue(ingredientData);
 
     List<Step> stepData = new LinkedList<>();
     for (RecipeComponent recipeComponent : data.get("steps")) {
       stepData.add((Step) recipeComponent);
     }
-    steps.postValue(stepData);
+    steps.setValue(stepData);
     status.postValue("finishing");
   }
 
@@ -187,27 +185,24 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     );
   }
 
-  // switch back to public when implemented
-  @SuppressWarnings("unused")
-  private void grantPermission(String permission) {
-    Set<String> permissions = this.permissions.getValue();
-    assert permissions != null;
-    if (permissions.add(permission)) {
-      this.permissions.setValue(permissions);
-    }
-  }
-
-  // switch back to public when implemented
-  public void revokePermission(String permission) {
-    Set<String> permissions = this.permissions.getValue();
-    assert permissions != null;
-    if (permissions.remove(permission)) {
-      this.permissions.setValue(permissions);
-    }
-  }
+  // TODO: switch back on when permissions are implemented
+//  private void grantPermission(String permission) {
+//    Set<String> permissions = this.permissions.getValue();
+//    assert permissions != null;
+//    if (permissions.add(permission)) {
+//      this.permissions.setValue(permissions);
+//    }
+//  }
+//
+//  public void revokePermission(String permission) {
+//    Set<String> permissions = this.permissions.getValue();
+//    assert permissions != null;
+//    if (permissions.remove(permission)) {
+//      this.permissions.setValue(permissions);
+//    }
+//  }
 
 
-  @SuppressWarnings("unused")
   @OnLifecycleEvent(Event.ON_STOP)
   private void disposePending() {
     pending.clear();

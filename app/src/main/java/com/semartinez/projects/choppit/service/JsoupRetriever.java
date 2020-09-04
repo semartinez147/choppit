@@ -23,8 +23,8 @@ public class JsoupRetriever {
   private List<String> listInstructions = new ArrayList<>();
   private String ingredientClass;
   private String instructionClass;
-  private List<Step> steps;
-  private List<Ingredient> ingredients;
+  private final List<Step> steps = new ArrayList<>();
+  private final List<Ingredient> ingredients = new ArrayList<>();
 
 
   JsoupRetriever() {

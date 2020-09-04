@@ -32,6 +32,7 @@ public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
     this.edit = uiFragment instanceof EditingFragment;
     this.editingController = uiFragment instanceof EditingFragment ? (EditingFragment) uiFragment: null;
     this.recipeController = uiFragment instanceof RecipeFragment ? (RecipeFragment) uiFragment : null;
+    // FIXME recipe has null steps and ingredients.
     this.ingredients.addAll(recipe.getIngredients());
   }
 
