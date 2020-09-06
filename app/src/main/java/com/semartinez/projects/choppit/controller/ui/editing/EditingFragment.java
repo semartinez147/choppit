@@ -21,6 +21,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.semartinez.projects.choppit.R;
+import com.semartinez.projects.choppit.controller.ui.SaveDialog;
 import com.semartinez.projects.choppit.databinding.FragmentEditingBinding;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
@@ -30,7 +31,6 @@ import com.semartinez.projects.choppit.view.IngredientRecyclerAdapter;
 import com.semartinez.projects.choppit.view.StepRecyclerAdapter;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class EditingFragment extends Fragment {
 
@@ -107,14 +107,16 @@ public class EditingFragment extends Fragment {
       if (recipe.getRecipeId() == 0) {
         viewModel.saveRecipe(recipe);
       } else {
-        // TODO call DeleteDialog and implement.
-        viewModel.updateRecipe(recipe);
+        showSaveDialog(v);
       }
-      viewModel.resetData();
-      Navigation.findNavController(v).navigate(R.id.edit_cook);
     });
 
     return binding.getRoot();
+  }
+
+  public void navAfterSave(View v) {
+    viewModel.resetData();
+    Navigation.findNavController(v).navigate(R.id.edit_cook);
   }
 
   @Override
@@ -161,5 +163,10 @@ public class EditingFragment extends Fragment {
   public void deleteIngredient(int position) {
     Log.d("deleteIngredient", "method call");
     ingredientRecyclerAdapter.deleteIngredient(position);
+  }
+
+  private void showSaveDialog(View view) {
+    SaveDialog save = new SaveDialog(recipe, view, viewModel);
+    save.show(getChildFragmentManager(), SaveDialog.class.getName());
   }
 }

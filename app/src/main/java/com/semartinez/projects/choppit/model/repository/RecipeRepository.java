@@ -135,7 +135,7 @@ public class RecipeRepository {
   public Single<Recipe> loadDetails (long id) {
     RecipeDao dao = database.getRecipeDao();
     return dao.loadRecipeData(id)
-        .subscribeOn(Schedulers.io()).map(recipePojo -> new Recipe(recipePojo));
+        .subscribeOn(Schedulers.io()).map(Recipe::new);
   }
 
   public Single<Integer> delete(Recipe recipe) {
