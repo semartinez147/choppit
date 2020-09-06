@@ -34,9 +34,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     this.context = context;
     this.steps = recipe.getSteps();
     this.ingredients = new LinkedList<>();
-    for (Step step : steps) {
-      ingredients.addAll(step.getIngredients());
-    }
+    ingredients.addAll(recipe.getIngredients());
   }
 
   @SuppressWarnings("ConstantConditions")

@@ -1,5 +1,6 @@
 package com.semartinez.projects.choppit.model.entity;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.room.ColumnInfo;
@@ -7,11 +8,9 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-import androidx.annotation.NonNull;
 import com.semartinez.projects.choppit.BR;
 import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
 import com.semartinez.projects.choppit.model.pojo.RecipePojo;
-import com.semartinez.projects.choppit.model.pojo.StepPojo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -44,6 +43,9 @@ public class Recipe extends BaseObservable {
   @Ignore
   private List<Step> steps = new LinkedList<>();
 
+  @Ignore
+  private List<Ingredient> ingredients = new LinkedList<>();
+
   /**
    * Recipe is the top-level {@link Entity} in the database.  It gets a non-editable {@link #url} if
    * it was loaded from a website.  {@link #title}, {@link #favorite} and the list of {@link Step}s
@@ -53,12 +55,13 @@ public class Recipe extends BaseObservable {
   }
 
   @Ignore
-  public Recipe(String url, @NotNull String title, boolean favorite, List<Step> steps) {
+  public Recipe(String url, @NotNull String title, boolean favorite, List<Step> steps, List<Ingredient> ingredients) {
     super();
     this.url = url;
     this.title = title;
     this.favorite = favorite;
     this.steps = steps;
+    this.ingredients = ingredients;
   }
 
   public Recipe (RecipePojo recipePojo) {
@@ -66,7 +69,8 @@ public class Recipe extends BaseObservable {
     this.url = recipePojo.getRecipe().getUrl();
     this.title = recipePojo.getRecipe().getTitle();
     this.favorite = recipePojo.getRecipe().isFavorite();
-    this.steps = this.getSteps(recipePojo.getSteps());
+    this.steps = this.getSteps(recipePojo);
+    this.ingredients = this.getIngredients(recipePojo);
   }
 
 
@@ -117,11 +121,9 @@ public class Recipe extends BaseObservable {
     return steps;
   }
 
-  private List<Step> getSteps(List<StepPojo> stepPojos) {
-    for (StepPojo stepPojo : stepPojos) {
-      Step step = stepPojo.getStep();
-      step.setIngredients(stepPojo.getIngredientList());
-      this.setStep(stepPojo.getStep());
+  private List<Step> getSteps(RecipePojo recipePojo) {
+    for (Step step : recipePojo.getSteps()) {
+      this.setStep(step);
     }
     return this.steps;
   }
@@ -135,6 +137,33 @@ public class Recipe extends BaseObservable {
       this.steps = new LinkedList<>();
     }
     this.steps.add(step);
+  }
+
+  public List<Ingredient> getIngredients() {
+    return ingredients;
+  }
+
+  private List<Ingredient> getIngredients(RecipePojo recipePojo) {
+    for (Ingredient ingredient : recipePojo.getIngredients()) {
+      this.setIngredient(ingredient);
+    }
+    return this.ingredients;
+  }
+
+  public void setIngredients(
+      List<Ingredient> ingredients) {
+    this.ingredients = ingredients;
+  }
+
+  public void setIngredient(Ingredient ingredient) {
+    if (this.ingredients == null) {
+      this.ingredients = new LinkedList<>();
+    }
+    this.ingredients.add(ingredient);
+  }
+
+  public interface RecipeComponent {
+    // exists to group Ingredient and Step objects
   }
 
   @NonNull
@@ -162,13 +191,12 @@ public class Recipe extends BaseObservable {
 
 
   private static List<Step> fakeSteps() {
+    String[] cupcakeIpsum = {"Cupcake ipsum dolor sit amet pastry jujubes. Chupa chups sugar plum cupcake toffee.",  "Donut tart marshmallow caramels halvah pie biscuit sesame snaps. Chocolate toffee biscuit oat cake cupcake pastry powder carrot cake tiramisu.", "Sesame snaps lollipop gummi bears danish bear claw macaroon pudding cotton candy cheesecake. Cheesecake cake dessert marshmallow icing.", "Wafer cookie jelly-o. Macaroon cotton candy croissant tart dessert. Lemon drops jelly danish powder soufflé candy canes pie.", "Jujubes carrot cake liquorice gummies pastry. Jujubes apple pie oat cake tart cake cupcake. Marzipan sugar plum sweet ice cream apple pie."};
     List<Step> fakeSteps = new ArrayList<>();
-    List<Ingredient> fakeIngredients = new ArrayList<>(Arrays.asList(phonyIngredients));
-    for (int j = 0, i = 0; i < 5; i++, j++) {
+    for (int i = 0; i < 5; i++) {
       Step step = new Step();
       step.setRecipeOrder(i+1);
-      step.addIngredient(fakeIngredients.get(j));
-      step.setInstructions("Follow instructions " + (5 - i) + " more times");
+      step.setInstructions("Follow instructions " + (5 - i) + " more times.  " + cupcakeIpsum[i]);
       fakeSteps.add(step);
     }
     return fakeSteps;
@@ -182,12 +210,12 @@ public class Recipe extends BaseObservable {
   @SuppressWarnings("SpellCheckingInspection")
   public static Recipe[] populateData() {
     return new Recipe[]{
-        new Recipe("www.cookies.com", "Cookies", false, fakeSteps()),
-        new Recipe("www.biscuits.com", "Biscuits", true, fakeSteps()),
-        new Recipe("www.grilledcheese.com", "Grilled Cheese", false, fakeSteps()),
-        new Recipe("www.spanakopita.com", "Spanakopita", false, fakeSteps()),
-        new Recipe("www.lutherburger.com", "Luther Burger", false, fakeSteps()),
-        new Recipe("www.chronwich.com", "The Chronwich", true, fakeSteps()),
+        new Recipe("www.cookies.com", "Cookies", false, fakeSteps(), Arrays.asList(phonyIngredients)),
+        new Recipe("www.biscuits.com", "Biscuits", true, fakeSteps(), Arrays.asList(phonyIngredients)),
+        new Recipe("www.grilledcheese.com", "Grilled Cheese", false, fakeSteps(), Arrays.asList(phonyIngredients)),
+        new Recipe("www.spanakopita.com", "Spanakopita", false, fakeSteps(), Arrays.asList(phonyIngredients)),
+        new Recipe("www.lutherburger.com", "Luther Burger", false, fakeSteps(), Arrays.asList(phonyIngredients)),
+        new Recipe("www.chronwich.com", "The Chronwich", true, fakeSteps(), Arrays.asList(phonyIngredients)),
     };
   }
 }

@@ -29,6 +29,6 @@ public interface IngredientDao {
   @Query("SELECT * FROM Ingredient")
   LiveData<List<Ingredient>> list();
 
-  @Query("SELECT * FROM Ingredient WHERE step_id = :id")
+  @Query("SELECT * FROM Ingredient WHERE recipe_id = :id")
   Single<Ingredient> select(long id);
 }

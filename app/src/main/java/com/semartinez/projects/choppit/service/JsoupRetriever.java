@@ -1,10 +1,14 @@
 package com.semartinez.projects.choppit.service;
 
+import android.util.Log;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
+import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
 import com.semartinez.projects.choppit.model.entity.Step;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.jsoup.nodes.Document;
@@ -17,6 +21,10 @@ public class JsoupRetriever {
   private Document document;
   private List<String> listRawIngredients = new ArrayList<>();
   private List<String> listInstructions = new ArrayList<>();
+  private String ingredientClass;
+  private String instructionClass;
+  private final List<Step> steps = new ArrayList<>();
+  private final List<Ingredient> ingredients = new ArrayList<>();
 
 
   JsoupRetriever() {
@@ -33,35 +41,36 @@ public class JsoupRetriever {
    * matching {@link Ingredient}s to {@link Step}s.
    *
    * @param ingredient  parameter received from {@link com.semartinez.projects.choppit.controller.ui.home.HomeFragment}
-   *                    user input via {@link com.semartinez.projects.choppit.viewmodel.MainViewModel} and
-   *                    {@link com.semartinez.projects.choppit.model.repository.RecipeRepository}.
+   *                    user input via {@link com.semartinez.projects.choppit.viewmodel.MainViewModel}
+   *                    and {@link com.semartinez.projects.choppit.model.repository.RecipeRepository}.
    * @param instruction parameter received from {@link com.semartinez.projects.choppit.controller.ui.home.HomeFragment}
    *                    *                    user input via {@link com.semartinez.projects.choppit.viewmodel.MainViewModel}
    *                    and *                    {@link com.semartinez.projects.choppit.model.repository.RecipeRepository}.
    * @return A {@link List} of {@link Step} objects with embedded {@link Ingredient}s.
    */
-  public List<Step> process(String ingredient, String instruction) {
+  public Map<String, List<? extends RecipeComponent>> process(String ingredient, String instruction) {
 
-    String ingredientClass = getClass(ingredient); // identify wrapper classes
-    String instructionClass = getClass(instruction);
+    identifyWrappers(ingredient, instruction);
+    extractContents();
+    buildSteps();
+    buildIngredients();
+    Map<String, List<? extends RecipeComponent>> data = new HashMap<>();
+
+    data.put("ingredients", ingredients);
+    data.put("steps", steps);
+
+    return data;
+  }
+
+  private void identifyWrappers(String ingredient, String instruction) {
+    //TODO catch getClass errors independently for each call.
+    ingredientClass = getClass(ingredient);
+    instructionClass = getClass(instruction);
+  }
+
+  private void extractContents() {
     listRawIngredients = getClassContents(ingredientClass); // list all ingredients
     listInstructions = getClassContents(instructionClass); // list all instructions
-
-    List<Step> steps = new ArrayList<>(buildSteps());
-    List<Ingredient> ingredients = new ArrayList<>(buildIngredients());
-
-    for (Ingredient item : ingredients) {
-      Pattern ingredientPattern =
-      Pattern.compile(item.getName().trim().replaceAll("\\s", "|"),
-              Pattern.CASE_INSENSITIVE);
-      for (Step step : steps) {
-        if (ingredientPattern.matcher(step.getInstructions()).find()) {
-          step.addIngredient(item);
-          break;
-        }
-      }
-    }
-    return steps;
   }
 
   /**
@@ -75,8 +84,10 @@ public class JsoupRetriever {
    */
   protected String getClass(String text) {
     Elements e = document.select(String.format("*:containsOwn(%s)", text));
-    // TODO error handling (no matching text just returns an empty List).
-
+    if (e.size() != 1) {
+      Log.e("Retriever failed:", "found " + e.size() + " matching classes");
+      // TODO error handling (no matching text just returns an empty List).
+    }
     return e.get(0).attr("class");
   }
 
@@ -93,20 +104,16 @@ public class JsoupRetriever {
     return e.eachText();
   }
 
-  protected List<Step> buildSteps() {
-    List<Step> steps = new ArrayList<>();
+  protected void buildSteps() {
     for (int i = 0, j = 1; i < this.listInstructions.size(); i++, j++) {
       Step step = new Step();
       step.setRecipeOrder(j);
       step.setInstructions(this.listInstructions.get(i));
       steps.add(step);
     }
-    return (steps);
   }
 
-
-  protected List<Ingredient> buildIngredients() {
-    List<Ingredient> ingredients = new ArrayList<>();
+  protected void buildIngredients() {
     Pattern pattern = Pattern.compile(MAGIC_INGREDIENT_REGEX);
     List<String> rawIngredients = this.listRawIngredients;
     for (String rawIngredient : rawIngredients) {
@@ -130,7 +137,6 @@ public class JsoupRetriever {
       }
       ingredients.add(ingredient);
     }
-    return (ingredients);
   }
 
   public void setDocument(Document document) {

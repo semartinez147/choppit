@@ -14,23 +14,25 @@ import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.entity.Step;
 
 /* Hierarchy restructuring task list:
- TODO: Add Recipe foreign key to Ingredient
- TODO: Remove Step foreign key from Ingredient
- TODO: Add List<Ingredient> to Recipe
- TODO: Remove List<Ingredient> from Step
- TODO: add Ingredient logic to RecipePojo & delete StepPojo
+ DONE: Add Recipe foreign key to Ingredient
+ DONE: Remove Step foreign key from Ingredient
+ DONE: Add List<Ingredient> to Recipe
+ DONE: Remove List<Ingredient> from Step
+ DONE: Add Ingredient logic to RecipePojo & delete StepPojo
 
- TODO: Update IngredientRecyclerAdapter to get List<Ingredient> from Recipe
- TODO: Update RecipeRecyclerAdapter to get List<Ingredient> from Recipe
- TODO: Update EditingRecyclerAdapter to get List<Ingredient> from Recipe
- TODO: Update EditingFragment.emptyRecipe() for new hierarchy
+ DONE: Update IngredientRecyclerAdapter to get List<Ingredient> from Recipe
+ DONE: Update RecipeRecyclerAdapter to get List<Ingredient> from Recipe
+ DONE: Update EditingRecyclerAdapter to get List<Ingredient> from Recipe
+ DONE: Update EditingFragment.emptyRecipe() for new hierarchy
 
- TODO: Update RecipeRepository.save() to assign RecipeIds instead of StepIds to Ingredients
- TODO: Update JsoupRetriever.process() and/or rewrite most of the retriever logic
- TODO: Update MVM to match new retriever logic
- TODO: Make sure LoadingFragment process matches MVM logic
+ DONE: Update RecipeRepository.save() to assign RecipeIds instead of StepIds to Ingredients
+ DONE: Update JsoupRetriever.process() and/or rewrite most of the retriever logic
+ DONE: Update MVM to match new retriever logic
+ DONE: Make sure LoadingFragment process matches MVM logic
 
- TODO: Update Recipe.populateData() and Step/Ingredient methods
+ DONE: Update Recipe.populateData() and Step/Ingredient methods
+ TODO: Test results
+ TODO: Update ERD
   */
 
 @Database(

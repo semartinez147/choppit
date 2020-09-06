@@ -7,6 +7,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.annotation.NonNull;
+import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
 import java.util.LinkedList;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
         )
     }
 )
-public class Step {
+public class Step implements RecipeComponent {
 
   @ColumnInfo(name = "step_id")
   @PrimaryKey(autoGenerate = true)
@@ -44,9 +45,6 @@ public class Step {
   @ColumnInfo(name = "recipe_order")
   private int recipeOrder;
 
-  @Ignore
-  private List<Ingredient> ingredients = new LinkedList<>();
-
   /**
    * Each {@link Recipe} contains a {@link List} of Steps.  {@link #recipeOrder} is set automatically during
    * editing; {@link #instructions} are user-editable.
@@ -55,12 +53,11 @@ public class Step {
   }
 
   @Ignore
-  public Step(long recipeId, @NotNull String instructions, int recipeOrder, List<Ingredient> ingredients) {
+  public Step(long recipeId, @NotNull String instructions, int recipeOrder) {
     super();
     this.recipeId = recipeId;
     this.instructions = instructions;
     this.recipeOrder = recipeOrder;
-    this.ingredients = ingredients;
   }
 
   public long getStepId() {
@@ -93,18 +90,6 @@ public class Step {
 
   public void setRecipeOrder(int recipeOrder) {
     this.recipeOrder = recipeOrder;
-  }
-
-  public List<Ingredient> getIngredients() {
-    return ingredients;
-  }
-
-  public void setIngredients(List<Ingredient> ingredients) {
-    this.ingredients = ingredients;
-  }
-
-  public void addIngredient(Ingredient ingredient) {
-    this.ingredients.add(ingredient);
   }
 
   @NonNull

@@ -13,12 +13,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import com.semartinez.projects.choppit.R;
-import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Recipe;
-import com.semartinez.projects.choppit.model.entity.Step;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
-import java.util.List;
-import org.jsoup.nodes.Document;
 
 public class LoadingFragment extends Fragment {
 
@@ -56,16 +52,6 @@ public class LoadingFragment extends Fragment {
     viewModel.getStatus().observe(getViewLifecycleOwner(), statusObserver);
   }
 
-  /**
-   * This {@link Observer} monitors output from the {@link MainViewModel} following the initial
-   * method call to {@link MainViewModel#makeItGo(String)} in {@link #onCreateView(LayoutInflater,
-   * ViewGroup, Bundle), }based on {@link MainViewModel#getStatus()}. It updates the UI while data
-   * is processing, and calls subsequent methods - {@link MainViewModel#processData(String, String)}
-   * once a {@link Document} is retrieved, {@link MainViewModel#getSteps()} to wait for an update,
-   * {@link MainViewModel#finish(List)} and {@link MainViewModel#addRecipe()} to continue
-   * processing.  Finally, {@link MainViewModel#getRecipe()} notifies when the {@link
-   * EditingFragment can be loaded safely}.
-   */
   final Observer<String> statusObserver = new Observer<String>() {
     @Override
     public void onChanged(String s) {
@@ -85,36 +71,14 @@ public class LoadingFragment extends Fragment {
         case "processing":
           status.setText(R.string.processing);
           Log.d("LoadingFrag", "processing");
-          viewModel.getSteps().observe(getViewLifecycleOwner(), stepObserver);
           break;
         case "finishing":
+          status.setText(R.string.finishing);
+          viewModel.postRecipe();
+          break;
+        case "finished":
           viewModel.getRecipe().observe(getViewLifecycleOwner(), recipeObserver);
       }
-    }
-  };
-
-  /**
-   * This {@link Observer} calls {@link MainViewModel#finish(List)} to generate {@link Ingredient}s
-   * when processing has created a complete list of {@link Step}s.
-   */
-  final Observer<List<Step>> stepObserver = new Observer<List<Step>>() {
-    @Override
-    public void onChanged(List<Step> steps) {
-      if (steps != null) {
-        viewModel.finish(steps);
-        viewModel.getIngredients().observe(getViewLifecycleOwner(), ingredientObserver);
-      }
-    }
-  };
-
-  /**
-   * This is the second to last step in processing HTML into Choppit.  It calls {@link
-   * MainViewModel#addRecipe()} when there is a complete list of {@link Ingredient}s.
-   */
-  final Observer<List<Ingredient>> ingredientObserver = ingredients -> {
-    if (ingredients != null) {
-      status.setText(R.string.finishing);
-      viewModel.addRecipe();
     }
   };
 

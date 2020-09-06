@@ -32,10 +32,6 @@ import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import java.util.Arrays;
 import java.util.Collections;
 
-// TODO: double-check that new recipes are processed through Repository correctly to link Steps &
-//  Ingredients.
-
-
 public class EditingFragment extends Fragment {
 
   private MainViewModel viewModel;
@@ -58,16 +54,15 @@ public class EditingFragment extends Fragment {
 
   private Recipe emptyRecipe() {
     Recipe recipe = new Recipe();
-
+    recipe.setIngredients(Arrays
+        .asList(new Ingredient(recipe.getRecipeId(), "1", Unit.OTHER, "", ""),
+            new Ingredient(recipe.getRecipeId(), "1", Unit.OTHER, "", ""),
+            new Ingredient(recipe.getRecipeId(), "1", Unit.OTHER, "", "")));
     recipe.setSteps(Arrays.asList(
-        new Step(recipe.getRecipeId(), "", 1,
-            Collections.singletonList(new Ingredient(0, "", Unit.C, null, ""))),
-        new Step(recipe.getRecipeId(), "", 2,
-            Collections.singletonList(new Ingredient(0, "", Unit.C, null, ""))),
-        new Step(recipe.getRecipeId(), "", 3,
-            Collections.singletonList(new Ingredient(0, "", Unit.C, null, "")))
-        )
-    );
+        new Step(recipe.getRecipeId(), "", 1),
+        new Step(recipe.getRecipeId(), "", 2),
+        new Step(recipe.getRecipeId(), "", 3)
+    ));
     return recipe;
   }
 
@@ -109,7 +104,12 @@ public class EditingFragment extends Fragment {
 
     Button saveButton = binding.editingSave;
     saveButton.setOnClickListener(v -> {
-      viewModel.saveRecipe(recipe);
+      if (recipe.getRecipeId() == 0) {
+        viewModel.saveRecipe(recipe);
+      } else {
+        // TODO call DeleteDialog and implement.
+        viewModel.updateRecipe(recipe);
+      }
       viewModel.resetData();
       Navigation.findNavController(v).navigate(R.id.edit_cook);
     });
@@ -141,6 +141,7 @@ public class EditingFragment extends Fragment {
       binding.setRecipe(recipe);
     }
   };
+
   @SuppressWarnings("unused")
   //View parameter is required by databinding onClick function
   public void addStep(View view) {

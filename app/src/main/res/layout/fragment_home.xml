@@ -45,8 +45,7 @@
       android:layout_margin="@dimen/narrow_space"
       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
       android:hint="@string/url_input_hint"
-      android:inputType="textWebEditText"
-      android:maxLines="1"/>
+      android:inputType="textUri"/>
   </com.google.android.material.textfield.TextInputLayout>
 
   <Button

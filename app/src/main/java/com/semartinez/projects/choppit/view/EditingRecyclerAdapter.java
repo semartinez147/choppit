@@ -33,14 +33,12 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
    * Step} or {@link Ingredient} and inflates the appropriate binding layout.
    *
    * @param context the {@link Context} where the adapter operates.
-   * @param recipe is received from the {@link EditingFragment}.
+   * @param recipe  is received from the {@link EditingFragment}.
    */
   public EditingRecyclerAdapter(Context context, Recipe recipe) {
     this.context = context;
     this.steps = recipe.getSteps();
-    for (Step step : steps) {
-      ingredients.addAll(step.getIngredients());
-    }
+    ingredients.addAll(recipe.getIngredients());
   }
 
   @SuppressWarnings("unused")

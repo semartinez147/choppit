@@ -10,7 +10,7 @@ public class StepPojo {
 
   public StepPojo() {
   }
-
+/*
   @Embedded
   private Step step;
 
@@ -34,5 +34,5 @@ public class StepPojo {
   public void setIngredientList(
       List<Ingredient> ingredientList) {
     this.ingredientList = ingredientList;
-  }
+  }*/
 }

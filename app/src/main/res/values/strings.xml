@@ -48,4 +48,5 @@
   <string name="add_step">Add Step</string>
   <string name="loading">Loading</string>
   <string name="delete_recipe">Do you want to delete the recipe?  This action cannot be undone.</string>
+  <string name="recipe_info">This screen displays a single recipe.  Soon it will also have options to edit, delete, or go into Cooking Mode.</string>
 </resources>

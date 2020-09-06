@@ -8,8 +8,8 @@ import com.semartinez.projects.choppit.controller.ui.editing.SelectionFragment;
 import com.semartinez.projects.choppit.model.dao.RecipeDao;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Recipe;
+import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
 import com.semartinez.projects.choppit.model.entity.Step;
-import com.semartinez.projects.choppit.model.pojo.RecipePojo;
 import com.semartinez.projects.choppit.service.ChoppitDatabase;
 import com.semartinez.projects.choppit.service.JsoupRetriever;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
@@ -19,9 +19,9 @@ import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -61,7 +61,7 @@ public class RecipeRepository {
     retriever = JsoupRetriever.getInstance();
   }
 
-  public Single<Recipe> save(Recipe recipe) {
+  public Single<Recipe> saveNew(Recipe recipe) {
     return database.getRecipeDao().insert(recipe)
         .subscribeOn(Schedulers.io())
         .map((id) -> {
@@ -71,14 +71,20 @@ public class RecipeRepository {
             database.getStepDao().insert(step)
                 .map((stepId) -> {
                   step.setStepId(stepId);
-                  for (Ingredient ingredient : step.getIngredients()) {
-                    ingredient.setStepId(step.getStepId());
-                    database.getIngredientDao().insert(ingredient).subscribe();
-                  }
                 return step;
                 })
                 .onErrorReturnItem(step)
             .subscribe();
+          }
+          for (Ingredient ingredient : recipe.getIngredients()) {
+            ingredient.setRecipeId(recipe.getRecipeId());
+            database.getIngredientDao().insert(ingredient)
+                .map((ingredientId) -> {
+                  ingredient.setId(ingredientId);
+                  return ingredient;
+                })
+                .onErrorReturnItem(ingredient)
+                .subscribe();
           }
         return recipe;
         });
@@ -129,7 +135,7 @@ public class RecipeRepository {
   public Single<Recipe> loadDetails (long id) {
     RecipeDao dao = database.getRecipeDao();
     return dao.loadRecipeData(id)
-        .subscribeOn(Schedulers.io()).map(Recipe::new);
+        .subscribeOn(Schedulers.io()).map(recipePojo -> new Recipe(recipePojo));
   }
 
   public Single<Integer> delete(Recipe recipe) {
@@ -182,9 +188,9 @@ public class RecipeRepository {
    * @param instruction input by the user on the {@link SelectionFragment}
    * @return a list of {@link Step} objects with attached {@link Ingredient}s.
    */
-  public Single<List<Step>> process(String ingredient, String instruction) {
-    List<Step> steps = retriever.process(ingredient, instruction);
-    return Single.just(steps);
+  public Single<Map<String, List<? extends RecipeComponent>>> process(String ingredient, String instruction) {
+    Map<String, List<? extends RecipeComponent>> data = retriever.process(ingredient, instruction);
+    return Single.just(data);
   }
 
   public Single<Recipe> updateEdited(Recipe recipe) {

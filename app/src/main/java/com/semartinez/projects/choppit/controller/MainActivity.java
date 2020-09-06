@@ -80,21 +80,6 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
     super.onBackPressed();
   }
 
-  /*  @Override
-  public void onBackPressed() {
-    if (navController.getCurrentDestination().getId() == R.id.navigation_editing) {
-      navigateTo(R.id.navigation_selection);
-    }
-    if (navController.getCurrentDestination().getId() != R.id.navigation_home) {
-      navigateTo(R.id.navigation_home);
-    } else {
-      Intent a = new Intent(Intent.ACTION_MAIN);
-      a.addCategory(Intent.CATEGORY_HOME);
-      a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-      startActivity(a);
-    }
-  }*/
-
   private void setupNavigation() {
     navController = Navigation.findNavController(this, R.id.nav_host_fragment);
     appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
@@ -131,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
             }),
             (throwable -> {
               for (Recipe recipe : Recipe.populateData()) {
-                repository.save(recipe).subscribe();
+                repository.saveNew(recipe).subscribe();
               }
             })
         );
