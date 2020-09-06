@@ -7,7 +7,7 @@
   android:layout_width="match_parent"
   >
 
-<androidx.constraintlayout.widget.ConstraintLayout
+  <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="@dimen/activity_horizontal_margin"
@@ -24,14 +24,22 @@
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintStart_toStartOf="parent"/>
 
-  <TextView
-    android:id="@+id/save_title"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    style="@style/RecipeItem.Title"
-    android:layout_marginTop="@dimen/wide_space"
-    android:layout_marginBottom="@dimen/wide_space"
-    app:layout_constraintTop_toBottomOf="@id/info"/>
+    <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/save_title"
+      style="@style/RecipeItem.Title"
+      android:layout_width="0dp"
+      android:layout_marginVertical="@dimen/wide_space"
+      android:layout_height="wrap_content"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/info"
+      >
+      <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inputType="textCapWords"
+        />
+    </com.google.android.material.textfield.TextInputLayout>
 
- </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
