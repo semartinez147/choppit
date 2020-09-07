@@ -43,7 +43,8 @@
         android:inputType="number"
         android:minEms="3"
         android:maxLength="6"
-        android:maxLines="1">
+        android:maxLines="1"
+        android:imeOptions="actionNext">
       </com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,7 +68,8 @@
         android:inputType="text"
         android:minEms="3"
         android:maxLength="10"
-        android:maxLines="1">
+        android:maxLines="1"
+        android:imeOptions="actionNext">
       </com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,7 +94,8 @@
         android:text="@{ingredient.name}"
         android:inputType="text"
         android:minEms="8"
-        android:maxLines="1">
+        android:maxLines="1"
+        android:imeOptions="actionNext">
       </com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
 
