@@ -41,10 +41,9 @@ public class SaveDialog extends DialogFragment {
     assert getContext() != null;
     dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_save, null);
     return new Builder(getContext())
-        .setIcon(R.drawable.ic_edit) // TODO: Make a save icon
+        .setIcon(R.drawable.ic_save)
         .setTitle("Save " + recipe.getTitle() + "?")
         .setView(dialogView)
-        //TODO: Save methods not working correctly.  Try multichoicelistener?
         .setNegativeButton("SAVE NEW", listener)
         .setNeutralButton("CANCEL", listener)
         .setPositiveButton("OVERWRITE", listener)

@@ -23,10 +23,8 @@
       style="@style/TextAppearance.MaterialComponents.Body1"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintStart_toStartOf="parent"/>
-<!--TODO: don't allow multiple lines in Title fields-->
     <com.google.android.material.textfield.TextInputLayout
       android:id="@+id/save_title_layout"
-      style="@style/RecipeItem.Title"
       android:layout_width="match_parent"
       android:layout_marginVertical="@dimen/wide_space"
       android:layout_height="wrap_content"
@@ -37,8 +35,10 @@
       <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/save_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/RecipeItem.Title"
         android:inputType="textCapWords"
+        android:maxLines="1"
         />
     </com.google.android.material.textfield.TextInputLayout>
 

@@ -32,7 +32,8 @@
   <ScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/editing_container">
+    android:id="@+id/editing_container"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
@@ -69,7 +70,10 @@
           android:text="@={recipe.title}"
           android:hint="@string/edit_title"
           style="@style/RecipeItem.Title"
-          android:inputType="textCapWords|textMultiLine"
+          android:inputType="textCapWords"
+          android:maxLines="1"
+          android:imeOptions="actionDone"
+          android:nextFocusForward="@id/editing_ingredient_list"
           >
         </com.google.android.material.textfield.TextInputEditText>
       </com.google.android.material.textfield.TextInputLayout>
@@ -106,7 +110,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/editing_ingredient_header"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:nextFocusForward="@id/editing_step_list">
         <androidx.recyclerview.widget.RecyclerView
           android:id="@+id/editing_ingredient_recycler_view"
           android:layout_width="match_parent"
@@ -152,7 +157,8 @@
         android:layout_width="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/editing_step_header"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:nextFocusForward="@id/editing_save">
         <androidx.recyclerview.widget.RecyclerView
           android:id="@+id/editing_step_recycler_view"
           android:layout_width="match_parent"
