@@ -34,6 +34,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/narrow_space"
+    app:hintAnimationEnabled="true"
     app:layout_constraintBottom_toTopOf="@id/new_recipe"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/logo">
@@ -43,8 +44,10 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_margin="@dimen/narrow_space"
+      android:textSize="14sp"
       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
       android:hint="@string/url_input_hint"
+
       android:inputType="textUri"/>
   </com.google.android.material.textfield.TextInputLayout>
 

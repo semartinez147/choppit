@@ -49,9 +49,9 @@ The process was complicated by responses to the COVID-19 pandemic, and I had to 
 	
 - ~~Access Editing screen from a saved Recipe.~~ Done.
 
-- Search option to the Cookbook Fragment.
+- Add search option to the Cookbook Fragment.
 
-- Receive shared url instead of copying/pasting.
+- ~~Receive shared url instead of copying/pasting.~~ Done.
 
 - *(added 9/7/2020)* Redesign Recipe Selection process:
     - User submits URL (paste or share)

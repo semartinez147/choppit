@@ -31,13 +31,21 @@ import io.reactivex.schedulers.Schedulers;
 public class MainActivity extends AppCompatActivity implements OnBackStackChangedListener {
 
   private NavController navController;
+  private String sharedUrl = null;
   AppBarConfiguration appBarConfiguration;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    Intent intent = getIntent();
+    String action = intent.getAction();
+    String type = intent.getType();
+    if (Intent.ACTION_SEND.equals(action) && "text/plain".equals(type)) {
+      handleSentText(intent);
+    }
+
     setContentView(R.layout.activity_main);
-//    actionBar = getActionBar();
     setupNavigation();
     setupViewModel();
     shouldDisplayHomeUp();
@@ -72,12 +80,11 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
     return handled;
   }
 
-  @Override
-  public void onBackPressed() {
-    if (navController.getCurrentDestination().getId() == R.id.navigation_editing) {
-//      Navigation.findNavController().navigate(R.id.navigation_selection);
+  private void handleSentText(Intent intent) {
+    String text = intent.getStringExtra(Intent.EXTRA_TEXT);
+    if (text != null) {
+      sharedUrl = text;
     }
-    super.onBackPressed();
   }
 
   private void setupNavigation() {
@@ -100,6 +107,9 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
 
   private void setupViewModel() {
     MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+    if (sharedUrl != null) {
+      viewModel.setSharedUrl(sharedUrl);
+    }
     getLifecycle().addObserver(viewModel);
   }
 

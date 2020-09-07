@@ -9,7 +9,6 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
-import com.semartinez.projects.choppit.controller.ui.editing.LoadingFragment;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
@@ -33,11 +32,13 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   private final MutableLiveData<String> status;
   private final CompositeDisposable pending;
   private final RecipeRepository repository;
+  private String sharedUrl = null;
 
   /**
    * Initializes the MainViewModel and the variables it contains.
    *
    * @param application this application.
+   * @param sharedUrl
    */
   public MainViewModel(@NonNull Application application) {
     super(application);
@@ -197,6 +198,14 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
 //    }
 //  }
 
+
+  public String getSharedUrl() {
+    return sharedUrl;
+  }
+
+  public void setSharedUrl(String string) {
+    this.sharedUrl = string;
+  }
 
   @OnLifecycleEvent(Event.ON_STOP)
   private void disposePending() {

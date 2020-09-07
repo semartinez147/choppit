@@ -31,8 +31,8 @@ import com.semartinez.projects.choppit.model.entity.Step;
  DONE: Make sure LoadingFragment process matches MVM logic
 
  DONE: Update Recipe.populateData() and Step/Ingredient methods
- TODO: Test results
- TODO: Update ERD
+ DONE: Test results
+ DONE: Update ERD
   */
 
 @Database(

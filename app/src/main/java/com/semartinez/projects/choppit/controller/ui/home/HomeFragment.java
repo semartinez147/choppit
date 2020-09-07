@@ -47,6 +47,7 @@ public class HomeFragment extends Fragment {
     assert getActivity() != null;
     MainViewModel viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
     viewModel.resetData();
+    urlInput.setText(viewModel.getSharedUrl());
     return root;
   }
 
@@ -54,12 +55,12 @@ public class HomeFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     myCookbook.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.home_cook));
-
-    // TODO disable for production
+    if (urlInput.getText().toString().length() < 1){
+      // TODO disable for production
 //    urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
-    urlInput.setText(
-        "https://www.foodnetwork.com/recipes/alton-brown/baked-macaroni-and-cheese-recipe-1939524");
-
+      urlInput.setText(
+          "https://www.foodnetwork.com/recipes/alton-brown/baked-macaroni-and-cheese-recipe-1939524");
+    }
     newRecipe.setOnClickListener(v -> {
       url = urlInput.getText().toString().trim();
       Navigation.findNavController(v).navigate(url.isEmpty() ? R.id.home_edit : R.id.home_sel);
