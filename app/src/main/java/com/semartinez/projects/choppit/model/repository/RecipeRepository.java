@@ -193,14 +193,6 @@ public class RecipeRepository {
     return Single.just(data);
   }
 
-  public Single<Recipe> updateEdited(Recipe recipe) {
-
-    // TODO: write this method.
-
-    return Single.just(recipe);
-  }
-
-
   private static class InstanceHolder {
 
     private static final RecipeRepository INSTANCE = new RecipeRepository();

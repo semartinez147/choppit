@@ -21,27 +21,29 @@ The process was complicated by responses to the COVID-19 pandemic, and I had to 
 
 - Saving recipes
   - ~~The save method needs to assign the returned Recipe Id to the Recipe's Step entities, and each Step Id to that Step's Ingredient Entities.~~
-      - Resolved 4/15/2020 by expanding the save method using .map().
-  - Edited recipes need to be re-processed before saving.
+      - *Resolved 4/15/2020 by expanding the save method using .map().*
+  - ~~Edited recipes need to be re-processed before saving.~~
+      - *Resolved as part of hierarchy overhaul.*
 
 - Editing saved recipes
   - ~~Navigation from a single Recipe to the Editing screen needs to be added.~~
-      - Implemented on 8/19/2020.  
+      - *Implemented on 8/19/2020.*
   - ~~I want to handle the changes to the database with two-way data binding.~~
-      - Used two-way databinding for the "Favorite" button to toggle true/false.
+      - *Used two-way databinding for the "Favorite" button to toggle true/false.*
 
 - Viewing saved recipes
   - ~~I have problems with navigation methods, but I believe I have a strategy to simplify them.~~
-    - Resolved 4/16/20 using SafeArgs to pass a recipeId into the fragment.
+    - *Resolved 4/16/20 using SafeArgs to pass a recipeId into the fragment.*
   - ~~Currently only retrieving the Recipe object without Steps or Ingredients.~~
-    - Resolved 8/19/2020 using POJOs.
+    - *Resolved 8/19/2020 using POJOs.*
 
 #### Basic Functions
 
-- Considering flattening hierarchy by nesting Ingredients directly in Recipes rather than Steps.  
-    - This will simplify processing and avoid complications processing natural language (i.e. 
+- ~~Considering flattening hierarchy by nesting Ingredients directly in Recipes rather than Steps.~~  
+    - *This will simplify processing and avoid complications processing natural language (i.e. 
     understanding that "fresh black pepper" is equivalent to "pepper", "black pepper", "pepper, 
-    black", etc. but "fresh black pepper" and "fresh black currants" are totally different)
+    black", etc. but "fresh black pepper" and "fresh black currants" are totally different).*
+    - *Completed 9/6/2020*
 
 - ~~Support Recipes from scratch in the Editing Fragment.~~ Done.
 	
@@ -50,6 +52,12 @@ The process was complicated by responses to the COVID-19 pandemic, and I had to 
 - Search option to the Cookbook Fragment.
 
 - Receive shared url instead of copying/pasting.
+
+- *(added 9/7/2020)* Redesign Recipe Selection process:
+    - User submits URL (paste or share)
+    - Jsoup scans page, separates text elements and displays them in a WebView with minimal formatting
+    - Choppit prompts user to tap an ingredient; ingredient HTML class is recorded, ingredients are removed from the display
+    - Choppit prompts user to tap a step; step HTML class is recorded, WebView navigates to Loading Screen
 
 - Turn Unit selection on the Editing Screen into a drop-down displaying the Enum values including OTHER.
 
@@ -69,7 +77,7 @@ The process was complicated by responses to the COVID-19 pandemic, and I had to 
 There are very few bugs in the functionality I do have, but work needs to be done in error handling.
 
 - ~~Bug: UI hangs when trying to navigate away from Editing & Recipe screens.~~
-    - Resolved 5/6/20 using Jetpack Navigation and removing Loading fragment from the backstack.
+    - *Resolved 5/6/20 using Jetpack Navigation and removing Loading fragment from the backstack.*
 - Error handling: There should be a UI message if a link fails to load.
 - Error handling: If there are zero or multiple HTML class results for either search string, the Loading Screen will display indefinitely.  The UI should return to the Selection screen and ask for valid input, or a longer string.
 	- Searching for two ingredient strings that are wrapped in matching classes, and ruling out any clas that contains both strings should address sites where the author talks about the recipe in depth before the actual recipe.
