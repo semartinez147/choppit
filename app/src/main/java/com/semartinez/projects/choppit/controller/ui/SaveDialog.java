@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.fragment.app.DialogFragment;
+import com.google.android.material.textfield.TextInputEditText;
 import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.ui.editing.EditingFragment;
 import com.semartinez.projects.choppit.model.entity.Recipe;
@@ -26,7 +27,7 @@ public class SaveDialog extends DialogFragment {
   private final Recipe recipe;
   private final View view;
   private final MainViewModel viewModel;
-  private EditText title;
+  private TextInputEditText title;
 
   public SaveDialog(Recipe recipe, View view, MainViewModel viewModel) {
     this.recipe = recipe;
@@ -70,7 +71,7 @@ OnClickListener listener = new OnClickListener() {
   public void onClick(DialogInterface dialog, int which) {
     switch (which) {
       case -1: { //overwrite
-        recipe.setTitle(title.toString());
+        recipe.setTitle(title.getText().toString());
         viewModel.updateRecipe(recipe);
         break;
       }
