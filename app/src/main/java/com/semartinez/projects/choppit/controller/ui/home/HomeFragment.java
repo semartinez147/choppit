@@ -55,11 +55,13 @@ public class HomeFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     myCookbook.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.home_cook));
-    if (urlInput.getText().toString().length() < 1){
-      // TODO disable for production
-//    urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
+    if (urlInput.getText().toString().length() < 1) { // TODO disable for production
+      // urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
       urlInput.setText(
           "https://www.foodnetwork.com/recipes/alton-brown/baked-macaroni-and-cheese-recipe-1939524");
+    }
+    if (view.isInEditMode()) {
+      urlInput.setText("You're in edit mode");
     }
     newRecipe.setOnClickListener(v -> {
       url = urlInput.getText().toString().trim();

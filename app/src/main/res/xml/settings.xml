@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   >
-
-  <ListPreference
-    android:key="@string/sp_key_recipe_font_style"
-    android:title="@string/recipe_font_style"
-    android:entries="@array/font_names_array"
-    android:entryValues="@array/font_values_array"
-    android:summary="Choose a font for recipes to use while cooking"
-    android:icon="@drawable/ic_font"
-    />
+  <PreferenceCategory
+    app:key="text_category"
+    app:title="Recipe Text Options">
+    <ListPreference
+      android:key="@string/sp_key_recipe_font_style"
+      android:title="@string/recipe_font_style"
+      android:entries="@array/font_names_array"
+      android:entryValues="@array/font_values_array"
+      android:summary="Choose a font for recipes to use while cooking"
+      android:icon="@drawable/ic_font"
+      />
+    <SeekBarPreference
+      android:key="@string/sp_key_recipe_font_size"
+      android:title="@string/sp_key_recipe_font_size"
+      android:icon="@drawable/ic_size"
+      app:min="10"
+      android:max="24"
+      android:defaultValue="14"
+      app:showSeekBarValue="true"
+      />
+  </PreferenceCategory>
 
 </PreferenceScreen>

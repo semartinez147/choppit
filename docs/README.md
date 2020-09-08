@@ -59,7 +59,6 @@ The process was complicated by responses to the COVID-19 pandemic, and I had to 
     - Choppit prompts user to tap an ingredient; ingredient HTML class is recorded, ingredients are removed from the display
     - Choppit prompts user to tap a step; step HTML class is recorded, WebView navigates to Loading Screen
 
-- Turn Unit selection on the Editing Screen into a drop-down displaying the Enum values including OTHER.
 
 - Changing font through Settings *(readability from a few feet away is a basic feature)*
     - Text formatting in general needs some work, particularly font sizes.
