@@ -104,6 +104,8 @@ public class EditingFragment extends Fragment {
 
     Button saveButton = binding.editingSave;
     saveButton.setOnClickListener(v -> {
+      recipe.setIngredients(ingredientRecyclerAdapter.getIngredients());
+      recipe.setSteps(stepRecyclerAdapter.getSteps());
       if (recipe.getRecipeId() == 0) {
         viewModel.saveRecipe(recipe);
       } else {

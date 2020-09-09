@@ -79,6 +79,11 @@ public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
     notifyItemRemoved(position);
   }
 
+  public List<Ingredient> getIngredients() {
+    notifyDataSetChanged();
+    return ingredients;
+  }
+
   /**
    * The ViewHolder class coordinates between incoming data and the UI.  This handles {@link
    * Ingredient}s.

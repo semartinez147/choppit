@@ -79,6 +79,9 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     notifyDataSetChanged();
   }
 
+  public List<Step> getSteps() {
+    return steps;
+  }
 
   /**
    * The ViewHolder class coordinates between incoming data and the UI.  This handles {@link

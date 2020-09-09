@@ -1,5 +1,7 @@
 package com.semartinez.projects.choppit.model.entity;
 
+import androidx.databinding.InverseBindingMethod;
+import androidx.databinding.InverseMethod;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -107,6 +109,10 @@ public class Ingredient implements RecipeComponent {
   public String getUnitText() {
     return unit != Unit.OTHER ? unit.toString() : unitAlt;
   }
+
+//  public void setUnitText(String unit) {
+//    setUnit(Unit.valueOf(unit != null? unit : "other"));
+//  }
 
   public String getUnitAlt() {
     return unitAlt;
