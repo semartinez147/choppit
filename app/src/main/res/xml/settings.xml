@@ -11,7 +11,8 @@
       android:title="@string/recipe_font_style"
       android:entries="@array/font_names_array"
       android:entryValues="@array/font_values_array"
-      android:summary="Choose a font for recipes to use while cooking"
+      android:defaultValue="Droid"
+      android:summary="Choose a typeface for recipe display while cooking"
       android:icon="@drawable/ic_font"
       />
     <SeekBarPreference
@@ -20,6 +21,7 @@
       android:icon="@drawable/ic_size"
       app:min="10"
       android:max="24"
+      android:summary="Choose a font size for recipe display while cooking"
       android:defaultValue="14"
       app:showSeekBarValue="true"
       />

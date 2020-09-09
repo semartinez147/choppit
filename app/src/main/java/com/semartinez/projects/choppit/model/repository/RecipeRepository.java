@@ -1,7 +1,13 @@
 package com.semartinez.projects.choppit.model.repository;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.view.View;
+import android.widget.TextView;
 import androidx.lifecycle.LiveData;
+import androidx.preference.PreferenceManager;
+import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragment;
 import com.semartinez.projects.choppit.controller.ui.editing.EditingFragment;
 import com.semartinez.projects.choppit.controller.ui.editing.SelectionFragment;
@@ -30,7 +36,7 @@ import org.jsoup.nodes.Document;
  * The repository handles requests from the {@link com.semartinez.projects.choppit.viewmodel.MainViewModel}
  * and interacts with the {@link JsoupRetriever}.
  */
-public class RecipeRepository {
+public class RecipeRepository implements SharedPreferences.OnSharedPreferenceChangeListener{
 
   private static final int NETWORK_THREAD_COUNT = 10;
 
@@ -38,6 +44,7 @@ public class RecipeRepository {
   private final ChoppitDatabase database;
   private final Executor networkPool;
   private final JsoupRetriever retriever;
+  private final SharedPreferences preferences;
   private String[] recipeMeta = new String[2];
 
   public static void setContext(Application context) {
@@ -59,6 +66,8 @@ public class RecipeRepository {
     database = ChoppitDatabase.getInstance();
     networkPool = Executors.newFixedThreadPool(NETWORK_THREAD_COUNT);
     retriever = JsoupRetriever.getInstance();
+    preferences = PreferenceManager.getDefaultSharedPreferences(context);
+    preferences.registerOnSharedPreferenceChangeListener(this);
   }
 
   public Single<Recipe> saveNew(Recipe recipe) {
@@ -191,6 +200,34 @@ public class RecipeRepository {
   public Single<Map<String, List<? extends RecipeComponent>>> process(String ingredient, String instruction) {
     Map<String, List<? extends RecipeComponent>> data = retriever.process(ingredient, instruction);
     return Single.just(data);
+  }
+
+  @Override
+  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+/* Not fully implemented yet.
+
+    Resources.Theme theme = context.getTheme();
+    if (key.equals(context.getString(R.string.sp_key_recipe_font_style))) {
+      switch (sharedPreferences
+          .getString(context.getString(R.string.sp_key_recipe_font_style), "Droid")) {
+        case "Droid":
+          theme.applyStyle(R.style.Droid, true);
+          break;
+        case "Lato":
+          theme.applyStyle(R.style.Lato, true);
+          break;
+        case "Lora":
+          theme.applyStyle(R.style.Lora, true);
+          break;
+        case "Quicksand":
+          theme.applyStyle(R.style.Quicksand, true);
+          break;
+        case "Roboto":
+          theme.applyStyle(R.style.Roboto, true);
+          break;
+      }
+    }
+*/
   }
 
   private static class InstanceHolder {

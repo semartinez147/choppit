@@ -29,8 +29,28 @@
 </style>
 
   <style name="RecipeItem.Text" parent="RecipeItem">
-    <item name="android:textSize">14sp</item>
+    <item name="android:textSize">@dimen/font14sp</item>
     <item name="android:lineSpacingExtra">6sp</item>
+  </style>
+
+  <style name="Droid">
+    <item name="fontFamily">@font/droid_sans</item>
+  </style>
+
+  <style name="Lato">
+    <item name="fontFamily">@font/lato</item>
+  </style>
+
+  <style name="Lora">
+    <item name="fontFamily">@font/lora</item>
+  </style>
+
+  <style name="Quicksand">
+    <item name="fontFamily">@font/quicksand</item>
+  </style>
+
+  <style name="Roboto">
+    <item name="fontFamily">@font/roboto_slab</item>
   </style>
 
 </resources>
