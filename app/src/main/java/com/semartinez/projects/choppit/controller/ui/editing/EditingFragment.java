@@ -169,4 +169,8 @@ public class EditingFragment extends Fragment {
     SaveDialog save = new SaveDialog(recipe, view, viewModel);
     save.show(getChildFragmentManager(), SaveDialog.class.getName());
   }
+
+  public Recipe getRecipe() {
+    return recipe;
+  }
 }

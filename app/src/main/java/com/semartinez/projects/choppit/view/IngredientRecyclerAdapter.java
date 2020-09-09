@@ -14,6 +14,7 @@ import com.semartinez.projects.choppit.controller.ui.editing.EditingFragment;
 import com.semartinez.projects.choppit.databinding.EditIngredientItemBinding;
 import com.semartinez.projects.choppit.databinding.RecipeIngredientItemBinding;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
+import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.entity.Step;
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
 
   public void addIngredient() {
     Log.d("Add ingredient", "Position " + ingredients.size());
-    ingredients.add(new Ingredient());
+    ingredients.add(new Ingredient(editingController.getRecipe().getRecipeId(), "1", Unit.OTHER, " ", " "));
     notifyItemInserted(ingredients.size());
   }
 

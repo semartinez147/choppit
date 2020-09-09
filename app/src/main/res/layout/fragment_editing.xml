@@ -71,7 +71,6 @@
           android:hint="@string/edit_title"
           style="@style/RecipeItem.Title"
           android:inputType="textCapWords"
-          android:maxLines="1"
           android:imeOptions="actionDone"
           android:nextFocusForward="@id/editing_ingredient_list"
           >
