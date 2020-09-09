@@ -16,6 +16,7 @@ import com.semartinez.projects.choppit.model.entity.Step;
 import com.semartinez.projects.choppit.model.repository.RecipeRepository;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import java.io.File;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   private final MutableLiveData<Recipe> recipe;
   private final MutableLiveData<List<Step>> steps;
   private final MutableLiveData<List<Ingredient>> ingredients;
+  private final MutableLiveData<File> html;
   private final MutableLiveData<Throwable> throwable;
   private final MutableLiveData<Set<String>> permissions;
   private final MutableLiveData<String> status;
@@ -42,14 +44,15 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
    */
   public MainViewModel(@NonNull Application application) {
     super(application);
-    repository = RecipeRepository.getInstance();
+    recipe = new MutableLiveData<>();
     steps = new MutableLiveData<>();
     ingredients = new MutableLiveData<>();
-    recipe = new MutableLiveData<>();
+    html = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     permissions = new MutableLiveData<>(new HashSet<>());
     pending = new CompositeDisposable();
     status = new MutableLiveData<>();
+    repository = RecipeRepository.getInstance();
     resetData();
   }
 
@@ -69,7 +72,11 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     return ingredients;
   }
 
-  public MutableLiveData<String> getStatus() {
+  public LiveData<File> getHtml() {
+    return html;
+  }
+
+  public LiveData<String> getStatus() {
     return status;
   }
 
@@ -108,6 +115,18 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
                 () -> status.postValue("gathering"),
                 throwable::postValue
             )
+    );
+  }
+
+  public void generateHtml() {
+    throwable.setValue(null);
+    status.postValue("simplifying");
+    pending.add(
+        repository.generateHtml()
+        .subscribe(
+            html::postValue,
+            throwable::postValue
+        )
     );
   }
 

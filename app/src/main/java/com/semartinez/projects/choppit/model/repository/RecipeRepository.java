@@ -17,12 +17,14 @@ import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
 import com.semartinez.projects.choppit.model.entity.Step;
 import com.semartinez.projects.choppit.service.ChoppitDatabase;
+import com.semartinez.projects.choppit.service.JsoupPrepper;
 import com.semartinez.projects.choppit.service.JsoupRetriever;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -44,8 +46,10 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
   private final ChoppitDatabase database;
   private final Executor networkPool;
   private final JsoupRetriever retriever;
+  private final JsoupPrepper prepper;
   private final SharedPreferences preferences;
   private String[] recipeMeta = new String[2];
+  private Document doc;
 
   public static void setContext(Application context) {
     RecipeRepository.context = context;
@@ -66,6 +70,7 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
     database = ChoppitDatabase.getInstance();
     networkPool = Executors.newFixedThreadPool(NETWORK_THREAD_COUNT);
     retriever = JsoupRetriever.getInstance();
+    prepper = JsoupPrepper.getInstance();
     preferences = PreferenceManager.getDefaultSharedPreferences(context);
     preferences.registerOnSharedPreferenceChangeListener(this);
   }
@@ -175,16 +180,27 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
    */
   private Runnable jsoup(String url) {
     return () -> {
-      Document doc = null;
+      doc = null;
       try {
         doc = Jsoup.connect(url).get();
       } catch (IOException e) {
         e.printStackTrace();
       }
       retriever.setDocument(doc);
+      prepper.setDocument(doc);
       assert doc != null;
       recipeMeta = new String[]{url, doc.title()};
     };
+  }
+
+  public Single<File> generateHtml() {
+    File html = null;
+    try {
+      html = prepper.prepare(recipeMeta[0]);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return Single.just(html);
   }
 
   /**

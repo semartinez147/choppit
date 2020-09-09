@@ -2,7 +2,9 @@ package com.semartinez.projects.choppit.controller.ui.editing;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebResourceRequest;
@@ -14,9 +16,12 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.ui.home.HomeFragment;
+import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import javax.annotation.Nonnull;
 
 
@@ -30,9 +35,11 @@ public class SelectionFragment extends Fragment {
   private WebView contentView;
   private EditText ingredientInput;
   private EditText stepInput;
+  private MainViewModel viewModel;
   private static String url;
   private static String ingredient = "";
   private static String instruction = "";
+  private String html;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,20 +48,17 @@ public class SelectionFragment extends Fragment {
     setRetainInstance(true);
   }
 
+  // TODO pass url as Nav Arg
   public View onCreateView(@Nonnull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
+    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
+    viewModel.resetData();
     View root = inflater.inflate(R.layout.fragment_selection, container, false);
     setupWebView(root);
     HomeFragment homeFragment = new HomeFragment();
     url = (homeFragment.getUrl());
-    contentView.loadUrl(url);
     ingredientInput = root.findViewById(R.id.ingredient_input);
     stepInput = root.findViewById(R.id.step_input);
-
-//  TODO disable for production
-    ingredientInput.setText("1/2 pound elbow macaroni");
-    stepInput.setText("oven to 350");
-
     Button continueButton = root.findViewById(R.id.selection_extract);
     continueButton.setOnClickListener(v -> {
       instruction = stepInput.getText().toString();
@@ -67,7 +71,26 @@ public class SelectionFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    //    contentView.loadUrl(url);
+    prepareHtml();
+    contentView.loadData(html, "text/html", null);
 
+    //  TODO disable for production
+    ingredientInput.setText("1/2 pound elbow macaroni");
+    stepInput.setText("oven to 350");
+
+  }
+
+  private void prepareHtml() {
+    viewModel.makeItGo(url);
+    viewModel.getStatus().observe(getViewLifecycleOwner(), s -> {
+      if (s.equals("gathering")) {
+        viewModel.generateHtml();
+      }
+    });
+    viewModel.getHtml().observe(getViewLifecycleOwner(), h -> {
+      contentView.loadData(String.valueOf(h), "text/html", null);
+    });
   }
 
   @SuppressLint("SetJavaScriptEnabled")
@@ -91,8 +114,20 @@ public class SelectionFragment extends Fragment {
     settings.setUseWideViewPort(true);
     settings.setBlockNetworkImage(true);
     settings.setLoadsImagesAutomatically(false);
-//    settings.setBlockNetworkLoads(true);  this setting is too restrictive and breaks the webview.
+
+    contentView.setOnTouchListener(new View.OnTouchListener() {
+      @Override
+      public boolean onTouch(View v, MotionEvent event) {
+        v.performClick();
+        WebView.HitTestResult tap = ((WebView) v).getHitTestResult();
+
+        Log.d("HitTest TAG", "getExtra = " + tap.getExtra() + ".  getType = " + tap.getType());
+        return false;
+      }
+    });
   }
+
+
 
   public static String getUrl() {
     return url;
