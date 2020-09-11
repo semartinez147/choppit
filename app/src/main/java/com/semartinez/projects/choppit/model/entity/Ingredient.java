@@ -70,7 +70,7 @@ public class Ingredient implements RecipeComponent {
     this.recipeId = recipeId;
     this.quantity = quantity;
     this.unit = unit;
-    this.unitAlt = unitAlt;
+    this.unitAlt = (unitAlt != null && !unitAlt.isEmpty()) ? unitAlt : unit.toString();
     this.name = name;
   }
 
@@ -95,6 +95,9 @@ public class Ingredient implements RecipeComponent {
   }
 
   public void setQuantity(String quantity) {
+    for (int i = 0; i < quantity.length(); i++) {
+      // TODO: Remove anything that isn't a number, space or "/"
+    }
     this.quantity = quantity;
   }
 
@@ -104,15 +107,17 @@ public class Ingredient implements RecipeComponent {
 
   public void setUnit(Unit unit) {
     this.unit = unit;
+    unitAlt = this.unit.toString();
   }
 
   public String getUnitText() {
-    return unit != Unit.OTHER ? unit.toString() : unitAlt;
+    return unitAlt.equalsIgnoreCase("other")? " " : unitAlt;
   }
 
-//  public void setUnitText(String unit) {
-//    setUnit(Unit.valueOf(unit != null? unit : "other"));
-//  }
+  public void setUnitText(String unit) {
+    unitAlt = unit;
+    this.unit = Unit.toUnit(unit != null? unit : "other");
+  }
 
   public String getUnitAlt() {
     return unitAlt;
@@ -150,8 +155,7 @@ public class Ingredient implements RecipeComponent {
     }
 
     @TypeConverter
-    public static Unit toUnit(
-        String value) {
+    public static Unit toUnit(String value) {
       if (value == null) {
         return Unit.OTHER;
       } else {
@@ -160,21 +164,30 @@ public class Ingredient implements RecipeComponent {
         } catch (IllegalArgumentException e) {
           switch (value) {
             case "teaspoon":
+            case "teaspoons":
               return Unit.TSP;
             case "tablespoon":
+            case "tablespoons":
               return Unit.TBSP;
             case "cup":
+            case "cups":
               return Unit.C;
             case "pint":
+            case "pints":
               return Unit.PT;
             case "quart":
+            case "quarts":
               return Unit.QT;
             case "gallon":
+            case "gallons":
               return Unit.GAL;
             case "ounce":
+            case "ounces":
             case "fluid ounce":
+            case "fluid ounces":
               return Unit.OZ;
             case "pound":
+            case "pounds":
               return Unit.LB;
             default:
               return Unit.OTHER;

@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:text="@={ingredient.quantity}"
         android:hint="@string/octothorpe"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:minEms="3"
         android:maxLength="6"
         android:maxLines="1"

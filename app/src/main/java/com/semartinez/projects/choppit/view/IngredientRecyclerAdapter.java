@@ -69,8 +69,8 @@ public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
 
   public void addIngredient() {
     Log.d("Add ingredient", "Position " + ingredients.size());
-    ingredients.add(new Ingredient(editingController.getRecipe().getRecipeId(), "1", Unit.OTHER, " ", " "));
-    notifyItemInserted(ingredients.size());
+    ingredients.add(new Ingredient(editingController.getRecipe().getRecipeId(), "1", Unit.OTHER, "OTHER", " "));
+    notifyItemInserted(ingredients.size()-1);
   }
 
   public void deleteIngredient(int position) {
