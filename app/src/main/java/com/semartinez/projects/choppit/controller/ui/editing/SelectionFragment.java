@@ -80,7 +80,6 @@ public class SelectionFragment extends Fragment {
       }
     });
 
-    // TODO is there a setting that loads only text & formatting?
     WebSettings settings = contentView.getSettings();
     settings.setJavaScriptEnabled(true);
     settings.setCacheMode(WebSettings.LOAD_DEFAULT);
@@ -91,7 +90,6 @@ public class SelectionFragment extends Fragment {
     settings.setUseWideViewPort(true);
     settings.setBlockNetworkImage(true);
     settings.setLoadsImagesAutomatically(false);
-//    settings.setBlockNetworkLoads(true);  this setting is too restrictive and breaks the webview.
   }
 
   public static String getUrl() {
