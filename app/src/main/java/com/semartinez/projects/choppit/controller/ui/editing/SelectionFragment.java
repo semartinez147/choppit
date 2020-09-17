@@ -103,7 +103,6 @@ public class SelectionFragment extends Fragment {
       }
     });
 
-    // TODO is there a setting that loads only text & formatting?
     WebSettings settings = contentView.getSettings();
     settings.setJavaScriptEnabled(true);
     settings.setCacheMode(WebSettings.LOAD_DEFAULT);
@@ -114,6 +113,8 @@ public class SelectionFragment extends Fragment {
     settings.setUseWideViewPort(true);
     settings.setBlockNetworkImage(true);
     settings.setLoadsImagesAutomatically(false);
+    settings.setTextZoom(200);
+
 
     contentView.setOnTouchListener(new View.OnTouchListener() {
       @Override
