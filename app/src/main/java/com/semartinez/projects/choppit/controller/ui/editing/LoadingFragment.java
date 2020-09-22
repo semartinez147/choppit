@@ -27,9 +27,10 @@ public class LoadingFragment extends Fragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    url = SelectionFragment.getUrl();
-    ingredient = SelectionFragment.getIngredient();
-    instruction = SelectionFragment.getInstruction();
+    assert getArguments() != null;
+    url = LoadingFragmentArgs.fromBundle(getArguments()).getUrl();
+    ingredient = LoadingFragmentArgs.fromBundle(getArguments()).getIngredient();
+    instruction = LoadingFragmentArgs.fromBundle(getArguments()).getInstruction();
   }
 
   @Nullable
@@ -41,13 +42,17 @@ public class LoadingFragment extends Fragment {
     status = root.findViewById(R.id.status);
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
     viewModel.resetData();
-    viewModel.makeItGo(url);
     return root;
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    if (LoadingFragmentArgs.fromBundle(getArguments()).getUrl().equals("home")) {
+      viewModel.makeItGo(url);
+    } else if (LoadingFragmentArgs.fromBundle(getArguments()).getUrl().equals("sel")) {
+
+    }
 
     viewModel.getStatus().observe(getViewLifecycleOwner(), statusObserver);
   }
@@ -63,8 +68,17 @@ public class LoadingFragment extends Fragment {
           Log.d("LoadingFrag", "connecting");
           status.setText(R.string.connecting);
           break;
+        case "connected":
+          status.setText(R.string.separating);
+          viewModel.generateHtml();
+          viewModel.getHtml().observe(getViewLifecycleOwner(), h -> {
+            LoadingFragmentDirections.LoadSel select = LoadingFragmentDirections.loadSel()
+                .setHtml(String.valueOf(h));
+            Navigation.findNavController(getView()).navigate(select);
+            // TODO: receive argument in SelectionFragment, continue processing flow.
+          });
+          break;
         case "gathering":
-          status.setText(R.string.gathering);
           Log.d("LoadingFrag", "gathering");
           viewModel.processData(ingredient, instruction);
           break;

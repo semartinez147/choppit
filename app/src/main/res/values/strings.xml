@@ -29,7 +29,7 @@
   <string name="status_information">Status Information</string>
   <string name="warming_up">Warming up …</string>
   <string name="connecting">… Connecting to site …</string>
-  <string name="gathering">… Gathering recipe data …</string>
+  <string name="separating">… Separating text …</string>
   <string name="processing">… processing the data</string>
   <string name="finishing">… finishing</string>
   <string name="octothorpe">#</string>

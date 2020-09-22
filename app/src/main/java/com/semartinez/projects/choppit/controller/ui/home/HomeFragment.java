@@ -65,7 +65,10 @@ public class HomeFragment extends Fragment {
     }
     newRecipe.setOnClickListener(v -> {
       url = urlInput.getText().toString().trim();
-      Navigation.findNavController(v).navigate(url.isEmpty() ? R.id.home_edit : R.id.home_sel);
+      HomeFragmentDirections.HomeLoad load = HomeFragmentDirections.homeLoad()
+          .setFrom("home")
+          .setUrl(urlInput.getText().toString().trim());
+      Navigation.findNavController(v).navigate(url.isEmpty() ? HomeFragmentDirections.homeEdit() : load);
 
     });
 

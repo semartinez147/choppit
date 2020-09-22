@@ -112,7 +112,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     pending.add(
         repository.connect(url)
             .subscribe(
-                () -> status.postValue("gathering"),
+                () -> status.postValue("connected"), // replaced "gathering"
                 throwable::postValue
             )
     );
@@ -120,7 +120,6 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
 
   public void generateHtml() {
     throwable.setValue(null);
-    status.postValue("simplifying");
     pending.add(
         repository.generateHtml()
         .subscribe(
