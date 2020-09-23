@@ -70,6 +70,7 @@ The process was complicated by responses to the COVID-19 pandemic, and I had to 
     - I plan to do this using Apache OpenNLP.  I have found some useful datasets, but will need to do a significant amount of work to adapt them.  This will have to be a distant-future stretch goal.
 	- An alternative to my original idea is to have a "Cooking mode" that displays Steps full-screen and opens an AlertDialog with a checklist of Ingredients, so they can be cleared one at a time. 
 
+- Documentation and user help screens need to be updated.
 	
 #### Bugs & Errors
 
