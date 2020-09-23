@@ -44,6 +44,7 @@ public class SelectionFragment extends Fragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    html = SelectionFragmentArgs.fromBundle(getArguments()).getHtml();
     setHasOptionsMenu(true);
     setRetainInstance(true);
   }
@@ -72,25 +73,13 @@ public class SelectionFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     //    contentView.loadUrl(url);
-    prepareHtml();
+    //    prepareHtml();
     contentView.loadData(html, "text/html", null);
 
     //  TODO disable for production
     ingredientInput.setText("1/2 pound elbow macaroni");
     stepInput.setText("oven to 350");
 
-  }
-
-  private void prepareHtml() {
-    viewModel.makeItGo(url);
-    viewModel.getStatus().observe(getViewLifecycleOwner(), s -> {
-      if (s.equals("gathering")) {
-        viewModel.generateHtml();
-      }
-    });
-    viewModel.getHtml().observe(getViewLifecycleOwner(), h -> {
-      contentView.loadData(String.valueOf(h), "text/html", null);
-    });
   }
 
   @SuppressLint("SetJavaScriptEnabled")
@@ -115,7 +104,6 @@ public class SelectionFragment extends Fragment {
     settings.setLoadsImagesAutomatically(false);
     settings.setTextZoom(200);
 
-
     contentView.setOnTouchListener(new View.OnTouchListener() {
       @Override
       public boolean onTouch(View v, MotionEvent event) {
@@ -127,7 +115,6 @@ public class SelectionFragment extends Fragment {
       }
     });
   }
-
 
 
   public static String getUrl() {

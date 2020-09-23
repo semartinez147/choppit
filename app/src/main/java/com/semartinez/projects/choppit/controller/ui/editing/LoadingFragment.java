@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import com.semartinez.projects.choppit.R;
+import com.semartinez.projects.choppit.controller.MainActivity;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 
@@ -23,6 +24,7 @@ public class LoadingFragment extends Fragment {
   private static String ingredient;
   private static String instruction;
   private TextView status;
+  private boolean fromHome;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class LoadingFragment extends Fragment {
     url = LoadingFragmentArgs.fromBundle(getArguments()).getUrl();
     ingredient = LoadingFragmentArgs.fromBundle(getArguments()).getIngredient();
     instruction = LoadingFragmentArgs.fromBundle(getArguments()).getInstruction();
+    fromHome = LoadingFragmentArgs.fromBundle(getArguments()).getFrom().equals("home");
   }
 
   @Nullable
@@ -48,12 +51,16 @@ public class LoadingFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    if (LoadingFragmentArgs.fromBundle(getArguments()).getUrl().equals("home")) {
+    if (fromHome) {
       viewModel.makeItGo(url);
-    } else if (LoadingFragmentArgs.fromBundle(getArguments()).getUrl().equals("sel")) {
-
+    } else {
+      ((MainActivity) getActivity()).showToast("fromHome = false");// TODO what happens coming back from the SelectionFragment.
     }
 
+    observe();
+  }
+
+  private void observe() {
     viewModel.getStatus().observe(getViewLifecycleOwner(), statusObserver);
   }
 
@@ -67,6 +74,7 @@ public class LoadingFragment extends Fragment {
         case "connecting":
           Log.d("LoadingFrag", "connecting");
           status.setText(R.string.connecting);
+          observe();
           break;
         case "connected":
           status.setText(R.string.separating);
@@ -75,7 +83,6 @@ public class LoadingFragment extends Fragment {
             LoadingFragmentDirections.LoadSel select = LoadingFragmentDirections.loadSel()
                 .setHtml(String.valueOf(h));
             Navigation.findNavController(getView()).navigate(select);
-            // TODO: receive argument in SelectionFragment, continue processing flow.
           });
           break;
         case "gathering":

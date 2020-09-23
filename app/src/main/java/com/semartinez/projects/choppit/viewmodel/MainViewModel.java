@@ -40,7 +40,6 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
    * Initializes the MainViewModel and the variables it contains.
    *
    * @param application this application.
-   * @param sharedUrl
    */
   public MainViewModel(@NonNull Application application) {
     super(application);
