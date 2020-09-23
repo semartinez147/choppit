@@ -134,7 +134,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     status.postValue("processing");
     pending.add(
         repository.process(ingredient, instruction)
-            .subscribe(data -> finish(data))
+            .subscribe(this::finish)
     );
   }
 

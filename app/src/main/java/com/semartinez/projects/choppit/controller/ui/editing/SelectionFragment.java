@@ -56,17 +56,21 @@ public class SelectionFragment extends Fragment {
     viewModel.resetData();
     View root = inflater.inflate(R.layout.fragment_selection, container, false);
     setupWebView(root);
-    HomeFragment homeFragment = new HomeFragment();
-    url = (homeFragment.getUrl());
+//    HomeFragment homeFragment = new HomeFragment();
+//    url = (homeFragment.getUrl());
     ingredientInput = root.findViewById(R.id.ingredient_input);
     stepInput = root.findViewById(R.id.step_input);
     Button continueButton = root.findViewById(R.id.selection_extract);
-    continueButton.setOnClickListener(v -> {
-      instruction = stepInput.getText().toString();
-      ingredient = ingredientInput.getText().toString();
-      Navigation.findNavController(v).navigate(R.id.sel_load);
-    });
+    continueButton.setOnClickListener(this::sendToLoading);
     return root;
+  }
+
+  private void sendToLoading(View v) {
+    SelectionFragmentDirections.SelLoad load = SelectionFragmentDirections.selLoad()
+        .setIngredient(ingredientInput.getText().toString())
+        .setInstruction(stepInput.getText().toString())
+        .setFrom("sel");
+    Navigation.findNavController(v).navigate(load);
   }
 
   @Override
@@ -103,17 +107,6 @@ public class SelectionFragment extends Fragment {
     settings.setBlockNetworkImage(true);
     settings.setLoadsImagesAutomatically(false);
     settings.setTextZoom(200);
-
-    contentView.setOnTouchListener(new View.OnTouchListener() {
-      @Override
-      public boolean onTouch(View v, MotionEvent event) {
-        v.performClick();
-        WebView.HitTestResult tap = ((WebView) v).getHitTestResult();
-
-        Log.d("HitTest TAG", "getExtra = " + tap.getExtra() + ".  getType = " + tap.getType());
-        return false;
-      }
-    });
   }
 
 

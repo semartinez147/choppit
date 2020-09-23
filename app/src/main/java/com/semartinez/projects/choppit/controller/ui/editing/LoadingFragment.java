@@ -44,7 +44,6 @@ public class LoadingFragment extends Fragment {
     View root = inflater.inflate(R.layout.fragment_loading, container, false);
     status = root.findViewById(R.id.status);
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-    viewModel.resetData();
     return root;
   }
 
@@ -52,11 +51,12 @@ public class LoadingFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     if (fromHome) {
+      viewModel.resetData();
       viewModel.makeItGo(url);
     } else {
       ((MainActivity) getActivity()).showToast("fromHome = false");// TODO what happens coming back from the SelectionFragment.
+      viewModel.processData(ingredient, instruction);
     }
-
     observe();
   }
 
@@ -85,10 +85,10 @@ public class LoadingFragment extends Fragment {
             Navigation.findNavController(getView()).navigate(select);
           });
           break;
-        case "gathering":
-          Log.d("LoadingFrag", "gathering");
-          viewModel.processData(ingredient, instruction);
-          break;
+//        case "gathering":
+//          Log.d("LoadingFrag", "gathering");
+//          viewModel.processData(ingredient, instruction);
+//          break;
         case "processing":
           status.setText(R.string.processing);
           Log.d("LoadingFrag", "processing");
