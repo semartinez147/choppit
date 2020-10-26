@@ -108,7 +108,7 @@ public class LoadingFragment extends Fragment {
    */
   final Observer<Recipe> recipeObserver = recipe -> {
     if (recipe != null && getView() != null) {
-      Navigation.findNavController(getView()).navigate(R.id.load_edit);
+      Navigation.findNavController(getView()).navigate(LoadingFragmentDirections.loadEdit());
     }
   };
 

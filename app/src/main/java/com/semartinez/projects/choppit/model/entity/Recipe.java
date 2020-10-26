@@ -162,6 +162,21 @@ public class Recipe extends BaseObservable {
     this.ingredients.add(ingredient);
   }
 
+  public static Recipe getEmptyRecipe() {
+    Recipe recipe = new Recipe();
+    recipe.setIngredients(Arrays
+        .asList(new Ingredient(recipe.getRecipeId(), "1", Unit.OTHER, "", ""),
+            new Ingredient(recipe.getRecipeId(), "1", Unit.OTHER, "", ""),
+            new Ingredient(recipe.getRecipeId(), "1", Unit.OTHER, "", "")));
+    recipe.setSteps(Arrays.asList(
+        new Step(recipe.getRecipeId(), "", 1),
+        new Step(recipe.getRecipeId(), "", 2),
+        new Step(recipe.getRecipeId(), "", 3)
+    ));
+    return recipe;
+  }
+
+
   public interface RecipeComponent {
     // exists to group Ingredient and Step objects
   }

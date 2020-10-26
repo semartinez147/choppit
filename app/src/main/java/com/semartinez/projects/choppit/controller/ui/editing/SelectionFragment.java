@@ -2,9 +2,7 @@ package com.semartinez.projects.choppit.controller.ui.editing;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebResourceRequest;
@@ -16,19 +14,20 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.ui.home.HomeFragment;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import javax.annotation.Nonnull;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 
 /**
- * This fragment loads a {@link WebView} of the contents of {@link HomeFragment#getUrl()}. Below the
- * WebView, it loads two text entry fields.  The inputted {@link String}s are used by {@link
- * org.jsoup.Jsoup} to process the {@link org.jsoup.nodes.Document} generated from the HTML
+ * This fragment loads a {@link WebView} of the contents of the {@link HomeFragment} url. Below the
+ * WebView, it loads two text entry fields.  The inputted {@link String}s are used by {@link Jsoup}
+ * to process the {@link Document} generated from the HTML
  */
 public class SelectionFragment extends Fragment {
 
@@ -36,9 +35,6 @@ public class SelectionFragment extends Fragment {
   private EditText ingredientInput;
   private EditText stepInput;
   private MainViewModel viewModel;
-  private static String url;
-  private static String ingredient = "";
-  private static String instruction = "";
   private String html;
 
   @Override
@@ -65,19 +61,10 @@ public class SelectionFragment extends Fragment {
     return root;
   }
 
-  private void sendToLoading(View v) {
-    SelectionFragmentDirections.SelLoad load = SelectionFragmentDirections.selLoad()
-        .setIngredient(ingredientInput.getText().toString())
-        .setInstruction(stepInput.getText().toString())
-        .setFrom("sel");
-    Navigation.findNavController(v).navigate(load);
-  }
-
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    //    contentView.loadUrl(url);
-    //    prepareHtml();
+
     contentView.loadData(html, "text/html", null);
 
     //  TODO disable for production
@@ -109,16 +96,12 @@ public class SelectionFragment extends Fragment {
     settings.setTextZoom(200);
   }
 
-
-  public static String getUrl() {
-    return url;
+  private void sendToLoading(View v) {
+    SelectionFragmentDirections.SelLoad load = SelectionFragmentDirections.selLoad()
+        .setIngredient(ingredientInput.getText().toString())
+        .setInstruction(stepInput.getText().toString())
+        .setFrom("sel");
+    Navigation.findNavController(v).navigate(load);
   }
 
-  public static String getIngredient() {
-    return ingredient;
-  }
-
-  public static String getInstruction() {
-    return instruction;
-  }
 }
