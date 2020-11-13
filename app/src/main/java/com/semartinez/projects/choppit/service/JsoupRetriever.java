@@ -140,6 +140,7 @@ public class JsoupRetriever {
   }
 
   public void setDocument(Document document) {
+    Log.d("Choppit", "Retriever document setter");
     this.document = document;
   }
 

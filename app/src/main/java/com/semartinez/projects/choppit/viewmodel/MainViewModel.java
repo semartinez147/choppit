@@ -91,6 +91,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
    * Returns all {@link MutableLiveData} values to default to clear data from prior activities.
    */
   public void resetData() {
+    Log.d("Choppit", "MVM resetData");
     steps.postValue(null);
     ingredients.postValue(null);
     recipe.postValue(null);

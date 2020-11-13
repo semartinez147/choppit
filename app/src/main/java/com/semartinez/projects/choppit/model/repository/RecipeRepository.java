@@ -2,12 +2,9 @@ package com.semartinez.projects.choppit.model.repository;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.view.View;
-import android.widget.TextView;
+import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.preference.PreferenceManager;
-import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragment;
 import com.semartinez.projects.choppit.controller.ui.editing.EditingFragment;
 import com.semartinez.projects.choppit.controller.ui.editing.SelectionFragment;
@@ -30,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -166,6 +164,7 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
    * @return a {@link Completable} handled by the {@link com.semartinez.projects.choppit.viewmodel.MainViewModel}.
    */
   public Completable connect(String url) {
+    Log.d("Choppit", " Repository connect method");
     return Completable.fromRunnable(jsoup(url))
         .subscribeOn(Schedulers.from(networkPool));
   }
@@ -179,16 +178,19 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
    * @return the {@link Runnable} to be executed in {@link com.semartinez.projects.choppit.viewmodel.MainViewModel}.
    */
   private Runnable jsoup(String url) {
+    Log.d("Choppit", "Repository jsoup Runnable");
     return () -> {
       doc = null;
+      Log.d("Choppit", "above jsoup try block");
       try {
         doc = Jsoup.connect(url).get();
-      } catch (IOException e) {
-        e.printStackTrace();
+      } catch (Error | Exception e) {
+        Log.e("Choppit", "Repository jsoup method failure");
+        Log.e("Choppit", e.toString());
       }
+      assert doc != null: "null document";
       retriever.setDocument(doc);
       prepper.setDocument(doc);
-      assert doc != null;
       recipeMeta = new String[]{url, doc.title()};
     };
   }
