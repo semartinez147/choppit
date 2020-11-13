@@ -45,6 +45,7 @@
       android:defaultValue=""/>
     <action
       android:id="@+id/load_sel"
+      app:popUpTo="@id/navigation_home"
       app:destination="@id/navigation_selection"/>
     <action
       android:id="@+id/load_edit"

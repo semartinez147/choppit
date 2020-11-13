@@ -52,8 +52,6 @@ public class SelectionFragment extends Fragment {
     viewModel.resetData();
     View root = inflater.inflate(R.layout.fragment_selection, container, false);
     setupWebView(root);
-//    HomeFragment homeFragment = new HomeFragment();
-//    url = (homeFragment.getUrl());
     ingredientInput = root.findViewById(R.id.ingredient_input);
     stepInput = root.findViewById(R.id.step_input);
     Button continueButton = root.findViewById(R.id.selection_extract);
