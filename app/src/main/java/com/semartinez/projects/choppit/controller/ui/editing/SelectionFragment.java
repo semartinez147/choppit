@@ -91,7 +91,7 @@ public class SelectionFragment extends Fragment {
     settings.setUseWideViewPort(true);
     settings.setBlockNetworkImage(true);
     settings.setLoadsImagesAutomatically(false);
-    settings.setTextZoom(200);
+    settings.setTextZoom(300);
   }
 
   private void sendToLoading(View v) {

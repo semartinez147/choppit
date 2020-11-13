@@ -62,7 +62,8 @@ public class SaveDialog extends DialogFragment {
   @Override
   public void onDismiss(@NonNull @NotNull DialogInterface dialog) {
     super.onDismiss(dialog);
-    ((EditingFragment)getParentFragment()).navAfterSave(view);
+          ((EditingFragment)getParentFragment()).navAfterSave(view);
+
   }
 
 OnClickListener listener = new OnClickListener() {
@@ -84,6 +85,8 @@ OnClickListener listener = new OnClickListener() {
         break;
       }
       case -3: {
+        //TODO: rewrite so there is no navigation on CANCEL
+        dismiss();
       }
     }
     dismiss();// neutral
