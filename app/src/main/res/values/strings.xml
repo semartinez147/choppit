@@ -51,4 +51,5 @@
   <string name="recipe_info">This screen displays a single recipe.  Soon it will also have options to edit, delete, or go into Cooking Mode.</string>
   <string name="save_recipe">Do you want to save a new recipe, or update the existing one?  A new recipe has to have a different title.</string>
   <string name="sp_key_recipe_font_size">Font Size</string>
+  <string name="finished">... finished!</string>
 </resources>

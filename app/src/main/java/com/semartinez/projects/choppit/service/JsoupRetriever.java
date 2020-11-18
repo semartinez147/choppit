@@ -55,9 +55,17 @@ public class JsoupRetriever {
     runIngredients i = new runIngredients(ingredient);
     runSteps s = new runSteps(instruction);
 
-    new Thread(i, "iThread").start();
-    new Thread(s, "sThread").start();
+    Thread iThread = new Thread(i, "iThread");
+    Thread sThread = new Thread(s, "sThread");
 
+    iThread.start();
+    sThread.start();
+    try {
+      iThread.join();
+      sThread.join();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     Map<String, List<? extends RecipeComponent>> data = new HashMap<>();
 
