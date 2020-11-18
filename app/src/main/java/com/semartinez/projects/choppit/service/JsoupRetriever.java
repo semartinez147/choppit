@@ -21,8 +21,6 @@ public class JsoupRetriever {
   private Document document;
   private List<String> listRawIngredients = new ArrayList<>();
   private List<String> listInstructions = new ArrayList<>();
-  private String ingredientClass;
-  private String instructionClass;
   private final List<Step> steps = new ArrayList<>();
   private final List<Ingredient> ingredients = new ArrayList<>();
 
@@ -49,28 +47,22 @@ public class JsoupRetriever {
    * @return A {@link List} of {@link Step} objects with embedded {@link Ingredient}s.
    */
   public Map<String, List<? extends RecipeComponent>> process(String ingredient, String instruction) {
+    //TODO Error handling: catch getClass errors for 0 or >1 result.
 
-    identifyWrappers(ingredient, instruction);
-    extractContents();
-    buildSteps();
+    String ingredientClass = getClass(ingredient);
+    listRawIngredients = getClassContents(ingredientClass); // list all ingredients
     buildIngredients();
+
+    String instructionClass = getClass(instruction);
+    listInstructions = getClassContents(instructionClass); // list all instructions
+    buildSteps();
+
     Map<String, List<? extends RecipeComponent>> data = new HashMap<>();
 
     data.put("ingredients", ingredients);
     data.put("steps", steps);
 
     return data;
-  }
-
-  private void identifyWrappers(String ingredient, String instruction) {
-    //TODO catch getClass errors independently for each call.
-    ingredientClass = getClass(ingredient);
-    instructionClass = getClass(instruction);
-  }
-
-  private void extractContents() {
-    listRawIngredients = getClassContents(ingredientClass); // list all ingredients
-    listInstructions = getClassContents(instructionClass); // list all instructions
   }
 
   /**
@@ -120,7 +112,7 @@ public class JsoupRetriever {
       Matcher matcher = pattern.matcher(rawIngredient);
       Ingredient ingredient = new Ingredient();
       if (matcher.find()) {
-        // group 1 = measurement | group 2 = unit | group 3 = name //
+        // group 1 = measurement | group 2 = unit | group 3 = name
         ingredient.setQuantity(matcher.group(1));
         ingredient.setUnit(Unit.toUnit(matcher.group(2)));
         if (matcher.group(2) == null) {

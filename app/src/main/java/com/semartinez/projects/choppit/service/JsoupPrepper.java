@@ -1,7 +1,6 @@
 package com.semartinez.projects.choppit.service;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -31,6 +30,7 @@ public class JsoupPrepper {
   }
 
   private void doWork() {
+    // TODO Debug this process
     allElements = document.getAllElements().filter(new NodeFilter() {
       @Override
       public FilterResult head(Node node, int i) {
