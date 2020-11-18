@@ -23,10 +23,10 @@ public class JsoupRetriever {
   private List<String> listInstructions = new ArrayList<>();
   private final List<Step> steps = new ArrayList<>();
   private final List<Ingredient> ingredients = new ArrayList<>();
-
+  private String ingredient;
+  private String instruction;
 
   JsoupRetriever() {
-
   }
 
   public static JsoupRetriever getInstance() {
@@ -34,7 +34,7 @@ public class JsoupRetriever {
   }
 
   /**
-   * This method coordinates the processing work by calling {@link #getClass(String)}, followed by
+   * This method coordinates the processing work by calling {@link #getKlass(String)}, followed by
    * {@link #getClassContents(String)} and {@link #buildIngredients()} / {@link #buildSteps()} then
    * matching {@link Ingredient}s to {@link Step}s.
    *
@@ -49,13 +49,15 @@ public class JsoupRetriever {
   public Map<String, List<? extends RecipeComponent>> process(String ingredient, String instruction) {
     //TODO Error handling: catch getClass errors for 0 or >1 result.
 
-    String ingredientClass = getClass(ingredient);
-    listRawIngredients = getClassContents(ingredientClass); // list all ingredients
-    buildIngredients();
+//    this.ingredient = ingredient;
+//    this.instruction = instruction;
 
-    String instructionClass = getClass(instruction);
-    listInstructions = getClassContents(instructionClass); // list all instructions
-    buildSteps();
+    runIngredients i = new runIngredients(ingredient);
+    runSteps s = new runSteps(instruction);
+
+    new Thread(i, "iThread").start();
+    new Thread(s, "sThread").start();
+
 
     Map<String, List<? extends RecipeComponent>> data = new HashMap<>();
 
@@ -63,6 +65,34 @@ public class JsoupRetriever {
     data.put("steps", steps);
 
     return data;
+  }
+
+  private class runIngredients implements Runnable {
+    String ingredient;
+    public runIngredients(String ingredient) {
+      this.ingredient = ingredient;
+    }
+
+    @Override
+    public void run() {
+      String ingredientClass = getKlass(ingredient);
+      listRawIngredients = getClassContents(ingredientClass); // list all ingredients
+      buildIngredients();
+    }
+  }
+
+  private class runSteps implements Runnable {
+    String instruction;
+    public runSteps(String instruction) {
+      this.instruction = instruction;
+    }
+
+    @Override
+    public void run() {
+      String instructionClass = getKlass(instruction);
+      listInstructions = getClassContents(instructionClass); // list all ingredients
+      buildSteps();
+    }
   }
 
   /**
@@ -74,7 +104,7 @@ public class JsoupRetriever {
    * @param text is either the ingredient or instruction text input by the user
    * @return the HTML "class" attribute enclosing the input {@link String}.
    */
-  protected String getClass(String text) {
+  protected String getKlass(String text) {
     Elements e = document.select(String.format("*:containsOwn(%s)", text));
     if (e.size() != 1) {
       Log.e("Retriever failed:", "found " + e.size() + " matching classes");
@@ -87,7 +117,7 @@ public class JsoupRetriever {
    * this method takes an HTML "class" attribute and compiles as {@link org.jsoup.nodes.Element}s
    * the contents of each matching HTML element.  Runs once on each text parameter.
    *
-   * @param klass the values returned by {@link #getClass(String)}
+   * @param klass the values returned by {@link #getKlass(String)}
    * @return the contents of each HTML element matching the provided "class" attribute as a {@link
    * String}.
    */
