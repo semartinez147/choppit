@@ -24,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
     }
 )
 
+//TODO change LinkedLists to ArrayLists
 public class Recipe extends BaseObservable {
 
   @ColumnInfo(name = "recipe_id")
