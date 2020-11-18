@@ -45,7 +45,6 @@ public class SelectionFragment extends Fragment {
     setRetainInstance(true);
   }
 
-  // TODO pass url as Nav Arg
   public View onCreateView(@Nonnull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);

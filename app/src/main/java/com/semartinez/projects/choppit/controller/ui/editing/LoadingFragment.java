@@ -54,7 +54,6 @@ public class LoadingFragment extends Fragment {
       viewModel.resetData();
       viewModel.makeItGo(url);
     } else {
-      ((MainActivity) getActivity()).showToast("fromHome = false");// TODO what happens coming back from the SelectionFragment.
       viewModel.processData(ingredient, instruction);
     }
     observe();

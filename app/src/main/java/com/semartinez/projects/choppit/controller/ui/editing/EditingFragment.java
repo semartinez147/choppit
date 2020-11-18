@@ -77,6 +77,7 @@ public class EditingFragment extends Fragment {
     saveButton.setOnClickListener(v -> {
       if (recipe.getRecipeId() == 0) {
         viewModel.saveRecipe(recipe);
+        navAfterSave(getView());
       } else {
         showSaveDialog(v);
       }

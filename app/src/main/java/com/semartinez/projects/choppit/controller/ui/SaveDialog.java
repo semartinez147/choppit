@@ -62,7 +62,7 @@ public class SaveDialog extends DialogFragment {
   @Override
   public void onDismiss(@NonNull @NotNull DialogInterface dialog) {
     super.onDismiss(dialog);
-          ((EditingFragment)getParentFragment()).navAfterSave(view);
+//          ((EditingFragment)getParentFragment()).navAfterSave(view);
 
   }
 
@@ -73,6 +73,7 @@ OnClickListener listener = new OnClickListener() {
       case -1: { //overwrite
         recipe.setTitle(title.getText().toString());
         viewModel.updateRecipe(recipe);
+        ((EditingFragment)getParentFragment()).navAfterSave(view);
         break;
       }
       case -2: { //save new
@@ -82,14 +83,13 @@ OnClickListener listener = new OnClickListener() {
           recipe.setRecipeId(0);
           viewModel.saveRecipe(recipe);
         }
+        ((EditingFragment)getParentFragment()).navAfterSave(view);
         break;
       }
-      case -3: {
-        //TODO: rewrite so there is no navigation on CANCEL
-        dismiss();
+      case -3: { // cancel - do nothing
       }
     }
-    dismiss();// neutral
+    dismiss();
   }
 };
 
