@@ -16,7 +16,6 @@ import com.semartinez.projects.choppit.databinding.RecipeIngredientItemBinding;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
 import com.semartinez.projects.choppit.model.entity.Recipe;
-import com.semartinez.projects.choppit.model.entity.Step;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,19 +68,14 @@ public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
 
   public void addIngredient() {
     Log.d("Add ingredient", "Position " + ingredients.size());
-    ingredients.add(new Ingredient(editingController.getRecipe().getRecipeId(), "1", Unit.OTHER, "OTHER", " "));
-    notifyItemInserted(ingredients.size()-1);
+    ingredients.add(new Ingredient(editingController.getRecipe().getRecipeId(), "1", Unit.OTHER, " ", " "));
+    notifyItemInserted(ingredients.size()); // size()-1?
   }
 
   public void deleteIngredient(int position) {
     Log.d("Adapter delete", "Position " + position);
     ingredients.remove(position);
     notifyItemRemoved(position);
-  }
-
-  public List<Ingredient> getIngredients() {
-    notifyDataSetChanged();
-    return ingredients;
   }
 
   /**
