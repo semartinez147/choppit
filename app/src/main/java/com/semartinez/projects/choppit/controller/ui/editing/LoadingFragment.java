@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import com.semartinez.projects.choppit.R;
+import com.semartinez.projects.choppit.controller.MainActivity;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 
@@ -23,13 +24,16 @@ public class LoadingFragment extends Fragment {
   private static String ingredient;
   private static String instruction;
   private TextView status;
+  private boolean fromHome;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    url = SelectionFragment.getUrl();
-    ingredient = SelectionFragment.getIngredient();
-    instruction = SelectionFragment.getInstruction();
+    assert getArguments() != null;
+    url = LoadingFragmentArgs.fromBundle(getArguments()).getUrl();
+    ingredient = LoadingFragmentArgs.fromBundle(getArguments()).getIngredient();
+    instruction = LoadingFragmentArgs.fromBundle(getArguments()).getInstruction();
+    fromHome = LoadingFragmentArgs.fromBundle(getArguments()).getFrom().equals("home");
   }
 
   @Nullable
@@ -40,15 +44,22 @@ public class LoadingFragment extends Fragment {
     View root = inflater.inflate(R.layout.fragment_loading, container, false);
     status = root.findViewById(R.id.status);
     viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-    viewModel.resetData();
-    viewModel.makeItGo(url);
     return root;
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    if (fromHome) {
+      viewModel.resetData();
+      viewModel.makeItGo(url);
+    } else {
+      viewModel.processData(ingredient, instruction);
+    }
+    observe();
+  }
 
+  private void observe() {
     viewModel.getStatus().observe(getViewLifecycleOwner(), statusObserver);
   }
 
@@ -62,11 +73,16 @@ public class LoadingFragment extends Fragment {
         case "connecting":
           Log.d("LoadingFrag", "connecting");
           status.setText(R.string.connecting);
+          observe();
           break;
-        case "gathering":
-          status.setText(R.string.gathering);
-          Log.d("LoadingFrag", "gathering");
-          viewModel.processData(ingredient, instruction);
+        case "connected":
+          status.setText(R.string.separating);
+          viewModel.generateHtml();
+          viewModel.getHtml().observe(getViewLifecycleOwner(), h -> {
+            LoadingFragmentDirections.LoadSel select = LoadingFragmentDirections.loadSel()
+                .setHtml(String.valueOf(h));
+            Navigation.findNavController(getView()).navigate(select);
+          });
           break;
         case "processing":
           status.setText(R.string.processing);
@@ -77,6 +93,7 @@ public class LoadingFragment extends Fragment {
           viewModel.postRecipe();
           break;
         case "finished":
+          status.setText(R.string.finished);
           viewModel.getRecipe().observe(getViewLifecycleOwner(), recipeObserver);
       }
     }
@@ -87,7 +104,7 @@ public class LoadingFragment extends Fragment {
    */
   final Observer<Recipe> recipeObserver = recipe -> {
     if (recipe != null && getView() != null) {
-      Navigation.findNavController(getView()).navigate(R.id.load_edit);
+      Navigation.findNavController(getView()).navigate(LoadingFragmentDirections.loadEdit());
     }
   };
 

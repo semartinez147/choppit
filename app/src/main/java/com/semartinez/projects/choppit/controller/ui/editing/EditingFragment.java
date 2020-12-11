@@ -52,35 +52,6 @@ public class EditingFragment extends Fragment {
 
   }
 
-  private Recipe emptyRecipe() {
-    Recipe recipe = new Recipe();
-    recipe.setIngredients(Arrays
-        .asList(new Ingredient(recipe.getRecipeId(), "1", Unit.OTHER, "", ""),
-            new Ingredient(recipe.getRecipeId(), "1", Unit.OTHER, "", ""),
-            new Ingredient(recipe.getRecipeId(), "1", Unit.OTHER, "", "")));
-    recipe.setSteps(Arrays.asList(
-        new Step(recipe.getRecipeId(), "", 1),
-        new Step(recipe.getRecipeId(), "", 2),
-        new Step(recipe.getRecipeId(), "", 3)
-    ));
-    return recipe;
-  }
-
-  @SuppressWarnings("DuplicatedCode")
-  private void setupRecyclerView() {
-    RecyclerView ingredientRecyclerView = binding.editingIngredientRecyclerView;
-    RecyclerView stepRecyclerView = binding.editingStepRecyclerView;
-    LinearLayoutManager ingredientLayoutManager = new LinearLayoutManager(getContext());
-    LinearLayoutManager stepLayoutManager = new LinearLayoutManager(getContext());
-    ingredientRecyclerAdapter = new IngredientRecyclerAdapter(getContext(), recipe,
-        this);
-    stepRecyclerAdapter = new StepRecyclerAdapter(getContext(), recipe, this);
-    ingredientRecyclerView.setLayoutManager(ingredientLayoutManager);
-    stepRecyclerView.setLayoutManager(stepLayoutManager);
-    ingredientRecyclerView.setAdapter(ingredientRecyclerAdapter);
-    stepRecyclerView.setAdapter(stepRecyclerAdapter);
-  }
-
   @Override
   public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
     super.onCreateOptionsMenu(menu, inflater);
@@ -104,10 +75,9 @@ public class EditingFragment extends Fragment {
 
     Button saveButton = binding.editingSave;
     saveButton.setOnClickListener(v -> {
-      recipe.setIngredients(ingredientRecyclerAdapter.getIngredients());
-      recipe.setSteps(stepRecyclerAdapter.getSteps());
       if (recipe.getRecipeId() == 0) {
         viewModel.saveRecipe(recipe);
+        navAfterSave(getView());
       } else {
         showSaveDialog(v);
       }
@@ -116,15 +86,24 @@ public class EditingFragment extends Fragment {
     return binding.getRoot();
   }
 
+  @SuppressWarnings("DuplicatedCode")
+  private void setupRecyclerView() {
+    RecyclerView ingredientRecyclerView = binding.editingIngredientRecyclerView;
+    RecyclerView stepRecyclerView = binding.editingStepRecyclerView;
+    LinearLayoutManager ingredientLayoutManager = new LinearLayoutManager(getContext());
+    LinearLayoutManager stepLayoutManager = new LinearLayoutManager(getContext());
+    ingredientRecyclerAdapter = new IngredientRecyclerAdapter(getContext(), recipe,
+        this);
+    stepRecyclerAdapter = new StepRecyclerAdapter(getContext(), recipe, this);
+    ingredientRecyclerView.setLayoutManager(ingredientLayoutManager);
+    stepRecyclerView.setLayoutManager(stepLayoutManager);
+    ingredientRecyclerView.setAdapter(ingredientRecyclerAdapter);
+    stepRecyclerView.setAdapter(stepRecyclerAdapter);
+  }
+
   public void navAfterSave(View v) {
     viewModel.resetData();
     Navigation.findNavController(v).navigate(R.id.edit_cook);
-  }
-
-  @Override
-  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-
   }
 
 
@@ -139,7 +118,7 @@ public class EditingFragment extends Fragment {
       if (result != null) {
         recipe = viewModel.getRecipe().getValue();
       } else {
-        recipe = emptyRecipe();
+        recipe = Recipe.getEmptyRecipe();
       }
       setupRecyclerView();
       binding.setRecipe(recipe);

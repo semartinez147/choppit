@@ -1,6 +1,7 @@
 package com.semartinez.projects.choppit.view;
 
 import android.content.Context;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -85,6 +86,7 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
       binding.recipeTitle.setOnLongClickListener(new OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
+          v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
           binding.getUiController().deleteRecipe(binding.getRecipe());
           return false;
         }

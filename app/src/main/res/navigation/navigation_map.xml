@@ -12,8 +12,8 @@
     android:name="com.semartinez.projects.choppit.controller.ui.home.HomeFragment"
     tools:layout="@layout/fragment_home">
     <action
-      android:id="@+id/home_sel"
-      app:destination="@id/navigation_selection"/>
+      android:id="@+id/home_load"
+      app:destination="@id/navigation_loading"/>
     <action
       android:id="@+id/home_edit"
       app:destination="@id/navigation_editing"/>
@@ -23,10 +23,45 @@
   </fragment>
 
   <fragment
+    android:id="@+id/navigation_loading"
+    android:label="@string/loading"
+    android:name="com.semartinez.projects.choppit.controller.ui.editing.LoadingFragment"
+    tools:layout="@layout/fragment_loading">
+    <argument
+      android:name="url"
+      app:argType="string"
+      android:defaultValue=""/>
+    <argument
+      android:name="ingredient"
+      app:argType="string"
+      android:defaultValue=""/>
+    <argument
+      android:name="instruction"
+      app:argType="string"
+      android:defaultValue=""/>
+    <argument
+      android:name="from"
+      app:argType="string"
+      android:defaultValue=""/>
+    <action
+      android:id="@+id/load_sel"
+      app:popUpTo="@id/navigation_home"
+      app:destination="@id/navigation_selection"/>
+    <action
+      android:id="@+id/load_edit"
+      app:destination="@id/navigation_editing"
+      app:popUpTo="@id/navigation_selection"/>
+  </fragment>
+
+  <fragment
     android:id="@+id/navigation_selection"
     android:label="@string/title_selection"
     android:name="com.semartinez.projects.choppit.controller.ui.editing.SelectionFragment"
     tools:layout="@layout/fragment_selection">
+    <argument
+      android:name="html"
+      app:argType="string"
+      android:defaultValue=""/>
     <action
       android:id="@+id/sel_load"
       app:destination="@id/navigation_loading"/>
@@ -61,17 +96,6 @@
       <action
         android:id="@+id/cook_edit"
         app:destination="@id/navigation_editing"/>
-    </fragment>
-
-    <fragment
-    android:id="@+id/navigation_loading"
-    android:label="@string/loading"
-    android:name="com.semartinez.projects.choppit.controller.ui.editing.LoadingFragment"
-    tools:layout="@layout/fragment_loading">
-      <action
-        android:id="@+id/load_edit"
-        app:destination="@id/navigation_editing"
-        app:popUpTo="@id/navigation_selection"/>
     </fragment>
 
   <fragment

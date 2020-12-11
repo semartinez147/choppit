@@ -2,12 +2,9 @@ package com.semartinez.projects.choppit.model.repository;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.view.View;
-import android.widget.TextView;
+import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.preference.PreferenceManager;
-import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragment;
 import com.semartinez.projects.choppit.controller.ui.editing.EditingFragment;
 import com.semartinez.projects.choppit.controller.ui.editing.SelectionFragment;
@@ -17,17 +14,20 @@ import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
 import com.semartinez.projects.choppit.model.entity.Step;
 import com.semartinez.projects.choppit.service.ChoppitDatabase;
+import com.semartinez.projects.choppit.service.JsoupPrepper;
 import com.semartinez.projects.choppit.service.JsoupRetriever;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -44,8 +44,10 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
   private final ChoppitDatabase database;
   private final Executor networkPool;
   private final JsoupRetriever retriever;
+  private final JsoupPrepper prepper;
   private final SharedPreferences preferences;
   private String[] recipeMeta = new String[2];
+  private Document doc;
 
   public static void setContext(Application context) {
     RecipeRepository.context = context;
@@ -66,6 +68,7 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
     database = ChoppitDatabase.getInstance();
     networkPool = Executors.newFixedThreadPool(NETWORK_THREAD_COUNT);
     retriever = JsoupRetriever.getInstance();
+    prepper = JsoupPrepper.getInstance();
     preferences = PreferenceManager.getDefaultSharedPreferences(context);
     preferences.registerOnSharedPreferenceChangeListener(this);
   }
@@ -161,6 +164,7 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
    * @return a {@link Completable} handled by the {@link com.semartinez.projects.choppit.viewmodel.MainViewModel}.
    */
   public Completable connect(String url) {
+    Log.d("Choppit", " Repository connect method");
     return Completable.fromRunnable(jsoup(url))
         .subscribeOn(Schedulers.from(networkPool));
   }
@@ -174,17 +178,31 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
    * @return the {@link Runnable} to be executed in {@link com.semartinez.projects.choppit.viewmodel.MainViewModel}.
    */
   private Runnable jsoup(String url) {
+    Log.d("Choppit", "Repository jsoup Runnable");
     return () -> {
-      Document doc = null;
+      doc = null;
+      Log.d("Choppit", "above jsoup try block");
       try {
         doc = Jsoup.connect(url).get();
-      } catch (IOException e) {
-        e.printStackTrace();
+      } catch (Error | Exception e) {
+        Log.e("Choppit", "Repository jsoup method failure");
+        Log.e("Choppit", e.toString());
       }
+      assert doc != null: "null document";
       retriever.setDocument(doc);
-      assert doc != null;
+      prepper.setDocument(doc);
       recipeMeta = new String[]{url, doc.title()};
     };
+  }
+
+  public Single<File> generateHtml() {
+    File html = null;
+    try {
+      html = prepper.prepare(recipeMeta[0]);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return Single.just(html);
   }
 
   /**

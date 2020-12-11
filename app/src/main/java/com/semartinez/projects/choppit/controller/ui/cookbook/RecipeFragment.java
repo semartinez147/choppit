@@ -43,29 +43,6 @@ public class RecipeFragment extends Fragment {
 
   }
 
-  @SuppressWarnings("DuplicatedCode")
-  private void setupRecyclerView() {
-    RecyclerView ingredientRecyclerView = binding.recipeIngredientRecyclerView;
-    RecyclerView stepRecyclerView = binding.recipeStepRecyclerView;
-    LinearLayoutManager ingredientLayoutManager = new LinearLayoutManager(getContext());
-    LinearLayoutManager stepLayoutManager = new LinearLayoutManager(getContext());
-    IngredientRecyclerAdapter ingredientRecyclerAdapter = new IngredientRecyclerAdapter(
-        getContext(), recipe,
-        this);
-    StepRecyclerAdapter stepRecyclerAdapter = new StepRecyclerAdapter(getContext(), recipe, this);
-    ingredientRecyclerView.setLayoutManager(ingredientLayoutManager);
-    stepRecyclerView.setLayoutManager(stepLayoutManager);
-    ingredientRecyclerView.setAdapter(ingredientRecyclerAdapter);
-    stepRecyclerView.setAdapter(stepRecyclerAdapter);
-  }
-
-  @Override
-  public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-    super.onCreateOptionsMenu(menu, inflater);
-    inflater.inflate(R.menu.help_menu, menu);
-  }
-
-
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater,
@@ -84,8 +61,30 @@ public class RecipeFragment extends Fragment {
   }
 
   @Override
+  public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+    super.onCreateOptionsMenu(menu, inflater);
+    inflater.inflate(R.menu.help_menu, menu);
+  }
+
+  @Override
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     return super.onOptionsItemSelected(item);
+  }
+
+  @SuppressWarnings("DuplicatedCode")
+  private void setupRecyclerView() {
+    RecyclerView ingredientRecyclerView = binding.recipeIngredientRecyclerView;
+    RecyclerView stepRecyclerView = binding.recipeStepRecyclerView;
+    LinearLayoutManager ingredientLayoutManager = new LinearLayoutManager(getContext());
+    LinearLayoutManager stepLayoutManager = new LinearLayoutManager(getContext());
+    IngredientRecyclerAdapter ingredientRecyclerAdapter = new IngredientRecyclerAdapter(
+        getContext(), recipe,
+        this);
+    StepRecyclerAdapter stepRecyclerAdapter = new StepRecyclerAdapter(getContext(), recipe, this);
+    ingredientRecyclerView.setLayoutManager(ingredientLayoutManager);
+    stepRecyclerView.setLayoutManager(stepLayoutManager);
+    ingredientRecyclerView.setAdapter(ingredientRecyclerAdapter);
+    stepRecyclerView.setAdapter(stepRecyclerAdapter);
   }
 
   /**

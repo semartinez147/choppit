@@ -60,12 +60,12 @@ public class HomeFragment extends Fragment {
       urlInput.setText(
           "https://www.foodnetwork.com/recipes/alton-brown/baked-macaroni-and-cheese-recipe-1939524");
     }
-    if (view.isInEditMode()) {
-      urlInput.setText("You're in edit mode");
-    }
     newRecipe.setOnClickListener(v -> {
       url = urlInput.getText().toString().trim();
-      Navigation.findNavController(v).navigate(url.isEmpty() ? R.id.home_edit : R.id.home_sel);
+      HomeFragmentDirections.HomeLoad load = HomeFragmentDirections.homeLoad()
+          .setFrom("home")
+          .setUrl(urlInput.getText().toString().trim());
+      Navigation.findNavController(v).navigate(url.isEmpty() ? HomeFragmentDirections.homeEdit() : load);
 
     });
 
@@ -77,7 +77,4 @@ public class HomeFragment extends Fragment {
     outState.putString("url", urlInput.getText().toString());
   }
 
-  public String getUrl() {
-    return url;
-  }
 }
