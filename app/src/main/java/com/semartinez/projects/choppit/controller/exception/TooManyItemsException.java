@@ -1,6 +1,8 @@
 package com.semartinez.projects.choppit.controller.exception;
 
-public class TooManyItemsException extends RuntimeException{
+import java.io.IOException;
+
+public class TooManyItemsException extends RuntimeException {
 
   public TooManyItemsException() {
   }
