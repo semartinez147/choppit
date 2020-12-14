@@ -2,6 +2,8 @@ package com.semartinez.projects.choppit.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Node;
@@ -26,11 +28,21 @@ public class JsoupPrepper {
   }
 
   private void connect(String url) throws IOException {
-    document = Jsoup.connect(url).get();
+    try {
+      document = Jsoup.connect(url).get();
+    } catch (IOException e) {
+      if (e instanceof MalformedURLException) {
+        throw new MalformedURLException("Not a valid link");
+      } else if (e instanceof HttpStatusException) {
+        throw new IOException("There was a problem with the website");
+      } else {
+        throw new IOException("An error occurred.  Please try again.");
+      }
+    }
   }
 
   private void doWork() {
-    // TODO Debug this process
+    // TODO Debug this process - doing extra work
     allElements = document.getAllElements().filter(new NodeFilter() {
       @Override
       public FilterResult head(Node node, int i) {

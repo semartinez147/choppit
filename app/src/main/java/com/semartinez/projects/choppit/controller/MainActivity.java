@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
     if (sharedUrl != null) {
       viewModel.setSharedUrl(sharedUrl);
     }
+    viewModel.getThrowable().observe(this, throwable -> showToast(throwable.getMessage()));
     getLifecycle().addObserver(viewModel);
   }
 
