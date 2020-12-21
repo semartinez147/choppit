@@ -1,13 +1,12 @@
 package com.semartinez.projects.choppit.service;
 
 import android.util.Log;
-import com.semartinez.projects.choppit.controller.exception.TooManyItemsException;
-import com.semartinez.projects.choppit.controller.exception.ZeroItemsException;
+import com.semartinez.projects.choppit.controller.exception.TooManyMatchesException;
+import com.semartinez.projects.choppit.controller.exception.ZeroMatchesException;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
 import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
 import com.semartinez.projects.choppit.model.entity.Step;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +49,7 @@ public class JsoupRetriever {
    * @return A {@link List} of {@link Step} objects with embedded {@link Ingredient}s.
    */
   public Map<String, List<? extends RecipeComponent>> process(String ingredient, String instruction) throws RuntimeException{
-    //TODO Error handling: catch getClass errors for 0 or >1 result.
+    //TODO Error handling: throw and address getClass errors for 0 or >1 result.
 
 
     runIngredients i = new runIngredients(ingredient);
@@ -87,8 +86,8 @@ public class JsoupRetriever {
       String ingredientClass;
       try {
         ingredientClass = getKlass(ingredient);
-      } catch (ZeroItemsException e) {
-        throw new ZeroItemsException(e.getMessage() + "ingredient.");
+      } catch (RuntimeException e) {
+        throw (e instanceof ZeroMatchesException)? new ZeroMatchesException(e.getMessage() + "ingredient.") : e;
       }
       listRawIngredients = getClassContents(ingredientClass); // list all ingredients
       buildIngredients();
@@ -103,11 +102,11 @@ public class JsoupRetriever {
 
     @Override
     public void run() throws RuntimeException{
-      String instructionClass = null;
+      String instructionClass;
       try {
         instructionClass = getKlass(instruction);
-      } catch (ZeroItemsException e) {
-        throw new ZeroItemsException(e.getMessage() + "step.");
+      } catch (RuntimeException e) {
+        throw (e instanceof ZeroMatchesException)? new ZeroMatchesException(e.getMessage() + "step.") : e;
       }
       listInstructions = getClassContents(instructionClass); // list all ingredients
       buildSteps();
@@ -125,11 +124,12 @@ public class JsoupRetriever {
    */
   protected String getKlass(String text) throws RuntimeException {
     Elements e = document.select(String.format("*:containsOwn(%s)", text));
-    if (e.size() != 1) {
-      Log.e("Retriever failed:", "found " + e.size() + " matching classes");
-      throw (e.size() == 0? new ZeroItemsException("Found no extractable elements matching that ") : new TooManyItemsException("Found too many matches. Please paste more text."));
-    } else {
+    if (e.size() == 1) {
       return e.get(0).attr("class");
+    } else {
+      Log.e("Retriever failed:", "found " + e.size() + " matching classes");
+      throw (e.size() == 0)? new ZeroMatchesException() :
+          new TooManyMatchesException();
     }
   }
 
