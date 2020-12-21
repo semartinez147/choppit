@@ -21,24 +21,20 @@ public class JsoupPrepper {
 
   public File prepare(String url) throws IOException {
     if (document == null) {
-      connect(url);
-    }
-    doWork();
-    return getHtml();
-  }
-
-  private void connect(String url) throws IOException {
-    try {
-      document = Jsoup.connect(url).get();
-    } catch (IOException e) {
-      if (e instanceof MalformedURLException) {
-        throw new MalformedURLException("Not a valid link");
-      } else if (e instanceof HttpStatusException) {
-        throw new IOException("There was a problem with the website");
-      } else {
-        throw new IOException("An error occurred.  Please try again.");
+      try {
+        document = Jsoup.connect(url).get();
+      } catch (IOException e) {
+        if (e instanceof MalformedURLException) {
+          throw new MalformedURLException("Not a valid link");
+        } else if (e instanceof HttpStatusException) {
+          throw new IOException("There was a problem with the website.");
+        } else {
+          throw new IOException("An unknown error occurred.  Please try again.");
+        }
       }
     }
+    doWork();
+    return new File(allElements.first().html());
   }
 
   private void doWork() {
@@ -70,9 +66,6 @@ public class JsoupPrepper {
       }
     });
 
-  }
-  private File getHtml() {
-    return new File(allElements.first().html());
   }
 
   public Document getDocument() {

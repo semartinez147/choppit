@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.MainActivity;
+import com.semartinez.projects.choppit.controller.ui.editing.LoadingFragmentDirections.LoadSel;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 
@@ -25,6 +26,7 @@ public class LoadingFragment extends Fragment {
   private static String instruction;
   private TextView status;
   private boolean fromHome;
+  private LoadSel select;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +63,8 @@ public class LoadingFragment extends Fragment {
 
   private void observe() {
     viewModel.getStatus().observe(getViewLifecycleOwner(), statusObserver);
+    viewModel.getRecipe().observe(getViewLifecycleOwner(), recipeObserver);
+    viewModel.getThrowable().observe(getViewLifecycleOwner(), throwableObserver);
   }
 
   final Observer<String> statusObserver = new Observer<String>() {
@@ -79,7 +83,7 @@ public class LoadingFragment extends Fragment {
           status.setText(R.string.separating);
           viewModel.generateHtml();
           viewModel.getHtml().observe(getViewLifecycleOwner(), h -> {
-            LoadingFragmentDirections.LoadSel select = LoadingFragmentDirections.loadSel()
+            select = LoadingFragmentDirections.loadSel()
                 .setHtml(String.valueOf(h));
             Navigation.findNavController(getView()).navigate(select);
           });
@@ -93,7 +97,6 @@ public class LoadingFragment extends Fragment {
           viewModel.postRecipe();
           break;
         case "finished":
-          viewModel.getRecipe().observe(getViewLifecycleOwner(), recipeObserver);
           status.setText(R.string.finished);
       }
     }
@@ -106,6 +109,10 @@ public class LoadingFragment extends Fragment {
     if (recipe != null && getView() != null) {
       Navigation.findNavController(getView()).navigate(LoadingFragmentDirections.loadEdit());
     }
+  };
+
+  final Observer<Throwable> throwableObserver = throwable -> {
+    Navigation.findNavController(getView()).navigate(select);
   };
 
 }

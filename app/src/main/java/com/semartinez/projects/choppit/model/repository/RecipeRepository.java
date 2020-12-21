@@ -165,7 +165,7 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
    */
   public Completable connect(String url) {
     Log.d("Choppit", " Repository connect method");
-    return Completable.fromRunnable(jsoup(url))
+    return Completable.fromRunnable(jsoup(url)) // TODO replace with lambda
         .subscribeOn(Schedulers.from(networkPool));
   }
 
@@ -196,11 +196,12 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
   }
 
   public Single<File> generateHtml() {
-    File html = null;
+    File html;
     try {
       html = prepper.prepare(recipeMeta[0]);
     } catch (IOException e) {
-      e.printStackTrace();
+      return Single.error(e);
+//      throw new RuntimeException(e.getMessage());
     }
     return Single.just(html);
   }

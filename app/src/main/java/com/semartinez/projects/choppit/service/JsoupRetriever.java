@@ -81,8 +81,7 @@ public class JsoupRetriever {
 
     @Override
     public void run() throws RuntimeException {
-      String ingredientClass;
-      ingredientClass = getKlass(ingredient, "ingredient");
+      String ingredientClass = getKlass(ingredient, "ingredient");
       listRawIngredients = getClassContents(ingredientClass); // list all ingredients
       buildIngredients();
     }
@@ -96,8 +95,7 @@ public class JsoupRetriever {
 
     @Override
     public void run() throws RuntimeException{
-      String instructionClass;
-      instructionClass = getKlass(instruction, "step");
+      String instructionClass = getKlass(instruction, "step");
       listInstructions = getClassContents(instructionClass); // list all ingredients
       buildSteps();
     }
