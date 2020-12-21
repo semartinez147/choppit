@@ -42,10 +42,10 @@ public class Recipe extends BaseObservable {
   private boolean favorite;
 
   @Ignore
-  private List<Step> steps = new LinkedList<>();
+  private List<Step> steps = new ArrayList<>();
 
   @Ignore
-  private List<Ingredient> ingredients = new LinkedList<>();
+  private List<Ingredient> ingredients = new ArrayList<>();
 
   /**
    * Recipe is the top-level {@link Entity} in the database.  It gets a non-editable {@link #url} if
@@ -135,7 +135,7 @@ public class Recipe extends BaseObservable {
 
   public void setStep(Step step) {
     if (this.steps == null) {
-      this.steps = new LinkedList<>();
+      this.steps = new ArrayList<>();
     }
     this.steps.add(step);
   }
@@ -158,7 +158,7 @@ public class Recipe extends BaseObservable {
 
   public void setIngredient(Ingredient ingredient) {
     if (this.ingredients == null) {
-      this.ingredients = new LinkedList<>();
+      this.ingredients = new ArrayList<>();
     }
     this.ingredients.add(ingredient);
   }
