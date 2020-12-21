@@ -93,8 +93,8 @@ public class LoadingFragment extends Fragment {
           viewModel.postRecipe();
           break;
         case "finished":
-          status.setText(R.string.finished);
           viewModel.getRecipe().observe(getViewLifecycleOwner(), recipeObserver);
+          status.setText(R.string.finished);
       }
     }
   };

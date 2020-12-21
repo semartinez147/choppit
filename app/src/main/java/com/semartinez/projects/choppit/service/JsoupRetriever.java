@@ -1,8 +1,7 @@
 package com.semartinez.projects.choppit.service;
 
 import android.util.Log;
-import com.semartinez.projects.choppit.controller.exception.TooManyMatchesException;
-import com.semartinez.projects.choppit.controller.exception.ZeroMatchesException;
+import com.semartinez.projects.choppit.controller.exception.*;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
 import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
@@ -25,8 +24,6 @@ public class JsoupRetriever {
   private List<String> listInstructions = new ArrayList<>();
   private final List<Step> steps = new ArrayList<>();
   private final List<Ingredient> ingredients = new ArrayList<>();
-  private String ingredient;
-  private String instruction;
 
   JsoupRetriever() {
   }
@@ -36,7 +33,7 @@ public class JsoupRetriever {
   }
 
   /**
-   * This method coordinates the processing work by calling {@link #getKlass(String)}, followed by
+   * This method coordinates the processing work by calling {@link #getKlass(String, String)}, followed by
    * {@link #getClassContents(String)} and {@link #buildIngredients()} / {@link #buildSteps()} then
    * matching {@link Ingredient}s to {@link Step}s.
    *
@@ -60,6 +57,7 @@ public class JsoupRetriever {
 
     iThread.start();
     sThread.start();
+
     try {
       iThread.join();
       sThread.join();
@@ -84,11 +82,7 @@ public class JsoupRetriever {
     @Override
     public void run() throws RuntimeException {
       String ingredientClass;
-      try {
-        ingredientClass = getKlass(ingredient);
-      } catch (RuntimeException e) {
-        throw (e instanceof ZeroMatchesException)? new ZeroMatchesException(e.getMessage() + "ingredient.") : e;
-      }
+      ingredientClass = getKlass(ingredient, "ingredient");
       listRawIngredients = getClassContents(ingredientClass); // list all ingredients
       buildIngredients();
     }
@@ -103,11 +97,7 @@ public class JsoupRetriever {
     @Override
     public void run() throws RuntimeException{
       String instructionClass;
-      try {
-        instructionClass = getKlass(instruction);
-      } catch (RuntimeException e) {
-        throw (e instanceof ZeroMatchesException)? new ZeroMatchesException(e.getMessage() + "step.") : e;
-      }
+      instructionClass = getKlass(instruction, "step");
       listInstructions = getClassContents(instructionClass); // list all ingredients
       buildSteps();
     }
@@ -122,14 +112,14 @@ public class JsoupRetriever {
    * @param text is either the ingredient or instruction text input by the user
    * @return the HTML "class" attribute enclosing the input {@link String}.
    */
-  protected String getKlass(String text) throws RuntimeException {
+  protected String getKlass(String text, String type) throws RuntimeException {
     Elements e = document.select(String.format("*:containsOwn(%s)", text));
     if (e.size() == 1) {
       return e.get(0).attr("class");
     } else {
       Log.e("Retriever failed:", "found " + e.size() + " matching classes");
-      throw (e.size() == 0)? new ZeroMatchesException() :
-          new TooManyMatchesException();
+      throw (e.size() == 0)? new ZeroMatchesException(type) :
+          new TooManyMatchesException(type);
     }
   }
 
@@ -137,7 +127,7 @@ public class JsoupRetriever {
    * this method takes an HTML "class" attribute and compiles as {@link org.jsoup.nodes.Element}s
    * the contents of each matching HTML element.  Runs once on each text parameter.
    *
-   * @param klass the values returned by {@link #getKlass(String)}
+   * @param klass the values returned by {@link #getKlass(String, String)}
    * @return the contents of each HTML element matching the provided "class" attribute as a {@link
    * String}.
    */

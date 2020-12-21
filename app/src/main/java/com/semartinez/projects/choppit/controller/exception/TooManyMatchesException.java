@@ -6,7 +6,7 @@ public class TooManyMatchesException extends RuntimeException {
     super("Found too many matches. Please paste more text.");
   }
 
-  public TooManyMatchesException(String message) {
-    super(message);
+  public TooManyMatchesException(String s) {
+    super("Found too many matches for that " + s + ". Please paste more text.");
   }
 }
