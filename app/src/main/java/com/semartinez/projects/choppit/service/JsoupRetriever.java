@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.jsoup.nodes.Document;
@@ -17,7 +18,7 @@ import org.jsoup.select.Elements;
 
 public class JsoupRetriever {
 
-  // TODO add any new measurement enum values to the parentheses here.
+  // TODO add any new measurement enum values to the parentheses here.  Extract String to resource.
   public static final String MAGIC_INGREDIENT_REGEX = "^([\\d\\W]*)\\s(tsp|teaspoon|tbsp|tablespoon|oz|ounce|c|cup|lb|pound*)*s??\\b(.*)";
   private Document document;
   private List<String> listRawIngredients = new ArrayList<>();
@@ -46,8 +47,7 @@ public class JsoupRetriever {
    * @return A {@link List} of {@link Step} objects with embedded {@link Ingredient}s.
    */
   public Map<String, List<? extends RecipeComponent>> process(String ingredient, String instruction) throws RuntimeException{
-    //TODO Error handling: throw and address getClass errors for 0 or >1 result.
-
+    //TODO Error handling: test getClass errors for 0 or >1 result.
 
     runIngredients i = new runIngredients(ingredient);
     runSteps s = new runSteps(instruction);
@@ -151,14 +151,13 @@ public class JsoupRetriever {
       Ingredient ingredient = new Ingredient();
       if (matcher.find()) {
         // group 1 = measurement | group 2 = unit | group 3 = name
-        ingredient.setQuantity(matcher.group(1));
+        ingredient.setQuantity(Objects.requireNonNull(matcher.group(1)));
         ingredient.setUnit(Unit.toUnit(matcher.group(2)));
         if (matcher.group(2) == null) {
           ingredient.setUnit(Unit.toUnit("other"));
           ingredient.setUnitAlt("");
         }
-        //noinspection ConstantConditions
-        ingredient.setName(matcher.group(3).trim());
+        ingredient.setName(Objects.requireNonNull(matcher.group(3)).trim());
       } else {
         ingredient.setQuantity("1");
         ingredient.setUnit(Unit.toUnit("other"));

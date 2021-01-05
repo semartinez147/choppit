@@ -1,7 +1,6 @@
 package com.semartinez.projects.choppit.model.entity;
 
-import androidx.databinding.InverseBindingMethod;
-import androidx.databinding.InverseMethod;
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -9,7 +8,6 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
-import androidx.annotation.NonNull;
 import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
 import java.util.Objects;
 
@@ -95,9 +93,8 @@ public class Ingredient implements RecipeComponent {
   }
 
   public void setQuantity(String quantity) {
-    for (int i = 0; i < quantity.length(); i++) {
-      // TODO: Remove anything that isn't a number, space or "/"
-    }
+    // TODO: Remove anything that isn't a number, space or "/"
+
     this.quantity = quantity;
   }
 
