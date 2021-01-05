@@ -178,15 +178,14 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
    * @return the {@link Runnable} to be executed in {@link com.semartinez.projects.choppit.viewmodel.MainViewModel}.
    */
   private Runnable jsoup(String url) {
-    Log.d("Choppit", "Repository jsoup Runnable");
     return () -> {
       doc = null;
-      Log.d("Choppit", "above jsoup try block");
       try {
         doc = Jsoup.connect(url).get();
       } catch (Error | Exception e) {
         Log.e("Choppit", "Repository jsoup method failure");
         Log.e("Choppit", e.toString());
+        throw new RuntimeException("Please check your internet connection and try again.");
       }
       assert doc != null: "null document";
       retriever.setDocument(doc);

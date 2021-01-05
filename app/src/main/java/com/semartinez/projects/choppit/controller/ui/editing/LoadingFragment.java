@@ -97,7 +97,7 @@ public class LoadingFragment extends Fragment {
           viewModel.postRecipe();
           break;
         case "finished":
-          status.setText(R.string.finished);
+//          status.setText(R.string.finished);
       }
     }
   };
@@ -112,7 +112,9 @@ public class LoadingFragment extends Fragment {
   };
 
   final Observer<Throwable> throwableObserver = throwable -> {
-    Navigation.findNavController(getView()).navigate(select);
+    if (throwable != null) {
+      Navigation.findNavController(getView()).navigateUp();
+    }
   };
 
 }

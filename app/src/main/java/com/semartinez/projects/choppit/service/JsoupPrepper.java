@@ -34,7 +34,7 @@ public class JsoupPrepper {
       }
     }
     doWork();
-    return new File(allElements.first().html());
+    return new File(allElements.first().wholeText());
   }
 
   private void doWork() {

@@ -2,6 +2,7 @@ package com.semartinez.projects.choppit.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -111,7 +112,13 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
     if (sharedUrl != null) {
       viewModel.setSharedUrl(sharedUrl);
     }
-    viewModel.getThrowable().observe(this, throwable -> showToast(throwable.getMessage()));
+    viewModel.getThrowable().observe(this, throwable -> {
+      if (throwable != null) {
+        showToast(throwable.getMessage());
+        Log.d("MainActivityThrowable: ", throwable.toString());
+        throwable.printStackTrace();
+      }
+    });
     getLifecycle().addObserver(viewModel);
   }
 

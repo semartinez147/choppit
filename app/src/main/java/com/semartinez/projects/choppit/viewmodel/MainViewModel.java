@@ -17,8 +17,8 @@ import com.semartinez.projects.choppit.model.repository.RecipeRepository;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -140,13 +140,13 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   }
 
   public void finish(Map<String, List<? extends RecipeComponent>> data) {
-    List<Ingredient> ingredientData = new LinkedList<>();
+    List<Ingredient> ingredientData = new ArrayList<>();
     for (RecipeComponent recipeComponent : data.get("ingredients")) {
       ingredientData.add((Ingredient) recipeComponent);
     }
     ingredients.setValue(ingredientData);
 
-    List<Step> stepData = new LinkedList<>();
+    List<Step> stepData = new ArrayList<>();
     for (RecipeComponent recipeComponent : data.get("steps")) {
       stepData.add((Step) recipeComponent);
     }

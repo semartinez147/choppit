@@ -64,7 +64,9 @@ public class EditingFragment extends Fragment {
       @Nullable Bundle savedInstanceState) {
     if (getArguments() != null) {
       EditingFragmentArgs args = EditingFragmentArgs.fromBundle(getArguments());
-      viewModel.loadRecipe(args.getRecipeId());
+      if (args.getRecipeId() != 0L) {
+        viewModel.loadRecipe(args.getRecipeId());
+      }
     }
     viewModel.getRecipe().observe(getViewLifecycleOwner(), recipeObserver);
 
