@@ -13,9 +13,7 @@ public class ChoppitApplication extends Application {
     Stetho.initializeWithDefaults(this);
     RecipeRepository.setContext(this);
     ChoppitDatabase.setContext(this);
-
     ChoppitDatabase.getInstance().getRecipeDao().delete();
-
   }
 
 

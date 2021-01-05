@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -76,12 +75,12 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
   public Single<Recipe> saveNew(Recipe recipe) {
     return database.getRecipeDao().insert(recipe)
         .subscribeOn(Schedulers.io())
-        .map((id) -> {
+        .map(id -> {
           recipe.setRecipeId(id);
           for (Step step : recipe.getSteps()) {
             step.setRecipeId(recipe.getRecipeId());
             database.getStepDao().insert(step)
-                .map((stepId) -> {
+                .map(stepId -> {
                   step.setStepId(stepId);
                 return step;
                 })
@@ -91,7 +90,7 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
           for (Ingredient ingredient : recipe.getIngredients()) {
             ingredient.setRecipeId(recipe.getRecipeId());
             database.getIngredientDao().insert(ingredient)
-                .map((ingredientId) -> {
+                .map(ingredientId -> {
                   ingredient.setId(ingredientId);
                   return ingredient;
                 })
@@ -182,9 +181,8 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
       doc = null;
       try {
         doc = Jsoup.connect(url).get();
-      } catch (Error | Exception e) {
-        Log.e("Choppit", "Repository jsoup method failure");
-        Log.e("Choppit", e.toString());
+      } catch (Exception | Error e) {
+        Log.e("Choppit", e.toString() + " in Repository jsoup Runnable");
         throw new RuntimeException("Please check your internet connection and try again.");
       }
       assert doc != null: "null document";
@@ -200,7 +198,6 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
       html = prepper.prepare(recipeMeta[0]);
     } catch (IOException e) {
       return Single.error(e);
-//      throw new RuntimeException(e.getMessage());
     }
     return Single.just(html);
   }
@@ -215,6 +212,7 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
    * @param instruction input by the user on the {@link SelectionFragment}
    * @return a list of {@link Step} objects with attached {@link Ingredient}s.
    */
+  // TODO: replace String with instanceof test
   public Single<Map<String, List<? extends RecipeComponent>>> process(String ingredient, String instruction) {
     Map<String, List<? extends RecipeComponent>> data = retriever.process(ingredient, instruction);
     return Single.just(data);

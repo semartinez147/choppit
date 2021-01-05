@@ -13,17 +13,15 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import com.semartinez.projects.choppit.R;
-import com.semartinez.projects.choppit.controller.MainActivity;
 import com.semartinez.projects.choppit.controller.ui.editing.LoadingFragmentDirections.LoadSel;
-import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 
-public class LoadingFragment extends Fragment {
+public class LoadingFragment extends Fragment implements Observer<String> {
 
   private MainViewModel viewModel;
-  private static String url;
-  private static String ingredient;
-  private static String instruction;
+  private String url;
+  private String ingredient;
+  private String instruction;
   private TextView status;
   private boolean fromHome;
   private LoadSel select;
@@ -31,21 +29,21 @@ public class LoadingFragment extends Fragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    assert getArguments() != null;
-    url = LoadingFragmentArgs.fromBundle(getArguments()).getUrl();
-    ingredient = LoadingFragmentArgs.fromBundle(getArguments()).getIngredient();
-    instruction = LoadingFragmentArgs.fromBundle(getArguments()).getInstruction();
-    fromHome = LoadingFragmentArgs.fromBundle(getArguments()).getFrom().equals("home");
+    LoadingFragmentArgs args = LoadingFragmentArgs.fromBundle(requireArguments());
+    url = args.getUrl();
+    ingredient = args.getIngredient();
+    instruction = args.getInstruction();
+    fromHome = args.getFrom().equals("home");
   }
 
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    Log.d("LoadingFrag", "onCreateView - " + url + " " + ingredient + " " + instruction);
+    Log.d(getClass().getName(), "onCreateView - " + url + " " + ingredient + " " + instruction);
     View root = inflater.inflate(R.layout.fragment_loading, container, false);
     status = root.findViewById(R.id.status);
-    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
+    viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
     return root;
   }
 
@@ -62,59 +60,50 @@ public class LoadingFragment extends Fragment {
   }
 
   private void observe() {
-    viewModel.getStatus().observe(getViewLifecycleOwner(), statusObserver);
-    viewModel.getRecipe().observe(getViewLifecycleOwner(), recipeObserver);
-    viewModel.getThrowable().observe(getViewLifecycleOwner(), throwableObserver);
+    viewModel.getStatus().observe(getViewLifecycleOwner(), this);
+    viewModel.getRecipe().observe(getViewLifecycleOwner(), recipe -> {
+      if (recipe != null) {
+        Navigation.findNavController(requireView())
+            .navigate(LoadingFragmentDirections.loadEdit());
+      }
+    });
+    viewModel.getThrowable().observe(getViewLifecycleOwner(), throwable -> {
+      if (throwable != null) {
+        Navigation.findNavController(requireView()).navigateUp();
+      }
+    });
   }
 
-  final Observer<String> statusObserver = new Observer<String>() {
-    @Override
-    public void onChanged(String s) {
-      switch (s) {
-        case "":
-          status.setText(R.string.warming_up);
-          break;
-        case "connecting":
-          Log.d("LoadingFrag", "connecting");
-          status.setText(R.string.connecting);
-          observe();
-          break;
-        case "connected":
-          status.setText(R.string.separating);
-          viewModel.generateHtml();
-          viewModel.getHtml().observe(getViewLifecycleOwner(), h -> {
-            select = LoadingFragmentDirections.loadSel()
-                .setHtml(String.valueOf(h));
-            Navigation.findNavController(getView()).navigate(select);
-          });
-          break;
-        case "processing":
-          status.setText(R.string.processing);
-          Log.d("LoadingFrag", "processing");
-          break;
-        case "finishing":
-          status.setText(R.string.finishing);
-          viewModel.postRecipe();
-          break;
-        case "finished":
-//          status.setText(R.string.finished);
-      }
+  @Override
+  public void onChanged(String s) {
+    switch (s) {
+      case "connecting":
+        Log.d("LoadingFrag", "connecting");
+        status.setText(R.string.connecting);
+        observe();
+        break;
+      case "connected":
+        status.setText(R.string.separating);
+        viewModel.generateHtml();
+        viewModel.getHtml().observe(getViewLifecycleOwner(), h -> {
+          select = LoadingFragmentDirections.loadSel()
+              .setHtml(String.valueOf(h));
+          Navigation.findNavController(requireView()).navigate(select);
+        });
+        break;
+      case "processing":
+        status.setText(R.string.processing);
+        Log.d("LoadingFrag", "processing");
+        break;
+      case "finishing":
+        status.setText(R.string.finishing);
+        viewModel.postRecipe();
+        break;
+      case "finished":
+//          status.setText(R.string.finished); TODO: check switch logic.
+      default:
+        status.setText(R.string.warming_up);
+        break;
     }
-  };
-
-  /**
-   * Navigates forward when processing is complete.
-   */
-  final Observer<Recipe> recipeObserver = recipe -> {
-    if (recipe != null && getView() != null) {
-      Navigation.findNavController(getView()).navigate(LoadingFragmentDirections.loadEdit());
-    }
-  };
-
-  final Observer<Throwable> throwableObserver = throwable -> {
-    if (throwable != null) {
-      Navigation.findNavController(getView()).navigateUp();
-    }
-  };
-
+  }
 }

@@ -8,7 +8,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,9 +18,8 @@ import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.ui.editing.EditingFragment;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
-import org.jetbrains.annotations.NotNull;
 
-public class SaveDialog extends DialogFragment {
+public class SaveDialog extends DialogFragment implements OnClickListener{
 
   private View dialogView;
   private final Recipe recipe;
@@ -44,9 +42,9 @@ public class SaveDialog extends DialogFragment {
         .setIcon(R.drawable.ic_save)
         .setTitle("Save " + recipe.getTitle() + "?")
         .setView(dialogView)
-        .setNegativeButton("SAVE NEW", listener)
-        .setNeutralButton("CANCEL", listener)
-        .setPositiveButton("OVERWRITE", listener)
+        .setNegativeButton("SAVE NEW", this)
+        .setNeutralButton("CANCEL", this)
+        .setPositiveButton("OVERWRITE", this)
         .create();
   }
 
@@ -59,21 +57,20 @@ public class SaveDialog extends DialogFragment {
     return dialogView;
   }
 
-  @Override
-  public void onDismiss(@NonNull @NotNull DialogInterface dialog) {
-    super.onDismiss(dialog);
-//          ((EditingFragment)getParentFragment()).navAfterSave(view);
-
+  private void errorToast() {
+    Toast toast = Toast.makeText(getContext(), "Can't save a new recipe with the same title.", Toast.LENGTH_LONG);
+    toast.setGravity(Gravity.BOTTOM, 0,
+        getResources().getDimensionPixelOffset(R.dimen.toast_vertical_margin));
+    toast.show();
   }
 
-OnClickListener listener = new OnClickListener() {
   @Override
   public void onClick(DialogInterface dialog, int which) {
     switch (which) {
       case -1: { //overwrite
         recipe.setTitle(title.getText().toString());
         viewModel.updateRecipe(recipe);
-        ((EditingFragment)getParentFragment()).navAfterSave(view);
+        ((EditingFragment)requireParentFragment()).navAfterSave(view);
         break;
       }
       case -2: { //save new
@@ -83,20 +80,14 @@ OnClickListener listener = new OnClickListener() {
           recipe.setRecipeId(0);
           viewModel.saveRecipe(recipe);
         }
-        ((EditingFragment)getParentFragment()).navAfterSave(view);
+        ((EditingFragment)requireParentFragment()).navAfterSave(view);
         break;
       }
-      case -3: { // cancel - do nothing
+      case -3:
+      default: { // cancel - do nothing
       }
     }
     dismiss();
-  }
-};
 
-  private void errorToast() {
-    Toast toast = Toast.makeText(getContext(), "Can't save a new recipe with the same title.", Toast.LENGTH_LONG);
-    toast.setGravity(Gravity.BOTTOM, 0,
-        getResources().getDimensionPixelOffset(R.dimen.toast_vertical_margin));
-    toast.show();
   }
 }

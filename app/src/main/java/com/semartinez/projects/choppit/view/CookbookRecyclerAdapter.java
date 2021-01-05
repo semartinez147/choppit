@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
@@ -27,7 +26,7 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
    * Handles Data Binding input from the database and displays a list of {@link Recipe}s
    *  @param context the {@link Context} where the adapter operates.
    * @param recipes the list of {@link Recipe}s to be displayed
-   * @param cookbookFragment
+   * @param cookbookFragment the active Fragment
    */
   public CookbookRecyclerAdapter(Context context, List<Recipe> recipes,
       CookbookFragment cookbookFragment) {
@@ -83,13 +82,10 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
       binding.recipeFavorite.setOnClickListener(this);
       binding.edit.setOnClickListener(this);
 
-      binding.recipeTitle.setOnLongClickListener(new OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-          v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-          binding.getUiController().deleteRecipe(binding.getRecipe());
-          return false;
-        }
+      binding.recipeTitle.setOnLongClickListener(v -> {
+        v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+        binding.getUiController().deleteRecipe(binding.getRecipe());
+        return false;
       });
     }
 
@@ -121,6 +117,8 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
           CookbookFragmentDirections.CookEdit toEdit = CookbookFragmentDirections.cookEdit();
           toEdit.setRecipeId(binding.getRecipe().getRecipeId());
           Navigation.findNavController(v).navigate(toEdit);
+          break;
+        default:
           break;
       }
     }

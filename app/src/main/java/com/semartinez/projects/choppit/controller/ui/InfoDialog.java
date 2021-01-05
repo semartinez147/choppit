@@ -64,6 +64,7 @@ public class InfoDialog extends DialogFragment {
       break;
       case R.id.navigation_loading:
         info.setText(R.string.loading_info);
+        break;
       case R.id.navigation_editing:
       info.setText(R.string.editing_info);
       break;
@@ -72,6 +73,7 @@ public class InfoDialog extends DialogFragment {
       break;
       case R.id.navigation_recipe:
         info.setText(R.string.recipe_info);
+        break;
       default:
       info.setText(R.string.default_info);
       break;

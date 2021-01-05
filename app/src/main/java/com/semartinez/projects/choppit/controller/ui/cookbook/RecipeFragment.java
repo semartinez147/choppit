@@ -7,14 +7,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,10 +45,15 @@ public class RecipeFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
-    assert getArguments() != null;
-    RecipeFragmentArgs args = RecipeFragmentArgs.fromBundle(getArguments());
+    RecipeFragmentArgs args = RecipeFragmentArgs.fromBundle(requireArguments());
     viewModel.loadRecipe(args.getRecipeId());
-    viewModel.getRecipe().observe(getViewLifecycleOwner(), recipeObserver);
+    viewModel.getRecipe().observe(getViewLifecycleOwner(), result -> {
+      if (result != null) {
+        recipe = viewModel.getRecipe().getValue();
+        setupRecyclerView();
+        binding.setRecipe(recipe);
+      }
+    });
 
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipe, container, false);
     binding.setLifecycleOwner(this);
@@ -64,11 +67,6 @@ public class RecipeFragment extends Fragment {
   public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
     super.onCreateOptionsMenu(menu, inflater);
     inflater.inflate(R.menu.help_menu, menu);
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-    return super.onOptionsItemSelected(item);
   }
 
   @SuppressWarnings("DuplicatedCode")
@@ -86,22 +84,6 @@ public class RecipeFragment extends Fragment {
     ingredientRecyclerView.setAdapter(ingredientRecyclerAdapter);
     stepRecyclerView.setAdapter(stepRecyclerAdapter);
   }
-
-  /**
-   * This observer checks the {@link MainViewModel} for an updated recipe and sets its contents to
-   * the field {@link RecipeFragment#recipe}.
-   */
-  final Observer<Recipe> recipeObserver = new Observer<Recipe>() {
-
-    @Override
-    public void onChanged(final Recipe result) {
-      if (result != null) {
-        recipe = viewModel.getRecipe().getValue();
-        setupRecyclerView();
-        binding.setRecipe(recipe);
-      }
-    }
-  };
 
 
 }

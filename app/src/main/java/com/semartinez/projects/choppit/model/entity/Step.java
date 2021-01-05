@@ -1,14 +1,13 @@
 package com.semartinez.projects.choppit.model.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-import androidx.annotation.NonNull;
 import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
-import java.util.LinkedList;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 

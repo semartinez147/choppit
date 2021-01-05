@@ -25,7 +25,7 @@ import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 public class HomeFragment extends Fragment {
 
   private EditText urlInput;
-  static String url = "";
+  private String url = "";
   private Button newRecipe;
   private Button myCookbook;
 
@@ -37,7 +37,7 @@ public class HomeFragment extends Fragment {
 
   }
 
-
+  @Override
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_home, container, false);
@@ -65,7 +65,8 @@ public class HomeFragment extends Fragment {
       HomeFragmentDirections.HomeLoad load = HomeFragmentDirections.homeLoad()
           .setFrom("home")
           .setUrl(urlInput.getText().toString().trim());
-      Navigation.findNavController(v).navigate(url.isEmpty() ? HomeFragmentDirections.homeEdit() : load);
+      Navigation.findNavController(v)
+          .navigate(url.isEmpty() ? HomeFragmentDirections.homeEdit() : load);
 
     });
 

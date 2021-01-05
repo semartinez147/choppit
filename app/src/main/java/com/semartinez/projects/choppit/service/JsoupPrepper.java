@@ -12,6 +12,7 @@ import org.jsoup.select.Elements;
 import org.jsoup.select.NodeFilter;
 
 public class JsoupPrepper {
+
   private Document document;
   private Elements allElements;
 
@@ -23,14 +24,12 @@ public class JsoupPrepper {
     if (document == null) {
       try {
         document = Jsoup.connect(url).get();
+      } catch (MalformedURLException e) {
+        throw new MalformedURLException("Not a valid link");
+      } catch (HttpStatusException e) {
+        throw new IOException("There was a problem with the website.");
       } catch (IOException e) {
-        if (e instanceof MalformedURLException) {
-          throw new MalformedURLException("Not a valid link");
-        } else if (e instanceof HttpStatusException) {
-          throw new IOException("There was a problem with the website.");
-        } else {
-          throw new IOException("An unknown error occurred.  Please try again.");
-        }
+        throw new IOException("An unknown error occurred.  Please try again.");
       }
     }
     doWork();
@@ -56,6 +55,7 @@ public class JsoupPrepper {
         }
         return FilterResult.CONTINUE;
       }
+
       @Override
       public FilterResult tail(Node node, int i) {
         if (!(node instanceof TextNode) && node.childNodes().isEmpty()) {
@@ -79,7 +79,9 @@ public class JsoupPrepper {
   public static JsoupPrepper getInstance() {
     return InstanceHolder.INSTANCE;
   }
+
   private static class InstanceHolder {
+
     private static final JsoupPrepper INSTANCE = new JsoupPrepper();
   }
 }

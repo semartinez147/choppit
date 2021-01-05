@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,15 +28,14 @@ public class CookbookFragment extends Fragment {
   CookbookRecyclerAdapter cookbookRecyclerAdapter;
   private MainViewModel viewModel;
   private final List<Recipe> recipes = new ArrayList<>();
-  public FragmentCookbookBinding binding;
+  private FragmentCookbookBinding binding;
 
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
     binding = FragmentCookbookBinding.inflate(inflater);
-    assert getActivity() != null;
-    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
+    viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
     binding.setBindViewModel(viewModel);
     binding.setUiController(this);
     return binding.getRoot();
@@ -47,7 +45,14 @@ public class CookbookFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    viewModel.getAllRecipes().observe(getViewLifecycleOwner(), cookbookObserver);
+    viewModel.getAllRecipes().observe(getViewLifecycleOwner(), result -> {
+      if (result != null) {
+        recipes.clear();
+        recipes.addAll(result);
+        setupRecyclerView();
+        cookbookRecyclerAdapter.notifyDataSetChanged();
+      }
+    });
 
   }
 
@@ -60,23 +65,7 @@ public class CookbookFragment extends Fragment {
   }
 
   public void deleteRecipe(Recipe recipe) {
-    new DeleteDialog(recipe, viewModel).show(getActivity().getSupportFragmentManager(), recipe.getTitle()+" delete");
+    new DeleteDialog(recipe, viewModel).show(requireActivity().getSupportFragmentManager(), recipe.getTitle()+" delete");
   }
-
-  /**
-   * This observer resets the dataset if there is a change to the list of {@link Recipe}s.
-   */
-  final Observer<List<Recipe>> cookbookObserver = new Observer<List<Recipe>>() {
-
-    @Override
-    public void onChanged(final List<Recipe> result) {
-      if (result != null) {
-        recipes.clear();
-        recipes.addAll(result);
-        setupRecyclerView();
-        cookbookRecyclerAdapter.notifyDataSetChanged();
-      }
-    }
-  };
 
 }

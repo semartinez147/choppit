@@ -15,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,14 +22,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.ui.SaveDialog;
 import com.semartinez.projects.choppit.databinding.FragmentEditingBinding;
-import com.semartinez.projects.choppit.model.entity.Ingredient;
-import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
 import com.semartinez.projects.choppit.model.entity.Recipe;
-import com.semartinez.projects.choppit.model.entity.Step;
 import com.semartinez.projects.choppit.view.IngredientRecyclerAdapter;
 import com.semartinez.projects.choppit.view.StepRecyclerAdapter;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
-import java.util.Arrays;
 
 public class EditingFragment extends Fragment {
 
@@ -39,9 +34,6 @@ public class EditingFragment extends Fragment {
   private Recipe recipe;
   private IngredientRecyclerAdapter ingredientRecyclerAdapter;
   private StepRecyclerAdapter stepRecyclerAdapter;
-
-  public EditingFragment() {
-  }
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,13 +54,20 @@ public class EditingFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    if (getArguments() != null) {
-      EditingFragmentArgs args = EditingFragmentArgs.fromBundle(getArguments());
-      if (args.getRecipeId() != 0L) {
-        viewModel.loadRecipe(args.getRecipeId());
-      }
+
+    EditingFragmentArgs args = EditingFragmentArgs.fromBundle(requireArguments());
+    if (args.getRecipeId() != 0L) {
+      viewModel.loadRecipe(args.getRecipeId());
     }
-    viewModel.getRecipe().observe(getViewLifecycleOwner(), recipeObserver);
+    viewModel.getRecipe().observe(getViewLifecycleOwner(), result -> {
+      if (result != null) {
+        recipe = viewModel.getRecipe().getValue();
+      } else {
+        recipe = Recipe.getEmptyRecipe();
+      }
+      setupRecyclerView();
+      binding.setRecipe(recipe);
+    });
 
     binding = DataBindingUtil.inflate(inflater, R.layout.fragment_editing, container, false);
     binding.setLifecycleOwner(this);
@@ -108,24 +107,6 @@ public class EditingFragment extends Fragment {
     Navigation.findNavController(v).navigate(R.id.edit_cook);
   }
 
-
-  /**
-   * This observer checks the {@link MainViewModel} for an updated recipe and sets its contents to
-   * the field {@link EditingFragment#recipe}.
-   */
-  final Observer<Recipe> recipeObserver = new Observer<Recipe>() {
-
-    @Override
-    public void onChanged(final Recipe result) {
-      if (result != null) {
-        recipe = viewModel.getRecipe().getValue();
-      } else {
-        recipe = Recipe.getEmptyRecipe();
-      }
-      setupRecyclerView();
-      binding.setRecipe(recipe);
-    }
-  };
 
   @SuppressWarnings("unused")
   //View parameter is required by databinding onClick function

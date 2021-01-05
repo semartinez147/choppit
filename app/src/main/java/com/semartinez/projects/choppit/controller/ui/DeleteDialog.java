@@ -33,11 +33,8 @@ public class DeleteDialog extends DialogFragment {
         .setIcon(R.drawable.ic_remove)
         .setTitle("Delete " + recipe.getTitle() + "?")
         .setView(dialogView)
-        .setNegativeButton("DELETE", (dlg, which) -> {
-          viewModel.deleteRecipe(recipe);
-        })
-        .setNeutralButton("CANCEL", (dlg, which) -> {
-        })
+        .setNegativeButton("DELETE", (dlg, which) -> viewModel.deleteRecipe(recipe))
+        .setNeutralButton("CANCEL", (dlg, which) -> {})
         .create();
   }
 

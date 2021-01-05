@@ -1,7 +1,8 @@
 package com.semartinez.projects.choppit.service;
 
 import android.util.Log;
-import com.semartinez.projects.choppit.controller.exception.*;
+import com.semartinez.projects.choppit.controller.exception.TooManyMatchesException;
+import com.semartinez.projects.choppit.controller.exception.ZeroMatchesException;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
 import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
@@ -46,11 +47,11 @@ public class JsoupRetriever {
    *                    and *                    {@link com.semartinez.projects.choppit.model.repository.RecipeRepository}.
    * @return A {@link List} of {@link Step} objects with embedded {@link Ingredient}s.
    */
-  public Map<String, List<? extends RecipeComponent>> process(String ingredient, String instruction) throws RuntimeException{
+  public Map<String, List<? extends RecipeComponent>> process(String ingredient, String instruction) {
     //TODO Error handling: test getClass errors for 0 or >1 result.
 
-    runIngredients i = new runIngredients(ingredient);
-    runSteps s = new runSteps(instruction);
+    RunIngredients i = new RunIngredients(ingredient);
+    RunSteps s = new RunSteps(instruction);
 
     Thread iThread = new Thread(i, "iThread");
     Thread sThread = new Thread(s, "sThread");
@@ -62,6 +63,7 @@ public class JsoupRetriever {
       iThread.join();
       sThread.join();
     } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       e.printStackTrace();
     }
 
@@ -73,28 +75,28 @@ public class JsoupRetriever {
     return data;
   }
 
-  private class runIngredients implements Runnable {
+  private class RunIngredients implements Runnable {
     String ingredient;
-    public runIngredients(String ingredient) {
+    public RunIngredients(String ingredient) {
       this.ingredient = ingredient;
     }
 
     @Override
-    public void run() throws RuntimeException {
+    public void run() {
       String ingredientClass = getKlass(ingredient, "ingredient");
       listRawIngredients = getClassContents(ingredientClass); // list all ingredients
       buildIngredients();
     }
   }
 
-  private class runSteps implements Runnable {
+  private class RunSteps implements Runnable {
     String instruction;
-    public runSteps(String instruction) {
+    public RunSteps(String instruction) {
       this.instruction = instruction;
     }
 
     @Override
-    public void run() throws RuntimeException{
+    public void run() {
       String instructionClass = getKlass(instruction, "step");
       listInstructions = getClassContents(instructionClass); // list all ingredients
       buildSteps();
@@ -110,14 +112,13 @@ public class JsoupRetriever {
    * @param text is either the ingredient or instruction text input by the user
    * @return the HTML "class" attribute enclosing the input {@link String}.
    */
-  protected String getKlass(String text, String type) throws RuntimeException {
+  protected String getKlass(String text, String type) {
     Elements e = document.select(String.format("*:containsOwn(%s)", text));
     if (e.size() == 1) {
       return e.get(0).attr("class");
     } else {
       Log.e("Retriever failed:", "found " + e.size() + " matching classes");
-      throw (e.size() == 0)? new ZeroMatchesException(type) :
-          new TooManyMatchesException(type);
+      throw e.isEmpty()? new ZeroMatchesException(type) : new TooManyMatchesException(type);
     }
   }
 

@@ -103,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
     Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
     toast.setGravity(Gravity.BOTTOM, 0,
         getResources().getDimensionPixelOffset(R.dimen.toast_vertical_margin));
-
     toast.show();
   }
 

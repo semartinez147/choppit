@@ -34,20 +34,20 @@ public class SelectionFragment extends Fragment {
   private WebView contentView;
   private EditText ingredientInput;
   private EditText stepInput;
-  private MainViewModel viewModel;
   private String html;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    html = SelectionFragmentArgs.fromBundle(getArguments()).getHtml();
+    html = SelectionFragmentArgs.fromBundle(requireArguments()).getHtml();
     setHasOptionsMenu(true);
     setRetainInstance(true);
   }
 
+  @Override
   public View onCreateView(@Nonnull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
+    MainViewModel viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
     viewModel.resetData();
     View root = inflater.inflate(R.layout.fragment_selection, container, false);
     setupWebView(root);

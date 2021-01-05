@@ -122,10 +122,10 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     throwable.setValue(null);
     pending.add(
         repository.generateHtml()
-        .subscribe(
-            html::postValue,
-            throwable::postValue
-        )
+            .subscribe(
+                html::postValue,
+                throwable::postValue
+            )
     );
   }
 
@@ -155,20 +155,17 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   }
 
   public void postRecipe() {
-    Recipe recipe = new Recipe();
-    recipe.setUrl(repository.getRecipeMeta()[0]);
-    recipe.setTitle(repository.getRecipeMeta()[1]);
-    recipe.setSteps(steps.getValue());
-    recipe.setIngredients(ingredients.getValue());
-    this.recipe.postValue(recipe);
+    this.recipe
+        .postValue(new Recipe(repository.getRecipeMeta()[0], repository.getRecipeMeta()[1], false,
+            steps.getValue(), ingredients.getValue()));
     status.postValue("finished");
   }
 
   public void saveRecipe(Recipe newRecipe) {
     throwable.setValue(null);
-      repository.saveNew(newRecipe)
-          .doOnError(throwable::postValue)
-          .subscribe();
+    repository.saveNew(newRecipe)
+        .doOnError(throwable::postValue)
+        .subscribe();
   }
 
   public void updateRecipe(Recipe recipe) {

@@ -1,16 +1,10 @@
 package com.semartinez.projects.choppit.controller;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.view.View;
-import android.view.View.OnClickListener;
+import android.os.Bundle;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-import androidx.preference.ListPreference;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.SeekBarPreference;
 import com.semartinez.projects.choppit.R;
 
 // TODO write typeface-changing behavior

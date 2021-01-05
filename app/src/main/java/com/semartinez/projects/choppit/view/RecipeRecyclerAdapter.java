@@ -17,8 +17,8 @@ import java.util.List;
 
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-  final int VIEW_TYPE_INGREDIENT = 0;
-  final int VIEW_TYPE_STEP = 1;
+  static final int VIEW_TYPE_INGREDIENT = 0;
+  static final int VIEW_TYPE_STEP = 1;
 
   private final Context context;
   private final List<Ingredient> ingredients;
@@ -52,8 +52,9 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
       RecipeStepItemBinding recipeStepItemBinding = RecipeStepItemBinding
           .inflate(layoutInflater, parent, false);
       return new StepViewHolder(recipeStepItemBinding);
+    } else {
+      throw new IllegalArgumentException("No view type was provided to the view holder.");
     }
-    return null;
   }
 
   @Override
