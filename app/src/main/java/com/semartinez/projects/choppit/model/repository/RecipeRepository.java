@@ -36,7 +36,7 @@ import org.jsoup.nodes.Document;
  * The repository handles requests from the {@link com.semartinez.projects.choppit.viewmodel.MainViewModel}
  * and interacts with the {@link JsoupRetriever}.
  */
-public class RecipeRepository implements SharedPreferences.OnSharedPreferenceChangeListener{
+public class RecipeRepository implements SharedPreferences.OnSharedPreferenceChangeListener {
 
   private static final int NETWORK_THREAD_COUNT = 10;
 
@@ -83,10 +83,10 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
             database.getStepDao().insert(step)
                 .map(stepId -> {
                   step.setStepId(stepId);
-                return step;
+                  return step;
                 })
                 .onErrorReturnItem(step)
-            .subscribe();
+                .subscribe();
           }
           for (Ingredient ingredient : recipe.getIngredients()) {
             ingredient.setRecipeId(recipe.getRecipeId());
@@ -98,7 +98,7 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
                 .onErrorReturnItem(ingredient)
                 .subscribe();
           }
-        return recipe;
+          return recipe;
         });
   }
 
@@ -126,8 +126,7 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
   }
 
   /**
-   * Not implemented yet.  Will be used for search/sort in the {@link
-   * CookbookFragment}.
+   * Not implemented yet.  Will be used for search/sort in the {@link CookbookFragment}.
    *
    * @param title a search string.
    * @return a {@link Recipe} with a matching {@link Recipe#getTitle()}.
@@ -144,7 +143,7 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
         .subscribeOn(Schedulers.io());
   }
 
-  public Single<Recipe> loadDetails (long id) {
+  public Single<Recipe> loadDetails(long id) {
     RecipeDao dao = database.getRecipeDao();
     return dao.loadRecipeData(id)
         .subscribeOn(Schedulers.io()).map(Recipe::new);
@@ -165,20 +164,7 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
    */
   public Completable connect(String url) {
     Log.d("Choppit", " Repository connect method");
-    return Completable.fromRunnable(jsoup(url)) // TODO replace with lambda
-        .subscribeOn(Schedulers.from(networkPool));
-  }
-
-  /**
-   * This {@link Runnable} is handled by {@link #connect(String)}.  It receives the user's url,
-   * sends the {@link Document} returned by {@link Jsoup} to {@link JsoupRetriever} for processing,
-   * and stores the {@link Document#title()} and url.
-   *
-   * @param url from user input in the{@link com.semartinez.projects.choppit.controller.ui.home.HomeFragment}.
-   * @return the {@link Runnable} to be executed in {@link com.semartinez.projects.choppit.viewmodel.MainViewModel}.
-   */
-  private Runnable jsoup(String url) {
-    return () -> {
+    return Completable.fromRunnable(() -> {
       doc = null;
       try {
         doc = Jsoup.connect(url).get();
@@ -186,11 +172,12 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
         Log.e("Choppit", e.toString() + " in Repository jsoup Runnable");
         throw new ConnectionFailureException();
       }
-      assert doc != null: "null document";
+      assert doc != null : "null document";
       retriever.setDocument(doc);
       prepper.setDocument(doc);
       recipeMeta = new String[]{url, doc.title()};
-    };
+    })
+        .subscribeOn(Schedulers.from(networkPool));
   }
 
   public Single<File> generateHtml() {
@@ -204,17 +191,16 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
   }
 
   /**
-   * This method is called by the {@link MainViewModel} and
-   * passes the user inputs to the {@link JsoupRetriever} for processing.  The resulting data is
-   * passed back up to the {@link MainViewModel} and eventually
-   * displayed in the {@link EditingFragment}.
+   * This method is called by the {@link MainViewModel} and passes the user inputs to the {@link
+   * JsoupRetriever} for processing.  The resulting data is passed back up to the {@link
+   * MainViewModel} and eventually displayed in the {@link EditingFragment}.
    *
    * @param ingredient  input by the user on the {@link SelectionFragment}
    * @param instruction input by the user on the {@link SelectionFragment}
    * @return a list of {@link Step} objects with attached {@link Ingredient}s.
    */
-  // TODO: replace String with instanceof test
-  public Single<Map<String, List<? extends RecipeComponent>>> process(String ingredient, String instruction) {
+  public Single<Map<String, List<? extends RecipeComponent>>> process(String ingredient,
+      String instruction) {
     Map<String, List<? extends RecipeComponent>> data = retriever.process(ingredient, instruction);
     return Single.just(data);
   }

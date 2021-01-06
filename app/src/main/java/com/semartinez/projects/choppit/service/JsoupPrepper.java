@@ -33,7 +33,8 @@ public class JsoupPrepper {
       }
     }
     doWork();
-    return new File(allElements.first().wholeText());
+    // TODO: get better text output.
+    return new File(allElements.first().text());
   }
 
   private void doWork() {
