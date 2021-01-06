@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.preference.PreferenceManager;
+import com.semartinez.projects.choppit.controller.exception.ConnectionFailureException;
 import com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragment;
 import com.semartinez.projects.choppit.controller.ui.editing.EditingFragment;
 import com.semartinez.projects.choppit.controller.ui.editing.SelectionFragment;
@@ -181,9 +182,9 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
       doc = null;
       try {
         doc = Jsoup.connect(url).get();
-      } catch (Exception | Error e) {
+      } catch (Exception e) {
         Log.e("Choppit", e.toString() + " in Repository jsoup Runnable");
-        throw new RuntimeException("Please check your internet connection and try again.");
+        throw new ConnectionFailureException();
       }
       assert doc != null: "null document";
       retriever.setDocument(doc);

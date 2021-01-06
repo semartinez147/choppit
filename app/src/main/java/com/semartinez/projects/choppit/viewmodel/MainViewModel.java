@@ -140,6 +140,10 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   }
 
   public void finish(Map<String, List<? extends RecipeComponent>> data) {
+    if (data instanceof List) {
+
+    }
+
     List<Ingredient> ingredientData = new ArrayList<>();
     for (RecipeComponent recipeComponent : data.get("ingredients")) {
       ingredientData.add((Ingredient) recipeComponent);
