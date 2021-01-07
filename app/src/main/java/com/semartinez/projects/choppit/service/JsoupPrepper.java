@@ -6,10 +6,7 @@ import java.net.MalformedURLException;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Node;
-import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
-import org.jsoup.select.NodeFilter;
 
 public class JsoupPrepper {
 
@@ -33,40 +30,12 @@ public class JsoupPrepper {
       }
     }
     doWork();
-    // TODO: get better text output.
-    return new File(allElements.first().text());
+    // TODO: simplify.
+    return new File(document.html());
   }
 
   private void doWork() {
-    // TODO Debug this process - doing extra work
-    allElements = document.getAllElements().filter(new NodeFilter() {
-      @Override
-      public FilterResult head(Node node, int i) {
-        if (!(node instanceof TextNode) && node.childNodes().isEmpty()) {
-          return FilterResult.REMOVE;
-        } else {
-          if (node.attributes().toString().contains("href")
-              || node.attributes().toString().contains("Icon")
-              || node.attributes().toString().contains("Social")
-              || node.attributes().toString().contains("Header")
-              || node.attributes().toString().contains("Footer")
-          ) {
-            return FilterResult.REMOVE;
-          }
-        }
-        return FilterResult.CONTINUE;
-      }
-
-      @Override
-      public FilterResult tail(Node node, int i) {
-        if (!(node instanceof TextNode) && node.childNodes().isEmpty()) {
-          return FilterResult.REMOVE;
-        } else {
-          return FilterResult.CONTINUE;
-        }
-      }
-    });
-
+    document.filter(new Strainer());
   }
 
   public Document getDocument() {
