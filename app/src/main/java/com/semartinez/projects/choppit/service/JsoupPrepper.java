@@ -1,23 +1,28 @@
 package com.semartinez.projects.choppit.service;
 
+import android.util.Log;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
+import java.util.concurrent.Callable;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Document.OutputSettings;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class JsoupPrepper {
 
   private Document document;
-  private Elements allElements;
-
 
   JsoupPrepper() {
   }
 
-  public File prepare(String url) throws IOException {
+
+  public Document prepare(String url) throws IOException {
     if (document == null) {
       try {
         document = Jsoup.connect(url).get();
@@ -29,13 +34,10 @@ public class JsoupPrepper {
         throw new IOException("An unknown error occurred.  Please try again.");
       }
     }
-    doWork();
-    // TODO: simplify.
-    return new File(document.html());
-  }
-
-  private void doWork() {
-    document.filter(new Strainer());
+//    document.outputSettings(new OutputSettings().prettyPrint(false));
+//    document.filter(new Strainer());
+    document = Jsoup.parse(document.select("div:not(:has(div))").select("div:matches(.)").toString());
+    return document;
   }
 
   public Document getDocument() {

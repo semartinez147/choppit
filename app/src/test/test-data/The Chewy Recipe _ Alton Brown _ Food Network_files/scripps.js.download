@@ -1,0 +1,47 @@
+(function(w, d) {
+  "use strict";
+  var s1 = d.getElementsByTagName("script")[0],
+    s = d.createElement("script"),
+    onReady;
+  s.src = "//tru.am/scripts/ta-pagesocial-sdk.js";
+  onReady = function() {
+    var l = document.location,
+      h = l.hostname.toLowerCase(),
+      el =
+        d.querySelector(".ArticlePage-breadcrumbs a") ||
+        d.querySelector('meta[property="article:tag"]') ||
+        d.querySelector("span.Link"),
+      cid;
+    if (h.indexOf("pix11.com") > -1) {
+      cid = "870";
+    } else if (h.indexOf("fox13now.com") > -1) {
+      cid = "871";
+    } else if (h.indexOf("wtvr.com") > -1) {
+      cid = "972";
+    } else if (h.indexOf("fox17online.com") > -1) {
+      cid = "979";
+    } else if (h.indexOf("sflcw.com") > -1) {
+      cid = "992";
+    } else if (h.indexOf("wtkr.com") > -1) {
+      if ((el && el.textContent) || el.content === "WGNT") {
+        cid = "1039";
+      } else {
+        cid = "980";
+      }
+    }
+    if (cid) {
+      w.TRUE_ANTHEM.configure(cid);
+    }
+  };
+  if (s.addEventListener) {
+    s.addEventListener("load", onReady, false);
+  } else {
+    s.onreadystatechange = function() {
+      if (s.readyState in { loaded: 1, complete: 1 }) {
+        s.onreadystatechange = null;
+        onReady();
+      }
+    };
+  }
+  s1.parentNode.insertBefore(s, s1);
+})(window, document);

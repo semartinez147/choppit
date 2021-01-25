@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import org.jsoup.Jsoup;
@@ -180,14 +181,9 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
         .subscribeOn(Schedulers.from(networkPool));
   }
 
-  public Single<File> generateHtml() {
-    File html;
-    try {
-      html = prepper.prepare(recipeMeta[0]);
-    } catch (IOException e) {
-      return Single.error(e);
-    }
-    return Single.just(html);
+  public Single<Document> prepDocument() {
+    // TODO: implement a ReactiveX class in prepper and simplify Single method.
+    return Single.fromCallable(() -> prepper.prepare(recipeMeta[0]));
   }
 
   /**

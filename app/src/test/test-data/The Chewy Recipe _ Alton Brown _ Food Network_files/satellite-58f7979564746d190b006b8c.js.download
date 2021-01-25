@@ -1,0 +1,161 @@
+_satellite.pushAsyncScript(function(event, target, $variables){
+  // connect click events
+(function(){
+
+var clickSelector = 'a,button,div[data-launch-selector]';
+
+var linkTitle = function($element, $cardConfig) {
+    var wsRegex = /\s+/g;
+    var innerText;
+    var cardType = $cardConfig.cardType ? $cardConfig.cardType + "|" : "|";
+    var hasImg = $element.has('img').length;
+    if ($element[0].hasAttribute('title')) {
+        var result = '';
+        if (hasImg) {
+          result += 'IMG|'
+        } else {
+          result += 'TXT|'
+        }
+        result += cardType;
+        result += $element.attr('title').trim().replace(wsRegex, ' ');
+        return result;
+    }
+    if ($element.is('[data-launch-selector]')) {
+      return 'TXT|' + cardType + $element
+            .find('[class*=a-HeadlineText]')
+            .first()
+            .text()
+            .trim()
+            .replace(wsRegex, ' ')
+    }
+    if (hasImg) {
+      return 'IMG|' + cardType + $element
+            .closest('[class*=m-MediaWrap]', '.parbase')
+            .siblings('[class*=m-TextWrap]')
+            .find('[class*=a-HeadlineText]')
+            .text()
+            .trim()
+            .replace(wsRegex, ' ');
+    }
+    innerText = $element.first().text().trim().replace(wsRegex, ' ');
+    if (innerText.length) {
+        return 'TXT|'+ cardType + innerText;
+    }
+}
+
+/*$( window ).on( "load", function() {
+    window.s.ActivityMap.link = function(el) { 
+   debugger;
+      $cardConfig = {'cardType':''};
+      return linkTitle($(el), $cardConfig ); 
+    }
+});*/
+
+var clickTrack = function($element) {
+    var $tracker = $element.parents().siblings(".clicktracking").first();
+    var $module = $tracker.parent();
+    var moduleName = $tracker.attr('data-resource-type').split('/').pop();
+    var moduleIndex = $('.clicktracking').index($tracker)
+    var linkIndex = $module.find(clickSelector).index($element)
+    var cardPayload, $cardConfig = {'cardType':''};
+  var componentPayload, $componentConfig = {'componentTitle':''};
+    try {
+        //var componentConfig = JSON.parse($module.find('[data-analytics-config]').text());
+        componentPayload = $module.find('[data-analytics-config]').text();
+        if (componentPayload) {
+            $componentConfig = JSON.parse(componentPayload);
+        }
+    } catch (err) {
+        $componentConfig = {'componentTitle':''};
+    }
+    try {
+        cardPayload = $element.closest('[data-analytics]', $module).attr('data-analytics');
+        if (cardPayload) {
+            $cardConfig = JSON.parse(cardPayload);
+        }
+    } catch (err) {
+      cardConfig = {'cardType':''};
+    }
+    return Object.assign({}, {
+        ModuleName: moduleName,
+        ModuleIndex: moduleIndex,
+        LinkTitle: linkTitle($element,  $cardConfig),
+        LocUrl: window.location.href,
+        LinkPosition: linkIndex,
+        TargetUrl: $element.attr('href'),
+        ComponentTitle: $componentConfig.componentTitle
+        });//, componentConfig, cardConfig);
+}
+
+
+  $('.clicktracking').parent().find(clickSelector)
+    .not('.a-Button--Save')
+    .not('.a-Button--Print')    
+    .not('[data-type="product-link"]')
+    .not('#add-recipe-card-link')
+    .not('.tabs__tab-content')
+    .off('click.sni_analytics').on('click.sni_analytics',function (data) {
+    _satellite.notify('Click detected on ' + this,1);
+    _satellite.notify('Calling moduleTrackLS',1);
+    SNI.Analytics.moduleTrackLS($(this), clickTrack($(this)));
+});
+  $('#add-recipe-card-link')
+    .off('click.sni_analytics').on('click.sni_analytics',function (data) {
+    _satellite.notify('Click detected on ' + this,1);
+    _satellite.notify('Calling moduleTrackLS',1);
+    SNI.Analytics.moduleTrackLS($(this), {
+                ModuleName: "myRecipeSaves",
+                LinkTitle: 'TXT||Add a Personal Recipe',
+                LinkPosition: "4",
+      					TargetUrl:"www.foodnetwork.com/PersonalRecipe",
+                LocUrl:"myRecipeSaves"
+            });
+
+});
+   $('.card-add-recipe__header')
+    .off('click.sni_analytics').on('click.sni_analytics',function (data) {
+    _satellite.notify('Click detected on ' + this,1);
+    _satellite.notify('Calling moduleTrackLS',1);
+    SNI.Analytics.moduleTrackLS($(this), {
+                ModuleName: "myRecipeSaves",
+                LinkTitle: 'TXT||Discover Recipe',
+                LinkPosition: "4",
+      					TargetUrl:"www.foodnetwork.com/DiscoverRecipe",
+                LocUrl:"myRecipeSaves"
+            });
+      });
+      $('.card-folder-new__icon')
+    .off('click.sni_analytics').on('click.sni_analytics',function (data) {
+    _satellite.notify('Click detected on ' + this,1);
+    _satellite.notify('Calling moduleTrackLS',1);
+    SNI.Analytics.moduleTrackLS($(this), {
+                ModuleName: "myRecipeSaves",
+                LinkTitle: 'TXT||Add New Collection',
+                LinkPosition: "7",
+      					TargetUrl:"www.foodnetwork.com/AddNewCollection",
+                LocUrl:"myRecipeSaves"
+            });
+
+});
+  
+  
+  $('.card-folder-new__header')
+    .off('click.sni_analytics').on('click.sni_analytics',function (data) {
+    _satellite.notify('Click detected on ' + this,1);
+    _satellite.notify('Calling moduleTrackLS',1);
+    SNI.Analytics.moduleTrackLS($(this), clickTrack($(this)));
+});
+  $('.actions--right__search-icon')
+    .off('click.sni_analytics').on('click.sni_analytics',function (data) {
+    _satellite.notify('Click detected on ' + this,1);
+    _satellite.notify('Calling moduleTrackLS',1);
+    SNI.Analytics.moduleTrackLS($(this), {
+                ModuleName: "myRecipeSaves",
+                LinkTitle: 'IMG||Search',
+                LinkPosition: "7"
+            });
+      });
+   
+  
+})();
+});

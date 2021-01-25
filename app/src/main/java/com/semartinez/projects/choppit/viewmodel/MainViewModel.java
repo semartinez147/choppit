@@ -16,19 +16,19 @@ import com.semartinez.projects.choppit.model.entity.Step;
 import com.semartinez.projects.choppit.model.repository.RecipeRepository;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.jsoup.nodes.Document;
 
 public class MainViewModel extends AndroidViewModel implements LifecycleObserver {
 
   private final MutableLiveData<Recipe> recipe;
   private final MutableLiveData<List<Step>> steps;
   private final MutableLiveData<List<Ingredient>> ingredients;
-  private final MutableLiveData<File> html;
+  private final MutableLiveData<Document> document;
   private final MutableLiveData<Throwable> throwable;
   private final MutableLiveData<Set<String>> permissions;
   private final MutableLiveData<String> status;
@@ -46,7 +46,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     recipe = new MutableLiveData<>();
     steps = new MutableLiveData<>();
     ingredients = new MutableLiveData<>();
-    html = new MutableLiveData<>();
+    document = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     permissions = new MutableLiveData<>(new HashSet<>());
     pending = new CompositeDisposable();
@@ -71,8 +71,8 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     return ingredients;
   }
 
-  public LiveData<File> getHtml() {
-    return html;
+  public LiveData<Document> getDocument() {
+    return document;
   }
 
   public LiveData<String> getStatus() {
@@ -97,6 +97,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     recipe.postValue(null);
     throwable.postValue(null);
     status.postValue("");
+    document.postValue(null);
   }
 
   /**
@@ -118,12 +119,15 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     );
   }
 
-  public void generateHtml() {
+  public void prep() {
     throwable.setValue(null);
     pending.add(
-        repository.generateHtml()
+        repository.prepDocument()
             .subscribe(
-                html::postValue,
+                value -> {
+                  document.postValue(value);
+                  Log.e("DOCTRACE", "MVM: doc length = " + value.toString().length());
+                },
                 throwable::postValue
             )
     );

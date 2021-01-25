@@ -1,0 +1,20 @@
+// Trigger rule at Top of Page 
+// Non-Sequential Javascript
+// Execute Globally
+var mdlTrck = function (obj,moduleName,linkTitle,linkPosition,locUrl,targetUrl,abTestVersion) {
+var contextVars = ['moduleName','linkTitle','linkPosition','locUrl','targetUrl','abTestVersion'];
+s.linkTrackVars = 'contextData.' + contextVars.join(',contextData.');
+s.linkTrackEvents = ""; //****event24 should be set via module track processing rule - confirm event24 and all module evars/props are set from this function*****
+s.contextData['moduleName'] = moduleName;
+s.contextData['linkTitle'] = linkTitle;
+s.contextData['linkPosition'] = linkPosition;
+s.contextData['locUrl'] = locUrl;
+s.contextData['targetUrl'] = targetUrl;
+s.contextData['abTestVersion'] = abTestVersion;
+s.events=""; //event24 should be set in processing rules - confirm; also see if any cases where other events are needed
+s.tl(obj,'o',moduleName + '|' + linkTitle);
+while ( contextVars.length > 0 ) {
+	s.contextData[contextVars.pop()] = "";
+}
+s.events=null;
+}

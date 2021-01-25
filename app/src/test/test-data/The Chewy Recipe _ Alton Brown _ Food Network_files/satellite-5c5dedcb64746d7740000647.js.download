@@ -1,0 +1,72 @@
+_satellite.pushAsyncScript(function(event, target, $variables){
+  !function(t,n){t[n]=t[n]||{nlsQ:function(e,o,c,r,s,i){return s=t.document,r=s.createElement("script"),r.async=1,r.src=("http:"===t.location.protocol?"http:":"https:")+"//cdn-gl.imrworldwide.com/conf/"+e+".js#name="+o+"&ns="+n,i=s.getElementsByTagName("script")[0],i.parentNode.insertBefore(r,i),t[n][o]=t[n][o]||{g:c||{},ggPM:function(e,c,r,s,i){(t[n][o].q=t[n][o].q||[]).push([e,c,r,s,i])}},t[n][o]}}}(window,"NOLBUNDLE");
+
+var appIDCode = "";
+if (location.host.indexOf("hgtv.com") !== -1) {
+	appIDCode = "PA976F383-C3E3-4B5B-9E48-63110CA5C340";
+}
+else if (location.host.indexOf("foodnetwork.com") !== -1) {
+	appIDCode = "P08273858-CADE-4219-B0FF-15E61A695D4A";
+}
+else if (location.host.indexOf("travelchannel.com") !== -1) {
+	appIDCode = "PA1265593-4FFE-4E92-9688-D7C4A9A39A40";
+}
+else if (location.host.indexOf("diynetwork.com") !== -1) {
+	appIDCode = "P1E70E7A9-E6FD-41D6-97BC-5BEB928D8F93";
+}
+else if (location.host.indexOf("cookingchanneltv.com") !== -1) {
+	appIDCode = "PB8E8E68A-B291-4D6D-A733-970D4F0DCA6B";
+}
+else if (location.host.indexOf("tlcme.com") !== -1) {
+	appIDCode = "P1DA08633-9EBC-424F-90F3-5B037818D369";
+}
+else if (location.host.indexOf("investigationdiscovery.com") !== -1) {
+	appIDCode = "P398793A8-1FFD-4FA7-8963-99F9422C4218";
+}
+else if (location.host.indexOf("discovery.com") !== -1) {
+	appIDCode = "P808EB471-943D-4277-8CB8-8EB05C4E2003";
+}
+else if (location.host.indexOf("ahctv.com") !== -1) {
+	appIDCode = "PECE5F5FD-2B8C-4CBD-A162-CB515400A385";
+}
+else if (location.host.indexOf("animalplanet.com") !== -1) {
+	appIDCode = "P3D53AC7E-458E-40B4-8A96-37B4C0D1FD8E";
+}
+else if (location.host.indexOf("destinationamerica.com") !== -1) {
+	appIDCode = "P5F90FE2C-1467-49FA-96F2-AA9364513543";
+}
+else if (location.host.indexOf("discoverylife.com") !== -1) {
+	appIDCode = "PB1165EFC-CBD8-49A0-905B-1B7C22B09862";
+}
+else if (location.host.indexOf("sciencechannel.com") !== -1) {
+	appIDCode = "P03768B92-89AD-4888-A3C2-DF29666EF74C";
+}
+else if (location.host.indexOf("tlc.com") !== -1) {
+	appIDCode = "P19BF10DF-379B-46A4-88BA-3377D4906B71";
+}
+else if (location.host.indexOf("oprah.com") !== -1) {
+	appIDCode = "P019232EA-B7B0-4AC0-98EA-476FAE8DEA8B";
+}
+else if (location.host.indexOf("motortrend.com") !== -1) {
+	appIDCode = "P8F2CA178-2FC6-4293-8CFE-7D42AF6A6704";
+}
+else if (location.host.indexOf("discoveryfamilychannel.com") !== -1) {
+	appIDCode = "PDD70BA0B-2795-449E-9CCB-6C7BD8DCC40E";
+}
+
+
+
+var nSdkInstance = NOLBUNDLE.nlsQ(appIDCode,"nlsnInstance");
+
+var nielsenMetadata = {
+    type: 'static',
+	  assetid: _satellite.getDataElement("Content_ID"),
+	  section: _satellite.getDataElement("Section_Name"),
+	
+	segA: '',
+    segB: '',
+    segC: ''
+};
+	
+nSdkInstance.ggPM("staticstart", nielsenMetadata);
+});

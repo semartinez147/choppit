@@ -1,0 +1,21 @@
+var moduleTrack2 = function (obj,options) {
+	var contextVars = Object.keys(options).sort(),
+	i = contextVars.length || 0;
+    s.linkTrackVars = "";
+    s.linkTrackEvents = "event24,event989";
+	while (i--) {
+		s.linkTrackVars += 'contextData.' + contextVars[i] + ',';
+    s.contextData[contextVars[i]] = options[contextVars[i]].toString().replace("|","").replace(/https?:\/\/.*.ulive.com/,"");
+	}
+   s.linkTrackVars = s.linkTrackVars.substring(0, s.linkTrackVars.length - 1);
+	s.events=s.apl(s.events,"event24",",",2);
+	s.events=s.apl(s.events,"event989",",",2);
+  s.tl(obj,'o',options["ModuleName"]);
+	// clear everything out
+  while ( contextVars.length > 0 ) {
+		s.contextData[contextVars.pop()] = "";
+	}
+  s.linkTrackVars = "";
+  s.linkTrackEvents = "";
+
+}

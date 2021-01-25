@@ -1,0 +1,3805 @@
+/*
+ * SniAds Library Configuration
+ * Version 419.0.0
+ * Modified: Tue Mar 10 2020 at 11:43:31 GMT-0400 (Eastern Daylight Time)
+ * Provided by SNI Technical Ad Operations Group 
+ * Notes: n/a
+ */
+/**
+* SniAds Global Configuration
+*
+* Maintained by Technical Ad Operations Group
+*
+**/
+
+// Define SniAds namespace
+(function() {
+    window.SniAdsConfig = window.SniAdsConfig || {};
+})();
+
+var useSSL = "https:" == document.location.protocol;
+
+/**
+ * SniAds global configuration object. Maintained by Ad Operations Departments. Local site configuration can override
+ * most values via SniAds.init(siteConfig). The library will ignore any settings that are not settable at the site level.
+ * @namespace SniAdsConfig
+ * @type {Object}
+ */
+SniAdsConfig = {
+    /* DFP server to use. production|staging */
+
+    /**
+     * @property {string} env Determines which DFP network to use. Additional configurations are based on this. In
+     * production, the Google Console is disabled and any logging or debugging functionality is removed.
+     * @memberOf SniAdsConfig
+     */
+    "env" : "production",
+
+    /**
+     * Allows overriding the environment setting for a specific site value. Use the KVP value of site as the key. *Not the mdManager
+     * value, but the value after SniAds has initialized and any value adjustments have occured. Sites will still need to use
+     * the dfpEnv option in SniAds.init for additional environments like QA and Dev if they differ from the prod setting.
+     *
+     * If a site has set the environment in the SniAds.init call, the environment setting can be forced from here, by prepending the value
+     * with an explamation point. However, the dfpenv url flag is not affected and can still be used to set the environment on a per page basis.
+     *
+     * Eg: !staging or !production
+     *
+     */
+    "envSite": {
+        "hgtv": "production",
+        "door": "production",
+        "grdn": "production",
+        "travel": "production",
+        "diy": "production",
+        "intl_food_uk": "production",
+        "spun": "production",
+        "intl_food_it": "production"
+    },
+
+    /**
+     * Fetch API settings
+     */
+    "fetchApi": {
+      "endpoint": "https://fetch-api.sni-dat.com/",
+      "rateLimit": 3 //The percentage of requests to submit to Fetch API. Between 0-100%
+    },
+
+    /**
+     * Site value remappings to handle sites that use site value variants that we need mapped back to the primary site value. ie hgtv-photos => hgtv
+     * If a site is passing the wrong value, just add the current value to the correct site set. You can add new site sets if needed too.
+     */
+    "siteValueMappings": {
+        "hgtv": ["hgtv-com","hgtv-videos","hgtv-people","hgtv-photos","hgtv-search","hgtv_com","hgtv_videos","hgtv_people","hgtv_photos","hgtv_search","home", "golden-hgtv"],
+        "gac": ["gac-people", "gac-photos"],
+        "diy": ["diy-people", "diy-photos", "golden-diy"],
+        "cook": ["golden-cook"]
+    },
+
+    /**
+     * Sites that the mobile gallery adhesion 320x50 can run on. The gallery must be based on the HGTV setup. Library changes may
+     * be required when adding sites.
+     */
+    "allowMobileAdhesion": ["hgtv", "diy", "gac", "food", "travel"],
+
+
+    /**
+     * Prebid JS seetings.
+     */
+    "pbjsFailSafeTime": 2000,
+    "pbjsActiveSites": ['cook', 'hgtv', 'travel', 'food', 'diy', 'gac', 'foodcom'],
+    "pbjsResizePollingTime": 250, // In ms
+    "pbjsResizePollingLimit": 20, // Max times to poll. The total polling time is PollingTime x PollingLimit.
+
+    /**
+     * Disable ads if url or referrer contains PII (emails addresses)
+     */
+    "disablePii": true,
+
+
+    /**
+     * If true, DFP will not count impressions. Useful for testing.
+     * @todo Not implemented yet.
+     */
+    "noCount": false,
+
+    /**
+     * If true, the hierarchy will use the section placeholders (l1o, l2o, l3o, l4o, l5o) to fill out a complete hierarchy. By default, the ad unit will
+     * terminate at the last available section.
+     */
+    "fillPartialHierarchy": false,
+
+    /**
+    * An array of any values that should be removed from any key values before slots are created. (ie Paula Deen)
+    * Values will be replaced with jjydnat and have house ads targeted to it.
+    * *** NOTE *** THIS IS CURRENTLY DISABLED ****
+    **/
+    "restrictedValues": ["paula dean", "pauladean", "paula_dean"],
+
+
+    /**
+     * Array of all key-values we are interested in for custom targeting. Some sites have a ton of data so we must limit what we use to a subset to avoid maxing out the ad call. The max character limit for a DFP ad url is 2,000 characters. Keys are case-insensitive.
+     */
+    "targetingKeys": [
+        "pagetype",
+        "uniqueid",
+        "topic",
+        "keyterm",
+        "adkey1",
+        "talentName",
+        "showName",
+        "keyword",
+        "keywords",
+        "contenttag1",
+        "contenttag2",
+        "category",
+        "photocount",
+        "vgncontent",
+        "show_abbr",
+        "sniads_regression_test",
+        "ing",
+        "scripps160",
+        "scripps250",
+        "scripps600",
+        "scripps728",
+        "scripps320",
+        "scripps250btf",
+        "scripps250m",
+        "cs_debug",
+        "subsection",
+        "subsection1",
+        "subsection2",
+        "subsctn1",
+        "subsctn2",
+        "source",
+        "livingsource",
+        "orntn",
+        "version",
+        "sbi_apoc",
+        "sbi_size",
+        "sbi_dozer",
+        "glist",
+        "mcid",
+        "aam_fw",
+        "main_ing",
+        "site",
+        "page_uniqueid",
+        "strnativekey",
+        "classification",
+        "abkey",
+        "intl_enviro",
+        "intl_path",
+        "intl_refresh",
+        "intl_sponsor",
+        "intl_keywords",
+        "intl_w_temp",
+        "intl_w_type",
+        "intl_has_sponsor",
+        "intl_section",
+        "intl_amp",
+        "kuid",
+        "ksg",
+        "light_mode",
+        "ar_da",
+        "delivery_channel"
+    ],
+
+    /**
+     * Array of the flags to use from Criteo.
+     */
+    "criteoFlags": ["scripps160", "scripps250", "scripps600", "scripps728", "scripps320", "scripps250btf", "scripps250m"],
+
+    /**
+     * Array of dynamic key values to use in targeting. These are single key values that contain multiple values that are parsed into individual kvps.
+     * Example: dimensionvalues
+     */
+    "dynamicTargetSets": ["dimensionvalues"],
+
+    /**
+     * An array of cookies to read into KVP. If you want them to be targeted, set it in the targetingKeys array also.
+     */
+    "cookies": ["aam_fw", "AMCV_BC501253513148ED0A490D45@AdobeOrg"],
+
+    /**
+     * The following are keys that have multiple value that we need to pass to DFP as an array. Each entry has 5 settings:
+     * Site to apply on. Use "*" for all sites. Note, wild sets should be first as they can override site specific settings.
+     * The mdKey on the site.
+     * The separator to use.
+     * New dfpKey (default is the initial key)
+     * Clean Should the value be passed through clean value process.
+     */
+    "multiKeys": [
+        {
+            site: "*",
+            mdKey: "uniqueid",
+            separator: " ",
+            dfpKey: "page_uniqueid",
+            clean: false
+        },
+        {
+            site: "food",
+            mdKey: "MAININGREDIENT",
+            separator: ";",
+            dfpKey: "main_ing",
+            clean: true
+        },
+        {
+            site: "food",
+            mdKey: "TargetedTerms",
+            separator: ";",
+            dfpKey: "ing",
+            clean: true
+        },
+        {
+            site: "food",
+            mdKey: "abkey",
+            separator: ",",
+            dfpKey: "abkey",
+            clean: true
+        },
+        {
+            site: "foodcom",
+            mdKey: "abkey",
+            separator: ",",
+            dfpKey: "abkey",
+            clean: true
+        },
+        {
+            site: "hgtv",
+            mdKey: "abkey",
+            separator: ",",
+            dfpKey: "abkey",
+            clean: true
+        },
+
+    ],
+
+    /**
+     * Some sites handle multi word value differently. For DFP they must be converted to array. Set the split character for each site below.
+     * As most sites use a space, that is the default. As a result, only sites not using spaces must be set here, but you may add all if you want.
+     * While care has been taken to work out of the box, this allows control if needed.
+     * When setting, key must match site key value. Eg: Food.com = foodcom
+     */
+    "keySettings": {
+        "keytermSplit": {
+            "foodcom": "+"
+        },
+        // The following allows overridding the key used for DFP keys. For example, if a site uses pageSearchTerms instead of keyterm, you can override the keyterm key to use the value of pageSearchTerms. NOTE: If you set a override, and the value does not exists, a blank value will be used. It will NOT revert to tryng the default.
+        // DO NOT REMOVE ANY OF THESE
+        // Ex: { "food": "newkey"} // use newkey instead of default key
+        "override_pagetype": {},
+        "override_adkey1": {},
+        "override_keywords": {},
+        "override_topic": {},
+        "override_talentname": {},
+        "override_showname": {},
+        "override_uniqueid": {}
+    },
+
+    /**
+     * DFP custom targeting values may not contain the following characters. During init, these are stripped out.
+     */
+    "invalidChars": "#\",*.()=+<>[]| ",
+
+    /**
+     * These charcters are "safe", but must be encoded before being use in DFP targeting.
+     */
+    "encodeChars": "$-_.",
+
+
+    /**
+     * Set GPT settings here.
+     */
+    "gptSettings": {
+        "collapseEmptyDivs": false,
+        "singleRequestMode": true,
+        "centerAds": true
+    },
+
+    /**
+     * Define all possible ad slots. This is used when scanning a page for the ad hooks. Every possible ad tag should be listed here.
+     */
+    "adSlots" : [
+        {
+            "tag": "dfp_bigbox",
+            "sizes": [[300, 250],[300, 600],[300, 1050]],
+            "mapping":{
+                "small": [300,250],                         // small = ( phone )
+                "medium": [300,250],                         // medium = ( phablet )
+                "large": [[300,250],[300,600],[300,1050]],   // large = ( tablet )
+                "xlarge": [[300,250],[300,600],[300,1050]]   // exlarge = ( laptop/desktop monitor )
+            },
+        },  {
+            "tag": "dfp_bigbox_2",
+            "sizes": [[300, 250],[300, 600],[300, 1050]],
+            "mapping":{
+                "small": [300,250],                         // small = ( phone )
+                "medium": [300,250],                         // medium = ( phablet )
+                "large": [[300,250],[300,600],[300,1050]],   // large = ( tablet )
+                "xlarge": [[300,250],[300,600],[300,1050]]   // exlarge = ( laptop/desktop monitor )
+            },
+        },  {
+            "tag": "dfp_bigbox_3",
+            "sizes": [[300, 250],[300, 600],[300, 1050]],
+            "mapping":{
+                "small": [300,250],                         // small = ( phone )
+                "medium": [300,250],                         // medium = ( phablet )
+                "large": [[300,250],[300,600],[300,1050]],   // large = ( tablet )
+                "xlarge": [[300,250],[300,600],[300,1050]]   // exlarge = ( laptop/desktop monitor )
+              },
+        },  {
+            "tag": "dfp_bigbox_extra",
+            "sizes": [[300, 250],[300, 600],[300, 1050]],
+            "mapping":{
+                "small": [300,250],                         // small = ( phone )
+                "medium": [300,250],                         // medium = ( phablet )
+                "large": [[300,250],[300,600],[300,1050]],   // large = ( tablet )
+                "xlarge": [[300,250],[300,600],[300,1050]]   // exlarge = ( laptop/desktop monitor )
+            }
+          },  {
+              "tag": "dfp_bigbox_recipe_top",
+              "sizes": [[300, 250],[300, 600],[300, 1050]],
+              "mapping":{
+                  "small": [300,250],                         // small = ( phone )
+                  "medium": [300,250],                         // medium = ( phablet )
+                  "large": [300,250],   // large = ( tablet )
+                  "xlarge": [300,250]   // exlarge = ( laptop/desktop monitor )
+              }
+            },  {
+                "tag": "dfp_right_rail_sticky",
+                "sizes": [[300, 250],[300, 600]],
+                "mapping":{
+                    "small": [300,250],                         // small = ( phone )
+                    "medium": [300,250],                         // medium = ( phablet )
+                    "large": [[300,250],[300,600]],   // large = ( tablet )
+                    "xlarge": [[300,250],[300,600]]   // exlarge = ( laptop/desktop monitor )
+                }
+            },  {
+            "tag": "dfp_sticky_bigbox",
+            "sizes": [[300, 250],[300, 600],[300, 1050]],
+            "mapping":{
+                "small": [300,250],                         // small = ( phone )
+                "medium": [300,250],                         // medium = ( phablet )
+                "large": [[300,250],[300,600],[300,1050]],   // large = ( tablet )
+                "xlarge": [[300,250],[300,600],[300,1050]]   // exlarge = ( laptop/desktop monitor )
+            }
+        },  {
+            "tag": "dfp_leaderboard",
+            "sizes": [[728, 90], [970,90], [970,250], [1,5]],
+            "mapping":{
+                "small": [320,50],  // small = ( phone )
+                "medium": [[728, 90], [970,90], [970,250], [1,5]],   // medium = ( phablet )
+                "large": [[728, 90], [970,90], [970,250], [1,5]],  // large = ( tablet )
+                "xlarge": [[728, 90], [970,90], [970,250], [1,5]] // exlarge = ( laptop/desktop monitor )
+            }
+        },  {
+            "tag": "dfp_leaderboard_body",
+            "sizes": [[728,90],[970,90]],
+            "mapping":{
+                "small": [[320,50], [4,1]],  // small = ( phone )
+                "medium": [[728,90],[970,90]],   // medium = ( phablet )
+                "large": [[728,90],[970,90]],  // large = ( tablet )
+                "xlarge": [[728,90],[970,90]] // exlarge = ( laptop/desktop monitor )
+            }
+        }, {
+            "tag": "dfp_leaderboard_no_mobile",
+            "sizes": [728, 90],
+            "mapping":{
+                "small": [],  // small = ( phone )
+                "medium": [],   // medium = ( phablet )
+                "large": [728,90],  // large = ( tablet )
+                "xlarge": [728,90] // exlarge = ( laptop/desktop monitor )
+            }
+        }, {
+            "tag": "dfp_logo",
+            "sizes": [1, 2]
+        }, {
+            "tag": "dfp_photo_interstitial",
+            "sizes": [1, 3]
+        }, {
+           "tag": "dfp_photo_vertical_interstitial",
+           "sizes": [1, 3]
+        },{
+            "tag": "dfp_photo_interstitial_takeover",
+            "sizes": [1, 7]
+        }, {
+            "tag": "dfp_sponsorship_module",
+            "sizes": [300, 150]
+        }, {
+            "tag": "dfp_smartphone_banner",
+            "sizes": [[320, 50],[1, 5]]
+        }, {
+            "tag": "dfp_gallery_banner",
+            "sizes": [320, 50],
+            "mapping":{
+                "small": [320,50],             // small = ( phone )
+                "medium": [],             // medium = ( phablet )
+                "large": [],  // large = ( tablet )
+                "xlarge": []  // exlarge = ( laptop/desktop monitor )
+            }
+        // }, {
+        //     "tag": "dfp_smartphone_interstitial",
+        //     "sizes": [[320,480],[480, 320]]
+        }, {
+            "tag": "dfp_pushdown_brandscape",
+            "sizes": [[1, 5], [1, 14]]
+        }, {
+            "tag": "dfp_utility1",
+            "sizes": [1, 6]
+        }, {
+            "tag": "dfp_utility2",
+            "sizes": [1, 12]
+        }, {
+            "tag": "dfp_prog_bigbox",
+            "sizes": [[300, 250],[300, 600],[300, 1050]],
+            "mapping":{
+                "small": [320,50],             // small = ( phone )
+                "medium": [300,250],             // medium = ( phablet )
+                "large": [[300,250],[300,600]],  // large = ( tablet )
+                "xlarge": [[300,250],[300,600]]  // exlarge = ( laptop/desktop monitor )
+            }
+        }, {
+            "tag": "dfp_rsi_result",
+            "sizes": [1, 10]
+        }, {
+            "tag": "dfp_cartridge",
+            "sizes": [
+                [1, 11],
+                "fluid"
+            ]
+        }, {
+            "tag": "dfp_grocery_list",
+            "sizes": [1,13]
+        }, {
+            "tag": "dfp_native_ingredient",
+            "sizes": [1,15]
+        },{
+           "tag": "dfp_native_recommendation",
+           "sizes": [
+                [1,11],
+                "fluid"
+            ]
+       },{
+          "tag": "dfp_native_infeed",
+          "sizes": [1,11]
+      },{
+         "tag": "dfp_outstream",
+         "sizes": [1,8]
+      },{
+        "tag": "dfp_bigbox_alt",
+        "sizes": [[300,250]]
+      },{
+        "tag": "dfp_magazine",
+        "sizes": [[300,251], [300,601]]
+      },
+
+      /*======================================
+      =            INTL Ad Slots (UK)        =
+      ======================================*/
+      {
+        "tag": "dfp_intl_square",
+        "sizes": [300,250]
+      }, {
+        "tag": "dfp_intl_square_first",
+        "sizes": [300,250]
+      },{
+        "tag": "dfp_intl_fullwidth",
+        "sizes": []
+      },{
+        "tag": "dfp_intl_columnwidth",
+        "sizes": []
+      },{
+        "tag": "dfp_intl_fullwidth_first",
+        "sizes": []
+      },{
+        "tag": "dfp_intl_columnwidth_first",
+        "sizes": []
+      },{
+        "tag": "dfp_intl_inpage",
+        "sizes": [[300,250]]
+      },{
+        "tag": "dfp_intl_inpage_first",
+        "sizes": [[300,250]]
+      },{
+        "tag": "dfp_intl_rectangles",
+        "sizes": []
+      },{
+        "tag": "dfp_intl_rectangles_first",
+        "sizes": []
+      },{
+        "tag": "dfp_intl_btyb",
+        "sizes": [[300,40],[300,65],[300,100]]
+      },{
+        "tag": "dfp_intl_adhesives",
+        "sizes": []
+      },{
+        "tag": "dfp_intl_util_1",
+        "sizes": [[1,1]]
+      },{
+        "tag": "dfp_intl_util_2",
+        "sizes": [[1,1]]
+      },{
+        "tag": "dfp_intl_util_3",
+        "sizes": [[1,1]]
+      },{
+        "tag": "dfp_intl_polar",
+        "sizes": [[1,2]]
+      },{
+        "tag": "dfp_intl_sharethrough",
+        "sizes": [[1,3]]
+      },{
+        "tag": "dfp_intl_native_first",
+        "sizes": 'fluid'
+      },{
+        "tag": "dfp_intl_native",
+        "sizes": 'fluid'
+      }
+    ],
+
+    /**
+     * An array of ads that should be blocked on initial page load.
+     * @type {Array}
+     */
+    blockInitialLoad: ["dfp_photo_interstitial", "dfp_photo_interstitial_1", "dfp_smartphone_interstitial", "dfp_leaderboard_1", "dfp_bigbox_1"],
+
+    /**
+     * DFP Premium is based on the notion of ad unit hierarchies. The idea is for the levels to
+     * map against a sites content hierarchy. The DFP network ID is always first and acts as level_0.
+     * We can have up to five levels. Set the page data key to use for each level here.
+     *
+     * Level1 will aways be required and the library will make every effort to determine it if the datra is not accesible
+     * via mdManager or SniAds.init arguments.
+     *
+     * Any missing data beyond level 1 will be ignored and the resulting hierarchy will stop at level1.
+     *
+     * Extreme care should be taken when editing this. Changes have the potential to break ad functionality across the
+     * entire DFP platform. So, please be careful.
+     *
+     * *Important*
+     * Because there is not a consistent standard for meta-data key-values across the sites, a site may need to set this during
+     * library initialization to map to the correct site hierarchy. Only the levels that need to change must be set. The rest
+     * will use the global defaults.
+     *
+     * @example Setting custom hierarchy during init.
+     * var config = {
+     *     hierarchy_sections: {
+     *         "level1" : "customSiteKey",
+     *         "level2" : "customSectionKey"
+     *     }
+     * }
+     * Levels 3, 4, and 5 will use the global defaults set in the file.
+     *
+     */
+
+    // Default hierarchy - Can be overridden using overrides below based on site value.
+    "hierarchy_sections" : {
+      "level1": "site",
+      "level2": "categorydspname",
+      "level3": "sctndspname",
+      "level4": null,
+      "level5": null
+    },
+
+    "hierarchy_overrides": {
+        "spun": {
+          "level1": "site",
+          "level2": "section",
+          "level3": null,
+          "level4": null,
+          "level5": null
+        },
+        "hgtv": {
+          "level1": "site",
+          "level2": "categorydspname",
+          "level3": "sctndspname",
+          "level4": "subsection",
+          "level5": "subsection2"
+        },
+        "livingtv": {
+            "level1": "site",
+            "level2": "category",
+            "level3": null,
+            "level4": null,
+            "level5": null
+        },
+        "intl_food_uk": {
+            "level1": "site",
+            "level2": "intl_section",
+            "level3": null,
+            "level4": null,
+            "level5": null
+        },
+        "intl_food_it": {
+            "level1": "site",
+            "level2": "intl_section",
+            "level3": null,
+            "level4": null,
+            "level5": null
+        }
+    },
+
+    /*=====================================================
+    =            Photo Gallery Module Settings            =
+    =====================================================*/
+
+    "Gallery": {
+       /**
+        * Host server for descriptor file.
+        * @type {string}
+        */
+      "photoDescriptorUrl": (useSSL ? "https:" : "http:") + "//code.adsales.snidigital.com/conf/ads-descriptors.js",
+
+      // Testing ONLY
+      // "photoDescriptorUrl": "https://s3.amazonaws.com/sni-ad-ops/test/ads-descriptors.js",
+
+      /**
+       * The message to show during an interstitial while the gallery is disabled. The empty span will contain the
+       * delay timer and update every second.
+       * @type {string}
+       */
+      "skipMessage": "Advertisement: You may skip ad in <span></span> seconds.",
+      "interstitialSkipMessage": "Advertisement: You may skip ad in {{TIMELEFT}} seconds.",
+
+      /**
+       * Timer in seconds for interstitial element disable.
+       */
+      "interstitialTimer": 0,
+
+      /**
+       * Default descriptor file.
+       * @type {string}
+       */
+      "photoDescriptorDefault": {
+          active        : "true",
+          interstitial  : "true",
+          refreshRate   : "1",
+          piSlot        : [10, 20, 30, 40, 50, 60],
+          toSlot        : [60,70,80],
+          adhesionRate  : "3"
+      }
+    },
+
+    /*=============================================
+    =            River Module Settings            =
+    =============================================*/
+
+   "River": {
+        refreshRate: 2000, // Sets refresh rate for ad slots created with River.appendAutoSlot()
+        refreshSlotName: "dfp_bigbox_auto", // Name to use for the refrehable ad slot.
+        refreshTimeDelay: 10000 // Minimum time between ad refreshes (ignores refresh rate)
+    },
+
+    /*===========================================
+    =            Responsive Settings            =
+    ===========================================*/
+
+    "Responsive": {
+    },
+
+    /*=====================================
+    =            Sonobi Module            =
+    =====================================*/
+    "Sonobi": {
+        /**
+         * Sonobi placement mappings. The key is the dfp slot id and the value is the Sonobi placement id which is provided by Sonobi.
+         * Added: Mon Nov 24 13:07:33 2014
+         * This is currently the set to CCTV placements.
+         */
+        "sonobi_placement_map": {
+            "dfp_bigbox": "30f7acd0b97f989d1a38",
+            "dfp_prog_bigbox": "3fe30a35cb8aad7f64ed",
+            "dfp_smartphone_banner": "a956c96cc2c1a4a78ec3",
+            "dfp_leaderboard": "b3d21a8e7da6e5bcc679",
+            "dfp_leaderboard_body": "bad949d69e34c4476380"
+        },
+
+        /**
+         * Site specific Sonobi mappings. Old placement map must stay for now to ensure backward compat.
+         */
+        "placements": {
+            "food": {
+                "dfp_bigbox": "2e8e22dda03853264e63",
+                "dfp_prog_bigbox": "fd58b7cf72171295d5d4",
+                "dfp_smartphone_banner": "00ae1bb4f4a9542e8230",
+                "dfp_leaderboard": "dab9565c6af78c7301a7",
+                "dfp_leaderboard_body": "490c6af64bf29bb0e194"
+            },
+            // Due to CCTV being on old library version, the default placement set above is what is actually used.
+            "cook": {
+                "dfp_bigbox": "30f7acd0b97f989d1a38",
+                "dfp_prog_bigbox": "3fe30a35cb8aad7f64ed",
+                "dfp_smartphone_banner": "a956c96cc2c1a4a78ec3",
+                "dfp_leaderboard": "b3d21a8e7da6e5bcc679",
+                "dfp_leaderboard_body": "bad949d69e34c4476380"
+            },
+            "diy": {
+                "dfp_bigbox": "e95e62391a61191106fd",
+                "dfp_prog_bigbox": "1119b4b96c6586046462",
+                "dfp_smartphone_banner": "a08a9f8cdf9088d9333d",
+                "dfp_leaderboard": "b2cef70b2e66fe80e6bb",
+                "dfp_leaderboard_body": "43f27656ccf3106a6e67"
+            },
+            "foodcom": {
+                "dfp_bigbox": "2419a52ae3d069aeb0fe",
+                "dfp_prog_bigbox": "ce6a7f0b06d2bf92a361",
+                "dfp_smartphone_banner": "3fb0f8aff1aa558f03c4",
+                "dfp_leaderboard": "81342a2857d646ce811f",
+                "dfp_leaderboard_body": "afa14c417a2588c858f5"
+            },
+            "gac": {
+                "dfp_bigbox": "fc590eba8c409760d64d",
+                "dfp_prog_bigbox": "cbc27bdbe9bc3900551b",
+                "dfp_smartphone_banner": "d7d8713000ca0bd2c60c",
+                "dfp_leaderboard": "579c4642ebd130129de1",
+                "dfp_leaderboard_body": "003b2716af198e567512"
+            },
+            "hgtv": {
+                "dfp_bigbox": "83aedfbdd86204dfb1cf",
+                "dfp_prog_bigbox": "d3e0d20c2be5dd3ef73e",
+                "dfp_smartphone_banner": "55d9cd90f17fee1bab14",
+                "dfp_leaderboard": "14af6690d7ed7a31f20f",
+                "dfp_leaderboard_body": "3dfd07b82f4c8611e810"
+            },
+            "travel": {
+                "dfp_bigbox": "3d01d043a59c194eff93",
+                "dfp_prog_bigbox": "aa40388f048cea828b20",
+                "dfp_smartphone_banner": "61070b8e48710760f7cf",
+                "dfp_leaderboard": "2661e2866ec1731713da",
+                "dfp_leaderboard_body": "b71ef6fbac7f6e1af24c"
+            }
+        },
+
+        /**
+         * Maximum time to wait for Trinity request to resolve in milliseconds.
+         */
+        "trinity_timeout": 400
+    },
+
+    /*==============================
+    =            Amazon            =
+    ==============================*/
+    "Amazon": {
+        /**
+         * Source id for publisher
+         */
+        "id": "3043",
+        /**
+         * Max wait time for Amazon request in milliseconds
+         */
+        "load_timeout": 400
+    },
+
+    /*========================================================
+    =            Catch/Release Leaderboard Config            =
+    ========================================================*/
+    // Array of config objects
+    "CNR": [
+        {
+            "active": true,
+            "postRenderTimer": 8,
+            "maxTimer":30,
+            "allowEarlyRelease": false,
+            "keys": {
+                "site": "food",
+                "delivery_channel": "web"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 8,
+            "maxTimer":30,
+            "allowEarlyRelease": false,
+            "keys": {
+                "site": "food",
+                "delivery_channel": "web"
+            }
+        },
+        {
+            "active": false,
+            "postRenderTimer": 8,
+            "maxTimer":30,
+            "allowEarlyRelease": false,
+            "keys": {
+                "site": "food",
+                "delivery_channel": "web",
+                "uniqueid": "food_fullwidthpage_ebe8f3b7651ee8500e50165ee13674ca_1"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 10,
+            "maxTimer":30,
+            "allowEarlyRelease": false,
+            "keys": {
+                "site": "food",
+                "category": "recipes",
+                "delivery_channel": "web"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 10,
+            "maxTimer":30,
+            "allowEarlyRelease": false,
+            "keys": {
+                "site": "food",
+                "category": "shows",
+                "delivery_channel": "web"
+            }
+        },
+        {
+            "active": false,
+            "keys": {
+                "site": "food",
+                "section": "sponsored",
+                "delivery_channel": "web"
+            }
+        },
+        {
+            "active": false,
+            "keys": {
+                "site": "food",
+                "section": "videos",
+                "delivery_channel": "web"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 12,
+            "allowEarlyRelease": false,
+            "maxTimer":30,
+            "keys": {
+                "site": "food",
+                "dfpenv": "s",
+                "delivery_channel": "web"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 8,
+            "allowEarlyRelease": false,
+            "maxTimer":30,
+            "keys": {
+                "site": "hgtv",
+                "delivery_channel": "web"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 8,
+            "allowEarlyRelease": false,
+            "disableRelease": true,
+            "maxTimer":30,
+            "keys": {
+                "site": "food",
+                "delivery_channel": "web",
+                "type": "photogallerypage"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 8,
+            "allowEarlyRelease": false,
+            "disableRelease": true,
+            "maxTimer":30,
+            "keys": {
+                "site": "cook",
+                "delivery_channel": "web",
+                "type": "photogallerypage"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 8,
+            "allowEarlyRelease": false,
+            "disableRelease": true,
+            "maxTimer":30,
+            "keys": {
+                "site": "hgtv",
+                "delivery_channel": "web",
+                "type": "photogallerypage"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 8,
+            "allowEarlyRelease": false,
+            "disableRelease": true,
+            "maxTimer":30,
+            "keys": {
+                "site": "hgtv",
+                "delivery_channel": "web",
+                "type": "photolibraryviewerpage"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 8,
+            "allowEarlyRelease": false,
+            "disableRelease": true,
+            "maxTimer":30,
+            "keys": {
+                "site": "tlc",
+                "delivery_channel": "web",
+                "type": "photogallerypage"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 8,
+            "allowEarlyRelease": false,
+            "disableRelease": true,
+            "maxTimer":30,
+            "keys": {
+                "site": "tlc",
+                "delivery_channel": "web",
+                "type": "photolibraryviewerpage"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 8,
+            "allowEarlyRelease": false,
+            "disableRelease": true,
+            "maxTimer":30,
+            "keys": {
+                "site": "investigationdiscovery",
+                "delivery_channel": "web",
+                "type": "photogallerypage"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 8,
+            "allowEarlyRelease": false,
+            "disableRelease": true,
+            "maxTimer":30,
+            "keys": {
+                "site": "investigationdiscovery",
+                "delivery_channel": "web",
+                "type": "photolibraryviewerpage"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 8,
+            "allowEarlyRelease": false,
+            "maxTimer":30,
+            "keys": {
+                "site": "gac",
+                "delivery_channel": "web"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 8,
+            "allowEarlyRelease": false,
+            "maxTimer":30,
+            "keys": {
+                "site": "diy",
+                "delivery_channel": "web"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 8,
+            "allowEarlyRelease": false,
+            "disableRelease": true,
+            "maxTimer":30,
+            "keys": {
+                "site": "gac",
+                "delivery_channel": "web",
+                "type": "photogallerypage"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 8,
+            "allowEarlyRelease": false,
+            "disableRelease": true,
+            "maxTimer":30,
+            "keys": {
+                "site": "diy",
+                "delivery_channel": "web",
+                "type": "photogallerypage"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 8,
+            "allowEarlyRelease": false,
+            "maxTimer":30,
+            "keys": {
+                "site": "travel",
+                "delivery_channel": "web"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 8,
+            "allowEarlyRelease": false,
+            "disableRelease": true,
+            "maxTimer":30,
+            "keys": {
+                "site": "travel",
+                "delivery_channel": "web",
+                "pagetype": "photogallerypage"
+
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 8,
+            "maxTimer":30,
+            "allowEarlyRelease": false,
+            "keys": {
+                "site": "spun"
+            }
+        },
+        {
+            "active": false,
+            "postRenderTimer": 8,
+            "maxTimer":30,
+            "allowEarlyRelease": false,
+            "keys": {
+                "site": "hgtv",
+                "category": "home"
+            }
+        },
+        {
+            "active": true,
+            "postRenderTimer": 8,
+            "allowEarlyRelease": false,
+            "disableRelease": true,
+            "maxTimer":30,
+            "keys": {
+                "site": "hgtv",
+                "delivery_channel": "web",
+                "type": "votepage"
+            }
+        },
+        {
+            "active": false,
+            "postRenderTimer": 8,
+            "allowEarlyRelease": false,
+            "disableRelease": true,
+            "maxTimer":30,
+            "keys": {
+                "site": "hgtv",
+                "delivery_channel": "web",
+                "abcell": "inspo",
+                "pagetype": "photolibraryviewerpage"
+            }
+        },
+        {
+            "active": false,
+            "keys": {
+                "site": "travel",
+                "category": "sweepstakes",
+                "delivery_channel": "web"
+            }
+        }
+
+    ],
+
+    /*==============================================
+    =            HeaderTag Site Control            =
+    ==============================================*/
+    "HeaderTag": {
+        "sites": [] // Sites where headertag code is enabled.
+    },
+
+    // Init the ST keys array
+    "ShareThroughKeys": []
+};
+
+
+
+if( document.location.pathname.indexOf("topic") > -1 ){
+    SniAdsConfig.ShareThroughKeys.push(
+    {
+      "placementId": "bdf49437",
+      "keys": {
+          "site": "foodcom",
+          "deliverychannel": "small"
+      }
+    },{
+      "placementId": "iwsAv9xCixDw9PezdgFA1wAY",
+      "keys": {
+          "site": "foodcom",
+          "deliverychannel": "medium"
+      }
+    },{
+      "placementId": "iwsAv9xCixDw9PezdgFA1wAY",
+      "keys": {
+          "site": "foodcom",
+          "deliverychannel": "large"
+      }
+    }
+    );
+}
+var dfpAdRestrictions = [];
+var dfpSizeOverrides = [];
+
+// Basic ad restriction file. All keys in a block must match for that block to pass and its action to apply. Note, the block order is important as a later block can operate on the same settings as an earlier one. General restriction blocks should come before specific ones.
+//
+// IMPORTANT: *** ALL KEYS AND VALUES MUST BE LOWER-CASED. ***
+
+//IMPORTANT: *** ALWAYS USING SniAds.getKeyValues() IN CONSOLE FOR DETERMINE CORRECT VALES FOR ADDING NEW RESTRICTIONS
+
+/*======================================
+=            Size Overrides            =
+======================================*/
+/* Example block of Overide
+dfpSizeOverrides.push({
+   tag: "dfp_pushdown_brandscape",
+   sizes: [[300,250]],
+   keys: {
+       "site": "food",
+       "sponsorship": "size_override_testing"
+   }
+});
+*/
+
+// Restrict the 300x600 & 300x1050 slot size on the dfp_bigbox adslot on Food.com homepage
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250]],
+    keys: {
+        "site": "foodcom",
+        "pagetype": "home"
+    }
+});
+
+// Restrict the 300x600 & 300x1050 slot size on the dfp_bigbox adslot on Food Network homepage
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250]],
+    keys: {
+        "site": "food",
+        "category": "home"
+    }
+});
+dfpSizeOverrides.push({
+    tag: "dfp_prog_bigbox",
+    sizes: [[300, 250]],
+    keys: {
+        "site": "food",
+        "category": "home"
+    }
+});
+
+// Restrict the 300x600 & 300x1050 slot size on the dfp_bigbox adslot on Food Network Store
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250]],
+    keys: {
+        "site": "food",
+        "category": "store"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250],[300,600]],
+    keys: {
+        "site": "foodcom",
+        "categorydspname": "recipes"
+    }
+});
+
+// Restrict the 300x600 & 300x1050 slot size on the dfp_bigbox adslot on Cooking Chanel homepage
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250]],
+    keys: {
+        "site": "cook",
+        "uniqueid": "cook_landingpage_48f984bbbe30b03b15cd52c40b96e001_1"
+    }
+});
+
+
+// Restrict the 300x1050 slot size on the dfp_bigbox adslot on hgtv portal page
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250]],
+    keys: {
+        "site": "hgtv",
+        "uniqueid": "hgtv_landingpage_b9823d3b_dd07_4c47_a5c4_8ee31dcc795d_1"
+    }
+});
+
+// The unique IDs keep changing for the home page restrictions so using category=home Fri Aug 21 11:03:25 2015
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250]],
+    keys: {
+        "site": "hgtv",
+        "category": "home"
+    }
+});
+
+
+// Restrict the 300x250 & 300x1050 sizes on the dfp_bigbox adslot on photo library mainpage
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 600]],
+    keys: {
+        "site": "hgtv",
+        "category": "photos_main"
+    }
+});
+
+// Restrict the 300x1050 sizes on the dfp_bigbox adslot on photo library page
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300,250], [300, 600]],
+    keys: {
+        "site": "hgtv",
+        "category": "pl_rooms_and_spaces"
+    }
+});
+
+// Restrict the 300x250 sizes on the dfp_bigbox adslot on videoplaylistpage
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250]],
+    keys: {
+        "site": "hgtv",
+        "pagetype": "videoplaylistpage"
+    }
+});
+
+
+// Restrict the 300x250 sizes on the dfp_bigbox adslot on singlevideopage
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250]],
+    keys: {
+        "site": "hgtv",
+        "pagetype": "singlevideopage"
+    }
+});
+
+/*========================================================
+=       First Entry Pushdown 1x14 SizeOverrides  Begin =
+=========================================================*/
+
+// Restrict the 1x14 slot size on the pushdown/brandsape adslot on Food.com homepage
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "site": "foodcom",
+        "pagetype": "home"
+    }
+});
+
+// Restrict the 1x14 slot size on the pushdown/brandsape adslot on Food Network homepage
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "pagetype": "homepage"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "category": "home"
+    }
+});
+
+
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "category": "home"
+    }
+});
+
+
+// Start Generic Pagetype & Category  1x14 slot size restrictions across all sites
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "pagetype": "video"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "pagetype": "player"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "pagetype": "channel"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "pagetype": "photo_gallery"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "pagetype": "article"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "vgncontent": "search"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "category": "blog"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "category": "store"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "category": "marketplace"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "category": "about_us"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "category": "doory_awards"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "category": "healthy_eating"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "vgncontent": "myrecipebox"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "pagetype": "video_player"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "pagetype": "landingpage"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "uniqueid": "hgtv_landingpage_466c141156dd2b88eeffedd780cf9126_1"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "uniqueid": "diy_landingpage_e8a03bb91937cfc0387317393cdbb9b4_1"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "uniqueid": "gac_landingpage_fa5a26ed246fca9bdcd0dfe8701407d9_1"
+    }
+});
+
+// Restrict the 1x14 slot size on the pushdown/brandsape adslot on Cooking Chanel homepage
+dfpSizeOverrides.push({
+    tag: "dfp_pushdown_brandscape",
+    sizes: [[1, 5]],
+    keys: {
+        "site": "cook",
+        "uniqueid": "cook_cook_home_section_b9dbee4b_78b0_4bb0_b391_046b8436d4cc_1"
+    }
+});
+
+// End Generic Pagetype & Category  1x14 slot size restrictions across all sites
+
+/*=====================================================
+=       First Entry Pushdown 1x14 SizeOverrides  End =
+=======================================================*/
+
+
+/*=================================
+=       Additional Size Overrides =
+===================================*/
+
+// Limit holiday bigbox to 300x250 only.
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox_3",
+    sizes: [[300,250]],
+    keys: {
+        "site": "food",
+        "pagetype": "recipe"
+    }
+});
+
+// Restrict the 300x600 & 300x1050 slot size on the dfp_bigbox on blog pages
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250]],
+    keys: {
+        "site": "food",
+        "category": "blog",
+        "pagetype": "feed"
+    }
+});
+
+
+// Restrict the 300x50 size from the dfp_leaderboard_body slot. Only 728x90 valid. Breakpoint mapping will make this apply to mobile only.
+// Added: Fri Nov  7 15:03:47 2014 - AH
+// Disabled: Sat Nov  8 20:16:47 2014 (Kinda tricky so leaving here commented if we need to do again at some point.)
+// dfpSizeOverrides.push({
+//     tag: "dfp_leaderboard_body",
+//     sizes: [[728,90]],
+//     keys: {
+//         "site": "hgtv",
+//         "pagetype": "photolibrarycollectionpage",
+//         "category": "photos_search"
+//     }
+// });
+
+/*=====================================
+=       Additional Size Overrides END =
+=====================================*/
+
+
+/*======================================
+=           Restrictions           =
+======================================*/
+// Restrict the dfp_leaderboard slot on foodnetwork homepage
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "category": "home"
+    }
+});
+
+
+// Restrict the dfp_cartridge slot on foodnetwork search page
+// ENABLED on Wed Oct 14 17:37:00 2015 to address critical RSI problem. disable after FN pushes fix.
+dfpAdRestrictions.push({
+    tag: "dfp_cartridge",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "category": "search"
+    }
+});
+
+
+// Restrict the dfp_cartridge slot on foodnetwork photo gallery pages
+dfpAdRestrictions.push({
+    tag: "dfp_cartridge",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "pagetype": "photo_gallery"
+    }
+});
+
+// Restrict the dfp_cartridge slot on foodnetwork http://www.foodnetwork.com/sponsored/sweepstakes/cantry-cook-off/rules.html
+dfpAdRestrictions.push({
+    tag: "dfp_cartridge",
+    action: "restrict",
+    keys: {
+        "uniqueid": "food_universal_landing_7bd1b35c_afe3_4a72_8c51_e8cbaab346c7_1"
+    }
+});
+
+// Restrict cartridge on homepages
+dfpAdRestrictions.push({
+    tag: "dfp_cartridge",
+    action: "restrict",
+    keys: {
+        "pagetype": "homepage"
+    }
+});
+
+// Restrict the dfp_pushdown_brandscape slot on foodnetwork http://www.foodnetwork.com/sponsored/sweepstakes/cantry-cook-off/rules.html
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "uniqueid": "food_universal_landing_7bd1b35c_afe3_4a72_8c51_e8cbaab346c7_1"
+    }
+});
+
+// Pushdown restrictions for new Core Launch 02/07/17
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "pagetype": "photogallerypage"
+    }
+});
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "cook",
+        "pagetype": "photogallerypage"
+    }
+});
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "pagetype": "sitesearchpage"
+    }
+});
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "cook",
+        "pagetype": "sitesearchpage"
+    }
+});
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "pagetype": "singlevideopage"
+    }
+});
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "cook",
+        "pagetype": "singlevideopage"
+    }
+});
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "pagetype": "videoplaylistpage"
+    }
+});
+
+dfpAdRestrictions.push({
+    tag: "dfp_native_recommendation",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "pagetype": "photogallerypage"
+    }
+});
+
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "cook"
+    }
+});
+
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "cook",
+        "pagetype": "videoplaylistpage"
+    }
+});
+
+
+
+// Restrict the dfp_utility1 slot on foodnetwork homepage
+// dfpAdRestrictions.push({
+    // tag: "dfp_utility1",
+//     action: "restrict",
+//     keys: {
+//         "site": "food",
+//         "pagetype": "homepage"
+//     }
+// });
+
+
+// Restrict the dfp_utility2 slot on foodnetwork homepage
+dfpAdRestrictions.push({
+    tag: "dfp_utility2",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "pagetype": "homepage"
+    }
+});
+
+// Restrict the dfp_leaderboard slot on Cooking Channel homepage
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "restrict",
+    keys: {
+        "site": "cook",
+        "category": "home"
+    }
+});
+
+
+// Restrict 300x150 on main Foodnetwork.com page.
+dfpAdRestrictions.push({
+    tag: "dfp_sponsorship_module",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "pagetype": "homepage"
+    }
+});
+
+// Restrict dfp_mobile_banner on FOOD store pages in case the slot is not removed. One they remove it, we can take this out. - Andy 9/30/2014
+dfpAdRestrictions.push({
+    tag: "dfp_mobile_banner",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "category": "store"
+    }
+});
+
+// Restrict the dfp_leaderboard slot of Food.com home page
+// dfpAdRestrictions.push({
+//     tag: "dfp_leaderboard",
+//     action: "restrict",
+//     keys: {
+//         "site": "foodcom",
+//         "pagetype": "home"
+//     }
+// });
+
+
+//************************************************************************//
+//                  -- Begin Home Ad Restrictions --                        //
+//***********************************************************************//
+
+// Restrict the dfp_leaderboard slot on photo library advertiser profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "photolibrarylandingpage"
+    }
+});
+
+// Restrict the dfp_pushdown_brandscape slot on photo library landing page
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "photolibrarylandingpage"
+    }
+});
+
+// Restrict the dfp_cartridge slot on photo library landing page
+dfpAdRestrictions.push({
+    tag: "dfp_cartridge",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "photolibrarylandingpage"
+    }
+});
+
+// Restrict the dfp_pushdown_brandscape slot on photo library viewer page
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "photolibraryviewerpage"
+    }
+});
+
+// Restrict the dfp_smartphone_banner slot on photo library advertiser profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_smartphone_banner",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "advertiserprofilepage"
+    }
+});
+
+// Restrict the dfp_leaderboard slot on photo library advertiser profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "advertiserprofilepage"
+    }
+});
+
+// Restrict the dfp_bigbox slot on photo library advertiser profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_bigbox",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "advertiserprofilepage"
+    }
+});
+
+// Restrict the dfp_pushdown_brandscape slot on photo library advertiser profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "advertiserprofilepage"
+    }
+});
+
+// Restrict the dfp_logo slot on photo library advertiser profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_logo",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "advertiserprofilepage"
+    }
+});
+
+// Restrict the dfp_logo slot on http://www.hgtv.com/about-us/hgtv-sweepstakes/25-grand-in-your-hand/flip-or-flop
+dfpAdRestrictions.push({
+    tag: "dfp_logo",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "subsection": "25-grand-in-your-hand"
+    }
+});
+
+// Restrict the dfp_sponsorship_module slot on photo library advertiser profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_sponsorship_module",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "advertiserprofilepage"
+    }
+});
+
+
+// Restrict the dfp_prog_bigbox slot on photo library advertiser profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_prog_bigbox",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "advertiserprofilepage"
+    }
+});
+
+
+// Restrict the dfp_smartphone_banner slot on photo library professional profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_smartphone_banner",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "professionalprofilepage"
+    }
+});
+
+// Restrict the dfp_leaderboard slot on photo library professional profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "professionalprofilepage"
+    }
+});
+
+// Restrict the dfp_bigbox slot on photo library professional profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_bigbox",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "professionalprofilepage"
+    }
+});
+
+// Restrict the dfp_pushdown_brandscape slot on photo library professional profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "professionalprofilepage"
+    }
+});
+
+// Restrict the dfp_logo slot on photo library professional profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_logo",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "professionalprofilepage"
+    }
+});
+
+// Restrict the dfp_sponsorship_module slot on photo library professional profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_sponsorship_module",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "professionalprofilepage"
+    }
+});
+
+
+// Restrict the dfp_prog_bigbox slot on photo library professional profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_prog_bigbox",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "professionalprofilepage"
+    }
+});
+
+// Restrict the dfp_smartphone_banner slot on photo library designer profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_smartphone_banner",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "designerprofilepage"
+    }
+});
+
+// Restrict the dfp_smartphone_banner slot on photo library viewer pages
+dfpAdRestrictions.push({
+    tag: "dfp_smartphone_banner",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "photolibraryviewerpage"
+    }
+});
+
+// Restrict the dfp_leaderboard slot on photo library designer profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "designerprofilepage"
+    }
+});
+
+// Restrict the dfp_bigbox slot on photo library designer profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_bigbox",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "designerprofilepage"
+    }
+});
+
+// Restrict the dfp_pushdown_brandscape slot on photo library designer profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "designerprofilepage"
+    }
+});
+
+// Restrict the dfp_logo slot on photo library designer profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_logo",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "designerprofilepage"
+    }
+});
+
+// Restrict the dfp_sponsorship_module slot on photo library designer profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_sponsorship_module",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "designerprofilepage"
+    }
+});
+
+
+// Restrict the dfp_prog_bigbox slot on photo library designer profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_prog_bigbox",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "designerprofilepage"
+    }
+});
+
+
+// end designer page restrictionss
+
+
+
+// begin partner profile page restrictions.
+
+// Restrict the dfp_smartphone_banner slot on photo library partner profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_smartphone_banner",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "partnerprofilepage"
+    }
+});
+
+// Restrict the dfp_leaderboard slot on photo library partner profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "partnerprofilepage"
+    }
+});
+
+// Restrict the dfp_bigbox slot on photo library partner profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_bigbox",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "partnerprofilepage"
+    }
+});
+
+// Restrict the dfp_pushdown_brandscape slot on photo library partner profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "partnerprofilepage"
+    }
+});
+
+// Restrict the dfp_logo slot on photo library partner profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_logo",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "partnerprofilepage"
+    }
+});
+
+// Restrict the dfp_sponsorship_module slot on photo library partner profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_sponsorship_module",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "partnerprofilepage"
+    }
+});
+
+
+// Restrict the dfp_prog_bigbox slot on photo library partner profile pages
+dfpAdRestrictions.push({
+    tag: "dfp_prog_bigbox",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "partnerprofilepage"
+    }
+});
+
+
+// end partner profile page
+
+
+
+// Restrict the dfp_logo slot on hgtv pagetype landingpage pages
+dfpAdRestrictions.push({
+    tag: "dfp_logo",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "landingpage"
+    }
+});
+
+
+// Restrict the dfp_pushdown_brandscape slot on hgtv pagetype singlevideopagee pages
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "singlevideopage"
+    }
+});
+
+// Restrict the dfp_pushdown_brandscape slot on hgtv pagetype videoplaylistpage pages
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "videoplaylistpage"
+    }
+});
+
+// Restrict the dfp_pushdown_brandscape slot on hgtv pagetype videoplaylistpage pages ENABLE For Charles Schwab spons
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "enable",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "videoplaylistpage",
+        "sponsorship": "charles_schwab"
+    }
+});
+
+
+
+// Restrict the dfp_pushdown_brandscape slot on hgtv pagetype photogallerypage pages
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "photogallerypage"
+    }
+});
+
+// Restrict the dfp_leaderboard on the top of the navigation slot on hgtv pagetype photolibrarycollectionpage pages
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "photolibrarycollectionpage"
+    }
+});
+
+// Restrict the dfp_smartphone_banner on the top of the navigation slot on hgtv pagetype photolibrarycollectionpage pages
+dfpAdRestrictions.push({
+    tag: "dfp_smartphone_banner",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "photolibrarycollectionpage"
+    }
+});
+
+
+// Restrict the dfp_bigbox  on hgtv singlevideopage page
+dfpAdRestrictions.push({
+    tag: "dfp_bigbox",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "pagetype": "singlevideopage"
+    }
+});
+
+
+// Restrict the dfp_photo_interstitial  on hgtv category sponsors pages
+dfpAdRestrictions.push({
+    tag: "dfp_photo_interstitial",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "category": "sponsors"
+    }
+});
+
+// Restrict the dfp_sponsorship_module  on hgtv sponsor pages
+dfpAdRestrictions.push({
+    tag: "dfp_sponsorship_module",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "category": "sponsors"
+    }
+});
+
+
+// Restrict the dfp_prog_bigbox on hgtv sponsor pages
+dfpAdRestrictions.push({
+    tag: "dfp_prog_bigbox",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "category": "sponsors"
+    }
+});
+
+
+// Restrict the dfp_native_recommendation on uniqueId: hgtv_articlepage_356aaad33fcb4f17eb9ce0abfd018995_1
+dfpAdRestrictions.push({
+    tag: "dfp_native_recommendation",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "uniqueid": "hgtv_articlepage_356aaad33fcb4f17eb9ce0abfd018995_1"
+    }
+});
+
+// Sponsorship module restrict on HGTV home page.
+dfpAdRestrictions.push({
+    tag: "dfp_sponsorship_module",
+    action: "restrict",
+    keys: {
+        "sctndspname": "home"
+    }
+});
+
+/*================================================
+=            DIY Network Restrictions            =
+================================================*/
+
+// Restrict leaderboard on DIY homepages
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "restrict",
+    keys: {
+        "site": "diy",
+        "uniqueid": "diy_landingpage_e8a03bb91937cfc0387317393cdbb9b4_1"
+    }
+});
+
+/*=========================================
+=            TravelChannel.com            =
+=========================================*/
+
+ // Restrict leaderboard on homepage.
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "restrict",
+    keys: {
+        "site": "travel",
+        "category":"home"
+    }
+});
+
+// Restrict dfp_logo on Travel sweeps landing page
+dfpAdRestrictions.push({
+    tag: "dfp_logo",
+    action: "restrict",
+    keys: {
+        "site": "travel",
+        "unique": "travel_universallandingpage_c403324ca084ee51b6a9667ebad7b37d_1"
+    }
+});
+
+ // Restrict bigbox auto on homepage.
+dfpAdRestrictions.push({
+    tag: "dfp_bigbox_auto",
+    action: "restrict",
+    keys: {
+        "site": "travel",
+        "category":"home"
+    }
+});
+
+// Enable for cs_debug
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "enable",
+    keys: {
+        "site": "travel",
+        "category":"home",
+        "delivery_channel": "mobile"
+    }
+});
+
+
+/**
+ * Size Overrides
+ */
+
+// Restrict the 300x600 & 300x1050 slot size on the dfp_bigbox adslot on Travel homepage
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250]],
+    keys: {
+        "site": "travel",
+        "category":"home"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250],[300,600]],
+    keys: {
+        "site": "travel",
+        "pagetype": "photogallerypage"
+    }
+});
+
+
+// Restrict the 300x600 & 300x1050 slot size on the dfp_bigbox adslot on DIY homepage
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250]],
+    keys: {
+        "site": "diy",
+        "uniqueid": "diy_landingpage_e8a03bb91937cfc0387317393cdbb9b4_1"
+    }
+});
+
+// Restrict the 300x600 & 300x1050 slot size on the dfp_bigbox adslot on HGTV homepage
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250]],
+    keys: {
+        "site": "hgtv",
+        "uniqueid": "hgtv_landingpage_466c141156dd2b88eeffedd780cf9126_1"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250],[300,600]],
+    keys: {
+        "site": "travel",
+        "pagetype": "photo_gallery"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250],[300,600]],
+    keys: {
+        "site": "cook",
+        "pagetype": "photogallerypage"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250],[300,600]],
+    keys: {
+        "site": "hgtv",
+        "pagetype": "photogallerypage"
+    }
+});
+
+// Restrict to 300x250 only on Travel mobile.
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250]],
+    keys: {
+        "site": "travel",
+        "delivery_channel": "mobile"
+    }
+});
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox_auto",
+    sizes: [[300, 250]],
+    keys: {
+        "site": "travel",
+        "delivery_channel": "mobile"
+    }
+});
+
+
+/*========================================
+=            FN Magazine Slot            =
+========================================*/
+dfpAdRestrictions.push({
+    tag: "dfp_magazine",
+    action: "restrict",
+    keys: {
+        "site": "food"
+    }
+});
+dfpAdRestrictions.push({
+    tag: "dfp_magazine",
+    action: "enable",
+    keys: {
+        "site": "food",
+        "source": "foodnetworkmagazine"
+    }
+});
+
+
+
+/*======================================================
+=            Spoon University Configuration            =
+======================================================*/
+dfpSizeOverrides.push({
+    tag: "dfp_leaderboard",
+    sizes: [[320, 50]],
+    keys: {
+        "site": "spun",
+        "delivery_channel": "mobile"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300,250],[300,600]],
+    keys: {
+        "site": "spun"
+    }
+});
+
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "restrict",
+    keys: {
+        "site": "spun",
+        "section": "homepage"
+    }
+});
+
+dfpAdRestrictions.push({
+    tag: "dfp_smartphone_banner",
+    action: "restrict",
+    keys: {
+        "site": "spun",
+        "delivery_channel": "web"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_leaderboard_body",
+    sizes: [[300,250]],
+    keys: {
+        "site": "spun",
+        "delivery_channel": "mobile"
+    }
+});
+
+
+
+/**
+* GAC Restrictions
+**/
+
+// 300x250 only on home page
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300,250]],
+    keys: {
+        "site": "gac",
+        "uniqueid": "gac_landingpage_fa5a26ed246fca9bdcd0dfe8701407d9_1"
+    }
+});
+
+// Remove 300x1050 on photolibrary landing page
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300,250],[300,600]],
+    keys: {
+        "site": "hgtv",
+        "pagetype": "photolibrarylandingpage"
+    }
+});
+
+// Restrict to 300x250 bigbox on pagetype = HOWTO on FCOM. AH - Mon Dec 14 10:27:31 2015
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300,250]],
+    keys: {
+        "site": "foodcom",
+        "pagetype": "howto"
+    }
+});
+
+// Restrict 970x250 size units
+dfpSizeOverrides.push({
+    tag: "dfp_leaderboard",
+    sizes: [[728,90],[970,90]],
+    keys: {
+        "site": "foodcom"
+    }
+});
+
+// Restrict to 300x1050 bigbox on pagetype = scc3
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300,250],[300,600]],
+    keys: {
+        "site": "foodcom",
+        "pagetype": "scc3"
+    }
+});
+
+
+
+// Set leaderboard size for flex support on foodcom
+dfpSizeOverrides.push({
+    tag: "dfp_leaderboard",
+    sizes: [[728,90], [970,250], [970,90]],
+    keys: {
+        "site": "foodcom"
+    }
+});
+dfpSizeOverrides.push({
+    tag: "dfp_leaderboard",
+    sizes: [[728,90], [970,250], [970,90], [1,5]],
+    keys: {
+        "site": "foodcom",
+        "pagetype": "home"
+    }
+});
+
+// Restrict 970 width size units on tablet
+dfpSizeOverrides.push({
+    tag: "dfp_leaderboard",
+    sizes: [[728,90]],
+    keys: {
+        "site": "foodcom",
+        "delivery_channel": "tablet"
+    }
+});
+dfpSizeOverrides.push({
+    tag: "dfp_leaderboard",
+    sizes: [[728,90], [1,5]],
+    keys: {
+        "site": "foodcom",
+        "delivery_channel": "tablet",
+        "pagetype": "home"
+    }
+});
+
+
+// Restrict the leaderboard on home page.
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "restrict",
+    keys: {
+        "site": "gac",
+        "uniqueid": "gac_landingpage_fa5a26ed246fca9bdcd0dfe8701407d9_1"
+    }
+});
+
+// Restrict leaderboard and mobile banner on ballpark package
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "topic": "ballpark"
+    }
+});
+dfpAdRestrictions.push({
+    tag: "dfp_smartphone_banner",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "topic": "ballpark"
+    }
+});
+
+
+// Restrict logo slot on FN episode page
+dfpAdRestrictions.push({
+    tag: "dfp_logo",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "uniqueid": "food%7cvideo_player%7c73bdf182_7512_431c_8512_ad760cb16966%7c1"
+    }
+});
+
+
+// Restrict 300x150 slot on Food.com slideshows
+dfpAdRestrictions.push({
+    tag: "dfp_sponsorship_module",
+    action: "restrict",
+    keys: {
+        "site": "foodcom",
+        "pagetype": "slideshow"
+    }
+});
+
+// Restrict 320x150 on FN pages with for test.
+dfpAdRestrictions.push({
+    tag: "dfp_smartphone_banner",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "difficulty": "test"
+    }
+});
+
+// Restrict 300x600 on mobile
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox_1",
+    sizes: [[300, 250]],
+    keys: {
+        "delivery_channel": "mobile"
+    }
+});
+
+//
+dfpSizeOverrides.push({
+    tag: "dfp_cartridge",
+    sizes: [[320, 50], [1, 11], "fluid"],
+    keys: {
+        "deliverychannel": "mobile"
+    }
+});
+dfpSizeOverrides.push({
+    tag: "dfp_native_recommendation",
+    sizes: [[320, 50], [1, 11], "fluid"],
+    keys: {
+        "deliverychannel": "mobile"
+    }
+});
+
+
+
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[320,50]],keys: {"site": "foodcom","deliverychannel": "small"}});
+
+// Full width HGTV homepage configurations
+
+// HGTV
+dfpSizeOverrides.push({tag: "dfp_bigbox",sizes: [[300,250], [300,600]],keys: {"site": "hgtv", "pagetype": "fullwidthpage"}});
+dfpSizeOverrides.push({tag: "dfp_smartphone_banner",sizes: [[320, 50], [1,5]],keys: {"site": "hgtv"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard",action: "restrict",keys: {"site": "hgtv","pagetype": "fullwidthpage"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard_body",sizes: [[728,90],[970,90],[4,1]],ignoreMapping: true,keys: {"site": "hgtv","pagetype": "fullwidthpage"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard_body",sizes: [[320,50],[4,1]],ignoreMapping: true,keys: {"site": "hgtv","pagetype": "fullwidthpage", "delivery_channel": "mobile"}});
+
+
+// Food
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [1,5]],keys: {"site": "food", "pagetype": "fullwidthpage"}});
+dfpSizeOverrides.push({tag: "dfp_bigbox",sizes: [[300,250], [300,600]],keys: {"site": "food", "pagetype": "fullwidthpage"}});
+dfpSizeOverrides.push({tag: "dfp_smartphone_banner",sizes: [[320, 50], [1,5]],keys: {"site": "food"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard",action: "restrict",keys: {"site": "food","pagetype": "fullwidthpage"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard_body",sizes: [[728,90],[970,90],[4,1]],ignoreMapping: true,keys: {"site": "food","pagetype": "fullwidthpage"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard_body",sizes: [[320,50],[4,1]],ignoreMapping: true,keys: {"site": "food","pagetype": "fullwidthpage", "delivery_channel": "mobile"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard_body_1",action: "restrict",keys: {"site": "food","pagetype": "fullwidthpage"}});
+
+
+// Add 1x5 to LB on core sites
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [1,5]],keys: {"site": "diy", "category": "home"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [1,5]],keys: {"site": "travel", "category": "home"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [1,5]],keys: {"site": "cook", "category": "home"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [1,5]],keys: {"site": "gac", "category": "home"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [1,5]],keys: {"site": "hgtv", "category": "home"}});
+
+dfpAdRestrictions.push({tag: "dfp_leaderboard",action: "enable",keys: {"site": "food","category": "home"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard",action: "enable",keys: {"site": "diy","category": "home"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard",action: "enable",keys: {"site": "travel","category": "home"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard",action: "enable",keys: {"site": "cook","category": "home"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard",action: "enable",keys: {"site": "gac","category": "home"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard",action: "enable",keys: {"site": "hgtv","category": "home"}});
+
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape",action: "restrict",keys: {"site": "diy","category": "home"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape",action: "restrict",keys: {"site": "travel","category": "home"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape",action: "restrict",keys: {"site": "cook","category": "home"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape",action: "restrict",keys: {"site": "gac","category": "home"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape",action: "restrict",keys: {"site": "hgtv","category": "home"}});
+
+
+dfpSizeOverrides.push({tag: "dfp_smartphone_banner",sizes: [[1,5],[320,50]],keys: {"site": "food", "delivery_channel": "mobile", "sctndspname": "home"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape",action: "restrict",keys: {"site": "food","pagetype": "fullwidthpage"}});
+
+
+// Enable leaderboard on new food homepage and disable lower position body leaderboards
+dfpAdRestrictions.push({tag: "dfp_leaderboard_body",action: "restrict",keys: {"site": "food","pagetype": "fullwidthpage"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard_body_1",action: "restrict",keys: {"site": "food","pagetype": "fullwidthpage"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard_body_2",action: "restrict",keys: {"site": "food","pagetype": "fullwidthpage"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard_body_3",action: "restrict",keys: {"site": "food","pagetype": "fullwidthpage"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard_body_4",action: "restrict",keys: {"site": "food","pagetype": "fullwidthpage"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard_body_5",action: "restrict",keys: {"site": "food","pagetype": "fullwidthpage"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard_body_6",action: "restrict",keys: {"site": "food","pagetype": "fullwidthpage"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard_body_7",action: "restrict",keys: {"site": "food","pagetype": "fullwidthpage"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard_body_8",action: "restrict",keys: {"site": "food","pagetype": "fullwidthpage"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard_body_9",action: "restrict",keys: {"site": "food","pagetype": "fullwidthpage"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard_body_10",action: "restrict",keys: {"site": "food","pagetype": "fullwidthpage"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard_body_11",action: "restrict",keys: {"site": "food","pagetype": "fullwidthpage"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard_body_12",action: "restrict",keys: {"site": "food","pagetype": "fullwidthpage"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard_body_13",action: "restrict",keys: {"site": "food","pagetype": "fullwidthpage"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard_body_14",action: "restrict",keys: {"site": "food","pagetype": "fullwidthpage"}});
+
+/// END NEW CONFIG
+
+// Disable additional body leaderboards for now. Remove after lazy loading in place.
+dfpAdRestrictions.push({tag: "dfp_leaderboard_body_1",action: "restrict",keys: {"site": "hgtv","pagetype": "fullwidthpage"}});
+// dfpAdRestrictions.push({tag: "dfp_leaderboard_body_2",action: "restrict",keys: {"site": "hgtv","pagetype": "fullwidthpage"}});
+// dfpAdRestrictions.push({tag: "dfp_leaderboard_body_3",action: "restrict",keys: {"site": "hgtv","pagetype": "fullwidthpage"}});
+// dfpAdRestrictions.push({tag: "dfp_leaderboard_body_4",action: "restrict",keys: {"site": "hgtv","pagetype": "fullwidthpage"}});
+// dfpAdRestrictions.push({tag: "dfp_leaderboard_body_5",action: "restrict",keys: {"site": "hgtv","pagetype": "fullwidthpage"}});
+// dfpAdRestrictions.push({tag: "dfp_leaderboard_body_6",action: "restrict",keys: {"site": "hgtv","pagetype": "fullwidthpage"}});
+// dfpAdRestrictions.push({tag: "dfp_leaderboard_body_7",action: "restrict",keys: {"site": "hgtv","pagetype": "fullwidthpage"}});
+// dfpAdRestrictions.push({tag: "dfp_leaderboard_body_8",action: "restrict",keys: {"site": "hgtv","pagetype": "fullwidthpage"}});
+
+/*============================================================
+=            Pushdown/Brandscape Gallery Override            =
+============================================================*/
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"pagetype": "photo"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"pagetype": "photo_gallery"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"pagetype": "photo_gallery_listing"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"pagetype": "photo_gallery_slurp"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"pagetype": "photogalleryoverlay"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"pagetype": "photogallerypage"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"pagetype": "photogalleryslurp"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"pagetype": "photolibrarycategorypage"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"pagetype": "photolibrarycollectionpage"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"pagetype": "photolibrarylandingpage"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"pagetype": "photolibraryviewerpage"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"pagetype": "recipe_photo"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"pagetype": "recipe_photo_gallery"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"pagetype": "user_profile_photos"}});
+
+// Disable the pushdown/brandscape ad slot
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"site": "food"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"site": "travel"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"site": "cctv"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"site": "hgtv"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"site": "diy"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"site": "gac"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"site": "foodcom"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"site": "tlc"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape", action: "restrict", keys: {"site": "investigationdiscovery"}});
+
+/*============================================================
+=            Leaderboard 970x250 Block on gallery            =
+============================================================*/
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [970,90], [1,5]],keys: {"pagetype": "photo"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [970,90], [1,5]],keys: {"pagetype": "photo_gallery"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [970,90], [1,5]],keys: {"pagetype": "photo_gallery_listing"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [970,90], [1,5]],keys: {"pagetype": "photo_gallery_slurp"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [970,90], [1,5]],keys: {"pagetype": "photogalleryoverlay"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [970,90], [1,5]],keys: {"pagetype": "photogallerypage"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [970,90], [1,5]],keys: {"pagetype": "photogalleryslurp"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [970,90], [1,5]],keys: {"pagetype": "photolibrarycategorypage"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [970,90], [1,5]],keys: {"pagetype": "photolibrarycollectionpage"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [970,90], [1,5]],keys: {"pagetype": "photolibrarylandingpage"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [970,90], [1,5]],keys: {"pagetype": "photolibraryviewerpage"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [970,90], [1,5]],keys: {"pagetype": "recipe_photo"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [970,90], [1,5]],keys: {"pagetype": "recipe_photo_gallery"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [970,90], [1,5]],keys: {"pagetype": "user_profile_photos"}});
+
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [970,90], [1,5]],keys: {"pagetype": "listvideoplaylist"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [970,90], [1,5]],keys: {"pagetype": "videoplaylistpage"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [970,90], [1,5]],keys: {"pagetype": "video"}});
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90], [970,90], [1,5]],keys: {"pagetype": "universallandingpage"}});
+
+
+// Restrict leaderboard slot on Urban Oasis thanks homepage
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "topic": "tp_urban_oasis_sweeps_thanks"
+    }
+});
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "restrict",
+    keys: {
+        "site": "diy",
+        "topic": "tp_urban_oasis_sweeps_thanks"
+    }
+});
+
+dfpAdRestrictions.push({
+    tag: "dfp_cartridge",
+    action: "restrict",
+    keys: {
+        "category": "sponsored"
+    }
+});
+
+// Disable utility slots by default
+dfpAdRestrictions.push({tag: "dfp_utility2",action: "restrict",keys: {"delivery_channel": "web"}});
+dfpAdRestrictions.push({tag: "dfp_utility2",action: "restrict",keys: {"delivery_channel": "mobile"}});
+dfpAdRestrictions.push({tag: "dfp_utility2",action: "restrict",keys: {"deliverychannel": "web"}});
+dfpAdRestrictions.push({tag: "dfp_utility2",action: "restrict",keys: {"deliverychannel": "mobile"}});
+
+// Activated for natives
+dfpAdRestrictions.push({tag: "dfp_utility1" ,action: "enable",keys: {"site": "travel", "delivery_channel": "web"}});
+dfpAdRestrictions.push({tag: "dfp_utility1" ,action: "enable",keys: {"site": "hgtv", "delivery_channel": "web"}});
+dfpAdRestrictions.push({tag: "dfp_utility1" ,action: "enable",keys: {"site": "diy", "delivery_channel": "web"}});
+dfpAdRestrictions.push({tag: "dfp_utility1" ,action: "enable",keys: {"site": "food", "delivery_channel": "web"}});
+
+// Turn of Native Recomendation slot on about us
+dfpAdRestrictions.push({
+    tag: "dfp_sticky_bigbox",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "pagetype": "recipe"
+    }
+});
+
+dfpAdRestrictions.push({
+    tag: "dfp_native_recommendation",
+    action: "restrict",
+    keys: {
+        "uniqueid": "hgtv_articlepage_34b21eaedb7954d80771672141b2bae2_1"
+    }
+});
+
+// HGTV Full Width Page 300x600 force test
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 600]],
+    keys: {
+        "pagetype": "fullwidthpage",
+        "cs_debug": "active"
+    }
+});
+
+// GK Full Width Page 300x600 force test
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 600]],
+    keys: {
+        "site": "foodcom",
+        "cs_debug": "active"
+    }
+});
+
+dfpSizeOverrides.push({tag: "dfp_bigbox",sizes: [[300,250], [300,600]],keys: {"pagetype": "photo"}});
+
+// Turn of 1x11 slot on gallery pages
+dfpAdRestrictions.push({
+    tag: "dfp_native_recommendation",
+    action: "restrict",
+    keys: {
+        "pagetype": "photogallerypage"
+    }
+});
+
+// Restrict for wyoming sponsored package
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "category": "sponsored",
+        "topic": "wyomingtourism"
+    }
+});
+
+
+// Restrict for wyoming sponsored package
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "enable",
+    keys: {
+        "site": "food",
+        "category": "sponsored",
+        "topic": "target_loving"
+    }
+});
+
+// Restrict for wyoming sponsored package
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "enable",
+    keys: {
+        "site": "food",
+        "pagetype": "fullwidthpage"
+    }
+});
+
+// Restrict pushdown on ITK landing page.
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "uniqueid": "food_mysaverecipepage_448aece7e994497615e6eb0392483058_1"
+    }
+});
+
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "uniqueid": "food_activationpage_448aece7e994497615e6eb0392483058_1"
+    }
+});
+
+// Enable pushdown_brandscape for sofi sponsored package
+dfpAdRestrictions.push({
+    tag: "dfp_pushdown_brandscape",
+    action: "enable",
+    keys: {
+        "site": "hgtv",
+        "uniqueid": "hgtv_videoplaylistpage_63c88f1b611dbc7bd6c947be745e7bc3_1"
+    }
+});
+
+
+// Disble ads on  NKH (No Kid Hungry) page
+dfpAdRestrictions.push({
+    tag: "dfp_leaderboard",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "uniqueid": "food_universallandingpage_f489efac21f8886478e83140b150b033_1"
+    }
+});
+dfpAdRestrictions.push({
+    tag: "dfp_bigbox",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "uniqueid": "food_universallandingpage_f489efac21f8886478e83140b150b033_1"
+    }
+});
+dfpAdRestrictions.push({
+    tag: "dfp_sponsorship_module",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "uniqueid": "food_universallandingpage_f489efac21f8886478e83140b150b033_1"
+    }
+});
+dfpAdRestrictions.push({
+    tag: "dfp_prog_bigbox",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "uniqueid": "food_universallandingpage_f489efac21f8886478e83140b150b033_1"
+    }
+});
+
+/*===========================================
+=            Food.com SCC Blocks            =
+===========================================*/
+/* These should come after any other blocks so they are not overridden */
+dfpAdRestrictions.push({tag: "dfp_leaderboard",action: "restrict",keys: {"site": "foodcom", "type": "scc1"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard",action: "restrict",keys: {"site": "foodcom", "type": "scc2"}});
+
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250],[300,600]],
+    keys: {
+        "site": "foodcom",
+        "sctndspname": "scc"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250]],
+    keys: {
+        "site": "foodcom",
+        "sctndspname": "scc1"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250]],
+    keys: {
+        "site": "foodcom",
+        "sctndspname": "scc2"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250],[300,600]],
+    keys: {
+        "site": "foodcom",
+        "pagetype": "recipe"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox_extra",
+    sizes: [[300, 250],[300,600]],
+    keys: {
+        "site": "foodcom",
+        "pagetype": "recipe"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250]],
+    keys: {
+        "site": "foodcom",
+        "sctndspname": "scc3"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox",
+    sizes: [[300, 250]],
+    keys: {
+        "site": "food",
+        "pagetype": "recipe_beta"
+    }
+});
+
+dfpSizeOverrides.push({
+    tag: "dfp_bigbox_alt",
+    sizes: [[300, 250],[300,600]],
+    keys: {
+        "site": "foodcom",
+        "pagetype": "recipe"
+    }
+});
+
+/*==============================================
+=FN UK Slot Size Config=
+==============================================*/
+
+/* Full-width slot config */
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth",sizes: [[300,50],[320,50]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "0-738"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth",sizes: [[300,50],[320,50],[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "739-768"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "769-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth",sizes: [[728,90],[970,90],[970,250]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "980-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth",sizes: [[728,90],[970,90],[970,250],[980,300]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "990-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth",sizes: [[768,250],[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "768"}});
+
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth_first",sizes: [[300,50],[320,50]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "0-738"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth_first",sizes: [[300,50],[320,50],[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "739-768"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth_first",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "769-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth_first",sizes: [[728,90],[970,90],[970,250]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "980-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth_first",sizes: [[728,90],[970,90],[970,250],[980,300]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "990-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth_first",sizes: [[768,250],[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "768"}});
+/* End fullwidth block */
+
+/* Column-width slot config */
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth",sizes: [[300,50],[320,50]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "0-738"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth",sizes: [[300,50],[320,50],[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "739-768"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "769-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "980-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "990-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "768"}});
+
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth_first",sizes: [[300,50],[320,50]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "0-738"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth_first",sizes: [[300,50],[320,50],[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "739-768"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth_first",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "769-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth_first",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "980-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth_first",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "990-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth_first",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "768"}});
+/* End Column-width slot config */
+
+/* Rectangles slot config */
+dfpSizeOverrides.push({tag: "dfp_intl_rectangles",sizes: [[160,600],[300,600],[120,600]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "992-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_rectangles_first",sizes: [[160,600],[300,600],[120,600]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "992-10000"}});
+/* End rectangles block */
+
+/* In Page */
+dfpSizeOverrides.push({tag: "dfp_intl_inpage",sizes: [[300,250],[160,600],[300,600],[120,600]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "992-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_inpage_first",sizes: [[300,250],[160,600],[300,600],[120,600]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "992-10000"}});
+
+/* Adhesives */
+dfpSizeOverrides.push({tag: "dfp_intl_adhesives",sizes: [[320,50]],ignoreMapping: true,keys: {"site" : "intl_food_uk","intl_width": "320-767"}});
+
+// FN Italy Slot Config
+/* Full-width slot config */
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth",sizes: [[300,50],[320,50]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "0-738"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth",sizes: [[300,50],[320,50],[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "739-768"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "769-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth",sizes: [[728,90],[970,90],[970,250]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "980-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth",sizes: [[728,90],[970,90],[970,250],[980,300]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "990-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth",sizes: [[768,250],[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "768"}});
+
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth_first",sizes: [[300,50],[320,50]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "0-738"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth_first",sizes: [[300,50],[320,50],[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "739-768"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth_first",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "769-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth_first",sizes: [[728,90],[970,90],[970,250]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "980-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth_first",sizes: [[728,90],[970,90],[970,250],[980,300]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "990-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_fullwidth_first",sizes: [[768,250],[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "768"}});
+/* End fullwidth block */
+
+/* Column-width slot config */
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth",sizes: [[300,50],[320,50]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "0-738"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth",sizes: [[300,50],[320,50],[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "739-768"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "769-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "980-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "990-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "768"}});
+
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth_first",sizes: [[300,50],[320,50]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "0-738"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth_first",sizes: [[300,50],[320,50],[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "739-768"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth_first",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "769-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth_first",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "980-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth_first",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "990-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_columnwidth_first",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "768"}});
+/* End Column-width slot config */
+
+/* Rectangles slot config */
+dfpSizeOverrides.push({tag: "dfp_intl_rectangles",sizes: [[160,600],[300,600],[120,600]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "992-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_rectangles_first",sizes: [[160,600],[300,600],[120,600]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "992-10000"}});
+/* End rectangles block */
+
+/* In Page */
+dfpSizeOverrides.push({tag: "dfp_intl_inpage",sizes: [[300,250],[160,600],[300,600],[120,600]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "992-10000"}});
+dfpSizeOverrides.push({tag: "dfp_intl_inpage_first",sizes: [[300,250],[160,600],[300,600],[120,600]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "992-10000"}});
+
+/* Adhesives */
+dfpSizeOverrides.push({tag: "dfp_intl_adhesives",sizes: [[320,50]],ignoreMapping: true,keys: {"site" : "intl_food_it","intl_width": "320-767"}});
+
+
+/* Target Full Width OVerride */
+dfpAdRestrictions.push({tag: "dfp_leaderboard",action: "enable",keys: {"site": "hgtv", "pagetype": "fullwidthpage", "sponsorship": "target_loving"}});
+
+
+/* Disable for CrimeFeed page. http://www.investigationdiscovery.com/crimefeed/id-shows/on-tv0/in-pursuit-with-john-walsh/in-pursuit-tips */
+dfpAdRestrictions.push({tag: "dfp_leaderboard",action: "restrict",keys: {"site": "investigationdiscovery", "uniqueid": "investigationdiscovery_universallandingpage_4192ad2f020ac49ba5d31deaccac8050_1"}});
+dfpAdRestrictions.push({tag: "dfp_bigbox",action: "restrict",keys: {"site": "investigationdiscovery", "uniqueid": "investigationdiscovery_universallandingpage_4192ad2f020ac49ba5d31deaccac8050_1"}});
+dfpAdRestrictions.push({tag: "dfp_prog_bigbox",action: "restrict",keys: {"site": "investigationdiscovery", "uniqueid": "investigationdiscovery_universallandingpage_4192ad2f020ac49ba5d31deaccac8050_1"}});
+dfpAdRestrictions.push({tag: "dfp_sponsorship_module",action: "restrict",keys: {"site": "investigationdiscovery", "uniqueid": "investigationdiscovery_universallandingpage_4192ad2f020ac49ba5d31deaccac8050_1"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape",action: "restrict",keys: {"site": "investigationdiscovery", "uniqueid": "investigationdiscovery_universallandingpage_4192ad2f020ac49ba5d31deaccac8050_1"}});
+dfpAdRestrictions.push({tag: "dfp_logo",action: "restrict",keys: {"site": "investigationdiscovery", "uniqueid": "investigationdiscovery_universallandingpage_4192ad2f020ac49ba5d31deaccac8050_1"}});
+
+dfpAdRestrictions.push({tag: "dfp_leaderboard",action: "restrict",keys: {"site": "investigationdiscovery", "uniqueid": "investigationdiscovery_showpage_8a2eea05446951774c3203237f5ba044_1"}});
+dfpAdRestrictions.push({tag: "dfp_bigbox",action: "restrict",keys: {"site": "investigationdiscovery", "uniqueid": "investigationdiscovery_showpage_8a2eea05446951774c3203237f5ba044_1"}});
+dfpAdRestrictions.push({tag: "dfp_prog_bigbox",action: "restrict",keys: {"site": "investigationdiscovery", "uniqueid": "investigationdiscovery_showpage_8a2eea05446951774c3203237f5ba044_1"}});
+dfpAdRestrictions.push({tag: "dfp_sponsorship_module",action: "restrict",keys: {"site": "investigationdiscovery", "uniqueid": "investigationdiscovery_showpage_8a2eea05446951774c3203237f5ba044_1"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape",action: "restrict",keys: {"site": "investigationdiscovery", "uniqueid": "investigationdiscovery_showpage_8a2eea05446951774c3203237f5ba044_1"}});
+dfpAdRestrictions.push({tag: "dfp_logo",action: "restrict",keys: {"site": "investigationdiscovery", "uniqueid": "investigationdiscovery_showpage_8a2eea05446951774c3203237f5ba044_1"}});
+
+
+// Disable ads on user profile pages.
+dfpAdRestrictions.push({tag: "dfp_leaderboard",action: "restrict",keys: {"pagetype":"userprofilepage"}});
+dfpAdRestrictions.push({tag: "dfp_bigbox",action: "restrict",keys: {"pagetype":"userprofilepage"}});
+dfpAdRestrictions.push({tag: "dfp_prog_bigbox",action: "restrict",keys: {"pagetype":"userprofilepage"}});
+dfpAdRestrictions.push({tag: "dfp_sponsorship_module",action: "restrict",keys: {"pagetype":"userprofilepage"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape",action: "restrict",keys: {"pagetype":"userprofilepage"}});
+dfpAdRestrictions.push({tag: "dfp_logo",action: "restrict",keys: {"pagetype":"userprofilepage"}});
+dfpAdRestrictions.push({tag: "dfp_smartphone_banner",action: "restrict",keys: {"pagetype":"userprofilepage"}});
+// Disable ads on password reset page.
+dfpAdRestrictions.push({tag: "dfp_leaderboard",action: "restrict",keys: {"pagetype":"passwordresetpage"}});
+dfpAdRestrictions.push({tag: "dfp_bigbox",action: "restrict",keys: {"pagetype":"passwordresetpage"}});
+dfpAdRestrictions.push({tag: "dfp_prog_bigbox",action: "restrict",keys: {"pagetype":"passwordresetpage"}});
+dfpAdRestrictions.push({tag: "dfp_sponsorship_module",action: "restrict",keys: {"pagetype":"passwordresetpage"}});
+dfpAdRestrictions.push({tag: "dfp_pushdown_brandscape",action: "restrict",keys: {"pagetype":"passwordresetpage"}});
+dfpAdRestrictions.push({tag: "dfp_logo",action: "restrict",keys: {"pagetype":"passwordresetpage"}});
+dfpAdRestrictions.push({tag: "dfp_smartphone_banner",action: "restrict",keys: {"pagetype":"passwordresetpage"}});
+
+
+dfpAdRestrictions.push({tag: "dfp_bigbox",action: "restrict",keys: {"site": "diy", "uniqueid": "diy_universallandingpage_cd24fc02dda2cc3ddbc35a6f41fda064_1", "delivery_channel": "mobile"}});
+dfpAdRestrictions.push({tag: "dfp_bigbox",action: "restrict",keys: {"site": "diy", "uniqueid": "diy_universallandingpage_3348c5d5399b2f0d0ddee730ac71dcf7_1", "delivery_channel": "mobile"}});
+
+
+
+// Enable for TLC Bridal Bracket sponsorship
+dfpAdRestrictions.push({
+    tag: "dfp_utility1",
+    action: "enable",
+    keys: {
+        "site": "tlc",
+        "uniqueid": "tlc_photogallerypage_9493e943c5af84a5474a8911340bca3f_1"
+    }
+});
+
+// Disable lower bigbox (actually the regular dfp_bigbox on Smarthome sweeps mobile)
+dfpAdRestrictions.push({
+    tag: "dfp_bigbox",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "delivery_channel": "mobile",
+        "topic": "tp_smart_home_sweeps"
+    }
+});
+// Disable lower bigbox on Fantasy Kitchen sweeps
+dfpAdRestrictions.push({
+    tag: "dfp_bigbox",
+    action: "restrict",
+    keys: {
+        "site": "food",
+        "delivery_channel": "mobile",
+        "topic": "fn_sweeps_fantasykitchen"
+    }
+});
+dfpAdRestrictions.push({
+    tag: "dfp_bigbox",
+    action: "restrict",
+    keys: {
+        "site": "hgtv",
+        "delivery_channel": "mobile",
+        "topic": "fn_sweeps_fantasykitchen"
+    }
+});
+
+dfpAdRestrictions.push({
+    tag: "dfp_bigbox",
+    action: "restrict",
+    keys: {
+        "site": "diy",
+        "delivery_channel": "mobile",
+        "topic": "tp_smart_home_sweeps"
+    }
+});
+
+dfpSizeOverrides.push({tag: "dfp_leaderboard",sizes: [[728,90]],ignoreMapping: true,keys: {"site" : "hgtv", "pagetype": "votepage"}});
+
+// Disable ads on Habitat for Humainty pages.
+dfpAdRestrictions.push({tag: "dfp_bigbox",action: "restrict",keys: {"site": "hgtv","subsection": "habitat-for-humanity-help-build-hope-and-homes"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard",action: "restrict",keys: {"site": "hgtv","subsection": "habitat-for-humanity-help-build-hope-and-homes"}});
+dfpAdRestrictions.push({tag: "dfp_logo",action: "restrict",keys: {"site": "hgtv","subsection": "habitat-for-humanity-help-build-hope-and-homes"}});
+dfpAdRestrictions.push({tag: "dfp_prog_bigbox",action: "restrict",keys: {"site": "hgtv","subsection": "habitat-for-humanity-help-build-hope-and-homes"}});
+dfpAdRestrictions.push({tag: "dfp_sponsorship_module",action: "restrict",keys: {"site": "hgtv","subsection": "habitat-for-humanity-help-build-hope-and-homes"}});
+dfpAdRestrictions.push({tag: "dfp_utility1",action: "restrict",keys: {"site": "hgtv","subsection": "habitat-for-humanity-help-build-hope-and-homes"}});
+
+// Disable leaderboard on Fantasy Kitchen pages.
+dfpAdRestrictions.push({tag: "dfp_leaderboard",action: "restrict",keys: {"site": "food","uniqueid": "food_fullwidthpage_c4f0424a47e927c06dde470dc2106f69_1"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard",action: "restrict",keys: {"site": "food","uniqueid": "food_fullwidthpage_3986c51c49316a1e16ee336e97930ee6_1"}});
+dfpAdRestrictions.push({tag: "dfp_leaderboard",action: "restrict",keys: {"site": "food","uniqueid": "food_fullwidthpage_d481fb455d80ae0bf9669912c66a5d92_1"}});
+
+dfpAdRestrictions.push({tag: "dfp_smartphone_banner",action: "restrict",keys: {"site": "food","uniqueid": "food_fullwidthpage_c4f0424a47e927c06dde470dc2106f69_1"}});
+dfpAdRestrictions.push({tag: "dfp_smartphone_banner",action: "restrict",keys: {"site": "food","uniqueid": "food_fullwidthpage_3986c51c49316a1e16ee336e97930ee6_1"}});
+dfpAdRestrictions.push({tag: "dfp_smartphone_banner",action: "restrict",keys: {"site": "food","uniqueid": "food_fullwidthpage_d481fb455d80ae0bf9669912c66a5d92_1"}});
+SniAdsConfig.ShareThroughKeys =
+    /*==============================================
+     =            ShareThrough Site Keys            =
+     ==============================================*/
+    [
+        // Food Network placements
+        {
+            "placementId": "c3064813",
+            "keys": {
+                "site": "food",
+                "pagetype": "recipe",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "ff5d3cdb",
+            "keys": {
+                "site": "food",
+                "pagetype": "recipe",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "24499453",
+            "keys": {
+                "site": "food",
+                "pagetype": "articlepage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "zV3X8zYvFpPUHsiFH5zQ5J2T",
+            "keys": {
+                "site": "food",
+                "pagetype": "articlepage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "c29c74a2",
+            "keys": {
+                "site": "food",
+                "pagetype": "taglandingpage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "Fr48LP37QgqSs6i7whgCCuRz",
+            "keys": {
+                "site": "food",
+                "pagetype": "taglandingpage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "KWUFkKe3wLnt8eLeBgc9Maf3",
+            "keys": {
+                "site": "food",
+                "pagetype": "sitesearchpage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "f3e78ba5",
+            "keys": {
+                "site": "food",
+                "pagetype": "sitesearchpage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "SratsN4Uuw88yQeuvaX57Z7V",
+            "keys": {
+                "site": "food",
+                "pagetype": "listepisode",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "Nuw9efZoD319szCF6U3TrFqb",
+            "keys": {
+                "site": "food",
+                "pagetype": "listepisode",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "efx5BumgPPdxDn7oAi2th5WQ",
+            "keys": {
+                "site": "food",
+                "pagetype": "episodepage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "PN258bnYRsrSnFntdzeoVBZQ",
+            "keys": {
+                "site": "food",
+                "pagetype": "episodepage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "JzXPriBCsL3FcVsSvDy7KDhc",
+            "keys": {
+                "site": "food",
+                "pagetype": "showpage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "RYxuaj61dwQ21N5Bad6PaiP6",
+            "keys": {
+                "site": "food",
+                "pagetype": "showpage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "dZgHtVWTi7p6EGS7jc4rTyoq",
+            "keys": {
+                "site": "food",
+                "pagetype": "listrecipe",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "QprF5mxrv1xX9j6VZMzw2jpE",
+            "keys": {
+                "site": "food",
+                "pagetype": "listrecipe",
+                "delivery_channel": "mobile"
+            }
+        },
+        // Food.com placements
+        {
+            "placementId": "oDPm9zBesvguEFUWX2ZiF4ck",
+            "keys": {
+                "site": "foodcom",
+                "pagetype": "recipe"
+            }
+        }, {
+            "placementId": "bca3e15b",
+            "keys": {
+                "site": "foodcom",
+                "pagetype": "recipe",
+                "deliverychannel": "small"
+            }
+        }, {
+            "placementId": "WYaX2AKUVeqnZ16jxheu3Xnq",
+            "keys": {
+                "site": "foodcom",
+                "pagetype": "search"
+            }
+        }, {
+            "placementId": "7d30bacd",
+            "keys": {
+                "site": "foodcom",
+                "pagetype": "search",
+                "deliverychannel": "small"
+            }
+        }, {
+            "placementId": "iwsAv9xCixDw9PezdgFA1wAY",
+            "keys": {
+                "site": "foodcom",
+                "pagetype": "topic"
+            }
+        }, {
+            "placementId": "cd067339",
+            "keys": {
+                "site": "foodcom",
+                "pagetype": "topic",
+                "deliverychannel": "small"
+            }
+        },
+        // Cooking Channel placements
+        {
+            "placementId": "d35a4ad3",
+            "keys": {
+                "site": "cook",
+                "pagetype": "recipe"
+            }
+        },
+        // GAC placements
+        {
+            "placementId": "aa304e64",
+            "keys": {
+                "site": "gac",
+                "pagetype": "articlepage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "fbDbpWwgXxRnLA4FNNBThLGu",
+            "keys": {
+                "site": "gac",
+                "pagetype": "articlepage",
+                "delivery_channel": "web"
+            }
+        },
+        // HGTV placements
+        {
+            "placementId": "8ea4fa75",
+            "keys": {
+                "site": "hgtv",
+                "pagetype": "articlepage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "GQNyLfMHo84UZh9QaJFenc8G",
+            "keys": {
+                "site": "hgtv",
+                "pagetype": "articlepage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "mZgKcTyPCErKpJHXicmqEQQn",
+            "keys": {
+                "site": "hgtv",
+                "pagetype": "universallandingpage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "h48649CECnP4mp4k7T1gTzR7",
+            "keys": {
+                "site": "hgtv",
+                "pagetype": "universallandingpage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "dxEgL4REsqkKQU5LBrHBhg3L",
+            "keys": {
+                "site": "hgtv",
+                "pagetype": "taglandingpage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "zPuLP8ZRmKSCi4DcG5H7wGsh",
+            "keys": {
+                "site": "hgtv",
+                "pagetype": "taglandingpage",
+                "delivery_channel": "mobile"
+            }
+        },
+        // Travel placements
+        {
+            "placementId": "a13f9f58",
+            "keys": {
+                "site": "travel",
+                "pagetype": "articlepage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "rPZt4Hb5812mZUgT3mwUVs7Z",
+            "keys": {
+                "site": "travel",
+                "pagetype": "articlepage",
+                "delivery_channel": "web"
+            }
+        },
+        // DIY placements
+        {
+            "placementId": "ab9322a0",
+            "keys": {
+                "site": "diy",
+                "pagetype": "articlepage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "426f7650",
+            "keys": {
+                "site": "diy",
+                "pagetype": "howtopage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "ZBWvDqWeDeC7tme9DuHnh43w",
+            "keys": {
+                "site": "diy",
+                "pagetype": "articlepage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "ukPSfYUfqvmyhtqGYu6zBXBa",
+            "keys": {
+                "site": "diy",
+                "pagetype": "howtopage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "KNto6CCrsYcQ3P4KFcXWf9vn",
+            "keys": {
+                "site": "diy",
+                "pagetype": "universallandingpage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "m8GtUTUGK3HsMtV888HRAxBb",
+            "keys": {
+                "site": "diy",
+                "pagetype": "universallandingpage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "d35a4ad3",
+            "keys": {
+                "site": "cook",
+                "pagetype": "recipe",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "Gvi73EjqSvdkDGQJMLBLfk3E",
+            "keys": {
+                "site": "cook",
+                "pagetype": "showpage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "gi2RhJ85LyC8NnrWGv28BCGM",
+            "keys": {
+                "site": "cook",
+                "pagetype": "sitesearchpage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "k9RBQp3fBTFgPh88bKPtY4VN",
+            "keys": {
+                "site": "cook",
+                "pagetype": "articlepage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "7bKC5GshksZxmJU32givL12u",
+            "keys": {
+                "site": "cook",
+                "pagetype": "listepisode",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "g4gukgdvnNSPvy1f58qGkfMj",
+            "keys": {
+                "site": "cook",
+                "pagetype": "episodepage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "K1JFga6syVdNAC8zq4QXkZfA",
+            "keys": {
+                "site": "cook",
+                "pagetype": "listrecipe",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "VCs5DJbaP9eDTmsywxzzpFkN",
+            "keys": {
+                "site": "cook",
+                "pagetype": "recipe",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "fk7pFZbpmgKxMvLBH8LPzbYs",
+            "keys": {
+                "site": "cook",
+                "pagetype": "showpage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "RA1bDw6bPdgmAjodt33wiMek",
+            "keys": {
+                "site": "cook",
+                "pagetype": "sitesearchpage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "xgoxt9DQ6Apq4HSnskNY9M5h",
+            "keys": {
+                "site": "cook",
+                "pagetype": "articlepage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "aGkNfv7uYD42iPFHf8oxrbuM",
+            "keys": {
+                "site": "cook",
+                "pagetype": "listepisode",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "Wq54NjWUu8ULHEPjADH7Gx7v",
+            "keys": {
+                "site": "cook",
+                "pagetype": "episodepage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "gcSmpUrF6uhysimdztpKERx6",
+            "keys": {
+                "site": "cook",
+                "pagetype": "listrecipe",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "LLyj17vzhEJk6GtKZfY1QwWG",
+            "keys": {
+                "site": "diy",
+                "pagetype": "sitesearchpage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "JWY3mLBvRTVVScsALXd7aMgX",
+            "keys": {
+                "site": "diy",
+                "pagetype": "showpage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "X7xnhjnABVGqUZbWtPykiPv9",
+            "keys": {
+                "site": "diy",
+                "pagetype": "listepisode",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "kvMVuL23v73LyKcL6PTpnYH7",
+            "keys": {
+                "site": "diy",
+                "pagetype": "episodepage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "nwfm9P6ksEqY73n3J1TttVHr",
+            "keys": {
+                "site": "diy",
+                "pagetype": "sitesearchpage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "19aTckbt6Wgh3qwgKu6fD7RX",
+            "keys": {
+                "site": "diy",
+                "pagetype": "showpage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "KvusTUzUtF2BR6ybCPNxYupC",
+            "keys": {
+                "site": "diy",
+                "pagetype": "listepisode",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "BcZnakLGRQg4cXPYWJUo5az2",
+            "keys": {
+                "site": "diy",
+                "pagetype": "episodepage",
+                "delivery_channel": "mobile"
+            }
+        },
+        // ----------------------------START HGTV----------------------------
+        {
+            "placementId": "9hTwVyH9AwGz9ZbyUUsyWFXZ",
+            "keys": {
+                "site": "hgtv",
+                "pagetype": "sitesearchpage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "21xnDC4DJgPauFtb5tEBg48u",
+            "keys": {
+                "site": "hgtv",
+                "pagetype": "listepisode",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "Cfdu2iAGiEJUrcPcxEfdnpec",
+            "keys": {
+                "site": "hgtv",
+                "pagetype": "episodepage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "yZVmMWm9jf3edWRj6wXpippH",
+            "keys": {
+                "site": "hgtv",
+                "pagetype": "showpage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "vfnJbF8KDkP7oorvCdXCzaZA",
+            "keys": {
+                "site": "hgtv",
+                "pagetype": "sitesearchpage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "z1PkPdbSNPnNcmKoW2cYLqbS",
+            "keys": {
+                "site": "hgtv",
+                "pagetype": "listepisode",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "f33pkdZD5Rtx5ukp5cyArYG4",
+            "keys": {
+                "site": "hgtv",
+                "pagetype": "episodepage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "RJ1wM9hX7PotTR1h6PU4gUQV",
+            "keys": {
+                "site": "hgtv",
+                "pagetype": "showpage",
+                "delivery_channel": "mobile"
+            }
+        },
+        // -- -- -- -- -- -- -- -- -- -- -- -- -- --END HGTV-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+        // -- -- -- -- -- -- -- -- -- -- -- --START TRAVEL-- -- -- -- -- -- -- -- -- -- -- -- -- --
+        {
+            "placementId": "mm5N8dAWugUVtJMRQXHLnGoT",
+            "keys": {
+                "site": "travel",
+                "pagetype": "taglandingpage",
+                "delivery_channel": "web"
+        },
+        }, {
+            "placementId": "deEF96YgbRLqNqM9m28uh54d",
+            "keys": {
+                "site": "travel",
+                "pagetype": "universallandingpage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "cWt6opmKymCsTqnz3CNghohP",
+            "keys": {
+                "site": "travel",
+                "pagetype": "sitesearchpage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "3Y9MoxRKVVioQAjbSRwHNny6",
+            "keys": {
+                "site": "travel",
+                "pagetype": "listepisode",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "gTk5ZBC3HMpAs3wr9SvYYR9y",
+            "keys": {
+                "site": "travel",
+                "pagetype": "episodepage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "Bg1eNgxtPzyN9Fb2j7u91nzG",
+            "keys": {
+                "site": "travel",
+                "pagetype": "showpage",
+                "delivery_channel": "web"
+            }
+        }, {
+            "placementId": "N4W4gMF1AwXGscGkkXLi7pPE",
+            "keys": {
+                "site": "travel",
+                "pagetype": "taglandingpage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "eW7RC6AhprQkBDo1kZhnPdob",
+            "keys": {
+                "site": "travel",
+                "pagetype": "universallandingpage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "S9CXwu3K77EmGrptp2zPthbd",
+            "keys": {
+                "site": "travel",
+                "pagetype": "sitesearchpage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "jYkPaWeh5BxnWYtQcub3H6sz",
+            "keys": {
+                "site": "travel",
+                "pagetype": "listepisode",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "KmC52RizDbQk9atarL7ZNtbZ",
+            "keys": {
+                "site": "travel",
+                "pagetype": "episodepage",
+                "delivery_channel": "mobile"
+            }
+        }, {
+            "placementId": "MU9WM9fZMntBfHRPCDa4eHFU",
+            "keys": {
+                "site": "travel",
+                "pagetype": "showpage",
+                "delivery_channel": "mobile"
+            }
+        }
+    ];
+    // ----------------------------END TRAVEL----------------------------

@@ -84,12 +84,16 @@ public class LoadingFragment extends Fragment implements Observer<String> {
         break;
       case "connected":
         status.setText(R.string.separating);
-        viewModel.generateHtml();
-        viewModel.getHtml().observe(getViewLifecycleOwner(), h -> {
-          select = LoadingFragmentDirections.loadSel()
-              .setHtml(String.valueOf(h));
-          Navigation.findNavController(requireView()).navigate(select);
-        });
+        viewModel.prep();
+        viewModel.getDocument().observe(getViewLifecycleOwner(),
+            d -> {
+              if (d != null) {
+                Log.e("DOCTRACE", "LoadingNav: doc length = " + d.toString().length());
+                Navigation.findNavController(requireView())
+                    .navigate(LoadingFragmentDirections.loadSel());
+              }
+
+            });
         break;
       case "processing":
         status.setText(R.string.processing);

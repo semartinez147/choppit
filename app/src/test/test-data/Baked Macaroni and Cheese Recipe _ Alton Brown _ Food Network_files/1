@@ -1,0 +1,517 @@
+tv.freewheel.SDK._instanceQueue['Context_2'].requestComplete({
+	"version" : "1",
+	"networkId" : "191701",
+	"parameters" : [
+		{
+			"name" : "extension.survey.enabled",
+			"category" : "profile",
+			"value" : "true"
+		},
+		{
+			"name" : "autoloadExtensions",
+			"category" : "profile",
+			"value" : "https:\/\/z.moatads.com\/freewheel353205095517817\/MoatFreeWheelJSPEM.js"
+		},
+		{
+			"name" : "enableExternalCandidateSSTF",
+			"category" : "profile",
+			"value" : "1"
+		},
+		{
+			"name" : "IPBasedAudienceTargeting",
+			"category" : "profile",
+			"value" : "1"
+		},
+		{
+			"name" : "deviceType",
+			"category" : "profile",
+			"value" : "Detect from UA"
+		}
+	],
+	"rendererManifest" : {
+		"adRenderers" : {
+			"version" : "1",
+			"adRenderer" : [
+				{
+					"name" : "g_html5_video_mp4",
+					"url" : "class:\/\/VideoRenderer",
+					"contentType" : "video\/mp4-h264,video\/mp4,video\/m4v,video\/mp4-mpeg4,video\/mp4-mpeg4_simple,video\/m4v-h264_less_eq_level_3_baseline-640-480-less_eq_1500_kbps-aaclc,video\/mp4-h264_less_eq_level_3_baseline-640-480-less_eq_1500_kbps-aaclc,video\/mov-h264_less_eq_level_3_baseline-640-480-less_eq_1500_kbps-aaclc,video\/m4v-h264_less_level_1.3_baseline-320-240-less_eq_768_kbps-aaclc,video\/mp4-h264_less_level_1.3_baseline-320-240-less_eq_768_kbps-aaclc,video\/mov-h264_less_level_1.3_baseline-320-240-less_eq_768_kbps-aaclc,video\/m4v-mpeg4-640-480-less_eq_2500_kbps-aaclc,video\/mp4-mpeg4-640-480-less_eq_2500_kbps-aaclc,video\/mov-mpeg4-640-480-less_eq_2500_kbps-aaclc,video\/mp4-h264-baseline,",
+					"adUnit" : "video,slate,",
+					"slotType" : "preroll,midroll,postroll,",
+					"creativeApi" : "None,"
+				},
+				{
+					"name" : "g_html5_video_webm_ogg",
+					"url" : "class:\/\/VideoRenderer",
+					"contentType" : "video\/webm,video\/ogg,",
+					"adUnit" : "video,",
+					"slotType" : "preroll,midroll,postroll,",
+					"creativeApi" : "None,"
+				},
+				{
+					"name" : "g_html5_vpaid",
+					"url" : "class:\/\/VPAIDRenderer",
+					"contentType" : "text\/js_ref,",
+					"adUnit" : "video,fixed-size-interactive,app-interstitial,",
+					"slotType" : "preroll,midroll,postroll,overlay,",
+					"creativeApi" : "VPAID,"
+				},
+				{
+					"name" : "191701:html5_html_w_nowrapper",
+					"url" : "class:\/\/HTMLRenderer",
+					"contentType" : "text\/html_doc_ref,text\/html_doc_lit_mobile,text\/html_lit_nowrapper,",
+					"adUnit" : "video,still-image,fixed-size-interactive,linear-animation,",
+					"slotType" : "overlay,display,",
+					"creativeApi" : "None,"
+				},
+				{
+					"name" : "g_html5_vast_desktop",
+					"url" : "class:\/\/VastTranslator",
+					"contentType" : "external\/vast-2,",
+					"adUnit" : "video,still-image,fixed-size-interactive,text-ad,linear-animation,generic-overlay,video-click-to-content,slate,logo,logo-click-to-content,app-interstitial,",
+					"slotType" : "preroll,midroll,postroll,overlay,display,",
+					"parameter" : [
+						{
+							"name" : "translator.vast.asyncLoad",
+							"value" : "true"
+						}
+					],
+					"creativeApi" : "VPAID,MRAID-1.0,None,"
+				},
+				{
+					"name" : "g_html5_vast3",
+					"url" : "class:\/\/VastTranslator",
+					"contentType" : "text\/js_ref,video\/mov,video\/mov-h264_less_eq_level_3_baseline-640-480-less_eq_1500_kbps-aaclc,video\/mov-h264_less_level_1.3_baseline-320-240-less_eq_768_kbps-aaclc,video\/mov-mpeg4-640-480-less_eq_2500_kbps-aaclc,video\/mov-h263,video\/x-move-qmx,video\/x-move-qvt,external\/vast-3,",
+					"adUnit" : "video,still-image,fixed-size-interactive,text-ad,linear-animation,generic-overlay,slate,logo,app-interstitial,",
+					"slotType" : "preroll,midroll,postroll,overlay,",
+					"parameter" : [
+						{
+							"name" : "translator.vast.asyncLoad",
+							"value" : "true"
+						}
+					],
+					"creativeApi" : "VPAID,MRAID-1.0,None,"
+				}
+			]
+		}
+	},
+	"visitor" : {
+		"httpHeaders" : [],
+		"state" : []
+	},
+	"errors" : {
+		"errors" : []
+	},
+	"eventCallbacks" : {
+		"eventCallbacks" : [
+			{
+				"url" : "https:\/\/2ecd5.v.fwmrm.net\/ad\/l\/1?s=f123&n=191701%3B191701%3B48747%3B147530%3B151933%3B187827%3B188286%3B193466%3B372496%3B375524%3B375613%3B375617%3B375620%3B376521%3B378491%3B379619%3B380903%3B381963%3B382283%3B382314%3B382315%3B384777%3B393638%3B499607%3B501207%3B505334%3B510702%3B510838%3B510839%3B511322%3B512028%3B512029%3B516274&t=1596048632085888026",
+				"type" : "GENERIC",
+				"use" : "BASE",
+				"showBrowser" : false,
+				"trackingUrls" : []
+			}
+		]
+	},
+	"ads" : {
+		"ads" : [
+			{
+				"adId" : "34942399",
+				"noPreload" : false,
+				"noLoad" : false,
+				"adUnit" : "25364",
+				"isWrapper" : false,
+				"required" : false,
+				"creatives" : [
+					{
+						"creativeId" : "5244822",
+						"baseUnit" : "video",
+						"duration" : "30",
+						"creativeRenditions" : [
+							{
+								"creativeRenditionId" : "18111719",
+								"wrapperType" : "external\/vast-2",
+								"wrapperUrl" : "https:\/\/search.spotxchange.com\/vast\/2.0\/232486?VPI=MP4&content_page_url=https%3A\/\/www.foodnetwork.com\/recipes\/alton-brown\/baked-macaroni-and-cheese-recipe-1939524&player_width=1920&player_height=1080&custom[assettitle]=Food%20Network%3A%20Baked%20Mac%20and%20Cheese%5E&custom[network]=Food%20Network",
+								"creativeApi" : "None",
+								"preference" : "0",
+								"parameters" : [],
+								"asset" : {
+									"id" : "18398653",
+									"name" : "Default Asset for Rendition",
+									"contentType" : "video\/mp4-h264",
+									"mimeType" : "video\/mp4",
+									"deliveryMethod" : "progressive"
+								},
+								"otherAssets" : []
+							}
+						],
+						"parameters" : [
+							{
+								"name" : "adId",
+								"value" : "34941932"
+							},
+							{
+								"name" : "campaignID",
+								"value" : ""
+							},
+							{
+								"name" : "creativeApi_apiFramework",
+								"value" : ""
+							},
+							{
+								"name" : "creativeId",
+								"value" : "5244822"
+							},
+							{
+								"name" : "customData",
+								"value" : "Spotx Utility Preroll Tag;preroll;1"
+							},
+							{
+								"name" : "industry",
+								"value" : ""
+							},
+							{
+								"name" : "moat",
+								"value" : "191701;191701;;;;;34941932;25364;g2576343;g435853;1164648;65624556;0124787-oo;5244822;18111719;30;preroll;recipe;191701:scripps_pdk_html5_live;cpx-non;1596048632085888026"
+							},
+							{
+								"name" : "moat_on_youtube",
+								"value" : "191701;191701;;;;;34941932;25364;g2576343;g435853;1164648;65624556;0124787-oo;5244822;18111719;30;preroll;recipe;191701:scripps_pdk_html5_live;cpx-non;1596048632085888026;"
+							}
+						]
+					}
+				]
+			},
+			{
+				"adId" : "23797889",
+				"noPreload" : false,
+				"noLoad" : false,
+				"adUnit" : "25364",
+				"isWrapper" : false,
+				"required" : false,
+				"creatives" : [
+					{
+						"creativeId" : "3533873",
+						"baseUnit" : "video",
+						"duration" : "30",
+						"creativeRenditions" : [
+							{
+								"creativeRenditionId" : "9761884",
+								"wrapperType" : "external\/vast-2",
+								"wrapperUrl" : "https:\/\/ima3vpaid.appspot.com\/?adTagUrl=https%3A%2F%2Fgoogleads.g.doubleclick.net%2Fpagead%2Fads%3Fclient%3Dca-video-pub-7963287709351044%26slotname%3D6943304334%26ad_type%3Dvideo%26description_url%3Dhttp%253A%252F%252Ffoodnetwork.com%26max_ad_duration%3D30000%26videoad_start_delay%3D0&type=js&vpmute=0&vpa=0",
+								"creativeApi" : "VPAID",
+								"width" : "640",
+								"height" : "480",
+								"preference" : "0",
+								"parameters" : [],
+								"asset" : {
+									"id" : "9682095",
+									"name" : "Default Asset for Rendition",
+									"contentType" : "text\/js_ref",
+									"mimeType" : "text\/javascript",
+									"deliveryMethod" : "progressive"
+								},
+								"otherAssets" : []
+							}
+						],
+						"parameters" : [
+							{
+								"name" : "adId",
+								"value" : "23797887"
+							},
+							{
+								"name" : "campaignID",
+								"value" : ""
+							},
+							{
+								"name" : "creativeApi_apiFramework",
+								"value" : "VPAID"
+							},
+							{
+								"name" : "creativeId",
+								"value" : "3533873"
+							},
+							{
+								"name" : "customData",
+								"value" : "Google ADX NEW VPAID pre;preroll;1"
+							},
+							{
+								"name" : "industry",
+								"value" : ""
+							},
+							{
+								"name" : "moat",
+								"value" : "191701;191701;;;;;23797887;25364;g2576343;g435853;1164648;65624556;0124787-oo;3533873;9761884;30;preroll;recipe;191701:scripps_pdk_html5_live;cpx-non;1596048632085888026"
+							},
+							{
+								"name" : "moat_on_youtube",
+								"value" : "191701;191701;;;;;23797887;25364;g2576343;g435853;1164648;65624556;0124787-oo;3533873;9761884;30;preroll;recipe;191701:scripps_pdk_html5_live;cpx-non;1596048632085888026;"
+							}
+						]
+					}
+				]
+			},
+			{
+				"adId" : "20171711",
+				"noPreload" : false,
+				"noLoad" : false,
+				"adUnit" : "25364",
+				"isWrapper" : false,
+				"required" : false,
+				"creatives" : [
+					{
+						"creativeId" : "2850605",
+						"baseUnit" : "video",
+						"duration" : "30",
+						"creativeRenditions" : [
+							{
+								"creativeRenditionId" : "7559146",
+								"wrapperType" : "external\/vast-2",
+								"wrapperUrl" : "https:\/\/r5rfy-ixl17.ads.tremorhub.com\/ad\/tag?adCode=r5rfy-wx8dj&playerWidth=1366&playerHeight=768&mediaId=65624556&srcPageUrl=https:\/\/www.foodnetwork.com\/recipes\/alton-brown\/baked-macaroni-and-cheese-recipe-1939524&contentLength=261.5&skip=No&ipOverride=2601:8c0:0:9700:dd34:47ee:7cae:c90c",
+								"creativeApi" : "None",
+								"preference" : "0",
+								"parameters" : [],
+								"asset" : {
+									"id" : "7483703",
+									"name" : "Default Asset for Rendition",
+									"contentType" : "video\/mp4-h264",
+									"mimeType" : "video\/mp4",
+									"deliveryMethod" : "progressive"
+								},
+								"otherAssets" : []
+							}
+						],
+						"parameters" : [
+							{
+								"name" : "adId",
+								"value" : "20171709"
+							},
+							{
+								"name" : "campaignID",
+								"value" : ""
+							},
+							{
+								"name" : "creativeApi_apiFramework",
+								"value" : ""
+							},
+							{
+								"name" : "creativeId",
+								"value" : "2850605"
+							},
+							{
+								"name" : "customData",
+								"value" : "Scripps Network - Food Network Desktop;preroll;1"
+							},
+							{
+								"name" : "industry",
+								"value" : ""
+							},
+							{
+								"name" : "moat",
+								"value" : "191701;191701;;;;;20171709;25364;g2576343;g435853;1164648;65624556;0124787-oo;2850605;7559146;30;preroll;recipe;191701:scripps_pdk_html5_live;cpx-non;1596048632085888026"
+							},
+							{
+								"name" : "moat_on_youtube",
+								"value" : "191701;191701;;;;;20171709;25364;g2576343;g435853;1164648;65624556;0124787-oo;2850605;7559146;30;preroll;recipe;191701:scripps_pdk_html5_live;cpx-non;1596048632085888026;"
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	"siteSection" : {
+		"customId" : "food-recipes",
+		"pageRandom" : "2632",
+		"videoPlayer" : {
+			"videoAsset" : {
+				"eventCallbacks" : [
+					{
+						"url" : "https:\/\/2ecd5.v.fwmrm.net\/ad\/l\/1?s=f123&n=191701%3B191701%3B48747%3B147530%3B151933%3B187827%3B188286%3B193466%3B372496%3B375524%3B375613%3B375617%3B375620%3B376521%3B378491%3B379619%3B380903%3B381963%3B382283%3B382314%3B382315%3B384777%3B393638%3B499607%3B501207%3B505334%3B510702%3B510838%3B510839%3B511322%3B512028%3B512029%3B516274&t=1596048632085888026&f=262144&cn=videoView&et=i&uxnw=191701&uxss=vg15510222&uxct=4",
+						"name" : "videoView",
+						"type" : "IMPRESSION",
+						"use" : "OVERRIDE",
+						"showBrowser" : false,
+						"trackingUrls" : []
+					}
+				],
+				"customId" : "0124787-oo",
+				"random" : "1483",
+				"networkId" : "191701",
+				"adSlots" : [
+					{
+						"eventCallbacks" : [
+							{
+								"url" : "https:\/\/2ecd5.v.fwmrm.net\/ad\/l\/1?s=f123&n=191701%3B191701%3B48747%3B147530%3B151933%3B187827%3B188286%3B193466%3B372496%3B375524%3B375613%3B375617%3B375620%3B376521%3B378491%3B379619%3B380903%3B381963%3B382283%3B382314%3B382315%3B384777%3B393638%3B499607%3B501207%3B505334%3B510702%3B510838%3B510839%3B511322%3B512028%3B512029%3B516274&t=1596048632085888026&f=262144&cn=slotImpression&et=i&tpos=0&init=1&slid=0,1",
+								"name" : "slotImpression",
+								"type" : "IMPRESSION",
+								"use" : "OVERRIDE",
+								"showBrowser" : false,
+								"trackingUrls" : []
+							},
+							{
+								"url" : "https:\/\/2ecd5.v.fwmrm.net\/ad\/l\/1?s=f123&n=191701%3B191701%3B48747%3B147530%3B151933%3B187827%3B188286%3B193466%3B372496%3B375524%3B375613%3B375617%3B375620%3B376521%3B378491%3B379619%3B380903%3B381963%3B382283%3B382314%3B382315%3B384777%3B393638%3B499607%3B501207%3B505334%3B510702%3B510838%3B510839%3B511322%3B512028%3B512029%3B516274&t=1596048632085888026&f=262144&cn=slotEnd&et=i&tpos=0&init=1&slid=0,1",
+								"name" : "slotEnd",
+								"type" : "IMPRESSION",
+								"use" : "OVERRIDE",
+								"showBrowser" : false,
+								"trackingUrls" : []
+							}
+						],
+						"customId" : "0.0.0.1157755542",
+						"compatibleDimensions" : "1366,768",
+						"selectedAds" : [
+							{
+								"eventCallbacks" : [
+									{
+										"url" : "https:\/\/2ecd5.v.fwmrm.net\/ad\/l\/1?s=f123&n=191701%3B191701%3B48747%3B147530%3B151933%3B187827%3B188286%3B193466%3B372496%3B375524%3B375613%3B375617%3B375620%3B376521%3B378491%3B379619%3B380903%3B381963%3B382283%3B382314%3B382315%3B384777%3B393638%3B499607%3B501207%3B505334%3B510702%3B510838%3B510839%3B511322%3B512028%3B512029%3B516274&t=1596048632085888026&f=262144&r=191701&adid=34942399&reid=18111719&arid=0&iw=&uxnw=191701&uxss=vg15510222&uxct=4",
+										"type" : "GENERIC",
+										"use" : "BASE",
+										"showBrowser" : false,
+										"trackingUrls" : []
+									},
+									{
+										"url" : "https:\/\/2ecd5.v.fwmrm.net\/ad\/l\/1?s=f123&n=191701%3B191701%3B48747%3B147530%3B151933%3B187827%3B188286%3B193466%3B372496%3B375524%3B375613%3B375617%3B375620%3B376521%3B378491%3B379619%3B380903%3B381963%3B382283%3B382314%3B382315%3B384777%3B393638%3B499607%3B501207%3B505334%3B510702%3B510838%3B510839%3B511322%3B512028%3B512029%3B516274&t=1596048632085888026&f=262144&r=191701&adid=34942399&reid=18111719&arid=0&auid=&cn=defaultImpression&et=i&_cc=34942399,18111719,45890.,38281.45890.,1596048632,1&tpos=0&iw=&uxnw=191701&uxss=vg15510222&uxct=4&init=1&kv=_fw_fa&cr=",
+										"name" : "defaultImpression",
+										"type" : "IMPRESSION",
+										"use" : "OVERRIDE",
+										"showBrowser" : false,
+										"trackingUrls" : [
+											{
+												"name" : "512167",
+												"value" : "https:\/\/ads.stickyadstv.com\/user-matching?id=185"
+											},
+											{
+												"name" : "512167",
+												"value" : "https:\/\/ads.stickyadstv.com\/user-matching?id=11"
+											},
+											{
+												"name" : "518308",
+												"value" : "https:\/\/ads.stickyadstv.com\/user-matching?id=185"
+											},
+											{
+												"name" : "518308",
+												"value" : "https:\/\/ads.stickyadstv.com\/user-matching?id=2545"
+											},
+											{
+												"name" : "rbp_inventory_beacon",
+												"value" : "https:\/\/secure-gl.imrworldwide.com\/cgi-bin\/m?ci=nlsnapi16798&am=3&ep=1&at=view&rt=banner&st=image&ca=cmp3450569&cr=crv4655732&pc=plc75638653&r=1723519714"
+											}
+										]
+									},
+									{
+										"url" : "https:\/\/2ecd5.v.fwmrm.net\/ad\/l\/1?s=f123&n=191701%3B191701%3B48747%3B147530%3B151933%3B187827%3B188286%3B193466%3B372496%3B375524%3B375613%3B375617%3B375620%3B376521%3B378491%3B379619%3B380903%3B381963%3B382283%3B382314%3B382315%3B384777%3B393638%3B499607%3B501207%3B505334%3B510702%3B510838%3B510839%3B511322%3B512028%3B512029%3B516274&t=1596048632085888026&f=262144&r=191701&adid=34942399&reid=18111719&arid=0&auid=&cn=defaultClick&et=c&_cc=&tpos=0&cr=",
+										"name" : "defaultClick",
+										"type" : "CLICK",
+										"use" : "OVERRIDE",
+										"showBrowser" : false,
+										"trackingUrls" : []
+									}
+								],
+								"adId" : "34942399",
+								"creativeId" : "5244822",
+								"replicaId" : "0",
+								"networkId" : "191701",
+								"creativeRenditionId" : "18111719",
+								"companionAds" : [],
+								"fallbackAds" : [
+									{
+										"eventCallbacks" : [
+											{
+												"url" : "https:\/\/2ecd5.v.fwmrm.net\/ad\/l\/1?s=f123&n=191701%3B191701%3B48747%3B147530%3B151933%3B187827%3B188286%3B193466%3B372496%3B375524%3B375613%3B375617%3B375620%3B376521%3B378491%3B379619%3B380903%3B381963%3B382283%3B382314%3B382315%3B384777%3B393638%3B499607%3B501207%3B505334%3B510702%3B510838%3B510839%3B511322%3B512028%3B512029%3B516274&t=1596048632085888026&f=262144&r=191701&adid=20171711&reid=7559146&arid=0&iw=&uxnw=191701&uxss=vg15510222&uxct=4",
+												"type" : "GENERIC",
+												"use" : "BASE",
+												"showBrowser" : false,
+												"trackingUrls" : []
+											},
+											{
+												"url" : "https:\/\/2ecd5.v.fwmrm.net\/ad\/l\/1?s=f123&n=191701%3B191701%3B48747%3B147530%3B151933%3B187827%3B188286%3B193466%3B372496%3B375524%3B375613%3B375617%3B375620%3B376521%3B378491%3B379619%3B380903%3B381963%3B382283%3B382314%3B382315%3B384777%3B393638%3B499607%3B501207%3B505334%3B510702%3B510838%3B510839%3B511322%3B512028%3B512029%3B516274&t=1596048632085888026&f=262144&r=191701&adid=20171711&reid=7559146&arid=0&auid=&cn=defaultImpression&et=i&_cc=20171711,7559146,38281.,38281.45890.,1596048632,1&tpos=0&iw=&uxnw=191701&uxss=vg15510222&uxct=4&init=1&cr=",
+												"name" : "defaultImpression",
+												"type" : "IMPRESSION",
+												"use" : "OVERRIDE",
+												"showBrowser" : false,
+												"trackingUrls" : []
+											},
+											{
+												"url" : "https:\/\/2ecd5.v.fwmrm.net\/ad\/l\/1?s=f123&n=191701%3B191701%3B48747%3B147530%3B151933%3B187827%3B188286%3B193466%3B372496%3B375524%3B375613%3B375617%3B375620%3B376521%3B378491%3B379619%3B380903%3B381963%3B382283%3B382314%3B382315%3B384777%3B393638%3B499607%3B501207%3B505334%3B510702%3B510838%3B510839%3B511322%3B512028%3B512029%3B516274&t=1596048632085888026&f=262144&r=191701&adid=20171711&reid=7559146&arid=0&auid=&cn=defaultClick&et=c&_cc=&tpos=0&cr=",
+												"name" : "defaultClick",
+												"type" : "CLICK",
+												"use" : "OVERRIDE",
+												"showBrowser" : false,
+												"trackingUrls" : []
+											}
+										],
+										"adId" : "20171711",
+										"creativeId" : "2850605",
+										"replicaId" : "0",
+										"networkId" : "191701",
+										"creativeRenditionId" : "7559146",
+										"companionAds" : [],
+										"fallbackAds" : []
+									},
+									{
+										"eventCallbacks" : [
+											{
+												"url" : "https:\/\/2ecd5.v.fwmrm.net\/ad\/l\/1?s=f123&n=191701%3B191701%3B48747%3B147530%3B151933%3B187827%3B188286%3B193466%3B372496%3B375524%3B375613%3B375617%3B375620%3B376521%3B378491%3B379619%3B380903%3B381963%3B382283%3B382314%3B382315%3B384777%3B393638%3B499607%3B501207%3B505334%3B510702%3B510838%3B510839%3B511322%3B512028%3B512029%3B516274&t=1596048632085888026&f=262144&r=191701&adid=23797889&reid=9761884&arid=0&iw=&uxnw=191701&uxss=vg15510222&uxct=4",
+												"type" : "GENERIC",
+												"use" : "BASE",
+												"showBrowser" : false,
+												"trackingUrls" : []
+											},
+											{
+												"url" : "https:\/\/2ecd5.v.fwmrm.net\/ad\/l\/1?s=f123&n=191701%3B191701%3B48747%3B147530%3B151933%3B187827%3B188286%3B193466%3B372496%3B375524%3B375613%3B375617%3B375620%3B376521%3B378491%3B379619%3B380903%3B381963%3B382283%3B382314%3B382315%3B384777%3B393638%3B499607%3B501207%3B505334%3B510702%3B510838%3B510839%3B511322%3B512028%3B512029%3B516274&t=1596048632085888026&f=262144&r=191701&adid=23797889&reid=9761884&arid=0&auid=&cn=defaultImpression&et=i&_cc=23797889,9761884,38281.,38281.45890.,1596048632,1&tpos=0&iw=&uxnw=191701&uxss=vg15510222&uxct=4&init=1&cr=",
+												"name" : "defaultImpression",
+												"type" : "IMPRESSION",
+												"use" : "OVERRIDE",
+												"showBrowser" : false,
+												"trackingUrls" : []
+											},
+											{
+												"url" : "https:\/\/2ecd5.v.fwmrm.net\/ad\/l\/1?s=f123&n=191701%3B191701%3B48747%3B147530%3B151933%3B187827%3B188286%3B193466%3B372496%3B375524%3B375613%3B375617%3B375620%3B376521%3B378491%3B379619%3B380903%3B381963%3B382283%3B382314%3B382315%3B384777%3B393638%3B499607%3B501207%3B505334%3B510702%3B510838%3B510839%3B511322%3B512028%3B512029%3B516274&t=1596048632085888026&f=262144&r=191701&adid=23797889&reid=9761884&arid=0&auid=&cn=defaultClick&et=c&_cc=&tpos=0&cr=",
+												"name" : "defaultClick",
+												"type" : "CLICK",
+												"use" : "OVERRIDE",
+												"showBrowser" : false,
+												"trackingUrls" : []
+											}
+										],
+										"adId" : "23797889",
+										"creativeId" : "3533873",
+										"replicaId" : "0",
+										"networkId" : "191701",
+										"creativeRenditionId" : "9761884",
+										"companionAds" : [],
+										"fallbackAds" : []
+									}
+								]
+							}
+						],
+						"timePosition" : "0",
+						"timePositionClass" : "preroll",
+						"adUnit" : "Standard Pre",
+						"source" : "generated",
+						"maxDuration" : "61"
+					}
+				]
+			},
+			"adSlots" : []
+		},
+		"adSlots" : [
+			{
+				"eventCallbacks" : [],
+				"customId" : "300x60slot",
+				"width" : "320",
+				"height" : "60",
+				"compatibleDimensions" : "300,60|320,50",
+				"selectedAds" : []
+			},
+			{
+				"eventCallbacks" : [],
+				"customId" : "900x650slot",
+				"width" : "900",
+				"height" : "650",
+				"selectedAds" : []
+			}
+		]
+	}
+});

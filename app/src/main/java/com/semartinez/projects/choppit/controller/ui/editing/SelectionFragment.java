@@ -2,6 +2,7 @@ package com.semartinez.projects.choppit.controller.ui.editing;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,15 +32,16 @@ import org.jsoup.nodes.Document;
  */
 public class SelectionFragment extends Fragment {
 
+  private static final String ENCODING = "UTF-8";
+  private static final String MIME_TYPE = "text/html";
   private WebView contentView;
   private EditText ingredientInput;
   private EditText stepInput;
-  private String html;
+  private Document doc;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    html = SelectionFragmentArgs.fromBundle(requireArguments()).getHtml();
     setHasOptionsMenu(true);
     setRetainInstance(true);
   }
@@ -48,7 +50,8 @@ public class SelectionFragment extends Fragment {
   public View onCreateView(@Nonnull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     MainViewModel viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-    viewModel.resetData();
+    doc = viewModel.getDocument().getValue();
+    viewModel.getDocument().removeObservers(getViewLifecycleOwner());
     View root = inflater.inflate(R.layout.fragment_selection, container, false);
     setupWebView(root);
     ingredientInput = root.findViewById(R.id.ingredient_input);
@@ -62,11 +65,15 @@ public class SelectionFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    contentView.loadData(html, "text/html", null);
+        //FIXME: Not loading document
+//    Jsoup.parseBodyFragment(doc.html());
+    Log.e("LOOKIT", doc.outerHtml());
+    contentView.loadData(doc.toString(), "text/html", ENCODING);
 
     //  TODO disable for production
     ingredientInput.setText("1/2 pound elbow macaroni");
     stepInput.setText("oven to 350");
+
 
   }
 
@@ -82,14 +89,14 @@ public class SelectionFragment extends Fragment {
 
     WebSettings settings = contentView.getSettings();
     settings.setJavaScriptEnabled(true);
-    settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+//    settings.setCacheMode(WebSettings.LOAD_DEFAULT);
     settings.setSupportZoom(true);
     settings.setBuiltInZoomControls(true);
     settings.setDisplayZoomControls(false);
     settings.setLoadWithOverviewMode(true);
     settings.setUseWideViewPort(true);
-    settings.setBlockNetworkImage(true);
-    settings.setLoadsImagesAutomatically(false);
+//    settings.setBlockNetworkImage(true);
+//    settings.setLoadsImagesAutomatically(false);
     settings.setTextZoom(300);
   }
 

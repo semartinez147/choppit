@@ -1,0 +1,216 @@
+(function() {
+  var libs = {
+  "gpt": "www.googletagservices.com/tag/js/gpt.js",
+  "prebid": "code.adsales.snidigital.com/datmcp/3/prebid3.12.0.js",
+  "amazonA9": "c.amazon-adsystem.com/aax2/apstag.js",
+  "indexExchange": "js-sec.indexww.com/ht/p/191858-175312051851739.js",
+  "adlightning": "tagan.adlightning.com/scripps/op.js",
+  "datmcp": "code.adsales.snidigital.com/datmcp/3/DatMCP-3.25.2-fa5081d0eacd8b1cf50e.js",
+  "datmcp-staging": "code.adsales.snidigital.com/datmcp/staging/DatMCP.js",
+  "datmcp3.24.1": "code.adsales.snidigital.com/datmcp/3/DatMCP-3.24.1-af4165cfee8d6f663e2f.js",
+  "datmcp3.24.2": "code.adsales.snidigital.com/datmcp/3/DatMCP-3.24.2-673314f65cd6268c1967.js"
+}
+  var sites = {
+  "sports": [
+    "gpt",
+    "amazonA9",
+    "indexExchange",
+    "datmcp3.24.1",
+    "adlightning"
+  ],
+  "golfdigest": [
+    "gpt",
+    "amazonA9",
+    "indexExchange",
+    "datmcp3.24.1",
+    "adlightning"
+  ],
+  "travel": [
+    "gpt",
+    "prebid",
+    "datmcp",
+    "adlightning"
+  ],
+  "*": [
+    "gpt",
+    "prebid",
+    "datmcp3.24.2",
+    "adlightning"
+  ]
+};
+
+  var load, d = document, l = d.location, h = l.hostname;
+
+  for (var siteKey in sites) {
+    if ((h.indexOf(siteKey) >= 0) || (siteKey === '*')) {
+      load = sites[siteKey];
+      break;
+    }
+  }
+
+  var ls = window.localStorage && window.localStorage.getItem('mcp-loader');
+  var qs = /[?&]mcp-loader=([\w\/\.,-]+)(&|$)/gi.exec(l.search);
+  var alt = ls || (qs && qs[1]);
+  if (alt) load = alt.split(',');
+
+  var delay = /[?&]ads-delay(&|$)/gi.exec(l.search);
+
+  load.forEach(function(lib) {
+    function load() {
+      console.log('Loaded library: ', lib, time);
+      var path = libs[lib];
+      if (path.indexOf('://') < 0) path = 'https://' + path;
+      if (!d.getElementById('mcp-' + lib)) {
+        var t = d.createElement('script');
+        t.id = 'mcp-' + lib;
+        t.async = true;
+        t.type = 'text/javascript';
+        t.src = path;
+        d.head.appendChild(t);
+      }
+    }
+    var time = delay ? Math.round((Math.random() * 9) + 1) * 1000 : 0;
+     window.setTimeout(load, time);
+  });
+})();
+
+var uniqueClassCounter = 0;
+
+(function () {
+  window.DatMCP = window.DatMCP || {
+    loaderInitialized: true,
+    executeQueue: [],
+    execute: function (callback) {
+      return new Promise(function (resolve, reject) {
+        if (typeof callback !== 'function') { resolve(); return; }
+        if (window.DatMCP.isLoaded) { resolve(callback(window.DatMCP)); return; }
+        window.DatMCP.executeQueue.push([callback, resolve]);
+      });
+    },
+  };
+
+  window.SniAds = window.SniAds || {
+    ready: function (cb) {
+      var i;
+      function check() {
+        if (window.SniAds.getVersion) {
+          window.SniAds.ready(cb);
+          window.clearInterval(i);
+        }
+      }
+      i = window.setInterval(check, 100);
+      check();
+    },
+    init: function (arg1) {
+      var i;
+      function check() {
+        if (window.SniAds.getVersion) {
+          window.SniAds.init(arg1);
+          window.clearInterval(i);
+        }
+      }
+      i = window.setInterval(check, 100);
+      check();
+    },
+    appendSlot: function (arg1, arg2, arg3, arg4) {
+      if (window.SniAds.getVersion) return window.SniAds.appendSlot(arg1, arg2, arg3, arg4);
+
+      var el = document.querySelector('.' + arg1);
+
+      if (arg1 === 'currentBigBox') {
+        arg1 = 'append-slot-' + uniqueClassCounter++;
+        el.classList.add(arg1);
+      }
+
+      var i;
+      function check() {
+        if (window.SniAds.getVersion) {
+          SniAds.ready(function() {
+            window.SniAds.appendSlot(arg1, arg2, arg3, arg4);
+          });
+          window.clearInterval(i);
+        }
+      }
+      i = window.setInterval(check, 100);
+      check();
+    },
+    getDefinedSlots: function () {
+      console.log('Loader getDefinedSlots called');
+      if (!window.SniAds.getVersion) return {};
+      return window.SniAds.getDefinedSlots();
+    },
+    Gallery: {
+      init: function (cb) {
+        // console.log('SniAds.Gallery.init called early', cb);
+        var i;
+        function check() {
+          if (window.SniAds.getVersion) {
+            window.SniAds.Gallery.init(cb);
+            window.clearInterval(i);
+            // console.log('SniAds.Gallery.init passed');
+          }
+        }
+        i = window.setInterval(check, 100);
+        check();
+      },
+      reset: function () {
+        var i;
+        function check() {
+          if (window.SniAds.getVersion) {
+            window.SniAds.Gallery.reset();
+            window.clearInterval(i);
+          }
+        }
+        i = window.setInterval(check, 100);
+        check();
+      },
+      setSyncSlot: function (arg1, arg2, arg3) {
+        var i;
+        function check() {
+          if (window.SniAds.getVersion) {
+            window.SniAds.Gallery.setSyncSlot(arg1, arg2, arg3);
+            window.clearInterval(i);
+          }
+        }
+        i = window.setInterval(check, 100);
+        check();
+      },
+      setInterstitialSlot: function (arg1, arg2, arg3) {
+        var i;
+        function check() {
+          if (window.SniAds.getVersion) {
+            window.SniAds.Gallery.setInterstitialSlot(arg1, arg2, arg3);
+            window.clearInterval(i);
+          }
+        }
+        i = window.setInterval(check, 100);
+        check();
+      },
+      next: function () {
+        console.log('loader next');
+        if (window.SniAds.getVersion) window.SniAds.Gallery.next();
+      },
+      previous: function () {
+        if (window.SniAds.getVersion) window.SniAds.Gallery.previous();
+      }
+    },
+    Event: {
+      subscribe: function (event, cb) {
+        var i;
+        function check() {
+          if (window.SniAds.getVersion) {
+            window.SniAds.Event.subscribe(event, cb);
+            window.clearInterval(i);
+          }
+        }
+        i = window.setInterval(check, 100);
+        check();
+      },
+    },
+    River: {
+      repeatBigbox: function () {
+      
+      },
+    },
+  }
+})();
