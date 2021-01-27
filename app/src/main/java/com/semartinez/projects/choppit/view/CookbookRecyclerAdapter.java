@@ -13,10 +13,10 @@ import com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragment;
 import com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragmentDirections;
 import com.semartinez.projects.choppit.databinding.CookbookListItemBinding;
 import com.semartinez.projects.choppit.model.entity.Recipe;
-import com.semartinez.projects.choppit.view.CookbookRecyclerAdapter.ViewHolder;
+import com.semartinez.projects.choppit.view.CookbookRecyclerAdapter.CookbookViewHolder;
 import java.util.List;
 
-public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class CookbookRecyclerAdapter extends RecyclerView.Adapter<CookbookViewHolder> {
 
   private final Context context;
   private final List<Recipe> recipes;
@@ -44,15 +44,15 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
   @NonNull
   @Override
-  public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+  public CookbookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     LayoutInflater layoutInflater = LayoutInflater.from(context);
     CookbookListItemBinding cookbookListItemBinding = CookbookListItemBinding
         .inflate(layoutInflater, parent, false);
-    return new ViewHolder(cookbookListItemBinding);
+    return new CookbookViewHolder(cookbookListItemBinding);
   }
 
   @Override
-  public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+  public void onBindViewHolder(@NonNull CookbookViewHolder holder, int position) {
     Recipe recipe = recipes.get(position);
     holder.bind(recipe, cookbookFragment);
   }
@@ -65,7 +65,7 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
   /**
    * The ViewHolder class coordinates between incoming data and the UI.
    */
-  public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+  static class CookbookViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     private final CookbookListItemBinding binding;
 
@@ -75,7 +75,7 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
      *
      * @param binding is the connection between the data and the interface.
      */
-    public ViewHolder(CookbookListItemBinding binding) {
+    public CookbookViewHolder(CookbookListItemBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
       binding.recipeTitle.setOnClickListener(this);

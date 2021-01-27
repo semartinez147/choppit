@@ -9,8 +9,8 @@
   <string name="title_editing">Recipe Editing</string>
   <string name="cookbook">Cookbook</string>
   <string name="recipe">Recipe</string>
-  <string name="ingredient_input_hint">Paste the text of any ingredient here</string>
-  <string name="step_input_hint">Paste text from any step here</string>
+  <string name="ingredient_input_hint">Ingredient text</string>
+  <string name="step_input_hint">Instruction text</string>
   <string name="save_button">Save Recipe</string>
   <string name="extract_button">Extract Recipe</string>
   <string name="title_selection">Detail Selection</string>
@@ -52,4 +52,9 @@
   <string name="save_recipe">Do you want to save a new recipe, or update the existing one?  A new recipe has to have a different title.</string>
   <string name="sp_key_recipe_font_size">Font Size</string>
   <string name="finished">… finished!</string>
+  <string name="ingredient_selector">Ingredient Selector</string>
+  <string name="step_selector">Step Selector</string>
+  <string name="mark_as_step">Mark as\nStep</string>
+  <string name="mark_as_ingredient">Mark as\nIngredient</string>
+  <string name="selection_message">Choppit extracted these text elements.\nUse the buttons below to select.</string>
 </resources>

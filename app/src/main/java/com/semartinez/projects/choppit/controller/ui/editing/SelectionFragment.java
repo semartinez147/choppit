@@ -1,15 +1,10 @@
 package com.semartinez.projects.choppit.controller.ui.editing;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import androidx.annotation.NonNull;
@@ -19,8 +14,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.ui.home.HomeFragment;
-import com.semartinez.projects.choppit.service.DocumentWithStrings;
+import com.semartinez.projects.choppit.databinding.FragmentSelectionBinding;
+import com.semartinez.projects.choppit.view.SelectionRecyclerAdapter;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
+import java.util.Collections;
 import java.util.Set;
 import javax.annotation.Nonnull;
 import org.jsoup.Jsoup;
@@ -34,29 +31,30 @@ import org.jsoup.nodes.Document;
  */
 public class SelectionFragment extends Fragment {
 
-  private static final String ENCODING = "UTF-8";
-  private static final String MIME_TYPE = "text/html";
-  private WebView contentView;
+  private SelectionRecyclerAdapter selectionRecyclerAdapter;
+  private FragmentSelectionBinding binding;
+  private Set<String> strings;
+  private MainViewModel viewModel;
   private EditText ingredientInput;
   private EditText stepInput;
-  private DocumentWithStrings doc;
-  private Set<String> strings;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     setRetainInstance(true);
+    viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
   }
 
   @Override
   public View onCreateView(@Nonnull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    MainViewModel viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-    strings = viewModel.getDocumentWithStrings().getValue().getStrings();
+    strings = (viewModel.getDocumentWithStrings().getValue().getStrings() != null? viewModel.getDocumentWithStrings().getValue().getStrings() : Collections.singleton("No text retrieved"));
     viewModel.getDocumentWithStrings().removeObservers(getViewLifecycleOwner());
     View root = inflater.inflate(R.layout.fragment_selection, container, false);
-    setupWebView(root);
+
+//    binding = DataBindingUtil.inflate(inflater, R.layout.fragment_selection, container, false);
+
     ingredientInput = root.findViewById(R.id.ingredient_input);
     stepInput = root.findViewById(R.id.step_input);
     Button continueButton = root.findViewById(R.id.selection_extract);
@@ -68,11 +66,6 @@ public class SelectionFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-        //FIXME: Not loading document
-//    Jsoup.parseBodyFragment(doc.html());
-    Log.e("LOOKIT", doc.outerHtml());
-    contentView.loadData(doc.toString(), "text/html", ENCODING);
-
     //  TODO disable for production
     ingredientInput.setText("1/2 pound elbow macaroni");
     stepInput.setText("oven to 350");
@@ -80,27 +73,16 @@ public class SelectionFragment extends Fragment {
 
   }
 
-  @SuppressLint("SetJavaScriptEnabled")
-  private void setupWebView(View root) {
-    contentView = root.findViewById(R.id.selection_view);
-    contentView.setWebViewClient(new WebViewClient() {
-      @Override
-      public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-        return false;
-      }
-    });
+  private void setupRecyclerView() {
 
-    WebSettings settings = contentView.getSettings();
-    settings.setJavaScriptEnabled(true);
-//    settings.setCacheMode(WebSettings.LOAD_DEFAULT);
-    settings.setSupportZoom(true);
-    settings.setBuiltInZoomControls(true);
-    settings.setDisplayZoomControls(false);
-    settings.setLoadWithOverviewMode(true);
-    settings.setUseWideViewPort(true);
-//    settings.setBlockNetworkImage(true);
-//    settings.setLoadsImagesAutomatically(false);
-    settings.setTextZoom(300);
+  }
+
+  public void markAsIngredient(int position) {
+    ingredientInput.setText(selectionRecyclerAdapter.getStrings()[position]);
+  }
+
+  public void markAsStep(int position) {
+    stepInput.setText(selectionRecyclerAdapter.getStrings()[position]);
   }
 
   private void sendToLoading(View v) {

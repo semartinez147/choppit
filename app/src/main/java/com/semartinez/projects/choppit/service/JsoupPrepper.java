@@ -1,5 +1,6 @@
 package com.semartinez.projects.choppit.service;
 
+import com.semartinez.projects.choppit.controller.exception.ZeroMatchesException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashSet;
@@ -27,6 +28,9 @@ public class JsoupPrepper {
     doWork();
     // TODO: simplify.
     Set<String> strings = new HashSet<>(document.getAllElements().eachText());
+    if (strings.isEmpty()) {
+      throw new ZeroMatchesException();
+    }
     return new DocumentWithStrings(url, document, strings);
   }
 

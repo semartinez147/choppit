@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class CookbookFragment extends Fragment {
 
-  CookbookRecyclerAdapter cookbookRecyclerAdapter;
+  private CookbookRecyclerAdapter cookbookRecyclerAdapter;
   private MainViewModel viewModel;
   private final List<Recipe> recipes = new ArrayList<>();
   private FragmentCookbookBinding binding;

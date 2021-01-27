@@ -107,16 +107,11 @@ public class EditingFragment extends Fragment {
     Navigation.findNavController(v).navigate(R.id.edit_cook);
   }
 
-
-  @SuppressWarnings("unused")
-  //View parameter is required by databinding onClick function
-  public void addStep(View view) {
+  public void addStep() {
     stepRecyclerAdapter.addStep();
   }
 
-  @SuppressWarnings("unused")
-  //View parameter is required by databinding onClick function
-  public void addIngredient(View view) {
+  public void addIngredient() {
     ingredientRecyclerAdapter.addIngredient();
   }
 
