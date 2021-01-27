@@ -84,8 +84,8 @@ public class LoadingFragment extends Fragment implements Observer<String> {
         break;
       case "connected":
         status.setText(R.string.separating);
-        viewModel.prep();
-        viewModel.getDocument().observe(getViewLifecycleOwner(),
+        viewModel.generateHtml();
+        viewModel.getDocumentWithStrings().observe(getViewLifecycleOwner(),
             d -> {
               if (d != null) {
                 Log.e("DOCTRACE", "LoadingNav: doc length = " + d.toString().length());

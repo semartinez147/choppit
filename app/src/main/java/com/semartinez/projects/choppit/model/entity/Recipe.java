@@ -177,10 +177,6 @@ public class Recipe extends BaseObservable {
   }
 
 
-  public interface RecipeComponent {
-    // exists to group Ingredient and Step objects
-  }
-
   @NonNull
   @Override
   public String toString() {

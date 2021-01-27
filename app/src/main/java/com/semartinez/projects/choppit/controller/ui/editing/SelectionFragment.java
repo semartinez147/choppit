@@ -19,7 +19,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.ui.home.HomeFragment;
+import com.semartinez.projects.choppit.service.DocumentWithStrings;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
+import java.util.Set;
 import javax.annotation.Nonnull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -37,7 +39,8 @@ public class SelectionFragment extends Fragment {
   private WebView contentView;
   private EditText ingredientInput;
   private EditText stepInput;
-  private Document doc;
+  private DocumentWithStrings doc;
+  private Set<String> strings;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,8 +53,8 @@ public class SelectionFragment extends Fragment {
   public View onCreateView(@Nonnull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     MainViewModel viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-    doc = viewModel.getDocument().getValue();
-    viewModel.getDocument().removeObservers(getViewLifecycleOwner());
+    strings = viewModel.getDocumentWithStrings().getValue().getStrings();
+    viewModel.getDocumentWithStrings().removeObservers(getViewLifecycleOwner());
     View root = inflater.inflate(R.layout.fragment_selection, container, false);
     setupWebView(root);
     ingredientInput = root.findViewById(R.id.ingredient_input);

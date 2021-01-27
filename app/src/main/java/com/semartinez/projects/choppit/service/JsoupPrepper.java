@@ -1,47 +1,49 @@
 package com.semartinez.projects.choppit.service;
 
-import android.util.Log;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
-import java.util.concurrent.Callable;
+import java.util.HashSet;
+import java.util.Set;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Document.OutputSettings;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class JsoupPrepper {
 
   private Document document;
+  private Elements allElements;
+
 
   JsoupPrepper() {
   }
 
-
-  public Document prepare(String url) throws IOException {
+  // Refactoring as DocumentWithStrings instead of File
+  public DocumentWithStrings prepare(String url) throws IOException {
     if (document == null) {
-      try {
-        document = Jsoup.connect(url).get();
-      } catch (MalformedURLException e) {
-        throw new MalformedURLException("Not a valid link");
-      } catch (HttpStatusException e) {
-        throw new IOException("There was a problem with the website.");
-      } catch (IOException e) {
-        throw new IOException("An unknown error occurred.  Please try again.");
-      }
+      throw new NullPointerException();
+      // Call reconnect if the breakpoint is ever triggered.
     }
-//    document.outputSettings(new OutputSettings().prettyPrint(false));
-//    document.filter(new Strainer());
-    document = Jsoup.parse(document.select("div:not(:has(div))").select("div:matches(.)").toString());
-    return document;
+    doWork();
+    // TODO: simplify.
+    Set<String> strings = new HashSet<>(document.getAllElements().eachText());
+    return new DocumentWithStrings(url, document, strings);
   }
 
-  public Document getDocument() {
-    return document;
+  private void reconnect(String url) throws IOException {
+    try {
+      document = Jsoup.connect(url).get();
+    } catch (MalformedURLException e) {
+      throw new MalformedURLException("Not a valid link");
+    } catch (HttpStatusException e) {
+      throw new IOException("There was a problem with the website.");
+    } catch (IOException e) {
+      throw new IOException("An unknown error occurred.  Please try again.");
+    }
+  }
+
+  private void doWork() {
+    document.filter(new Strainer());
   }
 
   public void setDocument(Document document) {

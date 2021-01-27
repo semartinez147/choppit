@@ -5,12 +5,10 @@ import com.semartinez.projects.choppit.controller.exception.TooManyMatchesExcept
 import com.semartinez.projects.choppit.controller.exception.ZeroMatchesException;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
-import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
 import com.semartinez.projects.choppit.model.entity.Step;
+import com.semartinez.projects.choppit.model.pojo.RecipePojo;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,7 +45,7 @@ public class JsoupRetriever {
    *                    and *                    {@link com.semartinez.projects.choppit.model.repository.RecipeRepository}.
    * @return A {@link List} of {@link Step} objects with embedded {@link Ingredient}s.
    */
-  public Map<String, List<? extends RecipeComponent>> process(String ingredient, String instruction) {
+  public RecipePojo process(String ingredient, String instruction) {
     //TODO Error handling: test getClass errors for 0 or >1 result.
 
     RunIngredients i = new RunIngredients(ingredient);
@@ -67,12 +65,16 @@ public class JsoupRetriever {
       e.printStackTrace();
     }
 
-    Map<String, List<? extends RecipeComponent>> data = new HashMap<>();
+    RecipePojo pojo = new RecipePojo();
+    pojo.setIngredients(ingredients);
+    pojo.setSteps(steps);
+
+/*    Map<String, List<? extends RecipeComponent>> data = new HashMap<>();
 
     data.put("ingredients", ingredients);
-    data.put("steps", steps);
+    data.put("steps", steps);*/
 
-    return data;
+    return pojo;
   }
 
   private class RunIngredients implements Runnable {

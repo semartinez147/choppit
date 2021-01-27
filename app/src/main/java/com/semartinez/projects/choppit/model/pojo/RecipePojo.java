@@ -41,8 +41,7 @@ public class RecipePojo {
     return ingredients;
   }
 
-  public void setIngredients(
-      List<Ingredient> ingredients) {
+  public void setIngredients(List<Ingredient> ingredients) {
     this.ingredients = ingredients;
   }
 }

@@ -11,24 +11,24 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Recipe;
-import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
 import com.semartinez.projects.choppit.model.entity.Step;
+import com.semartinez.projects.choppit.model.pojo.RecipePojo;
 import com.semartinez.projects.choppit.model.repository.RecipeRepository;
+import com.semartinez.projects.choppit.service.DocumentWithStrings;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import java.util.ArrayList;
+import java.io.File;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import org.jsoup.nodes.Document;
 
 public class MainViewModel extends AndroidViewModel implements LifecycleObserver {
 
   private final MutableLiveData<Recipe> recipe;
   private final MutableLiveData<List<Step>> steps;
   private final MutableLiveData<List<Ingredient>> ingredients;
-  private final MutableLiveData<Document> document;
+  private final MutableLiveData<File> html;
+  private final MutableLiveData<DocumentWithStrings> documentWithStrings;
   private final MutableLiveData<Throwable> throwable;
   private final MutableLiveData<Set<String>> permissions;
   private final MutableLiveData<String> status;
@@ -46,13 +46,14 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     recipe = new MutableLiveData<>();
     steps = new MutableLiveData<>();
     ingredients = new MutableLiveData<>();
-    document = new MutableLiveData<>();
+    html = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     permissions = new MutableLiveData<>(new HashSet<>());
     pending = new CompositeDisposable();
     status = new MutableLiveData<>();
     repository = RecipeRepository.getInstance();
     resetData();
+    documentWithStrings = new MutableLiveData<>();
   }
 
   public LiveData<List<Recipe>> getAllRecipes() {
@@ -71,8 +72,12 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     return ingredients;
   }
 
-  public LiveData<Document> getDocument() {
-    return document;
+  public LiveData<DocumentWithStrings> getDocumentWithStrings() {
+    return documentWithStrings;
+  }
+
+  public LiveData<File> getHtml() {
+    return html;
   }
 
   public LiveData<String> getStatus() {
@@ -95,9 +100,10 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     steps.postValue(null);
     ingredients.postValue(null);
     recipe.postValue(null);
+    documentWithStrings.postValue(null);
+    html.postValue(null);
     throwable.postValue(null);
     status.postValue("");
-    document.postValue(null);
   }
 
   /**
@@ -119,15 +125,12 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     );
   }
 
-  public void prep() {
+  public void generateHtml() {
     throwable.setValue(null);
     pending.add(
-        repository.prepDocument()
+        repository.generateDocument().subscribeOn(Schedulers.computation())
             .subscribe(
-                value -> {
-                  document.postValue(value);
-                  Log.e("DOCTRACE", "MVM: doc length = " + value.toString().length());
-                },
+                documentWithStrings::postValue,
                 throwable::postValue
             )
     );
@@ -143,28 +146,15 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     );
   }
 
-  public void finish(Map<String, List<? extends RecipeComponent>> data) {
-    if (data instanceof List) {
-
-    }
-
-    List<Ingredient> ingredientData = new ArrayList<>();
-    for (RecipeComponent recipeComponent : data.get("ingredients")) {
-      ingredientData.add((Ingredient) recipeComponent);
-    }
-    ingredients.setValue(ingredientData);
-
-    List<Step> stepData = new ArrayList<>();
-    for (RecipeComponent recipeComponent : data.get("steps")) {
-      stepData.add((Step) recipeComponent);
-    }
-    steps.setValue(stepData);
+  public void finish(RecipePojo data) {
+    ingredients.setValue(data.getIngredients());
+    steps.setValue(data.getSteps());
     status.postValue("finishing");
   }
 
   public void postRecipe() {
     this.recipe
-        .postValue(new Recipe(repository.getRecipeMeta()[0], repository.getRecipeMeta()[1], false,
+        .postValue(new Recipe(repository.getRecipeUrl(), repository.getRecipeTitle(), false,
             steps.getValue(), ingredients.getValue()));
     status.postValue("finished");
   }
