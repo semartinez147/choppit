@@ -19,28 +19,29 @@
       android:id="@+id/select_question"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="@string/save_recipe"
+      android:text="Is this text an ingredient or instruction in your recipe?"
       style="@style/TextAppearance.MaterialComponents.Body1"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintStart_toStartOf="parent"/>
-    <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/save_title_layout"
-      android:layout_width="match_parent"
-      android:layout_marginVertical="@dimen/wide_space"
+
+    <androidx.cardview.widget.CardView
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      app:cardCornerRadius="@dimen/medium_space"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/info"
+      app:layout_constraintTop_toBottomOf="@+id/select_question"
+      app:cardElevation="@dimen/wide_space"
+      android:layout_margin="@dimen/wide_space"
       >
-      <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/save_title"
+      <TextView
+        android:id="@+id/select_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/RecipeItem.Title"
-        android:inputType="textCapWords"
-        android:maxLines="1"
-        android:imeOptions="actionNext"/>
-    </com.google.android.material.textfield.TextInputLayout>
+        android:text="Placeholder"
+        android:layout_margin="@dimen/medium_space"
+        />
+    </androidx.cardview.widget.CardView>
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
