@@ -52,8 +52,8 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     pending = new CompositeDisposable();
     status = new MutableLiveData<>();
     repository = RecipeRepository.getInstance();
-    resetData();
     documentWithStrings = new MutableLiveData<>();
+    resetData();
   }
 
   public LiveData<List<Recipe>> getAllRecipes() {

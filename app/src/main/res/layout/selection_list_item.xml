@@ -20,7 +20,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="@dimen/wide_space"
-    android:layout_margin="@dimen/medium_space"
+    android:layout_margin="@dimen/narrow_space"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread"
-        android:onClick="@{() -> uiController.markAsIngredient(position)}"
+        android:onClick="@{() -> uiController.markAsIngredient(string)}"
         android:contentDescription="@string/ingredient_selector"/>
 
       <TextView
@@ -62,7 +62,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread"
-        android:onClick="@{() -> uiController.markAsStep(position)}"
+        android:onClick="@{() -> uiController.markAsStep(string)}"
         android:contentDescription="@string/step_selector"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -69,7 +68,7 @@ public class EditingFragment extends Fragment {
       binding.setRecipe(recipe);
     });
 
-    binding = DataBindingUtil.inflate(inflater, R.layout.fragment_editing, container, false);
+    binding = FragmentEditingBinding.inflate(inflater);
     binding.setLifecycleOwner(this);
     binding.setVariable(bindViewModel, viewModel);
     binding.setVariable(uiController, this);

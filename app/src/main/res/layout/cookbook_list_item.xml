@@ -38,7 +38,7 @@
     android:contentDescription="@string/favorite_button"/>
 
   <TextView
-    android:id="@+id/selection_string"
+    android:id="@+id/recipe_title"
     style="@style/RecipeItem.Title"
     android:layout_width="0dp"
     android:layout_height="wrap_content"

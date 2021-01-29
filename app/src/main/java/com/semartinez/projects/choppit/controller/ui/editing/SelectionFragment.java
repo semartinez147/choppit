@@ -5,14 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.Button;
-import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.semartinez.projects.choppit.R;
+import com.semartinez.projects.choppit.controller.MainActivity;
 import com.semartinez.projects.choppit.controller.ui.home.HomeFragment;
 import com.semartinez.projects.choppit.databinding.FragmentSelectionBinding;
 import com.semartinez.projects.choppit.view.SelectionRecyclerAdapter;
@@ -35,8 +36,6 @@ public class SelectionFragment extends Fragment {
   private FragmentSelectionBinding binding;
   private Set<String> strings;
   private MainViewModel viewModel;
-  private EditText ingredientInput;
-  private EditText stepInput;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,15 +50,10 @@ public class SelectionFragment extends Fragment {
       Bundle savedInstanceState) {
     strings = (viewModel.getDocumentWithStrings().getValue().getStrings() != null? viewModel.getDocumentWithStrings().getValue().getStrings() : Collections.singleton("No text retrieved"));
     viewModel.getDocumentWithStrings().removeObservers(getViewLifecycleOwner());
-    View root = inflater.inflate(R.layout.fragment_selection, container, false);
-
-//    binding = DataBindingUtil.inflate(inflater, R.layout.fragment_selection, container, false);
-
-    ingredientInput = root.findViewById(R.id.ingredient_input);
-    stepInput = root.findViewById(R.id.step_input);
-    Button continueButton = root.findViewById(R.id.selection_extract);
-    continueButton.setOnClickListener(this::sendToLoading);
-    return root;
+    binding = FragmentSelectionBinding.inflate(inflater);
+    binding.selectionExtract.setOnClickListener(this::sendToLoading);
+    setupRecyclerView();
+    return binding.getRoot();
   }
 
   @Override
@@ -67,30 +61,39 @@ public class SelectionFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
 
     //  TODO disable for production
-    ingredientInput.setText("1/2 pound elbow macaroni");
-    stepInput.setText("oven to 350");
+    binding.ingredientInput.setText("1/2 pound elbow macaroni");
+    binding.stepInput.setText("oven to 350");
 
 
   }
 
   private void setupRecyclerView() {
-
+    RecyclerView selectionRecyclerView = binding.selectionRecyclerView;
+    LinearLayoutManager selectionLayouManager = new LinearLayoutManager(getContext());
+    selectionRecyclerAdapter = new SelectionRecyclerAdapter(getContext(), strings, this);
+    selectionRecyclerView.setLayoutManager(selectionLayouManager);
+    selectionRecyclerView.setAdapter(selectionRecyclerAdapter);
   }
 
-  public void markAsIngredient(int position) {
-    ingredientInput.setText(selectionRecyclerAdapter.getStrings()[position]);
+  public void markAsIngredient(String ingredient) {
+    binding.ingredientInput.setText(ingredient);
   }
 
-  public void markAsStep(int position) {
-    stepInput.setText(selectionRecyclerAdapter.getStrings()[position]);
+  public void markAsStep(String instruction) {
+    binding.stepInput.setText(instruction);
   }
 
   private void sendToLoading(View v) {
-    SelectionFragmentDirections.SelLoad load = SelectionFragmentDirections.selLoad()
-        .setIngredient(ingredientInput.getText().toString())
-        .setInstruction(stepInput.getText().toString())
-        .setFrom("sel");
-    Navigation.findNavController(v).navigate(load);
+    if (binding.ingredientInput.getText().toString() != null && binding.stepInput.getText().toString() != null) {
+      SelectionFragmentDirections.SelLoad load = SelectionFragmentDirections.selLoad()
+          .setIngredient(binding.ingredientInput.getText().toString())
+          .setInstruction(binding.stepInput.getText().toString())
+          .setFrom("sel");
+      Navigation.findNavController(v).navigate(load);
+    } else {
+      ((MainActivity)requireActivity()).showToast(getString(R.string.no_string_selected));
+    }
+
   }
 
 }

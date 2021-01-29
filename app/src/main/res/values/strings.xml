@@ -1,7 +1,7 @@
 <resources>
   <string name="app_name">Choppit</string>
   <string name="title_home">Choppit Home</string>
-  <string name="url_input_hint">Paste a recipe link or start from scratch</string>
+  <string name="home_input_hint">Paste a recipe link here or tap New Recipe to start from scratch.</string>
   <string name="new_recipe">New Recipe</string>
   <string name="my_cookbook">My Cookbook</string>
   <string name="logo">Choppit Logo</string>
@@ -54,7 +54,8 @@
   <string name="finished">… finished!</string>
   <string name="ingredient_selector">Ingredient Selector</string>
   <string name="step_selector">Step Selector</string>
-  <string name="mark_as_step">Mark as\nStep</string>
+  <string name="mark_as_step">Mark as\nInstructions</string>
   <string name="mark_as_ingredient">Mark as\nIngredient</string>
   <string name="selection_message">Choppit extracted these text elements.\nUse the buttons below to select.</string>
+  <string name="no_string_selected">Please select text for an ingredient and a step.</string>
 </resources>
