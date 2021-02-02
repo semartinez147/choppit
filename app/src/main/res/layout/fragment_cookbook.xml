@@ -57,7 +57,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="@dimen/wide_space"
-        tools:listitem="@layout/cookbook_list_item"
+        tools:listitem="@layout/item_cookbook_list"
         />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

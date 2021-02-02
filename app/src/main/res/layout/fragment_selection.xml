@@ -37,7 +37,7 @@
   <View
     android:id="@+id/selection_barrier"
     android:layout_width="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorAccentDark"
     android:layout_marginTop="@dimen/narrow_space"
     android:layout_height="@dimen/narrow_space"
     app:layout_constraintTop_toBottomOf="@id/selection_message"
@@ -62,14 +62,14 @@
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      tools:listitem="@layout/selection_list_item"
+      tools:listitem="@layout/item_selection_list"
       />
   </ScrollView>
 
   <View
     android:id="@+id/selection_barrier_lower"
     android:layout_width="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorAccentDark"
     android:layout_height="@dimen/narrow_space"
     app:layout_constraintBottom_toTopOf="@id/selection_input"
     app:layout_constraintStart_toStartOf="parent"
@@ -141,6 +141,8 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="@string/extract_button"
+      android:textColor="@color/colorAccentDark"
+      android:backgroundTint="@color/colorAccent"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"

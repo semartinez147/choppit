@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import com.semartinez.projects.choppit.BR;
 import com.semartinez.projects.choppit.controller.ui.editing.EditingFragment;
-import com.semartinez.projects.choppit.databinding.EditIngredientItemBinding;
-import com.semartinez.projects.choppit.databinding.EditStepItemBinding;
+import com.semartinez.projects.choppit.databinding.ItemEditIngredientBinding;
+import com.semartinez.projects.choppit.databinding.ItemEditStepBinding;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.entity.Step;
@@ -61,16 +61,16 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     if (viewType == VIEW_TYPE_INGREDIENT) {
       LayoutInflater layoutInflater = LayoutInflater.from(context);
-      EditIngredientItemBinding editIngredientItemBinding = EditIngredientItemBinding
+      ItemEditIngredientBinding editIngredientBinding = ItemEditIngredientBinding
           .inflate(layoutInflater, parent, false);
 
-      return new IngredientViewHolder(editIngredientItemBinding);
+      return new IngredientViewHolder(editIngredientBinding);
     }
     if (viewType == VIEW_TYPE_STEP) {
       LayoutInflater layoutInflater = LayoutInflater.from(context);
-      EditStepItemBinding editStepItemBinding = EditStepItemBinding
+      ItemEditStepBinding editStepBinding = ItemEditStepBinding
           .inflate(layoutInflater, parent, false);
-      return new StepViewHolder(editStepItemBinding);
+      return new StepViewHolder(editStepBinding);
     }else {
       throw new IllegalArgumentException("No view type was provided to the view holder.");
     }
@@ -110,9 +110,9 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
    */
   static class IngredientViewHolder extends RecyclerView.ViewHolder {
 
-    private final EditIngredientItemBinding binding;
+    private final ItemEditIngredientBinding binding;
 
-    public IngredientViewHolder(EditIngredientItemBinding binding) {
+    public IngredientViewHolder(ItemEditIngredientBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
     }
@@ -136,9 +136,9 @@ public class EditingRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
    */
   public class StepViewHolder extends RecyclerView.ViewHolder {
 
-    private final EditStepItemBinding binding;
+    private final ItemEditStepBinding binding;
 
-    public StepViewHolder(EditStepItemBinding binding) {
+    public StepViewHolder(ItemEditStepBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
     }

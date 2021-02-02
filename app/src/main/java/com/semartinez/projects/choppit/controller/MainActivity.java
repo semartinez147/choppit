@@ -16,7 +16,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.semartinez.projects.choppit.R;
-import com.semartinez.projects.choppit.controller.ui.InfoDialog;
+import com.semartinez.projects.choppit.controller.ui.dialog.InfoDialog;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.repository.RecipeRepository;
 import com.semartinez.projects.choppit.service.ChoppitDatabase;
@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
     navController = Navigation.findNavController(this, R.id.nav_host_fragment);
     appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
     NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+    navController.navigate(R.id.navigation_home);
   }
 
   /**

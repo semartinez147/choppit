@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.MainActivity;
-import com.semartinez.projects.choppit.controller.ui.SelectDialog;
+import com.semartinez.projects.choppit.controller.ui.dialog.SelectDialog;
 import com.semartinez.projects.choppit.controller.ui.home.HomeFragment;
 import com.semartinez.projects.choppit.databinding.FragmentSelectionBinding;
 import com.semartinez.projects.choppit.view.SelectionRecyclerAdapter;

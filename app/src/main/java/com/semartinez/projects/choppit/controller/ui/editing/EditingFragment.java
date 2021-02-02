@@ -19,7 +19,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.semartinez.projects.choppit.R;
-import com.semartinez.projects.choppit.controller.ui.SaveDialog;
+import com.semartinez.projects.choppit.controller.ui.dialog.SaveDialog;
 import com.semartinez.projects.choppit.databinding.FragmentEditingBinding;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.view.IngredientRecyclerAdapter;

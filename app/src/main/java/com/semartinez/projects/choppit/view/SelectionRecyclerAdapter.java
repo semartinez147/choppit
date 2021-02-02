@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import com.semartinez.projects.choppit.controller.ui.editing.SelectionFragment;
-import com.semartinez.projects.choppit.databinding.SelectionListItemBinding;
+import com.semartinez.projects.choppit.databinding.ItemSelectionListBinding;
 import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +28,7 @@ public class SelectionRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
   @Override
   public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
     LayoutInflater layoutInflater = LayoutInflater.from(context);
-    SelectionListItemBinding selectionListItemBinding = SelectionListItemBinding
+    ItemSelectionListBinding selectionListItemBinding = ItemSelectionListBinding
         .inflate(layoutInflater, parent, false);
     return new SelectionViewHolder(selectionListItemBinding);
   }
@@ -50,9 +50,9 @@ public class SelectionRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
   static class SelectionViewHolder extends RecyclerView.ViewHolder {
 
-    private final SelectionListItemBinding binding;
+    private final ItemSelectionListBinding binding;
 
-    public SelectionViewHolder(SelectionListItemBinding binding) {
+    public SelectionViewHolder(ItemSelectionListBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
     }

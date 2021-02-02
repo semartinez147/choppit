@@ -24,6 +24,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="@string/step_tag"
+      android:layout_marginStart="@dimen/narrow_space"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintStart_toStartOf="parent"/>
 
@@ -31,24 +32,23 @@
       android:id="@+id/recipe_step_number"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:paddingHorizontal="@dimen/narrow_space"
       android:text="@{Integer.toString(step.recipeOrder)}"
       app:layout_constraintStart_toEndOf="@id/recipe_step_tag"
-      app:layout_constraintTop_toTopOf="@id/recipe_step_tag"/>
+      app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
       android:id="@+id/recipe_step"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:layout_marginStart="@dimen/medium_space"
+      android:layout_marginStart="@dimen/narrow_space"
       android:layout_marginBottom="@dimen/medium_space"
       android:maxLines="8"
       android:minLines="3"
       android:text="@{step.instructions}"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toEndOf="@id/recipe_step_number"
-      app:layout_constraintTop_toTopOf="@id/recipe_step_tag">
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/recipe_step_tag">
     </TextView>
 
   </androidx.constraintlayout.widget.ConstraintLayout>

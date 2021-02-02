@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragment;
 import com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragmentDirections;
-import com.semartinez.projects.choppit.databinding.CookbookListItemBinding;
+import com.semartinez.projects.choppit.databinding.ItemCookbookListBinding;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.view.CookbookRecyclerAdapter.CookbookViewHolder;
 import java.util.List;
@@ -46,9 +46,9 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<CookbookViewHo
   @Override
   public CookbookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     LayoutInflater layoutInflater = LayoutInflater.from(context);
-    CookbookListItemBinding cookbookListItemBinding = CookbookListItemBinding
+    ItemCookbookListBinding itemCookbookListBinding = ItemCookbookListBinding
         .inflate(layoutInflater, parent, false);
-    return new CookbookViewHolder(cookbookListItemBinding);
+    return new CookbookViewHolder(itemCookbookListBinding);
   }
 
   @Override
@@ -67,7 +67,7 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<CookbookViewHo
    */
   static class CookbookViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    private final CookbookListItemBinding binding;
+    private final ItemCookbookListBinding binding;
 
     /**
      * The ViewHolder constructor attaches a {@link View} to each binding to support an
@@ -75,7 +75,7 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<CookbookViewHo
      *
      * @param binding is the connection between the data and the interface.
      */
-    public CookbookViewHolder(CookbookListItemBinding binding) {
+    public CookbookViewHolder(ItemCookbookListBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
       binding.recipeTitle.setOnClickListener(this);

@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.semartinez.projects.choppit.controller.ui.DeleteDialog;
+import com.semartinez.projects.choppit.controller.ui.dialog.DeleteDialog;
 import com.semartinez.projects.choppit.databinding.FragmentCookbookBinding;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.view.CookbookRecyclerAdapter;

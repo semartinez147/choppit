@@ -1,4 +1,4 @@
-package com.semartinez.projects.choppit.controller.ui;
+package com.semartinez.projects.choppit.controller.ui.dialog;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -53,7 +53,7 @@ public class InfoDialog extends DialogFragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    TextView info = dialogView.findViewById(R.id.info);
+    TextView info = dialogView.findViewById(R.id.dialog_info);
 
     switch(currentLocation) {
       case R.id.navigation_home:

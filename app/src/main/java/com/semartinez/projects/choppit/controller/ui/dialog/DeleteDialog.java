@@ -1,4 +1,4 @@
-package com.semartinez.projects.choppit.controller.ui;
+package com.semartinez.projects.choppit.controller.ui.dialog;
 
 import android.app.Dialog;
 import android.os.Bundle;

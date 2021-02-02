@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import com.semartinez.projects.choppit.BR;
 import com.semartinez.projects.choppit.controller.ui.cookbook.RecipeFragment;
 import com.semartinez.projects.choppit.controller.ui.editing.EditingFragment;
-import com.semartinez.projects.choppit.databinding.EditStepItemBinding;
-import com.semartinez.projects.choppit.databinding.RecipeStepItemBinding;
+import com.semartinez.projects.choppit.databinding.ItemEditStepBinding;
+import com.semartinez.projects.choppit.databinding.ItemRecipeStepBinding;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.entity.Step;
 import java.util.List;
@@ -39,15 +39,15 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     LayoutInflater layoutInflater = LayoutInflater.from(context);
     if (edit) {
-      EditStepItemBinding editStepItemBinding = EditStepItemBinding
+      ItemEditStepBinding editStepBinding = ItemEditStepBinding
           .inflate(layoutInflater, parent, false);
       Log.d("StepOnCreateViewHolder", "done");
-      return new EditStepViewHolder(editStepItemBinding);
+      return new EditStepViewHolder(editStepBinding);
     } else {
-      RecipeStepItemBinding recipeStepItemBinding = RecipeStepItemBinding
+      ItemRecipeStepBinding recipeStepBinding = ItemRecipeStepBinding
           .inflate(layoutInflater, parent, false);
       Log.d("StepOnCreateViewHolder", "done");
-      return new RecipeStepViewHolder(recipeStepItemBinding);
+      return new RecipeStepViewHolder(recipeStepBinding);
     }
   }
 
@@ -89,9 +89,9 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
    */
   public class EditStepViewHolder extends RecyclerView.ViewHolder {
 
-    private final EditStepItemBinding binding;
+    private final ItemEditStepBinding binding;
 
-    public EditStepViewHolder(EditStepItemBinding binding) {
+    public EditStepViewHolder(ItemEditStepBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
     }
@@ -116,9 +116,9 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
   public class RecipeStepViewHolder extends RecyclerView.ViewHolder {
 
-    private final RecipeStepItemBinding binding;
+    private final ItemRecipeStepBinding binding;
 
-    public RecipeStepViewHolder(RecipeStepItemBinding binding) {
+    public RecipeStepViewHolder(ItemRecipeStepBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
     }
