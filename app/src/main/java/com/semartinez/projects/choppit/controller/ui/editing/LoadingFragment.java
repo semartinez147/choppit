@@ -1,10 +1,12 @@
 package com.semartinez.projects.choppit.controller.ui.editing;
 
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +15,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import com.semartinez.projects.choppit.R;
-import com.semartinez.projects.choppit.controller.ui.editing.LoadingFragmentDirections.LoadSel;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 
 public class LoadingFragment extends Fragment implements Observer<String> {
@@ -24,7 +25,6 @@ public class LoadingFragment extends Fragment implements Observer<String> {
   private String instruction;
   private TextView status;
   private boolean fromHome;
-  private LoadSel select;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,6 +44,10 @@ public class LoadingFragment extends Fragment implements Observer<String> {
     View root = inflater.inflate(R.layout.fragment_loading, container, false);
     status = root.findViewById(R.id.status);
     viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+    ImageView spinner = root.findViewById(R.id.load_logo);
+    AnimatedVectorDrawable d = (AnimatedVectorDrawable) spinner.getDrawable();
+
+    d.start();
     return root;
   }
 

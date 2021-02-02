@@ -52,10 +52,7 @@
   <string name="save_recipe">Do you want to save a new recipe, or update the existing one?  A new recipe has to have a different title.</string>
   <string name="sp_key_recipe_font_size">Font Size</string>
   <string name="finished">… finished!</string>
-  <string name="ingredient_selector">Ingredient Selector</string>
-  <string name="step_selector">Step Selector</string>
-  <string name="mark_as_step">Mark as\nInstructions</string>
-  <string name="mark_as_ingredient">Mark as\nIngredient</string>
-  <string name="selection_message">Choppit extracted these text elements.\nUse the buttons below to select.</string>
+  <string name="string_selector">String Selector</string>
+  <string name="selection_message">Choppit extracted these text elements.\nTap below to copy text.</string>
   <string name="no_string_selected">Please select text for an ingredient and a step.</string>
 </resources>

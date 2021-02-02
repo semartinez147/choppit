@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.MainActivity;
+import com.semartinez.projects.choppit.controller.ui.SelectDialog;
 import com.semartinez.projects.choppit.controller.ui.home.HomeFragment;
 import com.semartinez.projects.choppit.databinding.FragmentSelectionBinding;
 import com.semartinez.projects.choppit.view.SelectionRecyclerAdapter;
@@ -32,7 +33,6 @@ import org.jsoup.nodes.Document;
  */
 public class SelectionFragment extends Fragment {
 
-  private SelectionRecyclerAdapter selectionRecyclerAdapter;
   private FragmentSelectionBinding binding;
   private Set<String> strings;
   private MainViewModel viewModel;
@@ -48,7 +48,9 @@ public class SelectionFragment extends Fragment {
   @Override
   public View onCreateView(@Nonnull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    strings = (viewModel.getDocumentWithStrings().getValue().getStrings() != null? viewModel.getDocumentWithStrings().getValue().getStrings() : Collections.singleton("No text retrieved"));
+    strings = (viewModel.getDocumentWithStrings().getValue().getStrings() != null ? viewModel
+        .getDocumentWithStrings().getValue().getStrings()
+        : Collections.singleton("No text retrieved"));
     viewModel.getDocumentWithStrings().removeObservers(getViewLifecycleOwner());
     binding = FragmentSelectionBinding.inflate(inflater);
     binding.selectionExtract.setOnClickListener(this::sendToLoading);
@@ -64,15 +66,20 @@ public class SelectionFragment extends Fragment {
     binding.ingredientInput.setText("1/2 pound elbow macaroni");
     binding.stepInput.setText("oven to 350");
 
-
   }
 
   private void setupRecyclerView() {
     RecyclerView selectionRecyclerView = binding.selectionRecyclerView;
-    LinearLayoutManager selectionLayouManager = new LinearLayoutManager(getContext());
-    selectionRecyclerAdapter = new SelectionRecyclerAdapter(getContext(), strings, this);
-    selectionRecyclerView.setLayoutManager(selectionLayouManager);
+    SelectionRecyclerAdapter selectionRecyclerAdapter = new SelectionRecyclerAdapter(
+        requireContext(),
+        strings, this);
+    selectionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     selectionRecyclerView.setAdapter(selectionRecyclerAdapter);
+  }
+
+  public void markString(String text) {
+    new SelectDialog(text, this)
+        .show(requireActivity().getSupportFragmentManager(), SelectDialog.class.getName());
   }
 
   public void markAsIngredient(String ingredient) {
@@ -84,14 +91,15 @@ public class SelectionFragment extends Fragment {
   }
 
   private void sendToLoading(View v) {
-    if (binding.ingredientInput.getText().toString() != null && binding.stepInput.getText().toString() != null) {
+    if (binding.ingredientInput.getText().toString() != null
+        && binding.stepInput.getText().toString() != null) {
       SelectionFragmentDirections.SelLoad load = SelectionFragmentDirections.selLoad()
           .setIngredient(binding.ingredientInput.getText().toString())
           .setInstruction(binding.stepInput.getText().toString())
           .setFrom("sel");
       Navigation.findNavController(v).navigate(load);
     } else {
-      ((MainActivity)requireActivity()).showToast(getString(R.string.no_string_selected));
+      ((MainActivity) requireActivity()).showToast(getString(R.string.no_string_selected));
     }
 
   }

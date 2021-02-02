@@ -22,14 +22,16 @@
     app:cardCornerRadius="@dimen/medium_space"
     app:cardElevation="@dimen/wide_space"
     android:layout_margin="@dimen/narrow_space"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:onClick="@{() -> uiController.markString(string)}"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
       android:id="@+id/click_view"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:clickable="true"
-      android:focusable="true"
       android:layout_margin="@dimen/narrow_space">
 
       <ImageView
@@ -41,8 +43,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread"
-        android:onClick="@{() -> uiController.markAsIngredient(string)}"
-        android:contentDescription="@string/ingredient_selector"/>
+        android:contentDescription="@string/string_selector"/>
 
       <TextView
         android:id="@+id/selection_string"
@@ -51,20 +52,9 @@
         android:layout_marginHorizontal="@dimen/medium_space"
         android:text="@{string}"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/step_selector"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ingredient_selector"/>
 
-      <ImageView
-        android:id="@+id/step_selector"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_copy"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        android:onClick="@{() -> uiController.markAsStep(string)}"
-        android:contentDescription="@string/step_selector"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

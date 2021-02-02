@@ -14,21 +14,16 @@ import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.fragment.app.DialogFragment;
 import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.ui.editing.SelectionFragment;
-import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 
 public class SelectDialog extends DialogFragment implements OnClickListener {
 
   private View dialogView;
   private final SelectionFragment fragment;
   private final String selection;
-  private final MainViewModel viewModel;
-  private TextView selectText;
 
-  public SelectDialog(String selection, SelectionFragment fragment,
-      MainViewModel viewModel) {
+  public SelectDialog(String selection, SelectionFragment fragment) {
     this.fragment = fragment;
     this.selection = selection;
-    this.viewModel = viewModel;
   }
 
   @NonNull
@@ -41,8 +36,8 @@ public class SelectDialog extends DialogFragment implements OnClickListener {
         .setTitle("Copy recipe text")
         .setView(dialogView)
         .setPositiveButton("INSTRUCTION", this)
-        .setNegativeButton("INGREDIENT", this)
-        .setNeutralButton("NO", this)
+        .setNegativeButton("NO", this)
+        .setNeutralButton("INGREDIENT", this)
         .create();
   }
 
@@ -50,7 +45,7 @@ public class SelectDialog extends DialogFragment implements OnClickListener {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    selectText = dialogView.findViewById(R.id.select_text);
+    TextView selectText = dialogView.findViewById(R.id.select_text);
     selectText.setText(selection);
     return dialogView;
   }
@@ -59,18 +54,16 @@ public class SelectDialog extends DialogFragment implements OnClickListener {
   @Override
   public void onClick(DialogInterface dialog, int which) {
     switch (which) {
-      case -1: { //positive button
-
-
+      case -1: {
+        fragment.markAsStep(selection);
         break;
       }
-      case -2: { //negative button
-
-
+      case -3: {
+        fragment.markAsIngredient(selection);
         break;
       }
-      case -3:
-      default: { //neutral button
+      case -2:
+      default: {
       }
     }
     dismiss();

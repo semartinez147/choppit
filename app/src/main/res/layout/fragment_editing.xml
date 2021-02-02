@@ -44,7 +44,7 @@
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
         android:layout_marginTop="@dimen/wide_space"
-        android:layout_marginBottom="@dimen/medium_space"
+        android:layout_marginBottom="@dimen/wide_space"
         android:adjustViewBounds="true"
         android:contentDescription="@string/logo"
         android:elevation="@dimen/wide_space"
