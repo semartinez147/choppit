@@ -6,8 +6,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
-import com.semartinez.projects.choppit.databinding.RecipeIngredientItemBinding;
-import com.semartinez.projects.choppit.databinding.RecipeStepItemBinding;
+import com.semartinez.projects.choppit.databinding.ItemRecipeIngredientBinding;
+import com.semartinez.projects.choppit.databinding.ItemRecipeStepBinding;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.entity.Step;
@@ -43,15 +43,15 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     if (viewType == VIEW_TYPE_INGREDIENT) {
       LayoutInflater layoutInflater = LayoutInflater.from(context);
-      RecipeIngredientItemBinding recipeIngredientItemBinding = RecipeIngredientItemBinding
+      ItemRecipeIngredientBinding recipeIngredientBinding = ItemRecipeIngredientBinding
           .inflate(layoutInflater, parent, false);
-      return new IngredientViewHolder(recipeIngredientItemBinding);
+      return new IngredientViewHolder(recipeIngredientBinding);
     }
     if (viewType == VIEW_TYPE_STEP) {
       LayoutInflater layoutInflater = LayoutInflater.from(context);
-      RecipeStepItemBinding recipeStepItemBinding = RecipeStepItemBinding
+      ItemRecipeStepBinding recipeStepBinding = ItemRecipeStepBinding
           .inflate(layoutInflater, parent, false);
-      return new StepViewHolder(recipeStepItemBinding);
+      return new StepViewHolder(recipeStepBinding);
     } else {
       throw new IllegalArgumentException("No view type was provided to the view holder.");
     }
@@ -89,9 +89,9 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
    */
   static class IngredientViewHolder extends ViewHolder {
 
-    private final RecipeIngredientItemBinding binding;
+    private final ItemRecipeIngredientBinding binding;
 
-    private IngredientViewHolder(RecipeIngredientItemBinding binding) {
+    private IngredientViewHolder(ItemRecipeIngredientBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
     }
@@ -105,9 +105,9 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
   public static class StepViewHolder extends ViewHolder {
 
 
-    private final RecipeStepItemBinding binding;
+    private final ItemRecipeStepBinding binding;
 
-    private StepViewHolder(RecipeStepItemBinding binding) {
+    private StepViewHolder(ItemRecipeStepBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
     }

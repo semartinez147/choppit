@@ -41,19 +41,19 @@
 
       <ImageView
         android:id="@+id/small_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
         android:layout_marginTop="@dimen/wide_space"
-        android:layout_marginBottom="@dimen/medium_space"
+        android:layout_marginBottom="@dimen/wide_space"
         android:adjustViewBounds="true"
         android:contentDescription="@string/logo"
+        android:elevation="@dimen/wide_space"
         android:scaleType="fitCenter"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/title_layout"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/small_logo"
-        android:elevation="@dimen/wide_space"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_icon"/>
 
       <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/title_layout"
@@ -126,13 +126,13 @@
         android:layout_marginEnd="4dp"
         android:text="@string/add_ingredient"
         android:textAllCaps="false"
-        android:textColor="@color/colorOnPrimarySurface"
+        android:textColor="@color/colorAccentDark"
         android:outlineProvider="background"
         android:backgroundTint="@color/colorAccent"
         android:drawableEnd="@drawable/ic_add"
         app:layout_constraintTop_toBottomOf="@id/editing_ingredient_list"
         app:layout_constraintEnd_toEndOf="parent"
-        android:onClick="@{uiController::addIngredient}"
+        android:onClick="@{() -> uiController.addIngredient()}"
         />
 
       <TextView
@@ -174,12 +174,12 @@
         android:layout_marginEnd="4dp"
         android:text="@string/add_step"
         android:textAllCaps="false"
-        android:textColor="@color/colorOnPrimarySurface"
+        android:textColor="@color/colorAccentDark"
         android:backgroundTint="@color/colorAccent"
         android:drawableEnd="@drawable/ic_add"
         app:layout_constraintTop_toBottomOf="@id/editing_step_list"
         app:layout_constraintEnd_toEndOf="parent"
-        android:onClick="@{uiController::addStep}"
+        android:onClick="@{() -> uiController.addStep()}"
         />
 
       <Button
@@ -187,7 +187,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/save_button"
+        android:textColor="@color/colorAccentDark"
         android:layout_marginTop="@dimen/wide_space"
+        android:backgroundTint="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/add_step"/>

@@ -1,8 +1,5 @@
 package com.semartinez.projects.choppit.controller.ui.editing;
 
-import static com.semartinez.projects.choppit.BR.bindViewModel;
-import static com.semartinez.projects.choppit.BR.uiController;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,14 +10,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.semartinez.projects.choppit.R;
-import com.semartinez.projects.choppit.controller.ui.SaveDialog;
+import com.semartinez.projects.choppit.controller.ui.dialog.SaveDialog;
 import com.semartinez.projects.choppit.databinding.FragmentEditingBinding;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.view.IngredientRecyclerAdapter;
@@ -61,7 +57,7 @@ public class EditingFragment extends Fragment {
     }
     viewModel.getRecipe().observe(getViewLifecycleOwner(), result -> {
       if (result != null) {
-        recipe = viewModel.getRecipe().getValue();
+        recipe = result;
       } else {
         recipe = Recipe.getEmptyRecipe();
       }
@@ -69,10 +65,10 @@ public class EditingFragment extends Fragment {
       binding.setRecipe(recipe);
     });
 
-    binding = DataBindingUtil.inflate(inflater, R.layout.fragment_editing, container, false);
+    binding = FragmentEditingBinding.inflate(inflater);
     binding.setLifecycleOwner(this);
-    binding.setVariable(bindViewModel, viewModel);
-    binding.setVariable(uiController, this);
+    binding.setBindViewModel(viewModel);
+    binding.setUiController(this);
 
     Button saveButton = binding.editingSave;
     saveButton.setOnClickListener(v -> {
@@ -107,16 +103,11 @@ public class EditingFragment extends Fragment {
     Navigation.findNavController(v).navigate(R.id.edit_cook);
   }
 
-
-  @SuppressWarnings("unused")
-  //View parameter is required by databinding onClick function
-  public void addStep(View view) {
+  public void addStep() {
     stepRecyclerAdapter.addStep();
   }
 
-  @SuppressWarnings("unused")
-  //View parameter is required by databinding onClick function
-  public void addIngredient(View view) {
+  public void addIngredient() {
     ingredientRecyclerAdapter.addIngredient();
   }
 

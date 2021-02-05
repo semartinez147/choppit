@@ -1,24 +1,26 @@
 package com.semartinez.projects.choppit.controller.ui.editing;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Button;
-import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.semartinez.projects.choppit.R;
+import com.semartinez.projects.choppit.controller.MainActivity;
+import com.semartinez.projects.choppit.controller.ui.dialog.SelectDialog;
 import com.semartinez.projects.choppit.controller.ui.home.HomeFragment;
+import com.semartinez.projects.choppit.databinding.FragmentSelectionBinding;
+import com.semartinez.projects.choppit.view.SelectionRecyclerAdapter;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
+import java.util.Collections;
+import java.util.Set;
 import javax.annotation.Nonnull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -31,74 +33,74 @@ import org.jsoup.nodes.Document;
  */
 public class SelectionFragment extends Fragment {
 
-  private WebView contentView;
-  private EditText ingredientInput;
-  private EditText stepInput;
-  private String html;
+  private FragmentSelectionBinding binding;
+  private Set<String> strings;
+  private MainViewModel viewModel;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    html = SelectionFragmentArgs.fromBundle(requireArguments()).getHtml();
     setHasOptionsMenu(true);
     setRetainInstance(true);
+    viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
   }
 
   @Override
   public View onCreateView(@Nonnull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    MainViewModel viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-    viewModel.resetData();
-    View root = inflater.inflate(R.layout.fragment_selection, container, false);
-    setupWebView(root);
-    ingredientInput = root.findViewById(R.id.ingredient_input);
-    stepInput = root.findViewById(R.id.step_input);
-    Button continueButton = root.findViewById(R.id.selection_extract);
-    continueButton.setOnClickListener(this::sendToLoading);
-    return root;
+    strings = (viewModel.getDocumentWithStrings().getValue().getStrings() != null ? viewModel
+        .getDocumentWithStrings().getValue().getStrings()
+        : Collections.singleton("No text retrieved"));
+    viewModel.getDocumentWithStrings().removeObservers(getViewLifecycleOwner());
+    binding = FragmentSelectionBinding.inflate(inflater);
+    binding.selectionExtract.setOnClickListener(this::sendToLoading);
+    setupRecyclerView();
+    return binding.getRoot();
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    contentView.loadData(html, "text/html", null);
-
     //  TODO disable for production
-    ingredientInput.setText("1/2 pound elbow macaroni");
-    stepInput.setText("oven to 350");
+    binding.ingredientInput.setText("1/2 pound elbow macaroni");
+    binding.stepInput.setText("oven to 350");
 
   }
 
-  @SuppressLint("SetJavaScriptEnabled")
-  private void setupWebView(View root) {
-    contentView = root.findViewById(R.id.selection_view);
-    contentView.setWebViewClient(new WebViewClient() {
-      @Override
-      public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-        return false;
-      }
-    });
+  private void setupRecyclerView() {
+    RecyclerView selectionRecyclerView = binding.selectionRecyclerView;
+    SelectionRecyclerAdapter selectionRecyclerAdapter = new SelectionRecyclerAdapter(
+        requireContext(),
+        strings, this);
+    selectionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    selectionRecyclerView.setAdapter(selectionRecyclerAdapter);
+  }
 
-    WebSettings settings = contentView.getSettings();
-    settings.setJavaScriptEnabled(true);
-    settings.setCacheMode(WebSettings.LOAD_DEFAULT);
-    settings.setSupportZoom(true);
-    settings.setBuiltInZoomControls(true);
-    settings.setDisplayZoomControls(false);
-    settings.setLoadWithOverviewMode(true);
-    settings.setUseWideViewPort(true);
-    settings.setBlockNetworkImage(true);
-    settings.setLoadsImagesAutomatically(false);
-    settings.setTextZoom(300);
+  public void markString(String text) {
+    new SelectDialog(text, this)
+        .show(requireActivity().getSupportFragmentManager(), SelectDialog.class.getName());
+  }
+
+  public void markAsIngredient(String ingredient) {
+    binding.ingredientInput.setText(ingredient);
+  }
+
+  public void markAsStep(String instruction) {
+    binding.stepInput.setText(instruction);
   }
 
   private void sendToLoading(View v) {
-    SelectionFragmentDirections.SelLoad load = SelectionFragmentDirections.selLoad()
-        .setIngredient(ingredientInput.getText().toString())
-        .setInstruction(stepInput.getText().toString())
-        .setFrom("sel");
-    Navigation.findNavController(v).navigate(load);
+    if (binding.ingredientInput.getText().toString() != null && binding.stepInput.getText().toString() != null) {
+      SelectionFragmentDirections.SelLoad load = SelectionFragmentDirections.selLoad()
+          .setIngredient(binding.ingredientInput.getText().toString())
+          .setInstruction(binding.stepInput.getText().toString())
+          .setFrom("sel");
+      Navigation.findNavController(requireView()).navigate(load);
+    } else {
+      ((MainActivity) requireActivity()).showToast(getString(R.string.no_string_selected));
+    }
+
   }
 
 }

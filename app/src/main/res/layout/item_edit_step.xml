@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+  <data>
+    <variable
+      name="step"
+      type="com.semartinez.projects.choppit.model.entity.Step"/>
+    <variable
+      name="uiController"
+      type="com.semartinez.projects.choppit.controller.ui.editing.EditingFragment"/>
+    <variable
+      name="position"
+      type="int"/>
+  </data>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/medium_space"
+    android:showDividers="none">
+
+    <TextView
+      android:id="@+id/step_tag"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/step_tag"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+      android:id="@+id/step_number"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@{Integer.toString(step.recipeOrder)}"
+      app:layout_constraintStart_toEndOf="@id/step_tag"
+      app:layout_constraintTop_toTopOf="@id/step_tag"/>
+    <ImageButton
+      android:id="@+id/delete"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      android:background="?android:attr/selectableItemBackground"
+      android:contentDescription="@string/delete_button"
+      android:onClick="@{() -> uiController.deleteStep(position)}"
+      android:src="@drawable/ic_remove"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/step_layout"
+      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/narrow_space"
+      app:hintAnimationEnabled="true"
+      app:hintEnabled="true"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toStartOf="@id/delete"
+      app:layout_constraintTop_toBottomOf="@id/step_tag"
+      app:layout_constraintBottom_toBottomOf="parent">
+      <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/step_input"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/step_hint"
+        android:inputType="textMultiLine|textCapSentences"
+        android:minLines="3"
+        android:maxLines="8"
+        android:text="@{step.instructions}"
+        android:imeOptions="actionNext">
+      </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,63 @@
+// Trigger rule at DOM Ready
+// Non-Sequential Javascript
+// execute globally
+// Revision 01/17/2018 RD
+var shopTrack = function (obj,shopping,componentName,componentTitle,partner,products,imageCount,productCount,visibleProductCount,perImageProductCount,productPosition,eventType) {
+	sessionStorage.setItem("prodSetByShopTrack", "true");  // this will prevent the analytics doplugins code from overwriting products data set in this function
+	s.trackExternalLinks=false;
+	s.products="";
+	s.list1="";
+	
+	var contextVars = ['shopping','componentName','componentTitle','partner','products','imageCount','productCount','visibleProductCount','perImageProductCount','productPosition','eventType'];
+	s.linkTrackVars = 'contextData.' + contextVars.join(',contextData.');
+	s.linkTrackVars = s.linkTrackVars + ",products,list1,prop66";
+	
+	s.events=null;
+	if(eventType == "impression") {
+		s.linkTrackEvents = "prodView,event120";
+		s.events = "prodView,event120";
+	}
+	else if(eventType == "click") {
+		s.linkTrackEvents = "scAdd";
+		s.events = "scAdd";
+	}
+
+	//s.products = "shopping;" + shopping + ",componentName;" + componentName + ",componentTitle;" + componentTitle + ",partner;" + partner + ",products;" + products + ",imageCount;" + imageCount + ",productCount;" + productCount + ",visibleProductCount;" + visibleProductCount + ",perImageProductCount;" + perImageProductCount + ",productPosition;" + productPosition;
+	if(products.indexOf("|") == -1) {
+		productList=products.replace(/,;/g, ",;s|na|").replace(/&quot;/g, '\"').replace(/&amp;/g, '\&').replace(/&apos;/g, '\'');
+		s.products=";s|na|" + productList + ",;c|" + componentName + "|" + componentTitle + "|" + imageCount + "|" + productCount + "|" + visibleProductCount + "|" + perImageProductCount + "|" + productPosition;
+	}
+	else {
+		productList=products.replace(/,;/g, ",;s|").replace(/&quot;/g, '\"').replace(/&amp;/g, '\&').replace(/&apos;/g, '\'');
+		s.products=";s|" + productList + ",;c|" + componentName + "|" + componentTitle + "|" + imageCount + "|" + productCount + "|" + visibleProductCount + "|" + perImageProductCount + "|" + productPosition;
+	}
+	s.products=s.products.toLowerCase();
+	
+	s.list1="D=products";
+	
+	s.prop66=partner;
+	
+	
+	//s.list1="componentName|" + componentName + ",componentTitle|" + componentTitle + ",partner|" + partner + ",products|" + products.replace(/,;/g, ',products|');
+	//s.list1=s.list1.toLowerCase();
+	
+	
+	if(eventType == "impression") {
+		s.tl(this,"o","shopping - products impression");
+	}
+	else if(eventType == "click") {
+		s.tl(this,"o","shopping - product click");
+	}
+
+	while ( contextVars.length > 0 ) {
+		s.contextData[contextVars.pop()] = "";
+	}
+	s.events="";
+	s.products="";
+	s.list1="";
+	
+	s.prop66="";
+	
+	//s.trackExternalLinks=true;
+	sessionStorage.setItem("prodSetByShopTrack", "false");
+}

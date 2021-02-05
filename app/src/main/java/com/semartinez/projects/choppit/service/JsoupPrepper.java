@@ -1,8 +1,10 @@
 package com.semartinez.projects.choppit.service;
 
-import java.io.File;
+import com.semartinez.projects.choppit.controller.exception.ZeroMatchesException;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.HashSet;
+import java.util.Set;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,29 +19,35 @@ public class JsoupPrepper {
   JsoupPrepper() {
   }
 
-  public File prepare(String url) throws IOException {
+  // Refactoring as DocumentWithStrings instead of File
+  public DocumentWithStrings prepare(String url) throws IOException {
     if (document == null) {
-      try {
-        document = Jsoup.connect(url).get();
-      } catch (MalformedURLException e) {
-        throw new MalformedURLException("Not a valid link");
-      } catch (HttpStatusException e) {
-        throw new IOException("There was a problem with the website.");
-      } catch (IOException e) {
-        throw new IOException("An unknown error occurred.  Please try again.");
-      }
+      throw new NullPointerException();
+      // Call reconnect if the breakpoint is ever triggered.
     }
     doWork();
     // TODO: simplify.
-    return new File(document.html());
+    Set<String> strings = new HashSet<>(document.getAllElements().eachText());
+    if (strings.isEmpty()) {
+      throw new ZeroMatchesException();
+    }
+    return new DocumentWithStrings(url, document, strings);
+  }
+
+  private void reconnect(String url) throws IOException {
+    try {
+      document = Jsoup.connect(url).get();
+    } catch (MalformedURLException e) {
+      throw new MalformedURLException("Not a valid link");
+    } catch (HttpStatusException e) {
+      throw new IOException("There was a problem with the website.");
+    } catch (IOException e) {
+      throw new IOException("An unknown error occurred.  Please try again.");
+    }
   }
 
   private void doWork() {
     document.filter(new Strainer());
-  }
-
-  public Document getDocument() {
-    return document;
   }
 
   public void setDocument(Document document) {

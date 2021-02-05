@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import com.semartinez.projects.choppit.BR;
 import com.semartinez.projects.choppit.controller.ui.cookbook.RecipeFragment;
 import com.semartinez.projects.choppit.controller.ui.editing.EditingFragment;
-import com.semartinez.projects.choppit.databinding.EditIngredientItemBinding;
-import com.semartinez.projects.choppit.databinding.RecipeIngredientItemBinding;
+import com.semartinez.projects.choppit.databinding.ItemEditIngredientBinding;
+import com.semartinez.projects.choppit.databinding.ItemRecipeIngredientBinding;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
 import com.semartinez.projects.choppit.model.entity.Recipe;
@@ -41,13 +41,13 @@ public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
   public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     LayoutInflater layoutInflater = LayoutInflater.from(context);
     if (edit) {
-      EditIngredientItemBinding editIngredientItemBinding = EditIngredientItemBinding
+      ItemEditIngredientBinding editIngredientBinding = ItemEditIngredientBinding
           .inflate(layoutInflater, parent, false);
-      return new EditIngredientViewHolder(editIngredientItemBinding);
+      return new EditIngredientViewHolder(editIngredientBinding);
     } else {
-      RecipeIngredientItemBinding recipeIngredientItemBinding = RecipeIngredientItemBinding
+      ItemRecipeIngredientBinding recipeIngredientBinding = ItemRecipeIngredientBinding
           .inflate(layoutInflater, parent, false);
-      return new RecipeIngredientViewHolder(recipeIngredientItemBinding);
+      return new RecipeIngredientViewHolder(recipeIngredientBinding);
     }
   }
 
@@ -84,9 +84,9 @@ public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
    */
   public class EditIngredientViewHolder extends RecyclerView.ViewHolder {
 
-    private final EditIngredientItemBinding binding;
+    private final ItemEditIngredientBinding binding;
 
-    public EditIngredientViewHolder(EditIngredientItemBinding binding) {
+    public EditIngredientViewHolder(ItemEditIngredientBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
     }
@@ -108,9 +108,9 @@ public class IngredientRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
 
 public class RecipeIngredientViewHolder extends RecyclerView.ViewHolder {
 
-    private final RecipeIngredientItemBinding binding;
+    private final ItemRecipeIngredientBinding binding;
 
-    public RecipeIngredientViewHolder(RecipeIngredientItemBinding binding) {
+    public RecipeIngredientViewHolder(ItemRecipeIngredientBinding binding) {
       super(binding.getRoot());
       this.binding = binding;
     }

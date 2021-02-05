@@ -1,0 +1,3361 @@
+//Scripps Update 04/22/2020, RD - Scripps Core
+
+var sniHost = location.hostname.toLowerCase();
+var sniPath = location.pathname.toLowerCase();
+var sniProt = location.protocol;
+var sniHREF = location.href.toLowerCase();
+var sniSite = "";
+var s_account = "";
+var codeVersion = "SC-20200422";
+
+if (typeof mdManager != "undefined") {
+    sniSite = mdManager.getParameterString("Site").toLowerCase();
+}
+if (sniHost.indexOf("sndimg.com") != -1) {
+    sniSite = "apple news";
+}
+
+
+
+//assign to site if mdManager "Site" is not set or is set to "HOME"
+if (sniSite == "" || sniSite == "home") {
+    if (sniHost.indexOf("hgtv.com") != -1) {
+        sniSite = "hgtv";
+    } else if (sniHost.indexOf("hgtvgardens.com") != -1) {
+        sniSite = "hgtv";
+    } else if (sniHost.indexOf("diynetwork.com") != -1) {
+        sniSite = "diy";
+    } else if (sniHost.indexOf("greatamericancountry.com") != -1) {
+        sniSite = "gac";
+    } else if (sniHost.indexOf("foodnetwork.com") != -1) {
+        sniSite = "food";
+    } else if (sniHost.indexOf("cookingchanneltv.com") != -1) {
+        sniSite = "cook";
+    } else if (sniHost.indexOf("travelchannel.com") != -1) {
+        sniSite = "travel";
+    } else if (sniHost.indexOf("investigationdiscovery.com") != -1) {
+        sniSite = "investigationdiscovery";
+    } else if (sniHost.indexOf("tlc.com") != -1) {
+        sniSite = "tlc";
+	} else if (sniHost.indexOf("tlcme.com") != -1) {
+        sniSite = "tlc";
+    } else if (sniHost.indexOf("discovery.com") != -1) {
+        sniSite = "discovery";
+    } else if (sniHost.indexOf("animalplanet.com") != -1) {
+        sniSite = "animalplanet";
+    } else if (sniHost.indexOf("sciencechannel.com") != -1) {
+        sniSite = "science";
+    } else if (sniHost.indexOf("click.home.sndimg.com") != -1) {
+        sniSite = "apple news";
+    } else if (sniHost.indexOf("click.fnr.sndimg.com") != -1) {
+        sniSite = "apple news";
+    }
+}
+
+
+//set report suite
+if (sniSite.indexOf("hgtv") != -1 || sniSite == "grdn" || sniSite == "door" || sniSite == "hgrm") {
+    s_account = "scrippshgtvbrands";
+} else if (sniSite.indexOf("diy") != -1) {
+    s_account = "scrippsdiynew";
+} else if (sniSite.indexOf("gac") != -1) {
+    s_account = "scrippsgactv";
+} else if (sniSite.indexOf("food") != -1) {
+    s_account = "scrippsfoodnetnew,discofnkdev";
+} else if (sniSite.indexOf("cook") != -1) {
+    s_account = "scrippscookingchannel";
+} else if (sniSite.indexOf("travel") != -1) {
+    s_account = "scrippstravelchannel";
+} else if (sniSite.indexOf("investigationdiscovery") != -1) {
+    s_account = "discoid-tlc-temp";
+} else if (sniSite.indexOf("tlc") != -1) {
+    s_account = "discoid-tlc-temp";
+} else if (sniSite.indexOf("discovery") != -1) {
+    s_account = "discousprod,discoid-tlc-temp";
+} else if (sniSite.indexOf("animalplanet") != -1) {
+    s_account = "discoid-tlc-temp";
+} else if (sniSite.indexOf("science") != -1) {
+    s_account = "discoid-tlc-temp";
+}
+
+else if (sniSite.indexOf("apple news") != -1) {
+    s_account = "scrippsapplenews";
+} else {
+    s_account = "scrippscleanup";
+}
+
+
+//new 3/26/2020 ********************************************************** filter out from discousprod
+if (sniSite.indexOf("golden-discovery") != -1 ) {
+	 s_account = "scrippscleanup";
+}
+//*************************************************************************
+
+
+s_account=s_account;
+
+var s = s_gi(s_account);
+
+/*************** SUPPRESS PAGEVIEW FOR EMBEDDED VIDEO *****************/
+if (typeof s.orig_t === 'undefined') {
+    s.orig_t = s.t;
+    s.t = function () {
+        if (document.location.href.indexOf('single-video-page.embed.html') === -1  && document.location.href.indexOf('/content/products/') === -1) {
+			s.orig_t();
+            s.events = typeof s.events === "string" && s.events.replace(/event24,?/, "");
+        }
+		/*
+		else {
+			if (document.location.href.indexOf('/content/products/') !== -1) {				
+				shopTrack(this,"shopping",mdManager.getParameter("componentName"),mdManager.getParameter("componentTitle"),mdManager.getParameter("partner"),mdManager.getParameter("products"),mdManager.getParameter("imageCount"),mdManager.getParameter("productCount"),mdManager.getParameter("visibleProductCount"),mdManager.getParameter("perImageProductCount"),mdManager.getParameter("productPosition"),"click");
+			}
+		}
+		*/
+    }
+}
+
+
+/************************** CONFIG SECTION **************************/
+s.currencyCode = "USD";
+s.trackDownloadLinks = true;
+s.trackExternalLinks = true;
+s.trackInlineStats = true;
+s.linkDownloadFileTypes = "exe,zip,wav,mp3,mov,mpg,avi,wmv,pdf,doc,docx,xls,xlsx,ppt,pptx";
+s.useForcedLinkTracking = false;
+
+
+switch (s_account) {
+    case "scrippshgtvbrands":
+        s.linkInternalFilters = "javascript:,hgtv.com,hgtvgardens.com,blogs.scrippsnetworks.com";
+        break;
+    case "scrippsdiynew":
+        s.linkInternalFilters = "javascript:,.diynetwork.com,blogs.scrippsnetworks.com,hgtv.com/remodel/diy-network-blog-cabin/sweepstakes/enter";
+        break;
+    case "scrippsgactv":
+        s.linkInternalFilters = "javascript:,greatamericancountry.com,gactv.com,blogs.scrippsnetworks.com";
+        break;
+    case "scrippsfoodnetnew,discofnkdev":
+        s.linkInternalFilters = "javascript:,foodnetwork.com,blogs.scrippsnetworks.com";
+        break;
+    case "scrippscookingchannel":
+        s.linkInternalFilters = "javascript:,cookingchanneltv.com,blogs.scrippsnetworks.com";
+        break;
+    case "scrippstravelchannel":
+        s.linkInternalFilters = "javascript:,travelchannel.com,blogs.scrippsnetworks.com";
+        break;
+    case "discoid-tlc-temp":
+        s.linkInternalFilters = "javascript:,investigationdiscovery.com,tlc.com,crimefeed.com,tlcme.com,discovery.com,animalplanet.com,sciencechannel.com";
+        break;
+    default:
+        s.linkInternalFilters = "javascript:,blogs.scrippsnetworks.com";
+}
+s.linkInternalFilters += "," + sniHost + ",click.home.sndimg.com,click.fnr.sndimg.com";
+
+
+if (window.navigator.userAgent.indexOf("FBAN/FBIOS") > -1 && !s.referrer) {
+    s.referrer = "http://m.facebook.com/?app";
+}
+
+
+
+s.trackModLocalStorage = function () {
+    var trackLS;
+    // Track from localstorage
+    try {
+        trackLS = localStorage.getItem("TRACKMOD");
+    } catch (e) {
+        //console.log("couldn't read localStorage");
+    }
+    if (trackLS) {
+        trackLS = JSON.parse(trackLS);
+        contextVars = Object.keys(trackLS), i = contextVars.length || 0;
+        while (i--) {
+            s.contextData[contextVars[i]] = trackLS[contextVars[i]].toString().replace(/https?:\/\/([^.]*)..*.com\/?/, "$1.../");
+        }
+        s.events = s.apl(s.events, "event24", ",", 2);
+        //setup removal of TRACKMOD
+        if (typeof s.Integrate === "object" && typeof s.Integrate.removeTrackMod !== "object") {
+            s.Integrate.add("removeTrackMod");
+            s.Integrate.removeTrackMod.useVars = function () {
+                typeof _satellite === "object" && _satellite.notify("DELETING TRACKMOD",1);
+                SNI.Analytics.hasLocalStorage && localStorage.removeItem("TRACKMOD");
+            }
+        } else if (typeof s.Integrate !== "object") {
+            typeof _satellite === "object" && _satellite.notify("DELETING TRACKMOD");
+            SNI.Analytics.hasLocalStorage && localStorage.removeItem("TRACKMOD");
+        }
+        return true;
+    }
+    // clean out any old moduleTrack data
+    delete s.contextData.ModuleName;
+    delete s.contextData.LinkTitle;
+    delete s.contextData.LocUrl;
+    delete s.contextData.LinkPosition;
+    delete s.contextData.TargetUrl;
+    s.events = typeof s.events === "string" && s.events.replace(/event24,?/, "");
+    return false;
+}
+//************
+
+//*****
+s.track_ls_analytics = function s_track_ls_analytics() {
+    var varKeys, lsAnalytics, i;
+    try {
+        if (localStorage.getItem("TRACKLSANALYTICS")) {
+            if (typeof _satellite === "object") _satellite.notify("CAPTURING TRACKLSANALYTICS",1);
+            lsAnalytics = JSON.parse(localStorage.getItem("TRACKLSANALYTICS")),
+                varKeys = Object.keys(lsAnalytics).sort(),
+                i = varKeys.length || 0;
+            while (i--) {
+                if (varKeys[i] === "events") {
+                    s.events = s.apl(s.events, lsAnalytics.events, ",", 2);
+                } else {
+                    s[varKeys[i]] = lsAnalytics[varKeys[i]];
+                }
+            }
+            varKeys = typeof lsAnalytics.contextData === "object" ? Object.keys(lsAnalytics.contextData).sort() : [];
+            i = varKeys.length || 0;
+            while (i--) {
+                s.contextData[varKeys[i]] = lsAnalytics.contextData[varKeys[i]];
+            }
+            if (typeof s.Integrate === "object" && typeof s.Integrate.removeLS !== "object") {
+                s.Integrate.add("removeLS");
+                s.Integrate.removeLS.useVars = function () {
+                    if (typeof _satellite === "object") _satellite.notify("DELETING TRACKLSANALYTICS",1);
+                    localStorage.removeItem("TRACKLSANALYTICS");
+                    s.events = "event1";
+                };
+            } else if (typeof s.Integrate !== "object") {
+                setTimeout(function () {
+                    if (typeof _satellite === "object") _satellite.notify("DELETING TRACKLSANALYTICS",1);
+                    localStorage.removeItem("TRACKLSANALYTICS");
+                    s.events = "event1";
+                }, 4000);
+            }
+        }
+    } catch (e) {
+        // couldn't read localstorage
+    }
+};
+//*****
+
+s.eVar10 = localStorage.getItem("_gigya_login_user_id");
+
+if (localStorage.getItem("_gigya_login_status") === "true") {
+    s.prop75 = "Logged In";
+} else {
+    s.prop75 = "Logged Out";
+}
+
+/*
+s.list2=getCookie("aam_fw") || "";
+if (s.list2.indexOf('aam=') !== -1) {
+	s.list2=s.list2.split(";",22).join(",").replace(/aam=/gi,"");
+}
+else {
+	s.list2 = "";
+}
+*/
+
+function getCookie(c_name) {
+    var i, x, y, ARRcookies = document.cookie.split(";");
+    for (i = 0; i < ARRcookies.length; i++) {
+        x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
+        y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
+        x = x.replace(/^\s+|\s+$/g, "");
+        if (x == c_name) {
+            return unescape(y);
+        }
+    }
+}
+//************End Profile IDs
+
+/*
+if (typeof mdManager != "undefined") {
+	s.prop66=mdManager.getParameterString("partner");
+}
+*/
+
+
+//US - for timeparting to account for daylight savings
+s._tpDST = {
+    2012: '3/11,11/4',
+    2013: '3/10,11/3',
+    2014: '3/9,11/2',
+    2015: '3/8,11/1',
+    2016: '3/13,11/6',
+    2017: '3/12,11/5',
+    2018: '3/11,11/4',
+    2019: '3/10,11/3',
+	2020: '3/8,11/1',
+	2021: '3/14,11/7',
+	2022: '3/13,11/6',
+	2023: '3/12,11/5',
+	2024: '3/10,11/3',
+	2025: '3/9,11/2'
+}
+//***
+
+//Plugin Config
+s.usePlugins = true;
+
+function s_doPlugins(s) {
+    //check for existence of mdManager
+    if (typeof mdManager != "undefined") {
+        s.events = s.apl(s.events, "event1", ",", 2);
+        s.pageName = mdManager.getParameterString("Url").toLowerCase();
+        //drop querystring
+        if (s.pageName.indexOf("?") != -1) {
+            pnEnd = s.pageName.indexOf("?");
+            s.pageName = s.pageName.substring(0, pnEnd);
+        }
+        //drop protocol
+        if (s.pageName.indexOf("http://") != -1) {
+            pnBegin = s.pageName.indexOf("http://") + 7;
+            s.pageName = s.pageName.substring(pnBegin);
+        } else if (s.pageName.indexOf("https://") != -1) {
+            pnBegin = s.pageName.indexOf("https://") + 8;
+            s.pageName = s.pageName.substring(pnBegin);
+        }
+        if (s.pageName.length > 100) {
+            s.pageName = s.pageName.substring(0, 100);
+        }
+        s.channel = mdManager.getParameterString("CategoryDspName").toLowerCase();
+        s.prop5 = mdManager.getParameterString("SctnDspName").toLowerCase();
+        s.prop10 = mdManager.getParameterString("Type").toLowerCase();
+
+        if (sniHost == "www.hgtvgardens.com") {
+            s.channel = "grdn-" + s.channel;
+            s.prop5 = "grdn-" + s.prop5;
+            s.prop10 = "grdn-" + s.prop10;
+        }
+
+        s.prop1 = mdManager.getParameterString("SubSection").toLowerCase();
+        s.prop2 = mdManager.getParameterString("SubSectionL2").toLowerCase();
+        s.prop6 = mdManager.getParameterString("Title").toLowerCase();
+        s.prop7 = mdManager.getParameterString("Sponsorship").toLowerCase();
+        s.prop8 = mdManager.getParameterString("Classification").toLowerCase();
+        s.prop9 = mdManager.getParameterString("UniqueId").toLowerCase();
+        s.prop12 = mdManager.getParameterString("TalentName").toLowerCase();
+        s.prop21 = mdManager.getParameterString("searchTerms").toLowerCase();
+        if (s.prop21) {
+            s.eVar4 = s.prop21;
+        }
+        if (s.eVar4) {
+            s.events = s.apl(s.events, "event14", ",", 2);
+        }
+        s.prop22 = mdManager.getParameterString("keyterm").toLowerCase();
+        s.prop23 = mdManager.getParameterString("dimensions").toLowerCase();
+        s.eVar5 = s.prop23;
+        s.prop24 = mdManager.getParameterString("dimensionValues").toLowerCase();
+        s.eVar6 = s.prop24;
+        s.prop25 = mdManager.getParameterString("filter").toLowerCase();
+        s.prop27 = mdManager.getParameterString("noSearchResults").toLowerCase();
+        s.eVar7 = s.prop27;
+        s.prop39 = mdManager.getParameterString("DelvFrmt").toLowerCase();
+        s.prop40 = mdManager.getParameterString("AdKey1").toLowerCase();
+        s.prop41 = mdManager.getParameterString("ContentTag1").toLowerCase();
+        s.prop42 = mdManager.getParameterString("ContentTag2").toLowerCase();
+        s.prop43 = mdManager.getParameterString("AdKey2").toLowerCase();
+        s.prop44 = mdManager.getParameterString("Show_Abbr").toLowerCase();
+        s.prop46 = mdManager.getParameterString("Source").toLowerCase();
+        s.prop48 = mdManager.getParameterString("City").toLowerCase();
+        s.prop49 = mdManager.getParameterString("State").toLowerCase();
+        s.prop50 = mdManager.getParameterString("Country").toLowerCase();
+        s.prop51 = mdManager.getParameterString("Region").toLowerCase();
+        s.prop52 = mdManager.getParameterString("PointOfInterest").toLowerCase();
+        s.prop58 = mdManager.getParameterString("Shopping").toLowerCase();
+		s.prop60 = mdManager.getParameterString("Delivery_Channel").toLowerCase();
+        s.prop62 = codeVersion;
+        s.prop65 = mdManager.getParameterString("internalSearchType").toLowerCase();
+        //s.prop67=mdManager.getParameterString("OrigPubDate").toLowerCase();
+        s.prop67 = s.cleanOrigPubDate().toLowerCase();
+	/*	
+		s.eVar150=mdManager.getParameterString("sourcePageTitle").toLowerCase();
+		s.eVar151=mdManager.getParameterString("sourcePageUrl").toLowerCase();
+	*/	
+		
+
+        /*
+        imgUrl=mdManager.getParameterString("ImgURL").toLowerCase();
+        s.prop69=imgUrl.substring(imgUrl.length-100);
+        */
+		
+		s.eVar66 = mdManager.getParameterString("abCell").toLowerCase();
+        s.prop70 = mdManager.getParameterString("EditorialTracking").toLowerCase();
+        s.prop74 = mdManager.getParameterString("sort").toLowerCase();
+        s.eVar43 = mdManager.getParameterString("behavioralInteraction").toLowerCase();
+
+        if (s.eVar45) {
+            s.events = s.apl(s.events, "event28", ",", 2);
+        }
+        s.eVar62 = mdManager.getParameterString("Contributor").toLowerCase();
+        if (mdManager.getParameterString("Role") == "PACKAGE") {
+            s.events = s.apl(s.events, "event18", ",", 2);
+        }
+
+    }
+  s.prop53 = sniSite;  
+	//s.eVar60 = sniSite; //last hit/expire visit evar60
+	s.contextData["brand"] = sniSite;
+	s.contextData["distributionBrand"] = "discovery digital studios";
+	
+	
+	
+	
+
+    //Campaign
+    s.eVar3 = s.Util.getQueryParam('xp');
+    s.eVar11 = s.Util.getQueryParam('c1');
+    s.eVar12 = s.Util.getQueryParam('c2');
+    s.eVar13 = s.Util.getQueryParam('c3');
+    s.eVar14 = s.Util.getQueryParam('c4');
+    s.eVar2 = s.Util.getQueryParam('nl');
+    if (s.eVar2 == "") {
+        s.eVar2 = s.Util.getQueryParam('sni_mid');
+    }
+    s.eVar37 = s.Util.getQueryParam('oc');
+    s.eVar38 = s.Util.getQueryParam('vty');
+    s.eVar69 = s.Util.getQueryParam('ic1');
+
+    //Capture email user id (v63) and email list id (v64)
+    if (location.search.indexOf("c32=") !== -1 && location.search.indexOf("bid=") !== -1) {
+        s.eVar63 = s.Util.getQueryParam('c32');
+        s.eVar64 = s.Util.getQueryParam('bid');
+        if (isNaN(s.eVar64) == true) {
+            var match = /[^0-9]/.exec(s.eVar64);
+            s.eVar64 = s.eVar64.substr(0, match.index);
+        }
+        if (location.search.indexOf("ssid=") !== -1) {
+            s.eVar2 = s.eVar2 ? s.eVar2 + "|" + s.Util.getQueryParam('ssid') : "na|" + s.Util.getQueryParam('ssid');
+        }
+        s.eVar36 = "u";
+        if (location.search.indexOf("sni_by=") !== -1) {
+            s.eVar36 = s.Util.getQueryParam("sni_by");
+        }
+        if (typeof s.Util.getQueryParam("sni_gn") === "string" && s.Util.getQueryParam("sni_gn").match(/^m/i)) {
+            s.eVar36 += "|m|na";
+        } else if (typeof s.Util.getQueryParam("sni_gn") === "string" && s.Util.getQueryParam("sni_gn").match(/^f/i)) {
+            s.eVar36 += "|f|na";
+        } else if (s.eVar36 !== "u") {
+            s.eVar36 += "|u|na";
+        }
+        if (s.eVar36 === "u") {
+            s.eVar36 = "";
+        }
+    }
+
+    if (location.search.indexOf("c1=") != "-1" && s.eVar69 == "") {
+        s.campaign = "c1: " + s.Util.getQueryParam('c1');
+    } else if (location.search.indexOf("soc=") != "-1") {
+        s.campaign = "soc: " + s.Util.getQueryParam('soc');
+    } else if (location.search.indexOf("syc=") != "-1") {
+        s.campaign = "syc: " + s.Util.getQueryParam('syc');
+    } else if (location.search.indexOf("vpid=") != "-1") {
+        s.campaign = "vpid: " + s.Util.getQueryParam('vpid');
+    } else if (location.search.indexOf("nl=") != "-1") {
+        s.campaign = "nl: " + s.Util.getQueryParam('nl');
+    } else if (location.search.indexOf("sni_mid=") != "-1") {
+        s.campaign = "nl: " + s.Util.getQueryParam('sni_mid');
+    } else if (location.search.indexOf("oc=") != "-1") {
+        s.campaign = "oc: " + s.Util.getQueryParam('oc');
+    } else if (location.search.indexOf("vty=") != "-1") {
+        s.campaign = "vty: " + s.Util.getQueryParam('vty');
+    } else if (location.search.indexOf("xp=") != "-1") {
+        s.campaign = "xp: " + s.Util.getQueryParam('xp');
+    }
+
+    //*******capture campaign id on second site sweeps entry - also used to pass referrerCode to iframe page with mcmid*****
+    //set original campaign id to sessionStorage if entrant enters site sweeps with a campaign query parameter
+    if (s.campaign) {
+        try {
+            sessionStorage.setItem("ocid", s.campaign.replace(/ /g, ""));
+        } catch (e) {
+            //something went wrong
+        }
+    } else {
+        try {
+            if (!sessionStorage.getItem("ocid")) {
+                sessionStorage.setItem("ocid", "direct");
+            }
+        } catch (e) {
+            //something went wrong
+        }
+    }
+
+    //handle ocid on sweeps thanks pages
+
+
+    if (sessionStorage.getItem("ocid") != undefined) {
+        if (sniPath.indexOf("/sweepstakes/thanks") != -1 || sniPath.indexOf("/hgtv-smart-home/thanks") != -1) {
+            //attach the ?ocid parameter/value on "enter again" link of site thanks page
+            try {
+                var origCampaign = sessionStorage.getItem("ocid");
+            } catch (e) {
+                //something went wrong
+            }
+			
+			
+			//HGTV Smart Home 2020
+            if (sniPath.indexOf("/hgtv-smart-home/sweepstakes/thanks") != -1) {
+                //update the query parameter to "enter again on DIY" link
+                $("a[href=\"//www.diynetwork.com/hgtv-smart-home\"]").attr("href", "//www.diynetwork.com/hgtv-smart-home?ocid=" + origCampaign);
+            }
+			else if (sniPath.indexOf("/hgtv-smart-home/thanks") != -1) {
+                //update the query parameter to "enter again on HGTV" link
+                $("a[href=\"//www.hgtv.com/sweepstakes/hgtv-smart-home/sweepstakes\"]").attr("href", "//www.hgtv.com/sweepstakes/hgtv-smart-home/sweepstakes?ocid=" + origCampaign);
+            }
+			
+        }
+    }
+
+    //capture that value to a visit based evar83
+    if (location.search.indexOf("ocid=") != -1) {
+        s.eVar83 = s.Util.getQueryParam('ocid');
+    }
+    //************************************************************
+
+
+    /* Get New and Repeat Visitor Information */
+    s.prop13 = s.getNewRepeat();
+    s.server = "D=User-Agent";
+    s.prop28 = "D=g";
+
+    //set products variable on food and cook sites ***
+    if (sniSite === "food" || sniSite === "cook") {
+        //Capture Recipe Components to Products
+        if (s.prop10 == "recipe") {
+            s.list2 = "";
+            var i;
+            var recipeComponents = ["cuisine", "difficulty", "mainingredient", "mealpart", "preptime", "technique", "dish", "mealtype", "nutrition", "occasions", "courses", "taste"];
+            for (i = 0; i < recipeComponents.length; i++) {
+                if (mdManager.getParameter(recipeComponents[i]) != undefined) {
+                    if (s.list2 == "") {
+                        s.list2 = recipeComponents[i] + ";" + mdManager.getParameter(recipeComponents[i]);
+                    } else {
+                        s.list2 = s.list2 + "," + recipeComponents[i] + ";" + mdManager.getParameter(recipeComponents[i]);
+                    }
+                }
+            }
+            s.list2 = s.list2.toLowerCase();
+            s.list2 = s.list2.replace(/;/g, "|");
+        } else { //Shopping tracking on food sites
+            if (sessionStorage.getItem("prodSetByShopTrack") != "true") { //do not execute this if shopTrack s.tl call was used to set products already
+                s.products = "";
+                s.list1 = "";
+                s.list2 = "";
+                s.prop66 = mdManager.getParameter("partner");
+                s.events = s.events.replace(",event120", ""); //clear event120 from s.events if exist so it doesn't persist
+                s.events = s.events.replace(",prodView", ""); //clear prodView from s.events so it doesn't persist on slides that don't have products
+
+
+				//set photo metadata from taggroup1 into list var 2
+				if (mdManager.getParameterString("Overlay_TagGroup1") != "") {
+					s.list2 = mdManager.getParameterString("Overlay_TagGroup1");
+				} else if (mdManager.getParameterString("TagGroup1") != "") {
+					s.list2 = mdManager.getParameterString("TagGroup1");
+				}
+				s.list2 = s.list2.replace(/;/g, "|");
+
+				//remove legacy wayfair stl from the photo tags/list2 meta-data
+				if (s.list2.indexOf("wayfair/shop_this_look") != -1) {
+					s.list2 = s.list2.replace("partner|wayfair/shop_this_look,", "");
+				}
+
+
+
+
+
+
+                if (mdManager.getParameterString("shopping") == "shopping") {
+                    if (mdManager.getParameter("products").indexOf("|") == -1) {
+                        productList = mdManager.getParameter("products").replace(/,;/g, ",;s|na|");
+                        s.products = ";s|na|" + productList + ",;c|" + mdManager.getParameter("componentName") + "|" + mdManager.getParameter("componentTitle") + "|" + mdManager.getParameter("imageCount") + "|" + mdManager.getParameter("productCount") + "|" + mdManager.getParameter("visibleProductCount") + "|" + mdManager.getParameter("perImageProductCount") + "|" + mdManager.getParameter("productPosition");
+                    } else {
+                        productList = mdManager.getParameter("products").replace(/,;/g, ",;s|");
+						s.products = ";s|" + productList + ",;c|" + mdManager.getParameter("componentName") + "|" + mdManager.getParameter("componentTitle") + "|" + mdManager.getParameter("imageCount") + "|" + mdManager.getParameter("productCount") + "|" + mdManager.getParameter("visibleProductCount") + "|" + mdManager.getParameter("perImageProductCount") + "|" + mdManager.getParameter("productPosition");
+                    }
+
+                    s.products = s.products.toLowerCase();
+                    s.list1 = "D=products";
+                    s.events = s.apl(s.events, "prodView,event120", ",", 2);
+                    //For Apple News shopping product clicks
+                    if (sniHost.indexOf("click.tinysharks.") != -1 || sniHost.indexOf("click.home.") != -1 || sniHost.indexOf("click.fnr.") != -1) {
+                        s.events = "scAdd";
+						s.prop14 = mdManager.getParameter("componentName");
+						s.prop15 = mdManager.getParameter("sourcePageTitle");
+						s.prop16 = "apple news";
+						s.prop17 = location.host + location.pathname;
+						s.prop18 = mdManager.getParameter("sourcePageUrl");
+						//s.prop16 = mdManager.getParameter("sourcePageTitle") + " | " + mdManager.getParameter("sourcePageUrl");
+                    }
+                }
+                sessionStorage.setItem("prodSetByShopTrack", "false");
+            }
+        }
+    }
+    //set products variable / shopping tracking on home and travel sites ***
+    else {
+        if (sessionStorage.getItem("prodSetByShopTrack") != "true") { //do not execute this if shopTrack s.tl call was used to set products already
+            s.products = "";
+            s.list1 = "";
+            s.list2 = "";
+            s.prop66 = mdManager.getParameter("partner");
+            s.events = s.events.replace(",event120", ""); //clear event120 from s.events if exist so it doesn't persist
+            s.events = s.events.replace(",prodView", ""); //clear prodView from s.events so it doesn't persist on slides that don't have products
+
+            //set photo metadata from taggroup1 into list var 2
+            if (mdManager.getParameterString("Overlay_TagGroup1") != "") {
+                s.list2 = mdManager.getParameterString("Overlay_TagGroup1");
+            } else if (mdManager.getParameterString("TagGroup1") != "") {
+                s.list2 = mdManager.getParameterString("TagGroup1");
+            }
+            s.list2 = s.list2.replace(/;/g, "|");
+
+            //remove legacy wayfair stl from the photo tags/list2 meta-data
+            if (s.list2.indexOf("wayfair/shop_this_look") != -1) {
+                s.list2 = s.list2.replace("partner|wayfair/shop_this_look,", "");
+            }
+            if (mdManager.getParameterString("shopping") == "shopping") {
+                if (mdManager.getParameter("products").indexOf("|") == -1) {
+                    productList = mdManager.getParameter("products").replace(/,;/g, ",;s|na|");
+                    s.products = ";s|na|" + productList + ",;c|" + mdManager.getParameter("componentName") + "|" + mdManager.getParameter("componentTitle") + "|" + mdManager.getParameter("imageCount") + "|" + mdManager.getParameter("productCount") + "|" + mdManager.getParameter("visibleProductCount") + "|" + mdManager.getParameter("perImageProductCount") + "|" + mdManager.getParameter("productPosition");
+                } else {
+                    productList = mdManager.getParameter("products").replace(/,;/g, ",;s|");
+                    s.products = ";s|" + productList + ",;c|" + mdManager.getParameter("componentName") + "|" + mdManager.getParameter("componentTitle") + "|" + mdManager.getParameter("imageCount") + "|" + mdManager.getParameter("productCount") + "|" + mdManager.getParameter("visibleProductCount") + "|" + mdManager.getParameter("perImageProductCount") + "|" + mdManager.getParameter("productPosition");
+                }
+
+                s.products = s.products.toLowerCase();
+                s.list1 = "D=products";
+
+                s.events = s.apl(s.events, "prodView,event120", ",", 2);
+                //For Apple News shopping product clicks
+                if (sniHost.indexOf("click.tinysharks.") != -1 || sniHost.indexOf("click.home.") != -1 || sniHost.indexOf("click.fnr.") != -1) {
+                    s.events = "scAdd";
+					s.prop14 = mdManager.getParameter("componentName");
+					s.prop15 = mdManager.getParameter("sourcePageTitle");
+					s.prop16 = "apple news";
+					s.prop17 = location.host + location.pathname;
+					s.prop18 = mdManager.getParameter("sourcePageUrl");
+					//s.prop16 = mdManager.getParameter("sourcePageTitle") + " | " + mdManager.getParameter("sourcePageUrl");
+                }
+            }
+            sessionStorage.setItem("prodSetByShopTrack", "false");
+        }
+    }
+
+    //if(s.products !== undefined && s.products !== "") {s.events=s.apl(s.events,"prodView",",",2);}
+
+    //Capture overlay metadata when exists and page-equivalent data when no overlay *******
+    if (mdManager.getParameterString("Overlay_Show") != "") {
+        s.prop44 = mdManager.getParameterString("Overlay_Show");
+    } else {
+        s.prop44 = mdManager.getParameterString("Show_Abbr");
+    }
+    if (mdManager.getParameterString("Overlay_Professional") != "") {
+        s.prop63 = mdManager.getParameterString("Overlay_Professional");
+    } else {
+        s.prop63 = mdManager.getParameterString("Professional");
+    }
+    if (mdManager.getParameterString("Overlay_TalentName") != "") {
+        s.prop12 = mdManager.getParameterString("Overlay_TalentName");
+    } else {
+        s.prop12 = mdManager.getParameterString("TalentName");
+    }
+    if (mdManager.getParameterString("Overlay_Editor") != "") {
+        s.prop64 = mdManager.getParameterString("Overlay_Editor");
+    } else {
+        s.prop64 = mdManager.getParameterString("Editor");
+    }
+    /*if(mdManager.getParameterString("Overlay_Partner") != "") {s.prop66=mdManager.getParameterString("Overlay_Partner");}
+    else {s.prop66=mdManager.getParameterString("Partner");}*/
+
+    if (mdManager.getParameterString("Overlay_UniqueID") != "") {
+        s.prop9 = mdManager.getParameterString("Overlay_UniqueID");
+    } else {
+        s.prop9 = mdManager.getParameterString("UniqueID");
+    }
+    //*******
+
+
+    //getTimeParting
+    var tp = s.getTimeParting('n', '-5');
+    var idx = tp.indexOf(':');
+    var halfhour = tp.substring(idx + 1, idx + 3);
+    tp = tp + "|" + (halfhour > 30 ? '30' : '00');
+    s.prop33 = tp;
+
+    /*getPercentPageViewed and Previous Page*/
+    s.prop35 = s.getPreviousValue(s.prop10 + " | " + s.prop6, 'gpv_pn');
+    if (s.prop35) {
+        //s.prop34=s.getPercentPageViewed();
+        if (s.prop35.length > 100) {
+            s.prop35 = s.prop35.substring(0, 100);
+        }
+    }
+
+    // Write Optimizely tests into eVar 66
+    if (!s.eVar66) {
+		s.sc_integrate_optly_tests(66);
+	}
+
+    //s.eVar76 = s.get_perf_stats();
+
+    s.pageURL = document.location.href;
+
+    s.track_ls_analytics();
+
+
+    s.AudienceManagement.setup({
+        "partner": "scripps",
+        "containerNSID": 0
+    });
+
+    if (s.eVar10) {
+        s.visitor.setCustomerIDs({
+            "468": {
+                "id": "67312378756723456",
+                "authState": Visitor.AuthState.AUTHENTICATED
+            }
+        })
+    };
+
+
+
+}
+
+s.doPlugins = s_doPlugins;
+
+/************************** PLUGINS SECTION *************************/
+
+s.sc_integrate_optly_tests = function s_sc_integrate_optly_tests(e) {
+    if ("undefined" != typeof window["optimizely"]) {
+        var allTests = window["optimizely"].allExperiments,
+            charCount = 0, // Used to make sure we stay in the 255 character limit
+            s = s_gi(s_account),
+            variationMap = window["optimizely"].variationMap,
+            variationMapActive = []; // Leave behind only tests that are still active
+
+        for (var testId in variationMap) {
+            if (variationMap.hasOwnProperty(testId)) {
+                var mapImage = [],
+                    mapImageString = "",
+                    mapPair = "",
+                    testDefined = false,
+                    testEnabled = false;
+
+                testDefined = allTests.hasOwnProperty(testId);
+                testEnabled = testDefined && allTests[testId].hasOwnProperty("enabled");
+
+                if (testEnabled) {
+                    if ("object" == typeof variationMap[testId]) {
+                        mapImage = variationMap[testId];
+                    } else {
+                        mapImage.push(variationMap[testId]);
+                    }
+
+                    mapImageString = mapImage.join("_");
+                    mapPair = testId + ":" + mapImageString;
+
+                    if ((charCount + mapPair.length) <= 255) {
+                        charCount += mapPair.length;
+                        variationMapActive.push(mapPair);
+                    }
+                }
+            }
+        }
+        s["eVar" + e] = variationMapActive.join();
+    }
+}
+
+s.get_perf_stats = function s_get_perf_stats() {
+    var timing, t_array;
+    if (typeof window.performance === "object" && typeof window.performance.timing === "object") {
+        timing = window.performance.timing;
+        t_array = [
+            Math.round((timing.domainLookupEnd - timing.domainLookupStart) / 100) * 100, //dns
+            Math.round((timing.connectEnd - timing.connectStart) / 100) * 100, //connection
+            Math.round((timing.responseStart - timing.connectEnd) / 100) * 100, //ttfb
+            Math.round((timing.responseEnd - timing.responseStart) / 100) * 100, //base page loaded
+            timing.domContentLoadedEventStart ? Math.round((timing.domContentLoadedEventStart - timing.responseEnd) / 100) * 100 : -1, // dom content loading
+            timing.domContentLoadedEventEnd ? Math.round((timing.domContentLoadedEventEnd - timing.domContentLoadedEventStart) / 100) * 100 : -1, // dom content loaded event
+            timing.loadEventStart ? Math.round((timing.loadEventStart - timing.domContentLoadedEventEnd) / 100) * 100 : -1, // dom complete
+            timing.loadEventEnd ? Math.round((timing.loadEventEnd - timing.loadEventStart) / 100) * 100 : -1, // load event
+        ];
+        return t_array.join("|");
+    } else {
+        return "";
+    }
+}
+
+s.dateDeltas = function s_dateDeltas(dateObj) {
+    var today = new Date(),
+        days = Math.floor(Math.abs(today.getTime() - dateObj.getTime()) / (1000 * 3600 * 24));
+    if (days < 8) {
+        return (days + (days === 1 ? " day" : " days"));
+    } else if (days > 7 && days < 31) {
+        return ("8 days-1 month");
+    } else if (days > 30 && days < 366) {
+        return (Math.floor(days / 30.417) + "-" + Math.ceil(days / 30.417) + " months");
+    } else if (days > 365) {
+        return ">1 year";
+    }
+}
+
+s.cleanOrigPubDate = function s_cleanOrigPubDate() {
+    var opd = mdManager.getParameterString("OrigPubDate"),
+        opd_array = [],
+        opd_days = 0,
+        opd_string = "",
+        orig_date,
+        mod_date;
+    try {
+        if (opd && typeof opd === "string") {
+            opd_array = opd.match(/\d\d\d\d-\d\d-\d\d/g);
+            opd_string = opd_array ? opd_array.join("|") : "";
+            if (opd_string !== "") {
+                if (opd_array[0]) {
+                    orig_date = new Date(opd_array[0]);
+                    opd_string += "|" + s.dateDeltas(orig_date);
+                }
+                if (opd_array[1]) {
+                    mod_date = new Date(opd_array[1]);
+                    opd_string += "|" + s.dateDeltas(mod_date);
+                }
+            }
+        }
+    } catch (e) {
+        //  something went wrong
+    }
+    return opd_string;
+}
+
+
+/*
+ * Utility Function: split v1.5 - split a string (JS 1.0 compatible)
+ */
+s.split = new Function("l", "d", "" +
+    "var i,x=0,a=new Array;while(l){i=l.indexOf(d);i=i>-1?i:l.length;a[x" +
+    "++]=l.substring(0,i);l=l.substring(i+d.length);}return a");
+
+/*
+ * Plugin Utility: Replace v1.0
+ */
+s.repl = new Function("x", "o", "n", "" +
+    "var i=x.indexOf(o),l=n.length;while(x&&i>=0){x=x.substring(0,i)+n+x." +
+    "substring(i+o.length);i=x.indexOf(o,i+l)}return x");
+
+/*
+ * Plugin Utility: apl v1.1
+ */
+s.apl = new Function("L", "v", "d", "u", "" +
+    "var s=this,m=0;if(!L)L='';if(u){var i,n,a=s.split(L,d);for(i=0;i<a." +
+    "length;i++){n=a[i];m=m||(u==1?(n==v):(n.toLowerCase()==v.toLowerCas" +
+    "e()));}}if(!m)L=L?L+d+v:v;return L");
+
+/*
+ * Plugin: getTimeParting 3.4
+ */
+s.getTimeParting = new Function("h", "z", "" +
+    "var s=this,od;od=new Date('1/1/2000');if(od.getDay()!=6||od.getMont" +
+    "h()!=0){return'Data Not Available';}else{var H,M,D,U,ds,de,tm,da=['" +
+    "Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturda" +
+    "y'],d=new Date();z=z?z:0;z=parseFloat(z);if(s._tpDST){var dso=s._tp" +
+    "DST[d.getFullYear()].split(/,/);ds=new Date(dso[0]+'/'+d.getFullYea" +
+    "r());de=new Date(dso[1]+'/'+d.getFullYear());if(h=='n'&&d>ds&&d<de)" +
+    "{z=z+1;}else if(h=='s'&&(d>de||d<ds)){z=z+1;}}d=d.getTime()+(d.getT" +
+    "imezoneOffset()*60000);d=new Date(d+(3600000*z));H=d.getHours();M=d" +
+    ".getMinutes();M=(M<10)?'0'+M:M;D=d.getDay();U=' AM';if(H>=12){U=' P" +
+    "M';H=H-12;}if(H==0){H=12;}D=da[D];tm=H+':'+M+U;return(tm+'|'+D);}");
+
+/*
+ * Plugin: getNewRepeat 1.0 - Return whether user is new or repeat
+ */
+s.getNewRepeat = new Function("" +
+    "var s=this,e=new Date(),cval,ct=e.getTime(),y=e.getYear();e.setTime" +
+    "(ct+30*24*60*60*1000);cval=s.c_r('s_nr');if(cval.length==0){s.c_w(" +
+    "'s_nr',ct,e);return 'New';}if(cval.length!=0&&ct-cval<30*60*1000){s" +
+    ".c_w('s_nr',ct,e);return 'New';}if(cval<1123916400001){e.setTime(cv" +
+    "al+30*24*60*60*1000);s.c_w('s_nr',ct,e);return 'Repeat';}else retur" +
+    "n 'Repeat';");
+
+/*
+ * Plugin: getAndPersistValue 0.3 - get a value on every page
+ */
+s.getAndPersistValue = new Function("v", "c", "e", "" +
+    "var s=this,a=new Date;" +
+    "e=e?e:0;" +
+    "a.setTime(a.getTime()+e*86400000);" +
+    "if(v)s.c_w(c,v,e?a:0);" +
+    "return s.c_r(c);"
+);
+
+/*
+ * Plugin: getValOnce 0.2 - get a value once per session or number of days
+ */
+s.getValOnce = new Function("v", "c", "e", "" +
+    "var s=this,k=s.c_r(c),a=new Date;e=e?e:0;if(v){a.setTime(a.getTime(" +
+    ")+e*86400000);s.c_w(c,v,e?a:0);}return v==k?'':v");
+
+
+/*
+ * Plugin: getPercentPageViewed v1.x
+ * This code has been modified from the original version distributed
+ * by Omniture and will not be supported by Omniture in any way
+ */
+s.getPercentPageViewed = new Function("", "" +
+    "var s=this;if(typeof(s.linkType)=='undefined'||s.linkType=='e'){var" +
+    " v=s.c_r('s_ppv');s.c_w('s_ppv',0);return v;}");
+s.getPPVCalc = new Function("", "" +
+    "var dh=Math.max(Math.max(s.d.body.scrollHeight,s.d.documentElement." +
+    "scrollHeight),Math.max(s.d.body.offsetHeight,s.d.documentElement.of" +
+    "fsetHeight),Math.max(s.d.body.clientHeight,s.d.documentElement.clie" +
+    "ntHeight)),vph=s.d.clientHeight||Math.min(s.d.documentElement.clien" +
+    "tHeight,s.d.body.clientHeight),st=s.w.pageYOffset||(s.w.document." +
+    "documentElement.scrollTop||s.w.document.body.scrollTop),vh=st+vph," +
+    "pv=Math.round(vh/dh*100),cv=s.c_r('s_ppv'),cpi=cv.indexOf('|'),cpv=" +
+    "'',ps='';if(cpi!=-1){cpv=cv.substring(0,cpi);ps=parseInt(cv.substri" +
+    "ng(cpi+1));}else{cpv=ps=0;}if(pv<=100){if(pv>parseInt(cpv)){ps=pv-M" +
+    "ath.round(vph/dh*100);s.c_w('s_ppv',pv+'|'+ps);}}else{s.c_w('s_ppv'" +
+    ",'');}");
+s.getPPVSetup = new Function("", "" +
+    "var s=this;if(s.w.addEventListener){s.w.addEventListener('load',s" +
+    ".getPPVCalc,false);s.w.addEventListener('scroll',s.getPPVCalc,fals" +
+    "e);s.w.addEventListener('resize',s.getPPVCalc,false);}else if(s.w" +
+    ".attachEvent){s.w.attachEvent('onload',s.getPPVCalc);s.w.attachEv" +
+    "ent('onscroll',s.getPPVCalc);s.w.attachEvent('onresize',s.getPPVCa" +
+    "lc);}");
+s.getPPVSetup();
+
+
+/*
+* Plugin: getPercentPageViewed v1.71
+
+s.getPercentPageViewed=new Function("n",""
++"var s=this,W=window,EL=W.addEventListener,AE=W.attachEvent,E=['load"
++"','unload','scroll','resize','zoom','keyup','mouseup','touchend','o"
++"rientationchange','pan'];W.s_Obj=s;s_PPVid=(n=='-'?s.pageName:n)||s"
++".pageName||location.href;if(!W.s_PPVevent){s.s_PPVg=function(n,r){v"
++"ar k='s_ppv',p=k+'l',c=s.c_r(n||r?k:p),a=c.indexOf(',')>-1?c.split("
++"',',10):[''],l=a.length,i;a[0]=unescape(a[0]);r=r||(n&&n!=a[0])||0;"
++"a.length=10;if(typeof a[0]!='string')a[0]='';for(i=1;i<10;i++)a[i]="
++"!r&&i<l?parseInt(a[i])||0:0;if(l<10||typeof a[9]!='string')a[9]='';"
++"if(r){s.c_w(p,c);s.c_w(k,'?')}return a};W.s_PPVevent=function(e){va"
++"r W=window,D=document,B=D.body,E=D.documentElement,S=window.screen|"
++"|0,Ho='offsetHeight',Hs='scrollHeight',Ts='scrollTop',Wc='clientWid"
++"th',Hc='clientHeight',C=100,M=Math,J='object',N='number',s=W.s_Obj|"
++"|W.s||0;e=e&&typeof e==J?e.type||'':'';if(!e.indexOf('on'))e=e.subs"
++"tring(2);s_PPVi=W.s_PPVi||0;if(W.s_PPVt&&!e){clearTimeout(s_PPVt);s"
++"_PPVt=0;if(s_PPVi<2)s_PPVi++}if(typeof s==J){var h=M.max(B[Hs]||E[H"
++"s],B[Ho]||E[Ho],B[Hc]||E[Hc]),X=W.innerWidth||E[Wc]||B[Wc]||0,Y=W.i"
++"nnerHeight||E[Hc]||B[Hc]||0,x=S?S.width:0,y=S?S.height:0,r=M.round("
++"C*(W.devicePixelRatio||1))/C,b=(D.pageYOffset||E[Ts]||B[Ts]||0)+Y,p"
++"=h>0&&b>0?M.round(C*b/h):0,O=W.orientation,o=!isNaN(O)?M.abs(o)%180"
++":Y>X?0:90,L=e=='load'||s_PPVi<1,a=s.s_PPVg(s_PPVid,L),V=function(i,"
++"v,f,n){i=parseInt(typeof a==J&&a.length>i?a[i]:'0')||0;v=typeof v!="
++"N?i:v;v=f||v>i?v:i;return n?v:v>C?C:v<0?0:v};if(new RegExp('(iPod|i"
++"Pad|iPhone)').exec(navigator.userAgent||'')&&o){o=x;x=y;y=o}o=o?'P'"
++":'L';a[9]=L?'':a[9].substring(0,1);s.c_w('s_ppv',escape(W.s_PPVid)+"
++"','+V(1,p,L)+','+(L||!V(2)?p:V(2))+','+V(3,b,L,1)+','+X+','+Y+','+x"
++"+','+y+','+r+','+a[9]+(a[9]==o?'':o))}if(!W.s_PPVt&&e!='unload')W.s"
++"_PPVt=setTimeout(W.s_PPVevent,333)};for(var f=W.s_PPVevent,i=0;i<E."
++"length;i++)if(EL)EL(E[i],f,false);else if(AE)AE('on'+E[i],f);f()};v"
++"ar a=s.s_PPVg();return!n||n=='-'?a[1]:a");
+*/
+
+
+/*
+ * Plugin: getPreviousValue_v1.0 - return previous value of designated
+ *   variable (requires split utility)
+ */
+s.getPreviousValue = new Function("v", "c", "el", "" +
+    "var s=this,t=new Date,i,j,r='';t.setTime(t.getTime()+1800000);if(el" +
+    "){if(s.events){i=s.split(el,',');j=s.split(s.events,',');for(x in i" +
+    "){for(y in j){if(i[x]==j[y]){if(s.c_r(c)) r=s.c_r(c);v?s.c_w(c,v,t)" +
+    ":s.c_w(c,'no value',t);return r}}}}}else{if(s.c_r(c)) r=s.c_r(c);v?" +
+    "s.c_w(c,v,t):s.c_w(c,'no value',t);return r}");
+
+/* WARNING: Changing any of the below variables will cause drastic
+changes to how your visitor data is collected.  Changes should only be
+made when instructed to do so by your account manager.*/
+
+s.visitorNamespace = "ewscripps";
+
+switch (s_account) {
+    case "scrippshgtvbrands":
+        s.trackingServer = "sa.hgtv.com";
+        s.trackingServerSecure = "ssa.hgtv.com";
+        break;
+    case "scrippsdiynew":
+        s.trackingServer = "sa.diynetwork.com";
+        s.trackingServerSecure = "ssa.diynetwork.com";
+        break;
+    case "scrippsgactv":
+        s.trackingServer = "sa.greatamericancountry.com";
+        s.trackingServerSecure = "sslsa.greatamericancountry.com";
+        break;
+    case "scrippsfoodnetnew,discofnkdev":
+        s.trackingServer = "sa.foodnetwork.com";
+        s.trackingServerSecure = "ssa.foodnetwork.com";
+        break;
+    case "scrippscookingchannel":
+        s.trackingServer = "sa.cookingchanneltv.com";
+        s.trackingServerSecure = "ssa.cookingchanneltv.com";
+        break;
+    case "scrippstravelchannel":
+        s.trackingServer = "metrics.travelchannel.com";
+        s.trackingServerSecure = "smetrics.travelchannel.com";
+        break;
+    case "scrippsapplenews":
+        s.trackingServer = "sa.hgtv.com";
+        s.trackingServerSecure = "ssa.hgtv.com";
+        break;
+	case "discoid-tlc-temp":
+        if(sniSite.indexOf("tlc") != -1) {
+			s.trackingServer = "sa.tlc.com";
+			s.trackingServerSecure = "ssa.tlc.com";
+		}
+		else if (sniSite.indexOf("investigationdiscovery") != -1) {
+			s.trackingServer = "sa.investigationdiscovery.com";
+			s.trackingServerSecure = "ssa.investigationdiscovery.com";
+		}
+		else if (sniSite.indexOf("discovery") != -1) {
+			s.trackingServer = "sa.discovery.com";
+			s.trackingServerSecure = "ssa.discovery.com";
+		}
+		else if (sniSite.indexOf("animalplanet") != -1) {
+			s.trackingServer = "sa.animalplanet.com";
+			s.trackingServerSecure = "ssa.animalplanet.com";
+		}
+		else if (sniSite.indexOf("sciencechannel") != -1) {
+			s.trackingServer = "sa.sciencechannel.com";
+			s.trackingServerSecure = "ssa.sciencechannel.com";
+		}
+        break;
+		
+	case "discousdev":
+        s.trackingServer = "sa.discovery.com";
+        s.trackingServerSecure = "ssa.discovery.com";
+        break;
+	
+	case "discousprod,discoid-tlc-temp":
+        s.trackingServer = "sa.discovery.com";
+        s.trackingServerSecure = "ssa.discovery.com";
+        break;
+		
+		
+    default:
+        s.trackingServer = "ewscripps.112.2o7.net";
+}
+
+
+s.trackModLocalStorage();
+
+// Add hook for Optimizely Integration
+window['optimizely'] = window['optimizely'] || [];
+window['optimizely'].push("activateSiteCatalyst");
+
+
+//****************Legacy - can this be removed?****************
+//******************************
+//******************************
+// MEDIA MODULE SUPPORT 
+//******************************
+//******************************
+
+var omnitureCallFired = {};
+
+s.loadModule("Media")
+s.Media.autoTrack = false;
+s.Media.trackWhilePlaying = true;
+s.Media.segmentByMilestones = true;
+s.Media.trackUsingContextData = true;
+s.Media.completeByCloseOffset = true;
+s.Media.completeCloseOffsetThreshold = 1;
+s.Media.adSegmentByMilestones = true;
+s.Media.trackMilestones = "50,90";
+s.Media.trackVars = "events,channel,pagename,server,prop1,prop2,prop3,prop4,prop5,prop6,prop7,prop8,prop9,prop10,prop11,prop12,prop13,prop19,prop20,prop21,prop22,prop23,prop24,prop25,prop26,prop27,prop28,prop29,prop30,prop31,prop32,prop33,prop34,prop35,prop36,prop37,prop38,prop39,prop40,prop41,prop42,prop43,prop44,prop45,prop46,prop47,prop48,prop49,prop50,prop51,prop52,prop53,prop54,prop55,prop56,prop57,prop58,prop59,prop60,prop61,prop62,prop63,prop64,prop65,prop66,prop67,prop68,prop69,prop70,prop71,prop72,prop73,prop74,prop75,eVar1,eVar2,eVar3,eVar4,eVar5,eVar6,eVar7,eVar8,eVar9,eVar10,eVar11,eVar12,eVar13,eVar14,eVar15,eVar20,eVar21,eVar22,eVar23,eVar24,eVar25,eVar26,eVar27,eVar28,eVar29,eVar30,eVar31,eVar32,eVar33,eVar34,eVar35,eVar36,eVar37,eVar38,eVar39,eVar41,eVar42,eVar43,eVar44,eVar45,eVar46,eVar47,eVar48,eVar49,eVar50,eVar51,eVar52,eVar53,eVar54,eVar55,eVar56,eVar57,eVar58,eVar59,eVar60,eVar61,eVar62,eVar63,eVar64,eVar65,eVar66,eVar67,eVar68,eVar69,eVar70,eVar71,eVar72,eVar73,eVar74,eVar75,list1,contextData.VideoEvent";
+
+
+s.Media.contextDataMapping = {
+    "a.media.name": "eVar22,prop37",
+    "a.contentType": "eVar73",
+    "a.media.timePlayed": "event87",
+    "a.media.segment": "eVar74",
+    "a.media.view": "event5",
+    "a.media.complete": "event9",
+    "a.media.segmentView": "event50",
+    "a.media.ad.name": "eVar15,prop73",
+    "a.media.ad.timePlayed": "event88",
+    "a.media.ad.view": "event3",
+    "a.media.ad.complete": "event4",
+    "a.media.milestones": {
+        50: "event7",
+        90: "event8"
+    }
+};
+
+s.Media.monitor = function (s, media) {
+    if ((media.event == "OPEN") && (media.eventFirstTime)) {
+        s.Media.trackEvents = "event3,event4,event5,event6,event7,event8,event9,event50,event53,event80,event87,event88,event89";
+        s.eVar21 = mdManager.getParameterString("videoPlayerType");
+        s.eVar23 = mdManager.getParameterString("showTitle");
+        s.eVar24 = mdManager.getParameterString("videoPlayerName");
+        s.eVar25 = mdManager.getParameterString("videoChannelName");
+        s.eVar27 = mdManager.getParameterString("videoPublisherID");
+        s.eVar28 = mdManager.getParameterString("videoPlayType");
+        s.eVar29 = mdManager.getParameterString("videoNLVID");
+        s.eVar30 = mdManager.getParameterString("videoSCRID");
+        s.eVar31 = mdManager.getParameterString("videoCMSID");
+        s.eVar33 = mdManager.getParameterString("videoRunTime");
+        s.eVar34 = mdManager.getParameterString("videoScreenType");
+        s.eVar35 = mdManager.getParameterString("videoSponsor");
+
+        videoEvents = mdManager.getParameterString("videoEvents");
+        if (videoEvents.length > 0) {
+            s.contextData["VideoEvent"] = videoEvents;
+        }
+
+        var videoPlaylistCount = "";
+        if (s.eVar73 != "videoAd") {
+            videoPlaylistCount = mdManager.getParameterString("videoPlaylistCount");
+            if (videoPlaylistCount != undefined && videoPlaylistCount != "" && videoPlaylistCount != "0") {
+                //s.events=s.events + ",event89=" + videoPlaylistCount;
+                s.events = s.apl(s.events, "event89=" + videoPlaylistCount, ",", 2);
+                mdManager.setParameter("videoPlaylistCount", "");
+            }
+        }
+        sendRequest();
+        //clear videoEvent array and context variable
+        if (videoEvents.length > 0) {
+            mdManager.setParameter("videoEvents", "");
+            s.contextData['VideoEvent'] = "";
+        }
+
+        //Nielsen Video Capture - on video content start
+        var davImg = new Image();
+        var ScImgSrc;
+        var ScRandom = Math.ceil(Math.random() * 1000000000);
+        ScImgSrc = "http://secure-us.imrworldwide.com/cgi-bin/m?ci=us-200639";
+        var enShowTitle = mdManager.getParameterString("showTitle");
+        var enVideoTitle = mdManager.getParameterString("videoTitle");
+        if (enShowTitle != "") {
+            ScImgSrc += "&cg=" + enShowTitle;
+        } else {
+            ScImgSrc += "&cg=" + escape("No Show Title");
+        }
+        ScImgSrc += "&tl=dav0-" + enVideoTitle;
+        //ScImgSrc += '&c3=st,a' + escape('StreamType');  //Use only if the video stream is an advertisement
+        ScImgSrc += "&c6=vc,c16"; //VideoCensus ID - specified by Nielsen - varies per entity
+        ScImgSrc += "&cc=1"; //Cookie Check (Always on)
+        ScImgSrc += "&rnd=" + ScRandom;
+        davImg = "";
+        davImg = new Image();
+        davImg.src = ScImgSrc;
+
+
+        //comScore Video Capture - on video content start
+        var csImg = new Image();
+        var csImgSrc;
+        csImgSrc = "http://b.scorecardresearch.com/p?c1=1&c2=6035648";
+        csImgSrc += "&c3=" + s_account;
+        if (enShowTitle != "") {
+            csImgSrc += "&c4=" + enShowTitle;
+        } else {
+            csImgSrc += "&c4=" + mdManager.getParameterString("Title");
+        } //Added temporarily because hgtv video player not passing show title 02/03/2015
+        //else {csImgSrc += "&c4=" + escape("No Show Title");}
+        //determine ad or content
+        if (mdManager.getParameterString("videoAdTitle") != "") { //ad
+            csImgSrc += "&c5=01&c10=01-01";
+        } else {
+            var runTime = mdManager.getParameterString("videoRunTime");
+            runTime = Math.floor(parseFloat(runTime));
+            var videoType = (runTime > 480) ? "03" : "02"; //3 longform; 2 shortform
+            csImgSrc += "&c5=" + videoType + "&c10=01-01";
+        }
+        //mdManager.setParameter("videoAdTitle", "");
+        csImg = "";
+        csImg = new Image();
+        csImg.src = csImgSrc;
+    }
+
+    if (media.event == "MILESTONE") {
+        s.Media.trackEvents = "event3,event4,event5,event6,event7,event8,event9,event50,event53,event87,event88";
+        s.eVar21 = mdManager.getParameterString("videoPlayerType");
+        s.eVar23 = mdManager.getParameterString("showTitle");
+        s.eVar24 = mdManager.getParameterString("videoPlayerName");
+        s.eVar25 = mdManager.getParameterString("videoChannelName");
+        s.eVar27 = mdManager.getParameterString("videoPublisherID");
+        s.eVar28 = mdManager.getParameterString("videoPlayType");
+        s.eVar29 = mdManager.getParameterString("videoNLVID");
+        s.eVar30 = mdManager.getParameterString("videoSCRID");
+        s.eVar31 = mdManager.getParameterString("videoCMSID");
+        s.eVar33 = mdManager.getParameterString("videoRunTime");
+        s.eVar34 = mdManager.getParameterString("videoScreenType");
+        s.eVar35 = mdManager.getParameterString("videoSponsor");
+
+        videoEvents = mdManager.getParameterString("videoEvents");
+        if (videoEvents.length > 0) {
+            s.contextData["VideoEvent"] = videoEvents;
+        }
+        sendRequest();
+        //clear videoEvent array and context variable
+        if (videoEvents.length > 0) {
+            mdManager.setParameter("videoEvents", "");
+            s.contextData['VideoEvent'] = "";
+        }
+    }
+
+    if ((media.event == "CLOSE") && (media.eventFirstTime)) {
+        s.Media.trackEvents = "event3,event4,event5,event6,event7,event8,event9,event50,event53,event87,event88";
+        s.eVar21 = mdManager.getParameterString("videoPlayerType");
+        s.eVar23 = mdManager.getParameterString("showTitle");
+        s.eVar24 = mdManager.getParameterString("videoPlayerName");
+        s.eVar25 = mdManager.getParameterString("videoChannelName");
+        s.eVar27 = mdManager.getParameterString("videoPublisherID");
+        s.eVar28 = mdManager.getParameterString("videoPlayType");
+        s.eVar29 = mdManager.getParameterString("videoNLVID");
+        s.eVar30 = mdManager.getParameterString("videoSCRID");
+        s.eVar31 = mdManager.getParameterString("videoCMSID");
+        s.eVar33 = mdManager.getParameterString("videoRunTime");
+        s.eVar34 = mdManager.getParameterString("videoScreenType");
+        s.eVar35 = mdManager.getParameterString("videoSponsor");
+
+        videoEvents = mdManager.getParameterString("videoEvents");
+        if (videoEvents.length > 0) {
+            s.contextData["VideoEvent"] = videoEvents;
+        }
+        sendRequest();
+        //clear videoEvent array and context variable
+        if (videoEvents.length > 0) {
+            mdManager.setParameter("videoEvents", "");
+            s.contextData['VideoEvent'] = "";
+        }
+        mdManager.setParameter("videoAdTitle", "");
+
+        //Nielsen Video Capture - on video content complete
+        var davImg = new Image();
+        var ScImgSrc;
+        var ScRandom = Math.ceil(Math.random() * 1000000000);
+        ScImgSrc = "http://secure-us.imrworldwide.com/cgi-bin/m?ci=us-200639";
+        //var enShowTitle = escape(vpw._videoMeta.showTitle);
+        //var enVideoTitle = escape(vpw._videoMeta.title);
+        var enShowTitle = mdManager.getParameterString("showTitle");
+        var enVideoTitle = mdManager.getParameterString("videoTitle");
+        if (enShowTitle != "") {
+            ScImgSrc += "&cg=" + enShowTitle;
+        } else {
+            ScImgSrc += "&cg=" + escape("No Show Title");
+        }
+        ScImgSrc += "&tl=dav2-" + enVideoTitle;
+        //ScImgSrc += '&c3=st,a' + escape('StreamType');  //Use only if the video stream is an advertisement
+        ScImgSrc += "&c6=vc,c16"; //VideoCensus ID - specified by Nielsen - varies per entity           
+        ScImgSrc += "&cc=1"; //Cookie Check (Always on)
+        ScImgSrc += "&rnd=" + ScRandom;
+        davImg = "";
+        davImg = new Image();
+        davImg.src = ScImgSrc;
+        //*****
+    }
+
+    if ((media.event == "OPENAD") && (media.eventFirstTime)) {
+        s.Media.trackEvents = "event3,event4,event5,event6,event7,event8,event9,event50,event53,event87,event88";
+        s.eVar21 = mdManager.getParameterString("videoPlayerType");
+        s.eVar23 = mdManager.getParameterString("showTitle");
+        s.eVar24 = mdManager.getParameterString("videoPlayerName");
+        s.eVar25 = mdManager.getParameterString("videoChannelName");
+        s.eVar27 = mdManager.getParameterString("videoPublisherID");
+        s.eVar28 = mdManager.getParameterString("videoPlayType");
+        s.eVar29 = mdManager.getParameterString("videoNLVID");
+        s.eVar30 = mdManager.getParameterString("videoSCRID");
+        s.eVar31 = mdManager.getParameterString("videoCMSID");
+        s.eVar33 = mdManager.getParameterString("videoRunTime");
+        s.eVar34 = mdManager.getParameterString("videoScreenType");
+        s.eVar35 = mdManager.getParameterString("videoSponsor");
+        sendRequest();
+
+        videoEvents = mdManager.getParameterString("videoEvents");
+        if (videoEvents.length > 0) {
+            s.contextData["VideoEvent"] = videoEvents;
+        }
+        //clear videoEvent array and context variable
+        if (videoEvents.length > 0) {
+            mdManager.setParameter("videoEvents", "");
+            s.contextData['VideoEvent'] = "";
+        }
+
+    }
+
+    function sendRequest() {
+        if (!(omnitureCallFired && omnitureCallFired[mdManager.getParameterString("videoNLVID")])) {
+            omnitureCallFired[mdManager.getParameterString("videoNLVID")] = true;
+            s.events = s.apl(s.events, "event80", ",", 2);
+        }
+
+        s.Media.track(media.name);
+        s.events = "";
+    }
+}
+
+
+/*
+ ============== AppMeasurement_Module_Media DO NOT ALTER  ===============
+ */
+function AppMeasurement_Module_Media(q) {
+    var b = this;
+    b.s = q;
+    q = window;
+    q.s_c_in || (q.s_c_il = [], q.s_c_in = 0);
+    b._il = q.s_c_il;
+    b._in = q.s_c_in;
+    b._il[b._in] = b;
+    q.s_c_in++;
+    b._c = "s_m";
+    b.list = [];
+    b.open = function (d, c, e, k) {
+        var f = {},
+            a = new Date,
+            l = "",
+            g;
+        c || (c = -1);
+        if (d && e) {
+            b.list || (b.list = {});
+            b.list[d] && b.close(d);
+            k && k.id && (l = k.id);
+            if (l)
+                for (g in b.list) !Object.prototype[g] && b.list[g] && b.list[g].R == l && b.close(b.list[g].name);
+            f.name = d;
+            f.length = c;
+            f.offset = 0;
+            f.e = 0;
+            f.playerName = b.playerName ? b.playerName : e;
+            f.R = l;
+            f.C = 0;
+            f.a = 0;
+            f.timestamp =
+                Math.floor(a.getTime() / 1E3);
+            f.k = 0;
+            f.u = f.timestamp;
+            f.c = -1;
+            f.n = "";
+            f.g = -1;
+            f.D = 0;
+            f.I = {};
+            f.G = 0;
+            f.m = 0;
+            f.f = "";
+            f.B = 0;
+            f.L = 0;
+            f.A = 0;
+            f.F = 0;
+            f.l = !1;
+            f.v = "";
+            f.J = "";
+            f.K = 0;
+            f.r = !1;
+            f.H = "";
+            f.complete = 0;
+            f.Q = 0;
+            f.p = 0;
+            f.q = 0;
+            b.list[d] = f
+        }
+    };
+    b.openAd = function (d, c, e, k, f, a, l, g) {
+        var h = {};
+        b.open(d, c, e, g);
+        if (h = b.list[d]) h.l = !0, h.v = k, h.J = f, h.K = a, h.H = l
+    };
+    b.M = function (d) {
+        var c = b.list[d];
+        b.list[d] = 0;
+        c && c.monitor && clearTimeout(c.monitor.interval)
+    };
+    b.close = function (d) {
+        b.i(d, 0, -1)
+    };
+    b.play = function (d, c, e, k) {
+        var f = b.i(d, 1, c, e, k);
+        f && !f.monitor &&
+            (f.monitor = {}, f.monitor.update = function () {
+                1 == f.k && b.i(f.name, 3, -1);
+                f.monitor.interval = setTimeout(f.monitor.update, 1E3)
+            }, f.monitor.update())
+    };
+    b.click = function (d, c) {
+        b.i(d, 7, c)
+    };
+    b.complete = function (d, c) {
+        b.i(d, 5, c)
+    };
+    b.stop = function (d, c) {
+        b.i(d, 2, c)
+    };
+    b.track = function (d) {
+        b.i(d, 4, -1)
+    };
+    b.P = function (d, c) {
+        var e = "a.media.",
+            k = d.linkTrackVars,
+            f = d.linkTrackEvents,
+            a = "m_i",
+            l, g = d.contextData,
+            h;
+        c.l && (e += "ad.", c.v && (g["a.media.name"] = c.v, g[e + "pod"] = c.J, g[e + "podPosition"] = c.K), c.G || (g[e + "CPM"] = c.H));
+        c.r && (g[e + "clicked"] = !0, c.r = !1);
+        g["a.contentType"] = "video" + (c.l ? "Ad" : "");
+        g["a.media.channel"] = b.channel;
+        g[e + "name"] = c.name;
+        g[e + "playerName"] = c.playerName;
+        0 < c.length && (g[e + "length"] = c.length);
+        g[e + "timePlayed"] = Math.floor(c.a);
+        0 < Math.floor(c.a) && (g[e + "timePlayed"] = Math.floor(c.a));
+        c.G || (g[e + "view"] = !0, a = "m_s", b.Heartbeat && b.Heartbeat.enabled && (a = c.l ? b.__primetime ? "mspa_s" : "msa_s" : b.__primetime ? "msp_s" : "ms_s"), c.G = 1);
+        c.f && (g[e + "segmentNum"] = c.m, g[e + "segment"] = c.f, 0 < c.B && (g[e + "segmentLength"] = c.B), c.A && 0 < c.a && (g[e + "segmentView"] = !0));
+        !c.Q && c.complete && (g[e + "complete"] = !0, c.S = 1);
+        0 < c.p && (g[e + "milestone"] = c.p);
+        0 < c.q && (g[e + "offsetMilestone"] = c.q);
+        if (k)
+            for (h in g) Object.prototype[h] || (k += ",contextData." + h);
+        l = g["a.contentType"];
+        d.pe = a;
+        d.pev3 = l;
+        var q, s;
+        if (b.contextDataMapping)
+            for (h in d.events2 || (d.events2 = ""), k && (k += ",events"), b.contextDataMapping)
+                if (!Object.prototype[h]) {
+                    a = h.length > e.length && h.substring(0, e.length) == e ? h.substring(e.length) : "";
+                    l = b.contextDataMapping[h];
+                    if ("string" == typeof l)
+                        for (q = l.split(","), s = 0; s < q.length; s++) l =
+                            q[s], "a.contentType" == h ? (k && (k += "," + l), d[l] = g[h]) : "view" == a || "segmentView" == a || "clicked" == a || "complete" == a || "timePlayed" == a || "CPM" == a ? (f && (f += "," + l), "timePlayed" == a || "CPM" == a ? g[h] && (d.events2 += (d.events2 ? "," : "") + l + "=" + g[h]) : g[h] && (d.events2 += (d.events2 ? "," : "") + l)) : "segment" == a && g[h + "Num"] ? (k && (k += "," + l), d[l] = g[h + "Num"] + ":" + g[h]) : (k && (k += "," + l), d[l] = g[h]);
+                    else if ("milestones" == a || "offsetMilestones" == a) h = h.substring(0, h.length - 1), g[h] && b.contextDataMapping[h + "s"][g[h]] && (f && (f += "," + b.contextDataMapping[h +
+                        "s"][g[h]]), d.events2 += (d.events2 ? "," : "") + b.contextDataMapping[h + "s"][g[h]]);
+                    g[h] && (g[h] = 0);
+                    "segment" == a && g[h + "Num"] && (g[h + "Num"] = 0)
+                }
+        d.linkTrackVars = k;
+        d.linkTrackEvents = f
+    };
+    b.i = function (d, c, e, k, f) {
+        var a = {},
+            l = (new Date).getTime() / 1E3,
+            g, h, q = b.trackVars,
+            s = b.trackEvents,
+            t = b.trackSeconds,
+            u = b.trackMilestones,
+            v = b.trackOffsetMilestones,
+            w = b.segmentByMilestones,
+            x = b.segmentByOffsetMilestones,
+            p, n, r = 1,
+            m = {},
+            y;
+        b.channel || (b.channel = b.s.w.location.hostname);
+        if (a = d && b.list && b.list[d] ? b.list[d] : 0)
+            if (a.l && (t = b.adTrackSeconds,
+                    u = b.adTrackMilestones, v = b.adTrackOffsetMilestones, w = b.adSegmentByMilestones, x = b.adSegmentByOffsetMilestones), 0 > e && (e = 1 == a.k && 0 < a.u ? l - a.u + a.c : a.c), 0 < a.length && (e = e < a.length ? e : a.length), 0 > e && (e = 0), a.offset = e, 0 < a.length && (a.e = a.offset / a.length * 100, a.e = 100 < a.e ? 100 : a.e), 0 > a.c && (a.c = e), y = a.D, m.name = d, m.ad = a.l, m.length = a.length, m.openTime = new Date, m.openTime.setTime(1E3 * a.timestamp), m.offset = a.offset, m.percent = a.e, m.playerName = a.playerName, m.mediaEvent = 0 > a.g ? "OPEN" : 1 == c ? "PLAY" : 2 == c ? "STOP" : 3 == c ? "MONITOR" :
+                4 == c ? "TRACK" : 5 == c ? "COMPLETE" : 7 == c ? "CLICK" : "CLOSE", 2 < c || c != a.k && (2 != c || 1 == a.k)) {
+                f || (k = a.m, f = a.f);
+                if (c) {
+                    1 == c && (a.c = e);
+                    if ((3 >= c || 5 <= c) && 0 <= a.g && (r = !1, q = s = "None", a.g != e)) {
+                        h = a.g;
+                        h > e && (h = a.c, h > e && (h = e));
+                        p = u ? u.split(",") : 0;
+                        if (0 < a.length && p && e >= h)
+                            for (n = 0; n < p.length; n++)(g = p[n] ? parseFloat("" + p[n]) : 0) && h / a.length * 100 < g && a.e >= g && (r = !0, n = p.length, m.mediaEvent = "MILESTONE", a.p = m.milestone = g);
+                        if ((p = v ? v.split(",") : 0) && e >= h)
+                            for (n = 0; n < p.length; n++)(g = p[n] ? parseFloat("" + p[n]) : 0) && h < g && e >= g && (r = !0, n = p.length, m.mediaEvent =
+                                "OFFSET_MILESTONE", a.q = m.offsetMilestone = g)
+                    }
+                    if (a.L || !f) {
+                        if (w && u && 0 < a.length) {
+                            if (p = u.split(","))
+                                for (p.push("100"), n = h = 0; n < p.length; n++)
+                                    if (g = p[n] ? parseFloat("" + p[n]) : 0) a.e < g && (k = n + 1, f = "M:" + h + "-" + g, n = p.length), h = g
+                        } else if (x && v && (p = v.split(",")))
+                            for (p.push("" + (0 < a.length ? a.length : "E")), n = h = 0; n < p.length; n++)
+                                if ((g = p[n] ? parseFloat("" + p[n]) : 0) || "E" == p[n]) {
+                                    if (e < g || "E" == p[n]) k = n + 1, f = "O:" + h + "-" + g, n = p.length;
+                                    h = g
+                                }
+                        f && (a.L = !0)
+                    }(f || a.f) && f != a.f && (a.F = !0, a.f || (a.m = k, a.f = f), 0 <= a.g && (r = !0));
+                    (2 <= c || 100 <= a.e) && a.c < e &&
+                        (a.C += e - a.c, a.a += e - a.c);
+                    if (2 >= c || 3 == c && !a.k) a.n += (1 == c || 3 == c ? "S" : "E") + Math.floor(e), a.k = 3 == c ? 1 : c;
+                    !r && 0 <= a.g && 3 >= c && (t = t ? t : 0) && a.a >= t && (r = !0, m.mediaEvent = "SECONDS");
+                    a.u = l;
+                    a.c = e
+                }
+                if (!c || 3 >= c && 100 <= a.e) 2 != a.k && (a.n += "E" + Math.floor(e)), c = 0, q = s = "None", m.mediaEvent = "CLOSE";
+                7 == c && (r = m.clicked = a.r = !0);
+                if (5 == c || b.completeByCloseOffset && (!c || 100 <= a.e) && 0 < a.length && e >= a.length - b.completeCloseOffsetThreshold) r = m.complete = a.complete = !0;
+                l = m.mediaEvent;
+                "MILESTONE" == l ? l += "_" + m.milestone : "OFFSET_MILESTONE" == l && (l +=
+                    "_" + m.offsetMilestone);
+                a.I[l] ? m.eventFirstTime = !1 : (m.eventFirstTime = !0, a.I[l] = 1);
+                m.event = m.mediaEvent;
+                m.timePlayed = a.C;
+                m.segmentNum = a.m;
+                m.segment = a.f;
+                m.segmentLength = a.B;
+                b.monitor && 4 != c && b.monitor(b.s, m);
+                b.Heartbeat && b.Heartbeat.enabled && 0 <= a.g && (r = !1);
+                0 == c && b.M(d);
+                r && a.D == y && (d = {
+                    contextData: {}
+                }, d.linkTrackVars = q, d.linkTrackEvents = s, d.linkTrackVars || (d.linkTrackVars = ""), d.linkTrackEvents || (d.linkTrackEvents = ""), b.P(d, a), d.linkTrackVars || (d["!linkTrackVars"] = 1), d.linkTrackEvents || (d["!linkTrackEvents"] =
+                    1), b.s.track(d), a.F ? (a.m = k, a.f = f, a.A = !0, a.F = !1) : 0 < a.a && (a.A = !1), a.n = "", a.p = a.q = 0, a.a -= Math.floor(a.a), a.g = e, a.D++)
+            }
+        return a
+    };
+    b.O = function (d, c, e, k, f) {
+        var a = 0;
+        if (d && (!b.autoTrackMediaLengthRequired || c && 0 < c)) {
+            if (b.list && b.list[d]) a = 1;
+            else if (1 == e || 3 == e) b.open(d, c, "HTML5 Video", f), a = 1;
+            a && b.i(d, e, k, -1, 0)
+        }
+    };
+    b.attach = function (d) {
+        var c, e, k;
+        d && d.tagName && "VIDEO" == d.tagName.toUpperCase() && (b.o || (b.o = function (c, a, d) {
+            var e, h;
+            b.autoTrack && (e = c.currentSrc, (h = c.duration) || (h = -1), 0 > d && (d = c.currentTime), b.O(e, h, a,
+                d, c))
+        }), c = function () {
+            b.o(d, 1, -1)
+        }, e = function () {
+            b.o(d, 1, -1)
+        }, b.j(d, "play", c), b.j(d, "pause", e), b.j(d, "seeking", e), b.j(d, "seeked", c), b.j(d, "ended", function () {
+            b.o(d, 0, -1)
+        }), b.j(d, "timeupdate", c), k = function () {
+            d.paused || d.ended || d.seeking || b.o(d, 3, -1);
+            setTimeout(k, 1E3)
+        }, k())
+    };
+    b.j = function (b, c, e) {
+        b.attachEvent ? b.attachEvent("on" + c, e) : b.addEventListener && b.addEventListener(c, e, !1)
+    };
+    void 0 == b.completeByCloseOffset && (b.completeByCloseOffset = 1);
+    void 0 == b.completeCloseOffsetThreshold && (b.completeCloseOffsetThreshold =
+        1);
+    b.Heartbeat = {};
+    b.N = function () {
+        var d, c;
+        if (b.autoTrack && (d = b.s.d.getElementsByTagName("VIDEO")))
+            for (c = 0; c < d.length; c++) b.attach(d[c])
+    };
+    b.j(q, "load", b.N)
+}
+
+
+/*
+ ============== AppMeasurement_Module_Integrate DO NOT ALTER  ===============
+ */
+function AppMeasurement_Module_Integrate(l) {
+    var c = this;
+    c.s = l;
+    var e = window;
+    e.s_c_in || (e.s_c_il = [], e.s_c_in = 0);
+    c._il = e.s_c_il;
+    c._in = e.s_c_in;
+    c._il[c._in] = c;
+    e.s_c_in++;
+    c._c = "s_m";
+    c.list = [];
+    c.add = function (d, b) {
+        var a;
+        b || (b = "s_Integrate_" + d);
+        e[b] || (e[b] = {});
+        a = c[d] = e[b];
+        a.a = d;
+        a.e = c;
+        a._c = 0;
+        a._d = 0;
+        void 0 == a.disable && (a.disable = 0);
+        a.get = function (b, d) {
+            var f = document,
+                h = f.getElementsByTagName("HEAD"),
+                k;
+            if (!a.disable && (d || (v = "s_" + c._in + "_Integrate_" + a.a + "_get_" + a._c), a._c++, a.VAR = v, a.CALLBACK = "s_c_il[" + c._in + "]." +
+                    a.a + ".callback", a.delay(), h = h && 0 < h.length ? h[0] : f.body)) try {
+                k = f.createElement("SCRIPT"), k.type = "text/javascript", k.setAttribute("async", "async"), k.src = c.c(a, b), 0 > b.indexOf("[CALLBACK]") && (k.onload = k.onreadystatechange = function () {
+                    a.callback(e[v])
+                }), h.firstChild ? h.insertBefore(k, h.firstChild) : h.appendChild(k)
+            } catch (l) {}
+        };
+        a.callback = function (b) {
+            var c;
+            if (b)
+                for (c in b) Object.prototype[c] || (a[c] = b[c]);
+            a.ready()
+        };
+        a.beacon = function (b) {
+            var d = "s_i_" + c._in + "_Integrate_" + a.a + "_" + a._c;
+            a.disable || (a._c++, d = e[d] =
+                new Image, d.src = c.c(a, b))
+        };
+        a.script = function (b) {
+            a.get(b, 1)
+        };
+        a.delay = function () {
+            a._d++
+        };
+        a.ready = function () {
+            a._d--;
+            a.disable || l.delayReady()
+        };
+        c.list.push(d)
+    };
+    c._g = function (d) {
+        var b, a = (d ? "use" : "set") + "Vars";
+        for (d = 0; d < c.list.length; d++)
+            if ((b = c[c.list[d]]) && !b.disable && b[a]) try {
+                b[a](l, b)
+            } catch (e) {}
+    };
+    c._t = function () {
+        c._g(1)
+    };
+    c._d = function () {
+        var d, b;
+        for (d = 0; d < c.list.length; d++)
+            if ((b = c[c.list[d]]) && !b.disable && 0 < b._d) return 1;
+        return 0
+    };
+    c.c = function (c, b) {
+        var a, e, g, f;
+        "http" != b.toLowerCase().substring(0, 4) &&
+            (b = "http://" + b);
+        l.ssl && (b = l.replace(b, "http:", "https:"));
+        c.RAND = Math.floor(1E13 * Math.random());
+        for (a = 0; 0 <= a;) a = b.indexOf("[", a), 0 <= a && (e = b.indexOf("]", a), e > a && (g = b.substring(a + 1, e), 2 < g.length && "s." == g.substring(0, 2) ? (f = l[g.substring(2)]) || (f = "") : (f = "" + c[g], f != c[g] && parseFloat(f) != c[g] && (g = 0)), g && (b = b.substring(0, a) + encodeURIComponent(f) + b.substring(e + 1)), a = e));
+        return b
+    }
+}
+
+
+
+
+//Load the Audience Management module
+s.loadModule("AudienceManagement");
+
+function AppMeasurement_Module_AudienceManagement(d) {
+    var a = this;
+    a.s = d;
+    var b = window;
+    b.s_c_in || (b.s_c_il = [], b.s_c_in = 0);
+    a._il = b.s_c_il;
+    a._in = b.s_c_in;
+    a._il[a._in] = a;
+    b.s_c_in++;
+    a._c = "s_m";
+    a.setup = function (c) {
+        b.DIL && c && (c.disableDefaultRequest = !0, c.disableScriptAttachment = !0, c.disableCORS = !0, c.secureDataCollection = !1, a.instance = b.DIL.create(c), a.tools = b.DIL.tools)
+    };
+    a.isReady = function () {
+        return a.instance ? !0 : !1
+    };
+    a.getEventCallConfigParams = function () {
+        return a.instance && a.instance.api && a.instance.api.getEventCallConfigParams ?
+            a.instance.api.getEventCallConfigParams() : {}
+    };
+    a.passData = function (b) {
+        a.instance && a.instance.api && a.instance.api.passData && a.instance.api.passData(b)
+    }
+}
+"function" !== typeof window.DIL && (window.DIL = function (a, c) {
+    var e = [],
+        d, g;
+    a !== Object(a) && (a = {});
+    var h, l, t, v, p, n, w, E, r, A, L, B, C, F;
+    h = a.partner;
+    l = a.containerNSID;
+    t = !!a.disableDestinationPublishingIframe;
+    v = a.iframeAkamaiHTTPS;
+    p = a.mappings;
+    n = a.uuidCookie;
+    w = !0 === a.enableErrorReporting;
+    E = a.visitorService;
+    r = a.declaredId;
+    A = !0 === a.removeFinishedScriptsAndCallbacks;
+    L = !0 === a.delayAllUntilWindowLoad;
+    B = !0 === a.disableIDSyncs;
+    C = "undefined" === typeof a.secureDataCollection || !0 === a.secureDataCollection;
+    F = !0 === a.useCORSOnly;
+    var M, N, I, G, O, P, Q, R;
+    M = !0 === a.disableScriptAttachment;
+    N = !0 === a.disableDefaultRequest;
+    I = a.afterResultForDefaultRequest;
+    G = a.dpIframeSrc;
+    O = !0 === a.testCORS;
+    P = !0 === a.useJSONPOnly;
+    Q = a.visitorConstructor;
+    R = !0 === a.disableCORS;
+    w && DIL.errorModule.activate();
+    var T = !0 === window._dil_unit_tests;
+    (d = c) && e.push(d + "");
+    if (!h || "string" !== typeof h) return d = "DIL partner is invalid or not specified in initConfig", DIL.errorModule.handleError({
+        name: "error",
+        message: d,
+        filename: "dil.js"
+    }), Error(d);
+    d = "DIL containerNSID is invalid or not specified in initConfig, setting to default of 0";
+    if (l || "number" === typeof l) l = parseInt(l, 10), !isNaN(l) && 0 <= l && (d = "");
+    d && (l = 0, e.push(d), d = "");
+    g = DIL.getDil(h, l);
+    if (g instanceof DIL && g.api.getPartner() === h && g.api.getContainerNSID() === l) return g;
+    if (this instanceof DIL) DIL.registerDil(this, h, l);
+    else return new DIL(a, "DIL was not instantiated with the 'new' operator, returning a valid instance with partner = " + h + " and containerNSID = " + l);
+    var y = {
+            IS_HTTPS: C || "https:" === document.location.protocol,
+            POST_MESSAGE_ENABLED: !!window.postMessage,
+            COOKIE_MAX_EXPIRATION_DATE: "Tue, 19 Jan 2038 03:14:07 UTC",
+            MILLIS_PER_DAY: 864E5,
+            DIL_COOKIE_NAME: "AAMC_" + encodeURIComponent(h) + "_" + l,
+            FIRST_PARTY_SYNCS: "AMSYNCS",
+            FIRST_PARTY_SYNCS_ON_PAGE: "AMSYNCSOP"
+        },
+        J = {
+            stuffed: {}
+        },
+        s = {},
+        q = {
+            firingQueue: [],
+            fired: [],
+            firing: !1,
+            sent: [],
+            errored: [],
+            reservedKeys: {
+                sids: !0,
+                pdata: !0,
+                logdata: !0,
+                callback: !0,
+                postCallbackFn: !0,
+                useImageRequest: !0
+            },
+            callbackPrefix: "demdexRequestCallback",
+            firstRequestHasFired: !1,
+            useJSONP: !0,
+            abortRequests: !1,
+            num_of_jsonp_responses: 0,
+            num_of_jsonp_errors: 0,
+            num_of_cors_responses: 0,
+            num_of_cors_errors: 0,
+            corsErrorSources: [],
+            num_of_img_responses: 0,
+            num_of_img_errors: 0,
+            toRemove: [],
+            removed: [],
+            readyToRemove: !1,
+            platformParams: {
+                d_nsid: l + "",
+                d_rtbd: "json",
+                d_jsonv: DIL.jsonVersion + "",
+                d_dst: "1"
+            },
+            nonModStatsParams: {
+                d_rtbd: !0,
+                d_dst: !0,
+                d_cts: !0,
+                d_rs: !0
+            },
+            modStatsParams: null,
+            adms: {
+                TIME_TO_CATCH_ALL_REQUESTS_RELEASE: 2E3,
+                calledBack: !1,
+                mid: null,
+                noVisitorAPI: !1,
+                VisitorAPI: null,
+                instance: null,
+                releaseType: "no VisitorAPI",
+                isOptedOut: !0,
+                isOptedOutCallbackCalled: !1,
+                admsProcessingStarted: !1,
+                process: function (b) {
+                    try {
+                        if (!this.admsProcessingStarted) {
+                            this.admsProcessingStarted = !0;
+                            var k = this,
+                                m, f, a, d;
+                            if ("function" === typeof b && "function" === typeof b.getInstance) {
+                                if (E === Object(E) && (m = E.namespace) && "string" === typeof m) f = b.getInstance(m, {
+                                    idSyncContainerID: l
+                                });
+                                else {
+                                    this.releaseType = "no namespace";
+                                    this.releaseRequests();
+                                    return
+                                }
+                                if (f === Object(f) && f instanceof b && "function" === typeof f.isAllowed && "function" === typeof f.getMarketingCloudVisitorID && "function" === typeof f.getCustomerIDs && "function" === typeof f.isOptedOut) {
+                                    this.VisitorAPI = b;
+                                    if (!f.isAllowed()) {
+                                        this.releaseType = "VisitorAPI not allowed";
+                                        this.releaseRequests();
+                                        return
+                                    }
+                                    this.instance = f;
+                                    a = function (b) {
+                                        "VisitorAPI" !== k.releaseType && (k.mid = b, k.releaseType = "VisitorAPI", k.releaseRequests())
+                                    };
+                                    d = f.getMarketingCloudVisitorID(a);
+                                    if ("string" === typeof d && d.length) {
+                                        a(d);
+                                        return
+                                    }
+                                    setTimeout(function () {
+                                        "VisitorAPI" !== k.releaseType && (k.releaseType = "timeout", k.releaseRequests())
+                                    }, this.getLoadTimeout());
+                                    return
+                                }
+                                this.releaseType = "invalid instance"
+                            } else this.noVisitorAPI = !0;
+                            this.releaseRequests()
+                        }
+                    } catch (e) {
+                        this.releaseRequests()
+                    }
+                },
+                releaseRequests: function () {
+                    this.calledBack = !0;
+                    q.registerRequest()
+                },
+                getMarketingCloudVisitorID: function () {
+                    return this.instance ? this.instance.getMarketingCloudVisitorID() : null
+                },
+                getMIDQueryString: function () {
+                    var b = x.isPopulatedString,
+                        k = this.getMarketingCloudVisitorID();
+                    b(this.mid) && this.mid === k || (this.mid = k);
+                    return b(this.mid) ? "d_mid=" + this.mid + "&" : ""
+                },
+                getCustomerIDs: function () {
+                    return this.instance ? this.instance.getCustomerIDs() : null
+                },
+                getCustomerIDsQueryString: function (b) {
+                    if (b === Object(b)) {
+                        var k = "",
+                            m = [],
+                            f = [],
+                            a, d;
+                        for (a in b) b.hasOwnProperty(a) &&
+                            (f[0] = a, d = b[a], d === Object(d) && (f[1] = d.id || "", f[2] = d.authState || 0, m.push(f), f = []));
+                        if (f = m.length)
+                            for (b = 0; b < f; b++) k += "&d_cid_ic=" + u.encodeAndBuildRequest(m[b], "%01");
+                        return k
+                    }
+                    return ""
+                },
+                getIsOptedOut: function () {
+                    this.instance ? this.instance.isOptedOut([this, this.isOptedOutCallback], this.VisitorAPI.OptOut.GLOBAL, !0) : (this.isOptedOut = !1, this.isOptedOutCallbackCalled = !0)
+                },
+                isOptedOutCallback: function (b) {
+                    this.isOptedOut = b;
+                    this.isOptedOutCallbackCalled = !0;
+                    q.registerRequest()
+                },
+                getLoadTimeout: function () {
+                    var b =
+                        this.instance;
+                    if (b) {
+                        if ("function" === typeof b.getLoadTimeout) return b.getLoadTimeout();
+                        if ("undefined" !== typeof b.loadTimeout) return b.loadTimeout
+                    }
+                    return this.TIME_TO_CATCH_ALL_REQUESTS_RELEASE
+                }
+            },
+            declaredId: {
+                declaredId: {
+                    init: null,
+                    request: null
+                },
+                declaredIdCombos: {},
+                setDeclaredId: function (b, k) {
+                    var m = x.isPopulatedString,
+                        f = encodeURIComponent;
+                    if (b === Object(b) && m(k)) {
+                        var a = b.dpid,
+                            d = b.dpuuid,
+                            e = null;
+                        if (m(a) && m(d)) {
+                            e = f(a) + "$" + f(d);
+                            if (!0 === this.declaredIdCombos[e]) return "setDeclaredId: combo exists for type '" +
+                                k + "'";
+                            this.declaredIdCombos[e] = !0;
+                            this.declaredId[k] = {
+                                dpid: a,
+                                dpuuid: d
+                            };
+                            return "setDeclaredId: succeeded for type '" + k + "'"
+                        }
+                    }
+                    return "setDeclaredId: failed for type '" + k + "'"
+                },
+                getDeclaredIdQueryString: function () {
+                    var b = this.declaredId.request,
+                        k = this.declaredId.init,
+                        m = encodeURIComponent,
+                        f = "";
+                    null !== b ? f = "&d_dpid=" + m(b.dpid) + "&d_dpuuid=" + m(b.dpuuid) : null !== k && (f = "&d_dpid=" + m(k.dpid) + "&d_dpuuid=" + m(k.dpuuid));
+                    return f
+                }
+            },
+            registerRequest: function (b) {
+                var k = this.firingQueue;
+                b === Object(b) && k.push(b);
+                this.firing ||
+                    !k.length || L && !DIL.windowLoaded || (this.adms.isOptedOutCallbackCalled || this.adms.getIsOptedOut(), this.adms.calledBack && !this.adms.isOptedOut && this.adms.isOptedOutCallbackCalled && (this.adms.isOptedOutCallbackCalled = !1, b = k.shift(), b.src = b.src.replace(/demdex.net\/event\?d_nsid=/, "demdex.net/event?" + this.adms.getMIDQueryString() + "d_nsid="), x.isPopulatedString(b.corsPostData) && (b.corsPostData = b.corsPostData.replace(/^d_nsid=/, this.adms.getMIDQueryString() + "d_nsid=")), D.fireRequest(b), this.firstRequestHasFired ||
+                        "script" !== b.tag && "cors" !== b.tag || (this.firstRequestHasFired = !0)))
+            },
+            processVisitorAPI: function () {
+                this.adms.process(Q || window.Visitor)
+            },
+            requestRemoval: function (b) {
+                if (!A) return "removeFinishedScriptsAndCallbacks is not boolean true";
+                var k = this.toRemove,
+                    m, f;
+                b === Object(b) && (m = b.script, f = b.callbackName, (m === Object(m) && "SCRIPT" === m.nodeName || "no script created" === m) && "string" === typeof f && f.length && k.push(b));
+                if (this.readyToRemove && k.length) {
+                    f = k.shift();
+                    m = f.script;
+                    f = f.callbackName;
+                    "no script created" !== m ?
+                        (b = m.src, m.parentNode.removeChild(m)) : b = m;
+                    window[f] = null;
+                    try {
+                        delete window[f]
+                    } catch (a) {}
+                    this.removed.push({
+                        scriptSrc: b,
+                        callbackName: f
+                    });
+                    DIL.variables.scriptsRemoved.push(b);
+                    DIL.variables.callbacksRemoved.push(f);
+                    return this.requestRemoval()
+                }
+                return "requestRemoval() processed"
+            }
+        };
+    g = function () {
+        var b = "http://fast.",
+            k = "?d_nsid=" + l + "#" + encodeURIComponent(document.location.href);
+        if ("string" === typeof G && G.length) return G + k;
+        y.IS_HTTPS && (b = !0 === v ? "https://fast." : "https://");
+        return b + h + ".demdex.net/dest5.html" +
+            k
+    };
+    var z = {
+            THROTTLE_START: 3E4,
+            MAX_SYNCS_LENGTH: 649,
+            throttleTimerSet: !1,
+            id: "destination_publishing_iframe_" + h + "_" + l,
+            url: g(),
+            onPagePixels: [],
+            iframeHost: null,
+            getIframeHost: function (b) {
+                if ("string" === typeof b) {
+                    var k = b.split("/");
+                    if (3 <= k.length) return k[0] + "//" + k[2];
+                    e.push("getIframeHost: url is malformed: " + b);
+                    return b
+                }
+            },
+            iframe: null,
+            iframeHasLoaded: !1,
+            sendingMessages: !1,
+            messages: [],
+            messagesPosted: [],
+            messagesReceived: [],
+            messageSendingInterval: y.POST_MESSAGE_ENABLED ? 15 : 100,
+            ibsDeleted: [],
+            jsonWaiting: [],
+            jsonProcessed: [],
+            canSetThirdPartyCookies: !0,
+            receivedThirdPartyCookiesNotification: !1,
+            newIframeCreated: null,
+            iframeIdChanged: !1,
+            originalIframeHasLoadedAlready: null,
+            attachIframe: function () {
+                function b() {
+                    f = document.createElement("iframe");
+                    f.sandbox = "allow-scripts allow-same-origin";
+                    f.title = "Adobe ID Syncing iFrame";
+                    f.id = m.id;
+                    f.style.cssText = "display: none; width: 0; height: 0;";
+                    f.src = m.url;
+                    m.newIframeCreated = !0;
+                    k();
+                    document.body.appendChild(f)
+                }
+
+                function k() {
+                    u.addListener(f, "load", function () {
+                        f.className = "aamIframeLoaded";
+                        m.iframeHasLoaded = !0;
+                        m.requestToProcess()
+                    })
+                }
+                var m = this,
+                    f = document.getElementById(this.id);
+                f ? "IFRAME" !== f.nodeName ? (this.id += "_2", this.iframeIdChanged = !0, b()) : (this.newIframeCreated = !1, "aamIframeLoaded" !== f.className ? (this.originalIframeHasLoadedAlready = !1, k()) : (this.iframeHasLoaded = this.originalIframeHasLoadedAlready = !0, this.iframe = f, this.requestToProcess())) : b();
+                this.iframe = f
+            },
+            requestToProcess: function (b, k) {
+                var m = this;
+                b && !x.isEmptyObject(b) && this.jsonWaiting.push([b, k]);
+                if ((this.receivedThirdPartyCookiesNotification ||
+                        !y.POST_MESSAGE_ENABLED || this.iframeHasLoaded) && this.jsonWaiting.length) {
+                    var f = this.jsonWaiting.shift();
+                    this.process(f[0], f[1]);
+                    this.requestToProcess()
+                }
+                this.iframeHasLoaded && this.messages.length && !this.sendingMessages && (this.throttleTimerSet || (this.throttleTimerSet = !0, setTimeout(function () {
+                    m.messageSendingInterval = y.POST_MESSAGE_ENABLED ? 15 : 150
+                }, this.THROTTLE_START)), this.sendingMessages = !0, this.sendMessages())
+            },
+            processSyncOnPage: function (b) {
+                var k, m, f;
+                if ((k = b.ibs) && k instanceof Array && (m = k.length))
+                    for (b =
+                        0; b < m; b++) f = k[b], f.syncOnPage && this.checkFirstPartyCookie(f, "", "syncOnPage")
+            },
+            process: function (b, k) {
+                var m = encodeURIComponent,
+                    f, a, d, e, c, h;
+                k === Object(k) && (h = u.encodeAndBuildRequest(["", k.dpid || "", k.dpuuid || ""], ","));
+                if ((f = b.dests) && f instanceof Array && (a = f.length))
+                    for (d = 0; d < a; d++) e = f[d], c = [m("dests"), m(e.id || ""), m(e.y || ""), m(e.c || "")], this.addMessage(c.join("|"));
+                if ((f = b.ibs) && f instanceof Array && (a = f.length))
+                    for (d = 0; d < a; d++) e = f[d], c = [m("ibs"), m(e.id || ""), m(e.tag || ""), u.encodeAndBuildRequest(e.url || [], ","), m(e.ttl || ""), "", h, e.fireURLSync ? "true" : "false"], e.syncOnPage || (this.canSetThirdPartyCookies ? this.addMessage(c.join("|")) : e.fireURLSync && this.checkFirstPartyCookie(e, c.join("|")));
+                if ((f = b.dpcalls) && f instanceof Array && (a = f.length))
+                    for (d = 0; d < a; d++) e = f[d], c = e.callback || {}, c = [c.obj || "", c.fn || "", c.key || "", c.tag || "", c.url || ""], c = [m("dpm"), m(e.id || ""), m(e.tag || ""), u.encodeAndBuildRequest(e.url || [], ","), m(e.ttl || ""), u.encodeAndBuildRequest(c, ","), h], this.addMessage(c.join("|"));
+                this.jsonProcessed.push(b)
+            },
+            checkFirstPartyCookie: function (b, k, a) {
+                var f = (a = "syncOnPage" === a ? !0 : !1) ? y.FIRST_PARTY_SYNCS_ON_PAGE : y.FIRST_PARTY_SYNCS,
+                    d = this.getOnPageSyncData(f),
+                    e = !1,
+                    c = !1,
+                    h = Math.ceil((new Date).getTime() / y.MILLIS_PER_DAY);
+                d ? (d = d.split("*"), c = this.pruneSyncData(d, b.id, h), e = c.dataPresent, c = c.dataValid, e && c || this.fireSync(a, b, k, d, f, h)) : (d = [], this.fireSync(a, b, k, d, f, h))
+            },
+            getOnPageSyncData: function (b) {
+                var k = q.adms.instance;
+                return k && "function" === typeof k.idSyncGetOnPageSyncInfo ? k.idSyncGetOnPageSyncInfo() : u.getDilCookieField(b)
+            },
+            pruneSyncData: function (b, k, a) {
+                var f = !1,
+                    d = !1,
+                    e, c, h;
+                if (b instanceof Array)
+                    for (c = 0; c < b.length; c++) e = b[c], h = parseInt(e.split("-")[1], 10), e.match("^" + k + "-") ? (f = !0, a < h ? d = !0 : (b.splice(c, 1), c--)) : a >= h && (b.splice(c, 1), c--);
+                return {
+                    dataPresent: f,
+                    dataValid: d
+                }
+            },
+            manageSyncsSize: function (b) {
+                if (b.join("*").length > this.MAX_SYNCS_LENGTH)
+                    for (b.sort(function (b, a) {
+                            return parseInt(b.split("-")[1], 10) - parseInt(a.split("-")[1], 10)
+                        }); b.join("*").length > this.MAX_SYNCS_LENGTH;) b.shift()
+            },
+            fireSync: function (b, k, a, f, d, e) {
+                function c(b,
+                    k, a, f) {
+                    return function () {
+                        h.onPagePixels[b] = null;
+                        var m = h.getOnPageSyncData(a),
+                            d = [];
+                        if (m) {
+                            var m = m.split("*"),
+                                e, c, g;
+                            e = 0;
+                            for (c = m.length; e < c; e++) g = m[e], g.match("^" + k.id + "-") || d.push(g)
+                        }
+                        h.setSyncTrackingData(d, k, a, f)
+                    }
+                }
+                var h = this;
+                if (b) {
+                    if ("img" === k.tag) {
+                        b = k.url;
+                        a = y.IS_HTTPS ? "https:" : "http:";
+                        var g, l, n;
+                        f = 0;
+                        for (g = b.length; f < g; f++) {
+                            l = b[f];
+                            n = /^\/\//.test(l);
+                            var r = new Image;
+                            u.addListener(r, "load", c(this.onPagePixels.length, k, d, e));
+                            r.src = (n ? a : "") + l;
+                            this.onPagePixels.push(r)
+                        }
+                    }
+                } else this.addMessage(a), this.setSyncTrackingData(f,
+                    k, d, e)
+            },
+            addMessage: function (b) {
+                var k = encodeURIComponent,
+                    k = w ? k("---destpub-debug---") : k("---destpub---");
+                this.messages.push(k + b)
+            },
+            setSyncTrackingData: function (b, k, a, f) {
+                b.push(k.id + "-" + (f + Math.ceil(k.ttl / 60 / 24)));
+                this.manageSyncsSize(b);
+                u.setDilCookieField(a, b.join("*"))
+            },
+            sendMessages: function () {
+                var b = this,
+                    k;
+                this.messages.length ? (k = this.messages.shift(), DIL.xd.postMessage(k, this.url, this.iframe.contentWindow), this.messagesPosted.push(k), setTimeout(function () {
+                        b.sendMessages()
+                    }, this.messageSendingInterval)) :
+                    this.sendingMessages = !1
+            },
+            receiveMessage: function (b) {
+                var k = /^---destpub-to-parent---/;
+                "string" === typeof b && k.test(b) && (k = b.replace(k, "").split("|"), "canSetThirdPartyCookies" === k[0] && (this.canSetThirdPartyCookies = "true" === k[1] ? !0 : !1, this.receivedThirdPartyCookiesNotification = !0, this.requestToProcess()), this.messagesReceived.push(b))
+            }
+        },
+        K = {
+            traits: function (b) {
+                x.isValidPdata(b) && (s.sids instanceof Array || (s.sids = []), u.extendArray(s.sids, b));
+                return this
+            },
+            pixels: function (b) {
+                x.isValidPdata(b) && (s.pdata instanceof Array || (s.pdata = []), u.extendArray(s.pdata, b));
+                return this
+            },
+            logs: function (b) {
+                x.isValidLogdata(b) && (s.logdata !== Object(s.logdata) && (s.logdata = {}), u.extendObject(s.logdata, b));
+                return this
+            },
+            customQueryParams: function (b) {
+                x.isEmptyObject(b) || u.extendObject(s, b, q.reservedKeys);
+                return this
+            },
+            signals: function (b, k) {
+                var a, f = b;
+                if (!x.isEmptyObject(f)) {
+                    if (k && "string" === typeof k)
+                        for (a in f = {}, b) b.hasOwnProperty(a) && (f[k + a] = b[a]);
+                    u.extendObject(s, f, q.reservedKeys)
+                }
+                return this
+            },
+            declaredId: function (b) {
+                q.declaredId.setDeclaredId(b,
+                    "request");
+                return this
+            },
+            result: function (b) {
+                "function" === typeof b && (s.callback = b);
+                return this
+            },
+            afterResult: function (b) {
+                "function" === typeof b && (s.postCallbackFn = b);
+                return this
+            },
+            useImageRequest: function () {
+                s.useImageRequest = !0;
+                return this
+            },
+            clearData: function () {
+                s = {};
+                return this
+            },
+            submit: function () {
+                D.submitRequest(s);
+                s = {};
+                return this
+            },
+            getPartner: function () {
+                return h
+            },
+            getContainerNSID: function () {
+                return l
+            },
+            getEventLog: function () {
+                return e
+            },
+            getState: function () {
+                var b = {},
+                    k = {};
+                u.extendObject(b, q, {
+                    callbackPrefix: !0,
+                    useJSONP: !0,
+                    registerRequest: !0
+                });
+                u.extendObject(k, z, {
+                    attachIframe: !0,
+                    requestToProcess: !0,
+                    process: !0,
+                    sendMessages: !0
+                });
+                return {
+                    initConfig: a,
+                    pendingRequest: s,
+                    otherRequestInfo: b,
+                    destinationPublishingInfo: k
+                }
+            },
+            idSync: function (b) {
+                if (B) return "Error: id syncs have been disabled";
+                if (b !== Object(b) || "string" !== typeof b.dpid || !b.dpid.length) return "Error: config or config.dpid is empty";
+                if ("string" !== typeof b.url || !b.url.length) return "Error: config.url is empty";
+                var k = b.url,
+                    a = b.minutesToLive,
+                    f = encodeURIComponent,
+                    d, k = k.replace(/^https:/, "").replace(/^http:/, "");
+                if ("undefined" === typeof a) a = 20160;
+                else if (a = parseInt(a, 10), isNaN(a) || 0 >= a) return "Error: config.minutesToLive needs to be a positive number";
+                d = u.encodeAndBuildRequest(["", b.dpid, b.dpuuid || ""], ",");
+                b = ["ibs", f(b.dpid), "img", f(k), a, "", d];
+                z.addMessage(b.join("|"));
+                q.firstRequestHasFired && z.requestToProcess();
+                return "Successfully queued"
+            },
+            aamIdSync: function (b) {
+                if (B) return "Error: id syncs have been disabled";
+                if (b !== Object(b) || "string" !== typeof b.dpuuid || !b.dpuuid.length) return "Error: config or config.dpuuid is empty";
+                b.url = "//dpm.demdex.net/ibs:dpid=" + b.dpid + "&dpuuid=" + b.dpuuid;
+                return this.idSync(b)
+            },
+            passData: function (b) {
+                if (x.isEmptyObject(b)) return "Error: json is empty or not an object";
+                z.ibsDeleted.push(b.ibs);
+                delete b.ibs;
+                D.defaultCallback(b);
+                return b
+            },
+            getPlatformParams: function () {
+                return q.platformParams
+            },
+            getEventCallConfigParams: function () {
+                var b = q,
+                    k = b.modStatsParams,
+                    a = b.platformParams,
+                    f;
+                if (!k) {
+                    k = {};
+                    for (f in a) a.hasOwnProperty(f) && !b.nonModStatsParams[f] && (k[f.replace(/^d_/, "")] = a[f]);
+                    b.modStatsParams = k
+                }
+                return k
+            }
+        },
+        D = {
+            corsMetadata: function () {
+                var b = "none",
+                    a = !0;
+                "undefined" !== typeof XMLHttpRequest && XMLHttpRequest === Object(XMLHttpRequest) && ("withCredentials" in new XMLHttpRequest ? b = "XMLHttpRequest" : (new Function("/*@cc_on return /^10/.test(@_jscript_version) @*/"))() ? b = "XMLHttpRequest" : "undefined" !== typeof XDomainRequest && XDomainRequest === Object(XDomainRequest) && (a = !1), 0 < Object.prototype.toString.call(window.HTMLElement).indexOf("Constructor") && (a = !1));
+                return {
+                    corsType: b,
+                    corsCookiesEnabled: a
+                }
+            }(),
+            getCORSInstance: function () {
+                return "none" ===
+                    this.corsMetadata.corsType ? null : new window[this.corsMetadata.corsType]
+            },
+            submitRequest: function (b) {
+                q.registerRequest(D.createQueuedRequest(b));
+                return !0
+            },
+            createQueuedRequest: function (b) {
+                var a = q,
+                    d, f = b.callback,
+                    e = "img",
+                    c;
+                if (!x.isEmptyObject(p)) {
+                    var h, g, n;
+                    for (h in p) p.hasOwnProperty(h) && (g = p[h], null != g && "" !== g && h in b && !(g in b || g in q.reservedKeys) && (n = b[h], null != n && "" !== n && (b[g] = n)))
+                }
+                x.isValidPdata(b.sids) || (b.sids = []);
+                x.isValidPdata(b.pdata) || (b.pdata = []);
+                x.isValidLogdata(b.logdata) || (b.logdata = {});
+                b.logdataArray = u.convertObjectToKeyValuePairs(b.logdata, "=", !0);
+                b.logdataArray.push("_ts=" + (new Date).getTime());
+                "function" !== typeof f && (f = this.defaultCallback);
+                a.useJSONP = !0 !== b.useImageRequest;
+                a.useJSONP && (e = "script", d = a.callbackPrefix + "_" + l + "_" + (new Date).getTime());
+                a = this.makeRequestSrcData(b, d);
+                P && !F || !(c = this.getCORSInstance()) || (e = "cors");
+                return {
+                    tag: e,
+                    src: a.src,
+                    corsSrc: a.corsSrc,
+                    internalCallbackName: d,
+                    callbackFn: f,
+                    postCallbackFn: b.postCallbackFn,
+                    useImageRequest: !!b.useImageRequest,
+                    requestData: b,
+                    corsInstance: c,
+                    corsPostData: a.corsPostData
+                }
+            },
+            defaultCallback: function (b, a) {
+                z.processSyncOnPage(b);
+                var d, f, e, c, h, g, l, r, w;
+                if ((d = b.stuff) && d instanceof Array && (f = d.length))
+                    for (e = 0; e < f; e++)
+                        if ((c = d[e]) && c === Object(c)) {
+                            h = c.cn;
+                            g = c.cv;
+                            l = c.ttl;
+                            if ("undefined" === typeof l || "" === l) l = Math.floor(u.getMaxCookieExpiresInMinutes() / 60 / 24);
+                            r = c.dmn || "." + document.domain.replace(/^www\./, "");
+                            w = c.type;
+                            h && (g || "number" === typeof g) && ("var" !== w && (l = parseInt(l, 10)) && !isNaN(l) && u.setCookie(h, g, 1440 * l, "/", r, !1), J.stuffed[h] = g)
+                        }
+                d =
+                    b.uuid;
+                x.isPopulatedString(d) && !x.isEmptyObject(n) && (f = n.path, "string" === typeof f && f.length || (f = "/"), e = parseInt(n.days, 10), isNaN(e) && (e = 100), u.setCookie(n.name || "aam_did", d, 1440 * e, f, n.domain || "." + document.domain.replace(/^www\./, ""), !0 === n.secure));
+                t || q.abortRequests || z.requestToProcess(b, a)
+            },
+            makeRequestSrcData: function (b, a) {
+                b.sids = x.removeEmptyArrayValues(b.sids || []);
+                b.pdata = x.removeEmptyArrayValues(b.pdata || []);
+                var d = q,
+                    f = d.platformParams,
+                    e = u.encodeAndBuildRequest(b.sids, ","),
+                    c = u.encodeAndBuildRequest(b.pdata,
+                        ","),
+                    g = (b.logdataArray || []).join("&");
+                delete b.logdataArray;
+                var n = y.IS_HTTPS ? "https://" : "http://",
+                    r = d.declaredId.getDeclaredIdQueryString(),
+                    w = d.adms.instance ? d.adms.getCustomerIDsQueryString(d.adms.getCustomerIDs()) : "",
+                    p;
+                p = [];
+                var s, t, v, A;
+                for (s in b)
+                    if (!(s in d.reservedKeys) && b.hasOwnProperty(s))
+                        if (t = b[s], s = encodeURIComponent(s), t instanceof Array)
+                            for (v = 0, A = t.length; v < A; v++) p.push(s + "=" + encodeURIComponent(t[v]));
+                        else p.push(s + "=" + encodeURIComponent(t));
+                p = p.length ? "&" + p.join("&") : "";
+                e = "d_nsid=" + f.d_nsid +
+                    r + w + (e.length ? "&d_sid=" + e : "") + (c.length ? "&d_px=" + c : "") + (g.length ? "&d_ld=" + encodeURIComponent(g) : "");
+                f = "&d_rtbd=" + f.d_rtbd + "&d_jsonv=" + f.d_jsonv + "&d_dst=" + f.d_dst;
+                n = n + h + ".demdex.net/event";
+                c = d = n + "?" + e + (d.useJSONP ? f + "&d_cb=" + (a || "") : "") + p;
+                2048 < d.length && (d = d.substring(0, 2048).substring(0, d.lastIndexOf("&")));
+                return {
+                    corsSrc: n + "?" + (O ? "testcors=1&d_nsid=" + l + "&" : "") + "_ts=" + (new Date).getTime(),
+                    src: d,
+                    originalSrc: c,
+                    corsPostData: e + f + p,
+                    isDeclaredIdCall: "" !== r
+                }
+            },
+            fireRequest: function (b) {
+                if ("img" === b.tag) this.fireImage(b);
+                else {
+                    var a = q.declaredId,
+                        a = a.declaredId.request || a.declaredId.init || {},
+                        a = {
+                            dpid: a.dpid || "",
+                            dpuuid: a.dpuuid || ""
+                        };
+                    "script" === b.tag ? this.fireScript(b, a) : "cors" === b.tag && this.fireCORS(b, a)
+                }
+            },
+            fireImage: function (b) {
+                var a = q,
+                    c, f;
+                a.abortRequests || (a.firing = !0, c = new Image(0, 0), a.sent.push(b), c.onload = function () {
+                    a.firing = !1;
+                    a.fired.push(b);
+                    a.num_of_img_responses++;
+                    a.registerRequest()
+                }, f = function (f) {
+                    d = "imgAbortOrErrorHandler received the event of type " + f.type;
+                    e.push(d);
+                    a.abortRequests = !0;
+                    a.firing = !1;
+                    a.errored.push(b);
+                    a.num_of_img_errors++;
+                    a.registerRequest()
+                }, c.addEventListener ? (c.addEventListener("error", f, !1), c.addEventListener("abort", f, !1)) : c.attachEvent && (c.attachEvent("onerror", f), c.attachEvent("onabort", f)), c.src = b.src)
+            },
+            fireScript: function (b, a) {
+                var c = this,
+                    f = q,
+                    g, l, n = b.src,
+                    r = b.postCallbackFn,
+                    w = "function" === typeof r,
+                    p = b.internalCallbackName;
+                f.abortRequests || (f.firing = !0, window[p] = function (c) {
+                    try {
+                        c !== Object(c) && (c = {});
+                        B && (z.ibsDeleted.push(c.ibs), delete c.ibs);
+                        var m = b.callbackFn;
+                        f.firing = !1;
+                        f.fired.push(b);
+                        f.num_of_jsonp_responses++;
+                        m(c, a);
+                        w && r(c, a)
+                    } catch (g) {
+                        g.message = "DIL jsonp callback caught error with message " + g.message;
+                        d = g.message;
+                        e.push(d);
+                        g.filename = g.filename || "dil.js";
+                        g.partner = h;
+                        DIL.errorModule.handleError(g);
+                        try {
+                            m({
+                                error: g.name + "|" + g.message
+                            }, a), w && r({
+                                error: g.name + "|" + g.message
+                            }, a)
+                        } catch (n) {}
+                    } finally {
+                        f.requestRemoval({
+                            script: l,
+                            callbackName: p
+                        }), f.registerRequest()
+                    }
+                }, M || F ? (f.firing = !1, f.requestRemoval({
+                    script: "no script created",
+                    callbackName: p
+                })) : (l = document.createElement("script"), l.addEventListener &&
+                    l.addEventListener("error", function (a) {
+                        f.requestRemoval({
+                            script: l,
+                            callbackName: p
+                        });
+                        d = "jsonp script tag error listener received the event of type " + a.type + " with src " + n;
+                        c.handleScriptError(d, b)
+                    }, !1), l.type = "text/javascript", l.src = n, g = DIL.variables.scriptNodeList[0], g.parentNode.insertBefore(l, g)), f.sent.push(b), f.declaredId.declaredId.request = null)
+            },
+            fireCORS: function (b, a) {
+                var c = this,
+                    f = q,
+                    g = this.corsMetadata.corsType,
+                    l = b.corsSrc,
+                    n = b.corsInstance,
+                    r = b.corsPostData,
+                    p = b.postCallbackFn,
+                    w = "function" === typeof p;
+                if (!f.abortRequests && !R) {
+                    f.firing = !0;
+                    try {
+                        n.open("post", l, !0), "XMLHttpRequest" === g && (n.withCredentials = !0, n.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"), n.onreadystatechange = function () {
+                            if (4 === this.readyState && 200 === this.status) a: {
+                                var g;
+                                try {
+                                    if (g = JSON.parse(this.responseText), g !== Object(g)) {
+                                        c.handleCORSError(b, a, "Response is not JSON");
+                                        break a
+                                    }
+                                } catch (l) {
+                                    c.handleCORSError(b, a, "Error parsing response as JSON");
+                                    break a
+                                }
+                                B && (z.ibsDeleted.push(g.ibs), delete g.ibs);
+                                try {
+                                    var n = b.callbackFn;
+                                    f.firing = !1;
+                                    f.fired.push(b);
+                                    f.num_of_cors_responses++;
+                                    n(g, a);
+                                    w && p(g, a)
+                                } catch (r) {
+                                    r.message = "DIL handleCORSResponse caught error with message " + r.message;
+                                    d = r.message;
+                                    e.push(d);
+                                    r.filename = r.filename || "dil.js";
+                                    r.partner = h;
+                                    DIL.errorModule.handleError(r);
+                                    try {
+                                        n({
+                                            error: r.name + "|" + r.message
+                                        }, a), w && p({
+                                            error: r.name + "|" + r.message
+                                        }, a)
+                                    } catch (V) {}
+                                } finally {
+                                    f.registerRequest()
+                                }
+                            }
+                        }), n.onerror = function () {
+                            c.handleCORSError(b, a, "onerror")
+                        }, n.ontimeout = function () {
+                            c.handleCORSError(b, a, "ontimeout")
+                        }, n.send(r)
+                    } catch (s) {
+                        this.handleCORSError(b,
+                            a, "try-catch")
+                    }
+                    f.sent.push(b);
+                    f.declaredId.declaredId.request = null
+                }
+            },
+            handleCORSError: function (b, a, c) {
+                q.num_of_cors_errors++;
+                q.corsErrorSources.push(c);
+                "ontimeout" === c || F || (b.tag = "script", this.fireScript(b, a))
+            },
+            handleScriptError: function (b, a) {
+                q.num_of_jsonp_errors++;
+                this.handleRequestError(b, a)
+            },
+            handleRequestError: function (b, a) {
+                var c = q;
+                e.push(b);
+                c.abortRequests = !0;
+                c.firing = !1;
+                c.errored.push(a);
+                c.registerRequest()
+            }
+        },
+        x = {
+            isValidPdata: function (b) {
+                return b instanceof Array && this.removeEmptyArrayValues(b).length ?
+                    !0 : !1
+            },
+            isValidLogdata: function (b) {
+                return !this.isEmptyObject(b)
+            },
+            isEmptyObject: function (b) {
+                if (b !== Object(b)) return !0;
+                for (var a in b)
+                    if (b.hasOwnProperty(a)) return !1;
+                return !0
+            },
+            removeEmptyArrayValues: function (b) {
+                for (var a = 0, c = b.length, f, d = [], a = 0; a < c; a++) f = b[a], "undefined" !== typeof f && null !== f && "" !== f && d.push(f);
+                return d
+            },
+            isPopulatedString: function (b) {
+                return "string" === typeof b && b.length
+            }
+        },
+        u = {
+            addListener: function () {
+                if (document.addEventListener) return function (b, a, c) {
+                    b.addEventListener(a, function (b) {
+                        "function" ===
+                        typeof c && c(b)
+                    }, !1)
+                };
+                if (document.attachEvent) return function (b, a, c) {
+                    b.attachEvent("on" + a, function (b) {
+                        "function" === typeof c && c(b)
+                    })
+                }
+            }(),
+            convertObjectToKeyValuePairs: function (b, a, c) {
+                var f = [],
+                    d, e;
+                a || (a = "=");
+                for (d in b) b.hasOwnProperty(d) && (e = b[d], "undefined" !== typeof e && null !== e && "" !== e && f.push(d + a + (c ? encodeURIComponent(e) : e)));
+                return f
+            },
+            encodeAndBuildRequest: function (b, a) {
+                return this.map(b, function (b) {
+                    return encodeURIComponent(b)
+                }).join(a)
+            },
+            map: function (b, a) {
+                if (Array.prototype.map) return b.map(a);
+                if (void 0 ===
+                    b || null === b) throw new TypeError;
+                var c = Object(b),
+                    d = c.length >>> 0;
+                if ("function" !== typeof a) throw new TypeError;
+                for (var e = Array(d), g = 0; g < d; g++) g in c && (e[g] = a.call(a, c[g], g, c));
+                return e
+            },
+            filter: function (b, a) {
+                if (!Array.prototype.filter) {
+                    if (void 0 === b || null === b) throw new TypeError;
+                    var c = Object(b),
+                        d = c.length >>> 0;
+                    if ("function" !== typeof a) throw new TypeError;
+                    for (var e = [], g = 0; g < d; g++)
+                        if (g in c) {
+                            var h = c[g];
+                            a.call(a, h, g, c) && e.push(h)
+                        }
+                    return e
+                }
+                return b.filter(a)
+            },
+            getCookie: function (b) {
+                b += "=";
+                var a = document.cookie.split(";"),
+                    c, d, e;
+                c = 0;
+                for (d = a.length; c < d; c++) {
+                    for (e = a[c];
+                        " " === e.charAt(0);) e = e.substring(1, e.length);
+                    if (0 === e.indexOf(b)) return decodeURIComponent(e.substring(b.length, e.length))
+                }
+                return null
+            },
+            setCookie: function (b, a, c, d, e, g) {
+                var h = new Date;
+                c && (c *= 6E4);
+                document.cookie = b + "=" + encodeURIComponent(a) + (c ? ";expires=" + (new Date(h.getTime() + c)).toUTCString() : "") + (d ? ";path=" + d : "") + (e ? ";domain=" + e : "") + (g ? ";secure" : "")
+            },
+            extendArray: function (b, a) {
+                return b instanceof Array && a instanceof Array ? (Array.prototype.push.apply(b,
+                    a), !0) : !1
+            },
+            extendObject: function (b, a, c) {
+                var d;
+                if (b === Object(b) && a === Object(a)) {
+                    for (d in a) !a.hasOwnProperty(d) || !x.isEmptyObject(c) && d in c || (b[d] = a[d]);
+                    return !0
+                }
+                return !1
+            },
+            getMaxCookieExpiresInMinutes: function () {
+                return ((new Date(y.COOKIE_MAX_EXPIRATION_DATE)).getTime() - (new Date).getTime()) / 1E3 / 60
+            },
+            getCookieField: function (b, a) {
+                var c = this.getCookie(b),
+                    d = decodeURIComponent;
+                if ("string" === typeof c) {
+                    var c = c.split("|"),
+                        e, g;
+                    e = 0;
+                    for (g = c.length - 1; e < g; e++)
+                        if (d(c[e]) === a) return d(c[e + 1])
+                }
+                return null
+            },
+            getDilCookieField: function (b) {
+                return this.getCookieField(y.DIL_COOKIE_NAME,
+                    b)
+            },
+            setCookieField: function (b, a, c) {
+                var d = this.getCookie(b),
+                    e = !1,
+                    g = encodeURIComponent;
+                a = g(a);
+                c = g(c);
+                if ("string" === typeof d) {
+                    var d = d.split("|"),
+                        h, g = 0;
+                    for (h = d.length - 1; g < h; g++)
+                        if (d[g] === a) {
+                            d[g + 1] = c;
+                            e = !0;
+                            break
+                        }
+                    e || (g = d.length, d[g] = a, d[g + 1] = c)
+                } else d = [a, c];
+                this.setCookie(b, d.join("|"), this.getMaxCookieExpiresInMinutes(), "/", this.getDomain(), !1)
+            },
+            setDilCookieField: function (b, a) {
+                return this.setCookieField(y.DIL_COOKIE_NAME, b, a)
+            },
+            getDomain: function (b) {
+                !b && window.location && (b = window.location.hostname);
+                if (b)
+                    if (/^[0-9.]+$/.test(b)) b =
+                        "";
+                    else {
+                        var a = b.split("."),
+                            c = a.length - 1,
+                            d = c - 1;
+                        1 < c && 2 >= a[c].length && (2 === a[c - 1].length || 0 > ",DOMAIN_2_CHAR_EXCEPTIONS,".indexOf("," + a[c] + ",")) && d--;
+                        if (0 < d)
+                            for (b = ""; c >= d;) b = a[c] + (b ? "." : "") + b, c--
+                    }
+                return b
+            }
+        };
+    "error" === h && 0 === l && u.addListener(window, "load", function () {
+        DIL.windowLoaded = !0
+    });
+    var S = !1,
+        H = function () {
+            S || (S = !0, q.registerRequest(), U(), t || q.abortRequests || z.attachIframe(), q.readyToRemove = !0, q.requestRemoval())
+        },
+        U = function () {
+            t || setTimeout(function () {
+                N || q.firstRequestHasFired || ("function" === typeof I ?
+                    K.afterResult(I).submit() : K.submit())
+            }, DIL.constants.TIME_TO_DEFAULT_REQUEST)
+        };
+    C = document;
+    "error" !== h && (DIL.windowLoaded ? H() : "complete" !== C.readyState && "loaded" !== C.readyState ? u.addListener(window, "load", function () {
+        DIL.windowLoaded = !0;
+        H()
+    }) : (DIL.windowLoaded = !0, H()));
+    if ("error" !== h) try {
+        DIL.xd.receiveMessage(function (b) {
+            z.receiveMessage(b.data)
+        }, z.getIframeHost(z.url))
+    } catch (W) {}
+    q.declaredId.setDeclaredId(r, "init");
+    q.processVisitorAPI();
+    this.api = K;
+    this.getStuffedVariable = function (b) {
+        var a = J.stuffed[b];
+        a || "number" === typeof a || (a = u.getCookie(b)) || "number" === typeof a || (a = "");
+        return a
+    };
+    this.validators = x;
+    this.helpers = u;
+    this.constants = y;
+    this.log = e;
+    T && (this.pendingRequest = s, this.requestController = q, this.setDestinationPublishingUrl = g, this.destinationPublishing = z, this.requestProcs = D, this.variables = J, this.callWindowLoadFunctions = H)
+}, function () {
+    var a = document,
+        c;
+    null == a.readyState && a.addEventListener && (a.readyState = "loading", a.addEventListener("DOMContentLoaded", c = function () {
+        a.removeEventListener("DOMContentLoaded",
+            c, !1);
+        a.readyState = "complete"
+    }, !1))
+}(), DIL.extendStaticPropertiesAndMethods = function (a) {
+    var c;
+    if (a === Object(a))
+        for (c in a) a.hasOwnProperty(c) && (this[c] = a[c])
+}, DIL.extendStaticPropertiesAndMethods({
+    version: "6.6",
+    jsonVersion: 1,
+    constants: {
+        TIME_TO_DEFAULT_REQUEST: 50
+    },
+    variables: {
+        scriptNodeList: document.getElementsByTagName("script"),
+        scriptsRemoved: [],
+        callbacksRemoved: []
+    },
+    windowLoaded: !1,
+    dils: {},
+    isAddedPostWindowLoad: function (a) {
+        this.windowLoaded = "function" === typeof a ? !!a() : "boolean" === typeof a ? a : !0
+    },
+    create: function (a) {
+        try {
+            return new DIL(a)
+        } catch (c) {
+            return (new Image(0,
+                0)).src = "http://error.demdex.net/event?d_nsid=0&d_px=14137&d_ld=name%3Derror%26filename%3Ddil.js%26partner%3Dno_partner%26message%3DError%2520in%2520attempt%2520to%2520create%2520DIL%2520instance%2520with%2520DIL.create()%26_ts%3D" + (new Date).getTime(), Error("Error in attempt to create DIL instance with DIL.create()")
+        }
+    },
+    registerDil: function (a, c, e) {
+        c = c + "$" + e;
+        c in this.dils || (this.dils[c] = a)
+    },
+    getDil: function (a, c) {
+        var e;
+        "string" !== typeof a && (a = "");
+        c || (c = 0);
+        e = a + "$" + c;
+        return e in this.dils ? this.dils[e] :
+            Error("The DIL instance with partner = " + a + " and containerNSID = " + c + " was not found")
+    },
+    dexGetQSVars: function (a, c, e) {
+        c = this.getDil(c, e);
+        return c instanceof this ? c.getStuffedVariable(a) : ""
+    },
+    xd: {
+        postMessage: function (a, c, e) {
+            var d = 1;
+            c && (window.postMessage ? e.postMessage(a, c.replace(/([^:]+:\/\/[^\/]+).*/, "$1")) : c && (e.location = c.replace(/#.*$/, "") + "#" + +new Date + d++ + "&" + a))
+        },
+        receiveMessage: function (a, c) {
+            var e;
+            try {
+                if (window.postMessage)
+                    if (a && (e = function (d) {
+                            if ("string" === typeof c && d.origin !== c || "[object Function]" ===
+                                Object.prototype.toString.call(c) && !1 === c(d.origin)) return !1;
+                            a(d)
+                        }), window.addEventListener) window[a ? "addEventListener" : "removeEventListener"]("message", e, !1);
+                    else window[a ? "attachEvent" : "detachEvent"]("onmessage", e)
+            } catch (d) {}
+        }
+    }
+}), DIL.errorModule = function () {
+    var a = DIL.create({
+            partner: "error",
+            containerNSID: 0,
+            disableDestinationPublishingIframe: !0
+        }),
+        c = {
+            harvestererror: 14138,
+            destpuberror: 14139,
+            dpmerror: 14140,
+            generalerror: 14137,
+            error: 14137,
+            noerrortypedefined: 15021,
+            evalerror: 15016,
+            rangeerror: 15017,
+            referenceerror: 15018,
+            typeerror: 15019,
+            urierror: 15020
+        },
+        e = !1;
+    return {
+        activate: function () {
+            e = !0
+        },
+        handleError: function (d) {
+            if (!e) return "DIL error module has not been activated";
+            d !== Object(d) && (d = {});
+            var g = d.name ? (d.name + "").toLowerCase() : "",
+                h = [];
+            d = {
+                name: g,
+                filename: d.filename ? d.filename + "" : "",
+                partner: d.partner ? d.partner + "" : "no_partner",
+                site: d.site ? d.site + "" : document.location.href,
+                message: d.message ? d.message + "" : ""
+            };
+            h.push(g in c ? c[g] : c.noerrortypedefined);
+            a.api.pixels(h).logs(d).useImageRequest().submit();
+            return "DIL error report sent"
+        },
+        pixelMap: c
+    }
+}(), DIL.tools = {}, DIL.modules = {
+    helpers: {
+        handleModuleError: function (a, c, e) {
+            var d = "";
+            c = c || "Error caught in DIL module/submodule: ";
+            a === Object(a) ? d = c + (a.message || "err has no message") : (d = c + "err is not a valid object", a = {});
+            a.message = d;
+            e instanceof DIL && (a.partner = e.api.getPartner());
+            DIL.errorModule.handleError(a);
+            return this.errorMessage = d
+        }
+    }
+});
+DIL.tools.getSearchReferrer = function (a, c) {
+    var e = DIL.getDil("error"),
+        d = DIL.tools.decomposeURI(a || document.referrer),
+        g = "",
+        h = "",
+        l = {
+            queryParam: "q"
+        };
+    return (g = e.helpers.filter([c === Object(c) ? c : {}, {
+        hostPattern: /aol\./
+    }, {
+        hostPattern: /ask\./
+    }, {
+        hostPattern: /bing\./
+    }, {
+        hostPattern: /google\./
+    }, {
+        hostPattern: /yahoo\./,
+        queryParam: "p"
+    }], function (a) {
+        return !(!a.hasOwnProperty("hostPattern") || !d.hostname.match(a.hostPattern))
+    }).shift()) ? {
+        valid: !0,
+        name: d.hostname,
+        keywords: (e.helpers.extendObject(l, g), h = l.queryPattern ?
+            (g = ("" + d.search).match(l.queryPattern)) ? g[1] : "" : d.uriParams[l.queryParam], decodeURIComponent(h || "").replace(/\+|%20/g, " "))
+    } : {
+        valid: !1,
+        name: "",
+        keywords: ""
+    }
+};
+DIL.tools.decomposeURI = function (a) {
+    var c = DIL.getDil("error"),
+        e = document.createElement("a");
+    e.href = a || document.referrer;
+    return {
+        hash: e.hash,
+        host: e.host.split(":").shift(),
+        hostname: e.hostname,
+        href: e.href,
+        pathname: e.pathname.replace(/^\//, ""),
+        protocol: e.protocol,
+        search: e.search,
+        uriParams: function (a, e) {
+            c.helpers.map(e.split("&"), function (c) {
+                c = c.split("=");
+                a[c.shift()] = c.shift()
+            });
+            return a
+        }({}, e.search.replace(/^(\/|\?)?|\/$/g, ""))
+    }
+};
+DIL.tools.getMetaTags = function () {
+    var a = {},
+        c = document.getElementsByTagName("meta"),
+        e, d, g, h, l;
+    e = 0;
+    for (g = arguments.length; e < g; e++)
+        if (h = arguments[e], null !== h)
+            for (d = 0; d < c.length; d++)
+                if (l = c[d], l.name === h) {
+                    a[h] = l.content;
+                    break
+                }
+    return a
+};
+DIL.modules.siteCatalyst = {
+    dil: null,
+    handle: DIL.modules.helpers.handleModuleError,
+    init: function (a, c, e, d) {
+        try {
+            var g = this,
+                h = {
+                    name: "DIL Site Catalyst Module Error"
+                },
+                l = function (a) {
+                    h.message = a;
+                    DIL.errorModule.handleError(h);
+                    return a
+                };
+            this.options = d === Object(d) ? d : {};
+            this.dil = null;
+            if (c instanceof DIL) this.dil = c;
+            else return l("dilInstance is not a valid instance of DIL");
+            h.partner = c.api.getPartner();
+            if (a !== Object(a)) return l("siteCatalystReportingSuite is not an object");
+            window.AppMeasurement_Module_DIL = a.m_DIL =
+                function (a) {
+                    var c = "function" === typeof a.m_i ? a.m_i("DIL") : this;
+                    if (c !== Object(c)) return l("m is not an object");
+                    c.trackVars = g.constructTrackVars(e);
+                    c.d = 0;
+                    c.s = a;
+                    c._t = function () {
+                        var a, c, d = "," + this.trackVars + ",",
+                            e = this.s,
+                            h, p = [];
+                        h = [];
+                        var t = {},
+                            v = !1;
+                        if (e !== Object(e)) return l("Error in m._t function: s is not an object");
+                        if (this.d) {
+                            if ("function" === typeof e.foreachVar) e.foreachVar(function (a, c) {
+                                "undefined" !== typeof c && (t[a] = c, v = !0)
+                            }, this.trackVars);
+                            else {
+                                if (!(e.va_t instanceof Array)) return l("Error in m._t function: s.va_t is not an array");
+                                if (e.lightProfileID)(a = e.lightTrackVars) && (a = "," + a + "," + e.vl_mr + ",");
+                                else if (e.pe || e.linkType) a = e.linkTrackVars, e.pe && (c = e.pe.substring(0, 1).toUpperCase() + e.pe.substring(1), e[c] && (a = e[c].trackVars)), a && (a = "," + a + "," + e.vl_l + "," + e.vl_l2 + ",");
+                                if (a) {
+                                    c = 0;
+                                    for (p = a.split(","); c < p.length; c++) 0 <= d.indexOf("," + p[c] + ",") && h.push(p[c]);
+                                    h.length && (d = "," + h.join(",") + ",")
+                                }
+                                h = 0;
+                                for (c = e.va_t.length; h < c; h++) a = e.va_t[h], 0 <= d.indexOf("," + a + ",") && "undefined" !== typeof e[a] && null !== e[a] && "" !== e[a] && (t[a] = e[a], v = !0)
+                            }
+                            g.includeContextData(e,
+                                t).store_populated && (v = !0);
+                            v && this.d.api.signals(t, "c_").submit()
+                        }
+                    }
+                };
+            a.loadModule("DIL");
+            a.DIL.d = c;
+            return h.message ? h.message : "DIL.modules.siteCatalyst.init() completed with no errors"
+        } catch (t) {
+            return this.handle(t, "DIL.modules.siteCatalyst.init() caught error with message ", this.dil)
+        }
+    },
+    constructTrackVars: function (a) {
+        var c = [],
+            e, d, g, h, l;
+        if (a === Object(a)) {
+            e = a.names;
+            if (e instanceof Array && (g = e.length))
+                for (d = 0; d < g; d++) h = e[d], "string" === typeof h && h.length && c.push(h);
+            a = a.iteratedNames;
+            if (a instanceof Array &&
+                (g = a.length))
+                for (d = 0; d < g; d++)
+                    if (e = a[d], e === Object(e) && (h = e.name, l = parseInt(e.maxIndex, 10), "string" === typeof h && h.length && !isNaN(l) && 0 <= l))
+                        for (e = 0; e <= l; e++) c.push(h + e);
+            if (c.length) return c.join(",")
+        }
+        return this.constructTrackVars({
+            names: "pageName channel campaign products events pe pev1 pev2 pev3".split(" "),
+            iteratedNames: [{
+                name: "prop",
+                maxIndex: 75
+            }, {
+                name: "eVar",
+                maxIndex: 250
+            }]
+        })
+    },
+    includeContextData: function (a, c) {
+        var e = {},
+            d = !1;
+        if (a.contextData === Object(a.contextData)) {
+            var g = a.contextData,
+                h = this.options.replaceContextDataPeriodsWith,
+                l = this.options.filterFromContextVariables,
+                t = {},
+                v, p, n, w;
+            "string" === typeof h && h.length || (h = "_");
+            if (l instanceof Array)
+                for (v = 0, p = l.length; v < p; v++) n = l[v], this.dil.validators.isPopulatedString(n) && (t[n] = !0);
+            for (w in g) !g.hasOwnProperty(w) || t[w] || !(l = g[w]) && "number" !== typeof l || (w = ("contextData." + w).replace(/\./g, h), c[w] = l, d = !0)
+        }
+        e.store_populated = d;
+        return e
+    }
+};
+DIL.modules.GA = {
+    dil: null,
+    arr: null,
+    tv: null,
+    errorMessage: "",
+    defaultTrackVars: ["_setAccount", "_setCustomVar", "_addItem", "_addTrans", "_trackSocial"],
+    defaultTrackVarsObj: null,
+    signals: {},
+    hasSignals: !1,
+    handle: DIL.modules.helpers.handleModuleError,
+    init: function (a, c, e) {
+        try {
+            this.tv = this.arr = this.dil = null;
+            this.errorMessage = "";
+            this.signals = {};
+            this.hasSignals = !1;
+            var d = {
+                    name: "DIL GA Module Error"
+                },
+                g = "";
+            c instanceof DIL ? (this.dil = c, d.partner = this.dil.api.getPartner()) : (g = "dilInstance is not a valid instance of DIL",
+                d.message = g, DIL.errorModule.handleError(d));
+            a instanceof Array && a.length ? this.arr = a : (g = "gaArray is not an array or is empty", d.message = g, DIL.errorModule.handleError(d));
+            this.tv = this.constructTrackVars(e);
+            this.errorMessage = g
+        } catch (h) {
+            this.handle(h, "DIL.modules.GA.init() caught error with message ", this.dil)
+        } finally {
+            return this
+        }
+    },
+    constructTrackVars: function (a) {
+        var c = [],
+            e, d, g, h;
+        if (this.defaultTrackVarsObj !== Object(this.defaultTrackVarsObj)) {
+            g = this.defaultTrackVars;
+            h = {};
+            e = 0;
+            for (d = g.length; e < d; e++) h[g[e]] = !0;
+            this.defaultTrackVarsObj = h
+        } else h = this.defaultTrackVarsObj;
+        if (a === Object(a)) {
+            a = a.names;
+            if (a instanceof Array && (d = a.length))
+                for (e = 0; e < d; e++) g = a[e], "string" === typeof g && g.length && g in h && c.push(g);
+            if (c.length) return c
+        }
+        return this.defaultTrackVars
+    },
+    constructGAObj: function (a) {
+        var c = {};
+        a = a instanceof Array ? a : this.arr;
+        var e, d, g, h;
+        e = 0;
+        for (d = a.length; e < d; e++) g = a[e], g instanceof Array && g.length && (g = [], h = a[e], g instanceof Array && h instanceof Array && Array.prototype.push.apply(g, h), h = g.shift(), "string" ===
+            typeof h && h.length && (c[h] instanceof Array || (c[h] = []), c[h].push(g)));
+        return c
+    },
+    addToSignals: function (a, c) {
+        if ("string" !== typeof a || "" === a || null == c || "" === c) return !1;
+        this.signals[a] instanceof Array || (this.signals[a] = []);
+        this.signals[a].push(c);
+        return this.hasSignals = !0
+    },
+    constructSignals: function () {
+        var a = this.constructGAObj(),
+            c = {
+                _setAccount: function (a) {
+                    this.addToSignals("c_accountId", a)
+                },
+                _setCustomVar: function (a, c, d) {
+                    "string" === typeof c && c.length && this.addToSignals("c_" + c, d)
+                },
+                _addItem: function (a, c, d, e,
+                    g, h) {
+                    this.addToSignals("c_itemOrderId", a);
+                    this.addToSignals("c_itemSku", c);
+                    this.addToSignals("c_itemName", d);
+                    this.addToSignals("c_itemCategory", e);
+                    this.addToSignals("c_itemPrice", g);
+                    this.addToSignals("c_itemQuantity", h)
+                },
+                _addTrans: function (a, c, d, e, g, h, l, t) {
+                    this.addToSignals("c_transOrderId", a);
+                    this.addToSignals("c_transAffiliation", c);
+                    this.addToSignals("c_transTotal", d);
+                    this.addToSignals("c_transTax", e);
+                    this.addToSignals("c_transShipping", g);
+                    this.addToSignals("c_transCity", h);
+                    this.addToSignals("c_transState",
+                        l);
+                    this.addToSignals("c_transCountry", t)
+                },
+                _trackSocial: function (a, c, d, e) {
+                    this.addToSignals("c_socialNetwork", a);
+                    this.addToSignals("c_socialAction", c);
+                    this.addToSignals("c_socialTarget", d);
+                    this.addToSignals("c_socialPagePath", e)
+                }
+            },
+            e = this.tv,
+            d, g, h, l, t, v;
+        d = 0;
+        for (g = e.length; d < g; d++)
+            if (h = e[d], a.hasOwnProperty(h) && c.hasOwnProperty(h) && (v = a[h], v instanceof Array))
+                for (l = 0, t = v.length; l < t; l++) c[h].apply(this, v[l])
+    },
+    submit: function () {
+        try {
+            if ("" !== this.errorMessage) return this.errorMessage;
+            this.constructSignals();
+            return this.hasSignals ? (this.dil.api.signals(this.signals).submit(), "Signals sent: " + this.dil.helpers.convertObjectToKeyValuePairs(this.signals, "=", !0) + this.dil.log) : "No signals present"
+        } catch (a) {
+            return this.handle(a, "DIL.modules.GA.submit() caught error with message ", this.dil)
+        }
+    },
+    Stuffer: {
+        LIMIT: 5,
+        dil: null,
+        cookieName: null,
+        delimiter: null,
+        errorMessage: "",
+        handle: DIL.modules.helpers.handleModuleError,
+        callback: null,
+        v: function () {
+            return !1
+        },
+        init: function (a, c, e) {
+            try {
+                this.callback = this.dil = null, this.errorMessage =
+                    "", a instanceof DIL ? (this.dil = a, this.v = this.dil.validators.isPopulatedString, this.cookieName = this.v(c) ? c : "aam_ga", this.delimiter = this.v(e) ? e : "|") : this.handle({
+                        message: "dilInstance is not a valid instance of DIL"
+                    }, "DIL.modules.GA.Stuffer.init() error: ")
+            } catch (d) {
+                this.handle(d, "DIL.modules.GA.Stuffer.init() caught error with message ", this.dil)
+            } finally {
+                return this
+            }
+        },
+        process: function (a) {
+            var c, e, d, g, h, l;
+            l = !1;
+            var t = 1;
+            if (a === Object(a) && (c = a.stuff) && c instanceof Array && (e = c.length))
+                for (a = 0; a < e; a++)
+                    if ((d =
+                            c[a]) && d === Object(d) && (g = d.cn, h = d.cv, g === this.cookieName && this.v(h))) {
+                        l = !0;
+                        break
+                    }
+            if (l) {
+                c = h.split(this.delimiter);
+                "undefined" === typeof window._gaq && (window._gaq = []);
+                d = window._gaq;
+                a = 0;
+                for (e = c.length; a < e && !(l = c[a].split("="), h = l[0], l = l[1], this.v(h) && this.v(l) && d.push(["_setCustomVar", t++, h, l, 1]), t > this.LIMIT); a++);
+                this.errorMessage = 1 < t ? "No errors - stuffing successful" : "No valid values to stuff"
+            } else this.errorMessage = "Cookie name and value not found in json";
+            if ("function" === typeof this.callback) return this.callback()
+        },
+        submit: function () {
+            try {
+                var a = this;
+                if ("" !== this.errorMessage) return this.errorMessage;
+                this.dil.api.afterResult(function (c) {
+                    a.process(c)
+                }).submit();
+                return "DIL.modules.GA.Stuffer.submit() successful"
+            } catch (c) {
+                return this.handle(c, "DIL.modules.GA.Stuffer.submit() caught error with message ", this.dil)
+            }
+        }
+    }
+};
+DIL.modules.Peer39 = {
+    aid: "",
+    dil: null,
+    optionals: null,
+    errorMessage: "",
+    calledBack: !1,
+    script: null,
+    scriptsSent: [],
+    returnedData: [],
+    handle: DIL.modules.helpers.handleModuleError,
+    init: function (a, c, e) {
+        try {
+            this.dil = null;
+            this.errorMessage = "";
+            this.calledBack = !1;
+            this.optionals = e === Object(e) ? e : {};
+            e = {
+                name: "DIL Peer39 Module Error"
+            };
+            var d = [],
+                g = "";
+            this.isSecurePageButNotEnabled(document.location.protocol) && (g = "Module has not been enabled for a secure page", d.push(g), e.message = g, DIL.errorModule.handleError(e));
+            c instanceof
+            DIL ? (this.dil = c, e.partner = this.dil.api.getPartner()) : (g = "dilInstance is not a valid instance of DIL", d.push(g), e.message = g, DIL.errorModule.handleError(e));
+            "string" === typeof a && a.length ? this.aid = a : (g = "aid is not a string or is empty", d.push(g), e.message = g, DIL.errorModule.handleError(e));
+            this.errorMessage = d.join("\n")
+        } catch (h) {
+            this.handle(h, "DIL.modules.Peer39.init() caught error with message ", this.dil)
+        } finally {
+            return this
+        }
+    },
+    isSecurePageButNotEnabled: function (a) {
+        return "https:" === a && !0 !== this.optionals.enableHTTPS ?
+            !0 : !1
+    },
+    constructSignals: function () {
+        var a = this,
+            c = this.constructScript(),
+            e = DIL.variables.scriptNodeList[0];
+        window["afterFinished_" + this.aid] = function () {
+            try {
+                var c = a.processData(p39_KVP_Short("c_p", "|").split("|"));
+                c.hasSignals && a.dil.api.signals(c.signals).submit()
+            } catch (e) {} finally {
+                a.calledBack = !0, "function" === typeof a.optionals.afterResult && a.optionals.afterResult()
+            }
+        };
+        e.parentNode.insertBefore(c, e);
+        this.scriptsSent.push(c);
+        return "Request sent to Peer39"
+    },
+    processData: function (a) {
+        var c, e, d, g, h = {},
+            l = !1;
+        this.returnedData.push(a);
+        if (a instanceof Array)
+            for (c = 0, e = a.length; c < e; c++) d = a[c].split("="), g = d[0], d = d[1], g && isFinite(d) && !isNaN(parseInt(d, 10)) && (h[g] instanceof Array || (h[g] = []), h[g].push(d), l = !0);
+        return {
+            hasSignals: l,
+            signals: h
+        }
+    },
+    constructScript: function () {
+        var a = document.createElement("script"),
+            c = this.optionals,
+            e = c.scriptId,
+            d = c.scriptSrc,
+            c = c.scriptParams;
+        a.id = "string" === typeof e && e.length ? e : "peer39ScriptLoader";
+        a.type = "text/javascript";
+        "string" === typeof d && d.length ? a.src = d : (a.src = document.location.protocol +
+            "//stags.peer39.net/" + this.aid + "/trg_" + this.aid + ".js", "string" === typeof c && c.length && (a.src += "?" + c));
+        return a
+    },
+    submit: function () {
+        try {
+            return "" !== this.errorMessage ? this.errorMessage : this.constructSignals()
+        } catch (a) {
+            return this.handle(a, "DIL.modules.Peer39.submit() caught error with message ", this.dil)
+        }
+    }
+};
+
+
+
+
+/*
+ Start ActivityMap Module
+
+ The following module enables ActivityMap tracking in Adobe Analytics. ActivityMap
+ allows you to view data overlays on your links and content to understand how
+ users engage with your web site. If you do not intend to use ActivityMap, you
+ can remove the following block of code from your AppMeasurement.js file.
+ Additional documentation on how to configure ActivityMap is available at:
+ https://marketing.adobe.com/resources/help/en_US/analytics/activitymap/getting-started-admins.html
+*/
+function AppMeasurement_Module_ActivityMap(h){function q(){var a=f.pageYOffset+(f.innerHeight||0);a&&a>+g&&(g=a)}function r(){if(e.scrollReachSelector){var a=h.d.querySelector&&h.d.querySelector(e.scrollReachSelector);a?(g=a.scrollTop||0,a.addEventListener("scroll",function(){var d;(d=a&&a.scrollTop+a.clientHeight||0)>g&&(g=d)})):0<w--&&setTimeout(r,1E3)}}function l(a,d){var c,b,n;if(a&&d&&(c=e.c[d]||(e.c[d]=d.split(","))))for(n=0;n<c.length&&(b=c[n++]);)if(-1<a.indexOf(b))return null;p=1;return a}
+function s(a,d,c,b,e){var f,k;if(a.dataset&&(k=a.dataset[d]))f=k;else if(a.getAttribute)if(k=a.getAttribute("data-"+c))f=k;else if(k=a.getAttribute(c))f=k;if(!f&&h.useForcedLinkTracking&&e){var g;a=a.onclick?""+a.onclick:"";varValue="";if(b&&a&&(d=a.indexOf(b),0<=d)){for(d+=b.length;d<a.length;)if(c=a.charAt(d++),0<="'\"".indexOf(c)){g=c;break}for(k=!1;d<a.length&&g;){c=a.charAt(d);if(!k&&c===g)break;"\\"===c?k=!0:(varValue+=c,k=!1);d++}}(g=varValue)&&(h.w[b]=g)}return f||e&&h.w[b]}function t(a,d,
+c){var b;return(b=e[d](a,c))&&(p?(p=0,b):l(m(b),e[d+"Exclusions"]))}function u(a,d,c){var b;if(a&&!(1===(b=a.nodeType)&&(b=a.nodeName)&&(b=b.toUpperCase())&&x[b])&&(1===a.nodeType&&(b=a.nodeValue)&&(d[d.length]=b),c.a||c.t||c.s||!a.getAttribute||((b=a.getAttribute("alt"))?c.a=b:(b=a.getAttribute("title"))?c.t=b:"IMG"==(""+a.nodeName).toUpperCase()&&(b=a.getAttribute("src")||a.src)&&(c.s=b)),(b=a.childNodes)&&b.length))for(a=0;a<b.length;a++)u(b[a],d,c)}function m(a){if(null==a||void 0==a)return a;
+try{return a.replace(RegExp("^[\\s\\n\\f\\r\\t\t-\r \u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u205f\u3000\ufeff]+","mg"),"").replace(RegExp("[\\s\\n\\f\\r\\t\t-\r \u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u205f\u3000\ufeff]+$","mg"),"").replace(RegExp("[\\s\\n\\f\\r\\t\t-\r \u00a0\u1680\u180e\u2000-\u200a\u2028\u2029\u205f\u3000\ufeff]{1,}","mg")," ").substring(0,254)}catch(d){}}var e=this;e.s=h;var f=window;f.s_c_in||(f.s_c_il=[],f.s_c_in=0);e._il=f.s_c_il;e._in=f.s_c_in;e._il[e._in]=e;f.s_c_in++;
+e._c="s_m";var g=0,v,w=60;e.c={};var p=0,x={SCRIPT:1,STYLE:1,LINK:1,CANVAS:1};e._g=function(){var a,d,c,b=h.contextData,e=h.linkObject;(a=h.pageName||h.pageURL)&&(d=t(e,"link",h.linkName))&&(c=t(e,"region"))&&(b["a.activitymap.page"]=a.substring(0,255),b["a.activitymap.link"]=128<d.length?d.substring(0,128):d,b["a.activitymap.region"]=127<c.length?c.substring(0,127):c,0<g&&(b["a.activitymap.xy"]=10*Math.floor(g/10)),b["a.activitymap.pageIDType"]=h.pageName?1:0)};e.e=function(){e.trackScrollReach&&
+!v&&(e.scrollReachSelector?r():(q(),f.addEventListener&&f.addEventListener("scroll",q,!1)),v=!0)};e.link=function(a,d){var c;if(d)c=l(m(d),e.linkExclusions);else if((c=a)&&!(c=s(a,"sObjectId","s-object-id","s_objectID",1))){var b,f;(f=l(m(a.innerText||a.textContent),e.linkExclusions))||(u(a,b=[],c={a:void 0,t:void 0,s:void 0}),(f=l(m(b.join(""))))||(f=l(m(c.a?c.a:c.t?c.t:c.s?c.s:void 0)))||!(b=(b=a.tagName)&&b.toUpperCase?b.toUpperCase():"")||("INPUT"==b||"SUBMIT"==b&&a.value?f=l(m(a.value)):"IMAGE"==
+b&&a.src&&(f=l(m(a.src)))));c=f}return c};e.region=function(a){for(var d,c=e.regionIDAttribute||"id";a&&(a=a.parentNode);){if(d=s(a,c,c,c))return d;if("BODY"==a.nodeName)return"BODY"}}}
+/* End ActivityMap Module */
+/*
+ ============== DO NOT ALTER ANYTHING BELOW THIS LINE ! ===============
+
+AppMeasurement for JavaScript version: 2.17.0
+Copyright 1996-2016 Adobe, Inc. All Rights Reserved
+More info available at http://www.adobe.com/marketing-cloud.html
+*/
+function AppMeasurement(r){var a=this;a.version="2.17.0";var h=window;h.s_c_in||(h.s_c_il=[],h.s_c_in=0);a._il=h.s_c_il;a._in=h.s_c_in;a._il[a._in]=a;h.s_c_in++;a._c="s_c";var q=h.AppMeasurement.ec;q||(q=null);var p=h,m,s;try{for(m=p.parent,s=p.location;m&&m.location&&s&&""+m.location!=""+s&&p.location&&""+m.location!=""+p.location&&m.location.host==s.host;)p=m,m=p.parent}catch(u){}a.C=function(a){try{console.log(a)}catch(b){}};a.Pa=function(a){return""+parseInt(a)==""+a};a.replace=function(a,b,d){return!a||
+0>a.indexOf(b)?a:a.split(b).join(d)};a.escape=function(c){var b,d;if(!c)return c;c=encodeURIComponent(c);for(b=0;7>b;b++)d="+~!*()'".substring(b,b+1),0<=c.indexOf(d)&&(c=a.replace(c,d,"%"+d.charCodeAt(0).toString(16).toUpperCase()));return c};a.unescape=function(c){if(!c)return c;c=0<=c.indexOf("+")?a.replace(c,"+"," "):c;try{return decodeURIComponent(c)}catch(b){}return unescape(c)};a.Kb=function(){var c=h.location.hostname,b=a.fpCookieDomainPeriods,d;b||(b=a.cookieDomainPeriods);if(c&&!a.Ia&&!/^[0-9.]+$/.test(c)&&
+(b=b?parseInt(b):2,b=2<b?b:2,d=c.lastIndexOf("."),0<=d)){for(;0<=d&&1<b;)d=c.lastIndexOf(".",d-1),b--;a.Ia=0<d?c.substring(d):c}return a.Ia};a.c_r=a.cookieRead=function(c){c=a.escape(c);var b=" "+a.d.cookie,d=b.indexOf(" "+c+"="),f=0>d?d:b.indexOf(";",d);c=0>d?"":a.unescape(b.substring(d+2+c.length,0>f?b.length:f));return"[[B]]"!=c?c:""};a.c_w=a.cookieWrite=function(c,b,d){var f=a.Kb(),e=a.cookieLifetime,g;b=""+b;e=e?(""+e).toUpperCase():"";d&&"SESSION"!=e&&"NONE"!=e&&((g=""!=b?parseInt(e?e:0):-60)?
+(d=new Date,d.setTime(d.getTime()+1E3*g)):1===d&&(d=new Date,g=d.getYear(),d.setYear(g+2+(1900>g?1900:0))));return c&&"NONE"!=e?(a.d.cookie=a.escape(c)+"="+a.escape(""!=b?b:"[[B]]")+"; path=/;"+(d&&"SESSION"!=e?" expires="+d.toUTCString()+";":"")+(f?" domain="+f+";":""),a.cookieRead(c)==b):0};a.Hb=function(){var c=a.Util.getIeVersion();"number"===typeof c&&10>c&&(a.unsupportedBrowser=!0,a.ub(a,function(){}))};a.ub=function(a,b){for(var d in a)a.hasOwnProperty(d)&&"function"===typeof a[d]&&(a[d]=b)};
+a.K=[];a.ea=function(c,b,d){if(a.Ja)return 0;a.maxDelay||(a.maxDelay=250);var f=0,e=(new Date).getTime()+a.maxDelay,g=a.d.visibilityState,k=["webkitvisibilitychange","visibilitychange"];g||(g=a.d.webkitVisibilityState);if(g&&"prerender"==g){if(!a.fa)for(a.fa=1,d=0;d<k.length;d++)a.d.addEventListener(k[d],function(){var c=a.d.visibilityState;c||(c=a.d.webkitVisibilityState);"visible"==c&&(a.fa=0,a.delayReady())});f=1;e=0}else d||a.u("_d")&&(f=1);f&&(a.K.push({m:c,a:b,t:e}),a.fa||setTimeout(a.delayReady,
+a.maxDelay));return f};a.delayReady=function(){var c=(new Date).getTime(),b=0,d;for(a.u("_d")?b=1:a.ya();0<a.K.length;){d=a.K.shift();if(b&&!d.t&&d.t>c){a.K.unshift(d);setTimeout(a.delayReady,parseInt(a.maxDelay/2));break}a.Ja=1;a[d.m].apply(a,d.a);a.Ja=0}};a.setAccount=a.sa=function(c){var b,d;if(!a.ea("setAccount",arguments))if(a.account=c,a.allAccounts)for(b=a.allAccounts.concat(c.split(",")),a.allAccounts=[],b.sort(),d=0;d<b.length;d++)0!=d&&b[d-1]==b[d]||a.allAccounts.push(b[d]);else a.allAccounts=
+c.split(",")};a.foreachVar=function(c,b){var d,f,e,g,k="";e=f="";if(a.lightProfileID)d=a.O,(k=a.lightTrackVars)&&(k=","+k+","+a.ka.join(",")+",");else{d=a.g;if(a.pe||a.linkType)k=a.linkTrackVars,f=a.linkTrackEvents,a.pe&&(e=a.pe.substring(0,1).toUpperCase()+a.pe.substring(1),a[e]&&(k=a[e].ac,f=a[e].$b));k&&(k=","+k+","+a.F.join(",")+",");f&&k&&(k+=",events,")}b&&(b=","+b+",");for(f=0;f<d.length;f++)e=d[f],(g=a[e])&&(!k||0<=k.indexOf(","+e+","))&&(!b||0<=b.indexOf(","+e+","))&&c(e,g)};a.o=function(c,
+b,d,f,e){var g="",k,l,h,n,m=0;"contextData"==c&&(c="c");if(b){for(k in b)if(!(Object.prototype[k]||e&&k.substring(0,e.length)!=e)&&b[k]&&(!d||0<=d.indexOf(","+(f?f+".":"")+k+","))){h=!1;if(m)for(l=0;l<m.length;l++)if(k.substring(0,m[l].length)==m[l]){h=!0;break}if(!h&&(""==g&&(g+="&"+c+"."),l=b[k],e&&(k=k.substring(e.length)),0<k.length))if(h=k.indexOf("."),0<h)l=k.substring(0,h),h=(e?e:"")+l+".",m||(m=[]),m.push(h),g+=a.o(l,b,d,f,h);else if("boolean"==typeof l&&(l=l?"true":"false"),l){if("retrieveLightData"==
+f&&0>e.indexOf(".contextData."))switch(h=k.substring(0,4),n=k.substring(4),k){case "transactionID":k="xact";break;case "channel":k="ch";break;case "campaign":k="v0";break;default:a.Pa(n)&&("prop"==h?k="c"+n:"eVar"==h?k="v"+n:"list"==h?k="l"+n:"hier"==h&&(k="h"+n,l=l.substring(0,255)))}g+="&"+a.escape(k)+"="+a.escape(l)}}""!=g&&(g+="&."+c)}return g};a.usePostbacks=0;a.Nb=function(){var c="",b,d,f,e,g,k,l,h,n="",m="",p=e="",r=a.T();if(a.lightProfileID)b=a.O,(n=a.lightTrackVars)&&(n=","+n+","+a.ka.join(",")+
+",");else{b=a.g;if(a.pe||a.linkType)n=a.linkTrackVars,m=a.linkTrackEvents,a.pe&&(e=a.pe.substring(0,1).toUpperCase()+a.pe.substring(1),a[e]&&(n=a[e].ac,m=a[e].$b));n&&(n=","+n+","+a.F.join(",")+",");m&&(m=","+m+",",n&&(n+=",events,"));a.events2&&(p+=(""!=p?",":"")+a.events2)}if(r&&r.getCustomerIDs){e=q;if(g=r.getCustomerIDs())for(d in g)Object.prototype[d]||(f=g[d],"object"==typeof f&&(e||(e={}),f.id&&(e[d+".id"]=f.id),f.authState&&(e[d+".as"]=f.authState)));e&&(c+=a.o("cid",e))}a.AudienceManagement&&
+a.AudienceManagement.isReady()&&(c+=a.o("d",a.AudienceManagement.getEventCallConfigParams()));for(d=0;d<b.length;d++){e=b[d];g=a[e];f=e.substring(0,4);k=e.substring(4);g||("events"==e&&p?(g=p,p=""):"marketingCloudOrgID"==e&&r&&a.V("ECID")&&(g=r.marketingCloudOrgID));if(g&&(!n||0<=n.indexOf(","+e+","))){switch(e){case "customerPerspective":e="cp";break;case "marketingCloudOrgID":e="mcorgid";break;case "supplementalDataID":e="sdid";break;case "timestamp":e="ts";break;case "dynamicVariablePrefix":e=
+"D";break;case "visitorID":e="vid";break;case "marketingCloudVisitorID":e="mid";break;case "analyticsVisitorID":e="aid";break;case "audienceManagerLocationHint":e="aamlh";break;case "audienceManagerBlob":e="aamb";break;case "authState":e="as";break;case "pageURL":e="g";255<g.length&&(a.pageURLRest=g.substring(255),g=g.substring(0,255));break;case "pageURLRest":e="-g";break;case "referrer":e="r";break;case "vmk":case "visitorMigrationKey":e="vmt";break;case "visitorMigrationServer":e="vmf";a.ssl&&
+a.visitorMigrationServerSecure&&(g="");break;case "visitorMigrationServerSecure":e="vmf";!a.ssl&&a.visitorMigrationServer&&(g="");break;case "charSet":e="ce";break;case "visitorNamespace":e="ns";break;case "cookieDomainPeriods":e="cdp";break;case "cookieLifetime":e="cl";break;case "variableProvider":e="vvp";break;case "currencyCode":e="cc";break;case "channel":e="ch";break;case "transactionID":e="xact";break;case "campaign":e="v0";break;case "latitude":e="lat";break;case "longitude":e="lon";break;
+case "resolution":e="s";break;case "colorDepth":e="c";break;case "javascriptVersion":e="j";break;case "javaEnabled":e="v";break;case "cookiesEnabled":e="k";break;case "browserWidth":e="bw";break;case "browserHeight":e="bh";break;case "connectionType":e="ct";break;case "homepage":e="hp";break;case "events":p&&(g+=(""!=g?",":"")+p);if(m)for(k=g.split(","),g="",f=0;f<k.length;f++)l=k[f],h=l.indexOf("="),0<=h&&(l=l.substring(0,h)),h=l.indexOf(":"),0<=h&&(l=l.substring(0,h)),0<=m.indexOf(","+l+",")&&(g+=
+(g?",":"")+k[f]);break;case "events2":g="";break;case "contextData":c+=a.o("c",a[e],n,e);g="";break;case "lightProfileID":e="mtp";break;case "lightStoreForSeconds":e="mtss";a.lightProfileID||(g="");break;case "lightIncrementBy":e="mti";a.lightProfileID||(g="");break;case "retrieveLightProfiles":e="mtsr";break;case "deleteLightProfiles":e="mtsd";break;case "retrieveLightData":a.retrieveLightProfiles&&(c+=a.o("mts",a[e],n,e));g="";break;default:a.Pa(k)&&("prop"==f?e="c"+k:"eVar"==f?e="v"+k:"list"==
+f?e="l"+k:"hier"==f&&(e="h"+k,g=g.substring(0,255)))}g&&(c+="&"+e+"="+("pev"!=e.substring(0,3)?a.escape(g):g))}"pev3"==e&&a.e&&(c+=a.e)}a.ja&&(c+="&lrt="+a.ja,a.ja=null);return c};a.B=function(a){var b=a.tagName;if("undefined"!=""+a.hc||"undefined"!=""+a.Wb&&"HTML"!=(""+a.Wb).toUpperCase())return"";b=b&&b.toUpperCase?b.toUpperCase():"";"SHAPE"==b&&(b="");b&&(("INPUT"==b||"BUTTON"==b)&&a.type&&a.type.toUpperCase?b=a.type.toUpperCase():!b&&a.href&&(b="A"));return b};a.La=function(a){var b=h.location,
+d=a.href?a.href:"",f,e,g;f=d.indexOf(":");e=d.indexOf("?");g=d.indexOf("/");d&&(0>f||0<=e&&f>e||0<=g&&f>g)&&(e=a.protocol&&1<a.protocol.length?a.protocol:b.protocol?b.protocol:"",f=b.pathname.lastIndexOf("/"),d=(e?e+"//":"")+(a.host?a.host:b.host?b.host:"")+("/"!=d.substring(0,1)?b.pathname.substring(0,0>f?0:f)+"/":"")+d);return d};a.L=function(c){var b=a.B(c),d,f,e="",g=0;return b&&(d=c.protocol,f=c.onclick,!c.href||"A"!=b&&"AREA"!=b||f&&d&&!(0>d.toLowerCase().indexOf("javascript"))?f?(e=a.replace(a.replace(a.replace(a.replace(""+
+f,"\r",""),"\n",""),"\t","")," ",""),g=2):"INPUT"==b||"SUBMIT"==b?(c.value?e=c.value:c.innerText?e=c.innerText:c.textContent&&(e=c.textContent),g=3):"IMAGE"==b&&c.src&&(e=c.src):e=a.La(c),e)?{id:e.substring(0,100),type:g}:0};a.fc=function(c){for(var b=a.B(c),d=a.L(c);c&&!d&&"BODY"!=b;)if(c=c.parentElement?c.parentElement:c.parentNode)b=a.B(c),d=a.L(c);d&&"BODY"!=b||(c=0);c&&(b=c.onclick?""+c.onclick:"",0<=b.indexOf(".tl(")||0<=b.indexOf(".trackLink("))&&(c=0);return c};a.Vb=function(){var c,b,d=a.linkObject,
+f=a.linkType,e=a.linkURL,g,k;a.la=1;d||(a.la=0,d=a.clickObject);if(d){c=a.B(d);for(b=a.L(d);d&&!b&&"BODY"!=c;)if(d=d.parentElement?d.parentElement:d.parentNode)c=a.B(d),b=a.L(d);b&&"BODY"!=c||(d=0);if(d&&!a.linkObject){var l=d.onclick?""+d.onclick:"";if(0<=l.indexOf(".tl(")||0<=l.indexOf(".trackLink("))d=0}}else a.la=1;!e&&d&&(e=a.La(d));e&&!a.linkLeaveQueryString&&(g=e.indexOf("?"),0<=g&&(e=e.substring(0,g)));if(!f&&e){var m=0,n=0,p;if(a.trackDownloadLinks&&a.linkDownloadFileTypes)for(l=e.toLowerCase(),
+g=l.indexOf("?"),k=l.indexOf("#"),0<=g?0<=k&&k<g&&(g=k):g=k,0<=g&&(l=l.substring(0,g)),g=a.linkDownloadFileTypes.toLowerCase().split(","),k=0;k<g.length;k++)(p=g[k])&&l.substring(l.length-(p.length+1))=="."+p&&(f="d");if(a.trackExternalLinks&&!f&&(l=e.toLowerCase(),a.Oa(l)&&(a.linkInternalFilters||(a.linkInternalFilters=h.location.hostname),g=0,a.linkExternalFilters?(g=a.linkExternalFilters.toLowerCase().split(","),m=1):a.linkInternalFilters&&(g=a.linkInternalFilters.toLowerCase().split(",")),g))){for(k=
+0;k<g.length;k++)p=g[k],0<=l.indexOf(p)&&(n=1);n?m&&(f="e"):m||(f="e")}}a.linkObject=d;a.linkURL=e;a.linkType=f;if(a.trackClickMap||a.trackInlineStats)a.e="",d&&(f=a.pageName,e=1,d=d.sourceIndex,f||(f=a.pageURL,e=0),h.s_objectID&&(b.id=h.s_objectID,d=b.type=1),f&&b&&b.id&&c&&(a.e="&pid="+a.escape(f.substring(0,255))+(e?"&pidt="+e:"")+"&oid="+a.escape(b.id.substring(0,100))+(b.type?"&oidt="+b.type:"")+"&ot="+c+(d?"&oi="+d:"")))};a.Ob=function(){var c=a.la,b=a.linkType,d=a.linkURL,f=a.linkName;b&&(d||
+f)&&(b=b.toLowerCase(),"d"!=b&&"e"!=b&&(b="o"),a.pe="lnk_"+b,a.pev1=d?a.escape(d):"",a.pev2=f?a.escape(f):"",c=1);a.abort&&(c=0);if(a.trackClickMap||a.trackInlineStats||a.Rb()){var b={},d=0,e=a.pb(),g=e?e.split("&"):0,k,l,h,e=0;if(g)for(k=0;k<g.length;k++)l=g[k].split("="),f=a.unescape(l[0]).split(","),l=a.unescape(l[1]),b[l]=f;f=a.account.split(",");k={};for(h in a.contextData)h&&!Object.prototype[h]&&"a.activitymap."==h.substring(0,14)&&(k[h]=a.contextData[h],a.contextData[h]="");a.e=a.o("c",k)+
+(a.e?a.e:"");if(c||a.e){c&&!a.e&&(e=1);for(l in b)if(!Object.prototype[l])for(h=0;h<f.length;h++)for(e&&(g=b[l].join(","),g==a.account&&(a.e+=("&"!=l.charAt(0)?"&":"")+l,b[l]=[],d=1)),k=0;k<b[l].length;k++)g=b[l][k],g==f[h]&&(e&&(a.e+="&u="+a.escape(g)+("&"!=l.charAt(0)?"&":"")+l+"&u=0"),b[l].splice(k,1),d=1);c||(d=1);if(d){e="";k=2;!c&&a.e&&(e=a.escape(f.join(","))+"="+a.escape(a.e),k=1);for(l in b)!Object.prototype[l]&&0<k&&0<b[l].length&&(e+=(e?"&":"")+a.escape(b[l].join(","))+"="+a.escape(l),
+k--);a.wb(e)}}}return c};a.pb=function(){if(a.useLinkTrackSessionStorage){if(a.Ca())return h.sessionStorage.getItem(a.P)}else return a.cookieRead(a.P)};a.Ca=function(){return h.sessionStorage?!0:!1};a.wb=function(c){a.useLinkTrackSessionStorage?a.Ca()&&h.sessionStorage.setItem(a.P,c):a.cookieWrite(a.P,c)};a.Pb=function(){if(!a.Zb){var c=new Date,b=p.location,d,f,e=f=d="",g="",k="",l="1.2",h=a.cookieWrite("s_cc","true",0)?"Y":"N",m="",q="";if(c.setUTCDate&&(l="1.3",(0).toPrecision&&(l="1.5",c=[],c.forEach))){l=
+"1.6";f=0;d={};try{f=new Iterator(d),f.next&&(l="1.7",c.reduce&&(l="1.8",l.trim&&(l="1.8.1",Date.parse&&(l="1.8.2",Object.create&&(l="1.8.5")))))}catch(r){}}d=screen.width+"x"+screen.height;e=navigator.javaEnabled()?"Y":"N";f=screen.pixelDepth?screen.pixelDepth:screen.colorDepth;g=a.w.innerWidth?a.w.innerWidth:a.d.documentElement.offsetWidth;k=a.w.innerHeight?a.w.innerHeight:a.d.documentElement.offsetHeight;try{a.b.addBehavior("#default#homePage"),m=a.b.gc(b)?"Y":"N"}catch(s){}try{a.b.addBehavior("#default#clientCaps"),
+q=a.b.connectionType}catch(t){}a.resolution=d;a.colorDepth=f;a.javascriptVersion=l;a.javaEnabled=e;a.cookiesEnabled=h;a.browserWidth=g;a.browserHeight=k;a.connectionType=q;a.homepage=m;a.Zb=1}};a.Q={};a.loadModule=function(c,b){var d=a.Q[c];if(!d){d=h["AppMeasurement_Module_"+c]?new h["AppMeasurement_Module_"+c](a):{};a.Q[c]=a[c]=d;d.ib=function(){return d.sb};d.xb=function(b){if(d.sb=b)a[c+"_onLoad"]=b,a.ea(c+"_onLoad",[a,d],1)||b(a,d)};try{Object.defineProperty?Object.defineProperty(d,"onLoad",
+{get:d.ib,set:d.xb}):d._olc=1}catch(f){d._olc=1}}b&&(a[c+"_onLoad"]=b,a.ea(c+"_onLoad",[a,d],1)||b(a,d))};a.u=function(c){var b,d;for(b in a.Q)if(!Object.prototype[b]&&(d=a.Q[b])&&(d._olc&&d.onLoad&&(d._olc=0,d.onLoad(a,d)),d[c]&&d[c]()))return 1;return 0};a.Rb=function(){return a.ActivityMap&&a.ActivityMap._c?!0:!1};a.Sb=function(){var c=Math.floor(1E13*Math.random()),b=a.visitorSampling,d=a.visitorSamplingGroup,d="s_vsn_"+(a.visitorNamespace?a.visitorNamespace:a.account)+(d?"_"+d:""),f=a.cookieRead(d);
+if(b){b*=100;f&&(f=parseInt(f));if(!f){if(!a.cookieWrite(d,c))return 0;f=c}if(f%1E4>b)return 0}return 1};a.S=function(c,b){var d,f,e,g,k,h,m;m={};for(d=0;2>d;d++)for(f=0<d?a.Ea:a.g,e=0;e<f.length;e++)if(g=f[e],(k=c[g])||c["!"+g]){if(k&&!b&&("contextData"==g||"retrieveLightData"==g)&&a[g])for(h in a[g])k[h]||(k[h]=a[g][h]);a[g]||(m["!"+g]=1);m[g]=a[g];a[g]=k}return m};a.cc=function(c){var b,d,f,e;for(b=0;2>b;b++)for(d=0<b?a.Ea:a.g,f=0;f<d.length;f++)e=d[f],c[e]=a[e],c[e]||"prop"!==e.substring(0,4)&&
+"eVar"!==e.substring(0,4)&&"hier"!==e.substring(0,4)&&"list"!==e.substring(0,4)&&"channel"!==e&&"events"!==e&&"eventList"!==e&&"products"!==e&&"productList"!==e&&"purchaseID"!==e&&"transactionID"!==e&&"state"!==e&&"zip"!==e&&"campaign"!==e&&"events2"!==e&&"latitude"!==e&&"longitude"!==e&&"ms_a"!==e&&"contextData"!==e&&"supplementalDataID"!==e&&"tnt"!==e&&"timestamp"!==e&&"abort"!==e&&"useBeacon"!==e&&"linkObject"!==e&&"clickObject"!==e&&"linkType"!==e&&"linkName"!==e&&"linkURL"!==e&&"bodyClickTarget"!==
+e&&"bodyClickFunction"!==e||(c["!"+e]=1)};a.Jb=function(a){var b,d,f,e,g,k=0,h,m="",n="";if(a&&255<a.length&&(b=""+a,d=b.indexOf("?"),0<d&&(h=b.substring(d+1),b=b.substring(0,d),e=b.toLowerCase(),f=0,"http://"==e.substring(0,7)?f+=7:"https://"==e.substring(0,8)&&(f+=8),d=e.indexOf("/",f),0<d&&(e=e.substring(f,d),g=b.substring(d),b=b.substring(0,d),0<=e.indexOf("google")?k=",q,ie,start,search_key,word,kw,cd,":0<=e.indexOf("yahoo.co")?k=",p,ei,":0<=e.indexOf("baidu.")&&(k=",wd,word,"),k&&h)))){if((a=
+h.split("&"))&&1<a.length){for(f=0;f<a.length;f++)e=a[f],d=e.indexOf("="),0<d&&0<=k.indexOf(","+e.substring(0,d)+",")?m+=(m?"&":"")+e:n+=(n?"&":"")+e;m&&n?h=m+"&"+n:n=""}d=253-(h.length-n.length)-b.length;a=b+(0<d?g.substring(0,d):"")+"?"+h}return a};a.bb=function(c){var b=a.d.visibilityState,d=["webkitvisibilitychange","visibilitychange"];b||(b=a.d.webkitVisibilityState);if(b&&"prerender"==b){if(c)for(b=0;b<d.length;b++)a.d.addEventListener(d[b],function(){var b=a.d.visibilityState;b||(b=a.d.webkitVisibilityState);
+"visible"==b&&c()});return!1}return!0};a.ba=!1;a.H=!1;a.zb=function(){a.H=!0;a.p()};a.I=!1;a.Ab=function(c){a.marketingCloudVisitorID=c.MCMID;a.visitorOptedOut=c.MCOPTOUT;a.analyticsVisitorID=c.MCAID;a.audienceManagerLocationHint=c.MCAAMLH;a.audienceManagerBlob=c.MCAAMB;a.I=!1;a.p()};a.ab=function(c){a.maxDelay||(a.maxDelay=250);return a.u("_d")?(c&&setTimeout(function(){c()},a.maxDelay),!1):!0};a.Z=!1;a.G=!1;a.ya=function(){a.G=!0;a.p()};a.isReadyToTrack=function(){var c=!0;if(!a.mb()||!a.kb())return!1;
+a.ob()||(c=!1);a.rb()||(c=!1);return c};a.mb=function(){a.ba||a.H||(a.bb(a.zb)?a.H=!0:a.ba=!0);return a.ba&&!a.H?!1:!0};a.kb=function(){var c=a.va();if(c)if(a.ra||a.aa)if(a.ra){if(!c.isApproved(c.Categories.ANALYTICS))return!1}else return!1;else return c.fetchPermissions(a.tb,!0),a.aa=!0,!1;return!0};a.V=function(c){var b=a.va();return b&&!b.isApproved(b.Categories[c])?!1:!0};a.va=function(){return h.adobe&&h.adobe.optIn?h.adobe.optIn:null};a.Y=!0;a.ob=function(){var c=a.T();if(!c||!c.getVisitorValues)return!0;
+a.Y&&(a.Y=!1,a.I||(a.I=!0,c.getVisitorValues(a.Ab)));return!a.I};a.T=function(){var c=a.visitor;c&&!c.isAllowed()&&(c=null);return c};a.rb=function(){a.Z||a.G||(a.ab(a.ya)?a.G=!0:a.Z=!0);return a.Z&&!a.G?!1:!0};a.aa=!1;a.tb=function(){a.aa=!1;a.ra=!0};a.j=q;a.q=0;a.callbackWhenReadyToTrack=function(c,b,d){var f;f={};f.Eb=c;f.Db=b;f.Bb=d;a.j==q&&(a.j=[]);a.j.push(f);0==a.q&&(a.q=setInterval(a.p,100))};a.p=function(){var c;if(a.isReadyToTrack()&&(a.yb(),a.j!=q))for(;0<a.j.length;)c=a.j.shift(),c.Db.apply(c.Eb,
+c.Bb)};a.yb=function(){a.q&&(clearInterval(a.q),a.q=0)};a.ta=function(c){var b,d={};a.cc(d);if(c!=q)for(b in c)d[b]=c[b];a.callbackWhenReadyToTrack(a,a.Da,[d]);a.Ba()};a.Lb=function(){var c=a.cookieRead("s_fid"),b="",d="",f;f=8;var e=4;if(!c||0>c.indexOf("-")){for(c=0;16>c;c++)f=Math.floor(Math.random()*f),b+="0123456789ABCDEF".substring(f,f+1),f=Math.floor(Math.random()*e),d+="0123456789ABCDEF".substring(f,f+1),f=e=16;c=b+"-"+d}a.cookieWrite("s_fid",c,1)||(c=0);return c};a.Da=function(c){var b=new Date,
+d="s"+Math.floor(b.getTime()/108E5)%10+Math.floor(1E13*Math.random()),f=b.getYear(),f="t="+a.escape(b.getDate()+"/"+b.getMonth()+"/"+(1900>f?f+1900:f)+" "+b.getHours()+":"+b.getMinutes()+":"+b.getSeconds()+" "+b.getDay()+" "+b.getTimezoneOffset()),e=a.T(),g;c&&(g=a.S(c,1));a.Sb()&&!a.visitorOptedOut&&(a.wa()||(a.fid=a.Lb()),a.Vb(),a.usePlugins&&a.doPlugins&&a.doPlugins(a),a.account&&(a.abort||(a.trackOffline&&!a.timestamp&&(a.timestamp=Math.floor(b.getTime()/1E3)),c=h.location,a.pageURL||(a.pageURL=
+c.href?c.href:c),a.referrer||a.Za||(c=a.Util.getQueryParam("adobe_mc_ref",null,null,!0),a.referrer=c||void 0===c?void 0===c?"":c:p.document.referrer),a.Za=1,a.referrer=a.Jb(a.referrer),a.u("_g")),a.Ob()&&!a.abort&&(e&&a.V("TARGET")&&!a.supplementalDataID&&e.getSupplementalDataID&&(a.supplementalDataID=e.getSupplementalDataID("AppMeasurement:"+a._in,a.expectSupplementalData?!1:!0)),a.V("AAM")||(a.contextData["cm.ssf"]=1),a.Pb(),f+=a.Nb(),a.qb(d,f),a.u("_t"),a.referrer="")));a.Ba();g&&a.S(g,1)};a.t=
+a.track=function(c,b){b&&a.S(b);a.Y=!0;a.isReadyToTrack()?null!=a.j&&0<a.j.length?(a.ta(c),a.p()):a.Da(c):a.ta(c)};a.Ba=function(){a.abort=a.supplementalDataID=a.timestamp=a.pageURLRest=a.linkObject=a.clickObject=a.linkURL=a.linkName=a.linkType=h.s_objectID=a.pe=a.pev1=a.pev2=a.pev3=a.e=a.lightProfileID=a.useBeacon=a.referrer=0};a.Aa=[];a.registerPreTrackCallback=function(c){for(var b=[],d=1;d<arguments.length;d++)b.push(arguments[d]);"function"==typeof c?a.Aa.push([c,b]):a.debugTracking&&a.C("DEBUG: Non function type passed to registerPreTrackCallback")};
+a.fb=function(c){a.ua(a.Aa,c)};a.za=[];a.registerPostTrackCallback=function(c){for(var b=[],d=1;d<arguments.length;d++)b.push(arguments[d]);"function"==typeof c?a.za.push([c,b]):a.debugTracking&&a.C("DEBUG: Non function type passed to registerPostTrackCallback")};a.eb=function(c){a.ua(a.za,c)};a.ua=function(c,b){if("object"==typeof c)for(var d=0;d<c.length;d++){var f=c[d][0],e=c[d][1].slice();e.unshift(b);if("function"==typeof f)try{f.apply(null,e)}catch(g){a.debugTracking&&a.C(g.message)}}};a.tl=
+a.trackLink=function(c,b,d,f,e){a.linkObject=c;a.linkType=b;a.linkName=d;e&&(a.bodyClickTarget=c,a.bodyClickFunction=e);return a.track(f)};a.trackLight=function(c,b,d,f){a.lightProfileID=c;a.lightStoreForSeconds=b;a.lightIncrementBy=d;return a.track(f)};a.clearVars=function(){var c,b;for(c=0;c<a.g.length;c++)if(b=a.g[c],"prop"==b.substring(0,4)||"eVar"==b.substring(0,4)||"hier"==b.substring(0,4)||"list"==b.substring(0,4)||"channel"==b||"events"==b||"eventList"==b||"products"==b||"productList"==b||
+"purchaseID"==b||"transactionID"==b||"state"==b||"zip"==b||"campaign"==b)a[b]=void 0};a.tagContainerMarker="";a.qb=function(c,b){var d=a.gb()+"/"+c+"?AQB=1&ndh=1&pf=1&"+(a.xa()?"callback=s_c_il["+a._in+"].doPostbacks&et=1&":"")+b+"&AQE=1";a.fb(d);a.cb(d);a.U()};a.gb=function(){var c=a.hb();return"http"+(a.ssl?"s":"")+"://"+c+"/b/ss/"+a.account+"/"+(a.mobile?"5.":"")+(a.xa()?"10":"1")+"/JS-"+a.version+(a.Yb?"T":"")+(a.tagContainerMarker?"-"+a.tagContainerMarker:"")};a.xa=function(){return a.AudienceManagement&&
+a.AudienceManagement.isReady()||0!=a.usePostbacks};a.hb=function(){var c=a.dc,b=a.trackingServer;b?a.trackingServerSecure&&a.ssl&&(b=a.trackingServerSecure):(c=c?(""+c).toLowerCase():"d1","d1"==c?c="112":"d2"==c&&(c="122"),b=a.jb()+"."+c+".2o7.net");return b};a.jb=function(){var c=a.visitorNamespace;c||(c=a.account.split(",")[0],c=c.replace(/[^0-9a-z]/gi,""));return c};a.Ya=/{(%?)(.*?)(%?)}/;a.bc=RegExp(a.Ya.source,"g");a.Ib=function(c){if("object"==typeof c.dests)for(var b=0;b<c.dests.length;++b){var d=
+c.dests[b];if("string"==typeof d.c&&"aa."==d.id.substr(0,3))for(var f=d.c.match(a.bc),e=0;e<f.length;++e){var g=f[e],k=g.match(a.Ya),h="";"%"==k[1]&&"timezone_offset"==k[2]?h=(new Date).getTimezoneOffset():"%"==k[1]&&"timestampz"==k[2]&&(h=a.Mb());d.c=d.c.replace(g,a.escape(h))}}};a.Mb=function(){var c=new Date,b=new Date(6E4*Math.abs(c.getTimezoneOffset()));return a.k(4,c.getFullYear())+"-"+a.k(2,c.getMonth()+1)+"-"+a.k(2,c.getDate())+"T"+a.k(2,c.getHours())+":"+a.k(2,c.getMinutes())+":"+a.k(2,c.getSeconds())+
+(0<c.getTimezoneOffset()?"-":"+")+a.k(2,b.getUTCHours())+":"+a.k(2,b.getUTCMinutes())};a.k=function(a,b){return(Array(a+1).join(0)+b).slice(-a)};a.pa={};a.doPostbacks=function(c){if("object"==typeof c)if(a.Ib(c),"object"==typeof a.AudienceManagement&&"function"==typeof a.AudienceManagement.isReady&&a.AudienceManagement.isReady()&&"function"==typeof a.AudienceManagement.passData)a.AudienceManagement.passData(c);else if("object"==typeof c&&"object"==typeof c.dests)for(var b=0;b<c.dests.length;++b){var d=
+c.dests[b];"object"==typeof d&&"string"==typeof d.c&&"string"==typeof d.id&&"aa."==d.id.substr(0,3)&&(a.pa[d.id]=new Image,a.pa[d.id].alt="",a.pa[d.id].src=d.c)}};a.cb=function(c){a.i||a.Qb();a.i.push(c);a.ia=a.A();a.Wa()};a.Qb=function(){a.i=a.Tb();a.i||(a.i=[])};a.Tb=function(){var c,b;if(a.oa()){try{(b=h.localStorage.getItem(a.ma()))&&(c=h.JSON.parse(b))}catch(d){}return c}};a.oa=function(){var c=!0;a.trackOffline&&a.offlineFilename&&h.localStorage&&h.JSON||(c=!1);return c};a.Ma=function(){var c=
+0;a.i&&(c=a.i.length);a.l&&c++;return c};a.U=function(){if(a.l&&(a.v&&a.v.complete&&a.v.D&&a.v.R(),a.l))return;a.Na=q;if(a.na)a.ia>a.N&&a.Ua(a.i),a.qa(500);else{var c=a.Cb();if(0<c)a.qa(c);else if(c=a.Ka())a.l=1,a.Ub(c),a.Xb(c)}};a.qa=function(c){a.Na||(c||(c=0),a.Na=setTimeout(a.U,c))};a.Cb=function(){var c;if(!a.trackOffline||0>=a.offlineThrottleDelay)return 0;c=a.A()-a.Sa;return a.offlineThrottleDelay<c?0:a.offlineThrottleDelay-c};a.Ka=function(){if(0<a.i.length)return a.i.shift()};a.Ub=function(c){if(a.debugTracking){var b=
+"AppMeasurement Debug: "+c;c=c.split("&");var d;for(d=0;d<c.length;d++)b+="\n\t"+a.unescape(c[d]);a.C(b)}};a.wa=function(){return a.marketingCloudVisitorID||a.analyticsVisitorID};a.X=!1;var t;try{t=JSON.parse('{"x":"y"}')}catch(w){t=null}t&&"y"==t.x?(a.X=!0,a.W=function(a){return JSON.parse(a)}):h.$&&h.$.parseJSON?(a.W=function(a){return h.$.parseJSON(a)},a.X=!0):a.W=function(){return null};a.Xb=function(c){var b,d,f;a.lb(c)&&(d=1,b={send:function(c){a.useBeacon=!1;navigator.sendBeacon(c)?b.R():b.ga()}});
+!b&&a.wa()&&2047<c.length&&(a.$a()&&(d=2,b=new XMLHttpRequest),b&&(a.AudienceManagement&&a.AudienceManagement.isReady()||0!=a.usePostbacks)&&(a.X?b.Fa=!0:b=0));!b&&a.Xa&&(c=c.substring(0,2047));!b&&a.d.createElement&&(0!=a.usePostbacks||a.AudienceManagement&&a.AudienceManagement.isReady())&&(b=a.d.createElement("SCRIPT"))&&"async"in b&&((f=(f=a.d.getElementsByTagName("HEAD"))&&f[0]?f[0]:a.d.body)?(b.type="text/javascript",b.setAttribute("async","async"),d=3):b=0);b||(b=new Image,b.alt="",b.abort||
+"undefined"===typeof h.InstallTrigger||(b.abort=function(){b.src=q}));b.Ta=Date.now();b.Ha=function(){try{b.D&&(clearTimeout(b.D),b.D=0)}catch(a){}};b.onload=b.R=function(){b.Ta&&(a.ja=Date.now()-b.Ta);a.eb(c);b.Ha();a.Gb();a.ca();a.l=0;a.U();if(b.Fa){b.Fa=!1;try{a.doPostbacks(a.W(b.responseText))}catch(d){}}};b.onabort=b.onerror=b.ga=function(){b.Ha();(a.trackOffline||a.na)&&a.l&&a.i.unshift(a.Fb);a.l=0;a.ia>a.N&&a.Ua(a.i);a.ca();a.qa(500)};b.onreadystatechange=function(){4==b.readyState&&(200==
+b.status?b.R():b.ga())};a.Sa=a.A();if(1===d)b.send(c);else if(2===d)f=c.indexOf("?"),d=c.substring(0,f),f=c.substring(f+1),f=f.replace(/&callback=[a-zA-Z0-9_.\[\]]+/,""),b.open("POST",d,!0),b.withCredentials=!0,b.send(f);else if(b.src=c,3===d){if(a.Qa)try{f.removeChild(a.Qa)}catch(e){}f.firstChild?f.insertBefore(b,f.firstChild):f.appendChild(b);a.Qa=a.v}b.D=setTimeout(function(){b.D&&(b.complete?b.R():(a.trackOffline&&b.abort&&b.abort(),b.ga()))},5E3);a.Fb=c;a.v=h["s_i_"+a.replace(a.account,",","_")]=
+b;if(a.useForcedLinkTracking&&a.J||a.bodyClickFunction)a.forcedLinkTrackingTimeout||(a.forcedLinkTrackingTimeout=250),a.da=setTimeout(a.ca,a.forcedLinkTrackingTimeout)};a.lb=function(c){var b=!1;navigator.sendBeacon&&(a.nb(c)?b=!0:a.useBeacon&&(b=!0));a.vb(c)&&(b=!1);return b};a.nb=function(a){return a&&0<a.indexOf("pe=lnk_e")?!0:!1};a.vb=function(a){return 64E3<=a.length};a.$a=function(){return"undefined"!==typeof XMLHttpRequest&&"withCredentials"in new XMLHttpRequest?!0:!1};a.Gb=function(){if(a.oa()&&
+!(a.Ra>a.N))try{h.localStorage.removeItem(a.ma()),a.Ra=a.A()}catch(c){}};a.Ua=function(c){if(a.oa()){a.Wa();try{h.localStorage.setItem(a.ma(),h.JSON.stringify(c)),a.N=a.A()}catch(b){}}};a.Wa=function(){if(a.trackOffline){if(!a.offlineLimit||0>=a.offlineLimit)a.offlineLimit=10;for(;a.i.length>a.offlineLimit;)a.Ka()}};a.forceOffline=function(){a.na=!0};a.forceOnline=function(){a.na=!1};a.ma=function(){return a.offlineFilename+"-"+a.visitorNamespace+a.account};a.A=function(){return(new Date).getTime()};
+a.Oa=function(a){a=a.toLowerCase();return 0!=a.indexOf("#")&&0!=a.indexOf("about:")&&0!=a.indexOf("opera:")&&0!=a.indexOf("javascript:")?!0:!1};a.setTagContainer=function(c){var b,d,f;a.Yb=c;for(b=0;b<a._il.length;b++)if((d=a._il[b])&&"s_l"==d._c&&d.tagContainerName==c){a.S(d);if(d.lmq)for(b=0;b<d.lmq.length;b++)f=d.lmq[b],a.loadModule(f.n);if(d.ml)for(f in d.ml)if(a[f])for(b in c=a[f],f=d.ml[f],f)!Object.prototype[b]&&("function"!=typeof f[b]||0>(""+f[b]).indexOf("s_c_il"))&&(c[b]=f[b]);if(d.mmq)for(b=
+0;b<d.mmq.length;b++)f=d.mmq[b],a[f.m]&&(c=a[f.m],c[f.f]&&"function"==typeof c[f.f]&&(f.a?c[f.f].apply(c,f.a):c[f.f].apply(c)));if(d.tq)for(b=0;b<d.tq.length;b++)a.track(d.tq[b]);d.s=a;break}};a.Util={urlEncode:a.escape,urlDecode:a.unescape,cookieRead:a.cookieRead,cookieWrite:a.cookieWrite,getQueryParam:function(c,b,d,f){var e,g="";b||(b=a.pageURL?a.pageURL:h.location);d=d?d:"&";if(!c||!b)return g;b=""+b;e=b.indexOf("?");if(0>e)return g;b=d+b.substring(e+1)+d;if(!f||!(0<=b.indexOf(d+c+d)||0<=b.indexOf(d+
+c+"="+d))){e=b.indexOf("#");0<=e&&(b=b.substr(0,e)+d);e=b.indexOf(d+c+"=");if(0>e)return g;b=b.substring(e+d.length+c.length+1);e=b.indexOf(d);0<=e&&(b=b.substring(0,e));0<b.length&&(g=a.unescape(b));return g}},getIeVersion:function(){if(document.documentMode)return document.documentMode;for(var a=7;4<a;a--){var b=document.createElement("div");b.innerHTML="\x3c!--[if IE "+a+"]><span></span><![endif]--\x3e";if(b.getElementsByTagName("span").length)return a}return null}};a.F="supplementalDataID timestamp dynamicVariablePrefix visitorID marketingCloudVisitorID analyticsVisitorID audienceManagerLocationHint authState fid vmk visitorMigrationKey visitorMigrationServer visitorMigrationServerSecure charSet visitorNamespace cookieDomainPeriods fpCookieDomainPeriods cookieLifetime pageName pageURL customerPerspective referrer contextData currencyCode lightProfileID lightStoreForSeconds lightIncrementBy retrieveLightProfiles deleteLightProfiles retrieveLightData".split(" ");
+a.g=a.F.concat("purchaseID variableProvider channel server pageType transactionID campaign state zip events events2 products audienceManagerBlob tnt".split(" "));a.ka="timestamp charSet visitorNamespace cookieDomainPeriods cookieLifetime contextData lightProfileID lightStoreForSeconds lightIncrementBy".split(" ");a.O=a.ka.slice(0);a.Ea="account allAccounts debugTracking visitor visitorOptedOut trackOffline offlineLimit offlineThrottleDelay offlineFilename usePlugins doPlugins configURL visitorSampling visitorSamplingGroup linkObject clickObject linkURL linkName linkType trackDownloadLinks trackExternalLinks trackClickMap trackInlineStats linkLeaveQueryString linkTrackVars linkTrackEvents linkDownloadFileTypes linkExternalFilters linkInternalFilters useForcedLinkTracking forcedLinkTrackingTimeout useLinkTrackSessionStorage trackingServer trackingServerSecure ssl abort mobile dc lightTrackVars maxDelay expectSupplementalData useBeacon usePostbacks registerPreTrackCallback registerPostTrackCallback bodyClickTarget bodyClickFunction AudienceManagement".split(" ");
+for(m=0;250>=m;m++)76>m&&(a.g.push("prop"+m),a.O.push("prop"+m)),a.g.push("eVar"+m),a.O.push("eVar"+m),6>m&&a.g.push("hier"+m),4>m&&a.g.push("list"+m);m="pe pev1 pev2 pev3 latitude longitude resolution colorDepth javascriptVersion javaEnabled cookiesEnabled browserWidth browserHeight connectionType homepage pageURLRest marketingCloudOrgID ms_a".split(" ");a.g=a.g.concat(m);a.F=a.F.concat(m);a.ssl=0<=h.location.protocol.toLowerCase().indexOf("https");a.charSet="UTF-8";a.contextData={};a.offlineThrottleDelay=
+0;a.offlineFilename="AppMeasurement.offline";a.P="s_sq";a.Sa=0;a.ia=0;a.N=0;a.Ra=0;a.linkDownloadFileTypes="exe,zip,wav,mp3,mov,mpg,avi,wmv,pdf,doc,docx,xls,xlsx,ppt,pptx";a.w=h;a.d=h.document;try{if(a.Xa=!1,navigator){var v=navigator.userAgent;if("Microsoft Internet Explorer"==navigator.appName||0<=v.indexOf("MSIE ")||0<=v.indexOf("Trident/")&&0<=v.indexOf("Windows NT 6"))a.Xa=!0}}catch(x){}a.ca=function(){a.da&&(h.clearTimeout(a.da),a.da=q);a.bodyClickTarget&&a.J&&a.bodyClickTarget.dispatchEvent(a.J);
+a.bodyClickFunction&&("function"==typeof a.bodyClickFunction?a.bodyClickFunction():a.bodyClickTarget&&a.bodyClickTarget.href&&(a.d.location=a.bodyClickTarget.href));a.bodyClickTarget=a.J=a.bodyClickFunction=0};a.Va=function(){a.b=a.d.body;a.b?(a.r=function(c){var b,d,f,e,g;if(!(a.d&&a.d.getElementById("cppXYctnr")||c&&c["s_fe_"+a._in])){if(a.Ga)if(a.useForcedLinkTracking)a.b.removeEventListener("click",a.r,!1);else{a.b.removeEventListener("click",a.r,!0);a.Ga=a.useForcedLinkTracking=0;return}else a.useForcedLinkTracking=
+0;a.clickObject=c.srcElement?c.srcElement:c.target;try{if(!a.clickObject||a.M&&a.M==a.clickObject||!(a.clickObject.tagName||a.clickObject.parentElement||a.clickObject.parentNode))a.clickObject=0;else{var k=a.M=a.clickObject;a.ha&&(clearTimeout(a.ha),a.ha=0);a.ha=setTimeout(function(){a.M==k&&(a.M=0)},1E4);f=a.Ma();a.track();if(f<a.Ma()&&a.useForcedLinkTracking&&c.target){for(e=c.target;e&&e!=a.b&&"A"!=e.tagName.toUpperCase()&&"AREA"!=e.tagName.toUpperCase();)e=e.parentNode;if(e&&(g=e.href,a.Oa(g)||
+(g=0),d=e.target,c.target.dispatchEvent&&g&&(!d||"_self"==d||"_top"==d||"_parent"==d||h.name&&d==h.name))){try{b=a.d.createEvent("MouseEvents")}catch(l){b=new h.MouseEvent}if(b){try{b.initMouseEvent("click",c.bubbles,c.cancelable,c.view,c.detail,c.screenX,c.screenY,c.clientX,c.clientY,c.ctrlKey,c.altKey,c.shiftKey,c.metaKey,c.button,c.relatedTarget)}catch(m){b=0}b&&(b["s_fe_"+a._in]=b.s_fe=1,c.stopPropagation(),c.stopImmediatePropagation&&c.stopImmediatePropagation(),c.preventDefault(),a.bodyClickTarget=
+c.target,a.J=b)}}}}}catch(n){a.clickObject=0}}},a.b&&a.b.attachEvent?a.b.attachEvent("onclick",a.r):a.b&&a.b.addEventListener&&(navigator&&(0<=navigator.userAgent.indexOf("WebKit")&&a.d.createEvent||0<=navigator.userAgent.indexOf("Firefox/2")&&h.MouseEvent)&&(a.Ga=1,a.useForcedLinkTracking=1,a.b.addEventListener("click",a.r,!0)),a.b.addEventListener("click",a.r,!1))):setTimeout(a.Va,30)};a.Hb();a.ic||(r?a.setAccount(r):a.C("Error, missing Report Suite ID in AppMeasurement initialization"),a.Va(),
+a.loadModule("ActivityMap"))}function s_gi(r){var a,h=window.s_c_il,q,p,m=r.split(","),s,u,t=0;if(h)for(q=0;!t&&q<h.length;){a=h[q];if("s_c"==a._c&&(a.account||a.oun))if(a.account&&a.account==r)t=1;else for(p=a.account?a.account:a.oun,p=a.allAccounts?a.allAccounts:p.split(","),s=0;s<m.length;s++)for(u=0;u<p.length;u++)m[s]==p[u]&&(t=1);q++}t?a.setAccount&&a.setAccount(r):a=new AppMeasurement(r);return a}AppMeasurement.getInstance=s_gi;window.s_objectID||(window.s_objectID=0);
+function s_pgicq(){var r=window,a=r.s_giq,h,q,p;if(a)for(h=0;h<a.length;h++)q=a[h],p=s_gi(q.oun),p.setAccount(q.un),p.setTagContainer(q.tagContainerName);r.s_giq=0}s_pgicq();

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_height="match_parent"
+  android:layout_width="match_parent"
+  >
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <TextView
+      android:id="@+id/select_question"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/select_prompt"
+      android:layout_margin="@dimen/wide_space"
+      style="@style/TextAppearance.MaterialComponents.Body1"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.cardview.widget.CardView
+      android:id="@+id/select_card"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:cardCornerRadius="@dimen/medium_space"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/select_question"
+      app:cardElevation="@dimen/wide_space"
+      android:layout_margin="@dimen/wide_space"
+      >
+
+      <TextView
+        android:id="@+id/select_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Placeholder"
+        android:layout_marginHorizontal="@dimen/extrawide_space"
+        android:layout_marginVertical="@dimen/medium_space"
+        />
+    </androidx.cardview.widget.CardView>
+    <View
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/extrawide_space"
+      app:layout_constraintTop_toBottomOf="@id/select_card"/>
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

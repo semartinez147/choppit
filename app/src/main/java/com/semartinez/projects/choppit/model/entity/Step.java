@@ -7,7 +7,6 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
         )
     }
 )
-public class Step implements RecipeComponent {
+public class Step {
 
   @ColumnInfo(name = "step_id")
   @PrimaryKey(autoGenerate = true)

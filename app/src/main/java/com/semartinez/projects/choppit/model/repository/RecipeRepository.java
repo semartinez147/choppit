@@ -12,9 +12,10 @@ import com.semartinez.projects.choppit.controller.ui.editing.SelectionFragment;
 import com.semartinez.projects.choppit.model.dao.RecipeDao;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Recipe;
-import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
 import com.semartinez.projects.choppit.model.entity.Step;
+import com.semartinez.projects.choppit.model.pojo.RecipePojo;
 import com.semartinez.projects.choppit.service.ChoppitDatabase;
+import com.semartinez.projects.choppit.service.DocumentWithStrings;
 import com.semartinez.projects.choppit.service.JsoupPrepper;
 import com.semartinez.projects.choppit.service.JsoupRetriever;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
@@ -22,10 +23,8 @@ import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import org.jsoup.Jsoup;
@@ -46,7 +45,6 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
   private final JsoupRetriever retriever;
   private final JsoupPrepper prepper;
   private final SharedPreferences preferences;
-  private String[] recipeMeta = new String[2];
   private Document doc;
 
   public static void setContext(Application context) {
@@ -57,8 +55,12 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
     return InstanceHolder.INSTANCE;
   }
 
-  public String[] getRecipeMeta() {
-    return recipeMeta;
+  public String getRecipeUrl() {
+    return doc.location();
+  }
+
+  public String getRecipeTitle() {
+    return doc.title();
   }
 
   private RecipeRepository() {
@@ -175,19 +177,26 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
       assert doc != null : "null document";
       retriever.setDocument(doc);
       prepper.setDocument(doc);
-      recipeMeta = new String[]{url, doc.title()};
     })
         .subscribeOn(Schedulers.from(networkPool));
   }
 
-  public Single<File> generateHtml() {
-    File html;
+//  public Single<File> generateHtml() {
+//    File html;
+//    try {
+//      html = prepper.prepare(doc.location());
+//    } catch (IOException e) {
+//      return Single.error(e);
+//    }
+//    return Single.just(html);
+//  }
+
+  public Single<DocumentWithStrings> generateDocument() {
     try {
-      html = prepper.prepare(recipeMeta[0]);
+      return Single.just(prepper.prepare(doc.location())).subscribeOn(Schedulers.io());
     } catch (IOException e) {
       return Single.error(e);
     }
-    return Single.just(html);
   }
 
   /**
@@ -199,9 +208,9 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
    * @param instruction input by the user on the {@link SelectionFragment}
    * @return a list of {@link Step} objects with attached {@link Ingredient}s.
    */
-  public Single<Map<String, List<? extends RecipeComponent>>> process(String ingredient,
+  public Single<RecipePojo> process(String ingredient,
       String instruction) {
-    Map<String, List<? extends RecipeComponent>> data = retriever.process(ingredient, instruction);
+    RecipePojo data = retriever.process(ingredient, instruction);
     return Single.just(data);
   }
 

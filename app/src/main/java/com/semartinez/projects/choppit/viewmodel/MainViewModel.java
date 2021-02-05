@@ -11,16 +11,15 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Recipe;
-import com.semartinez.projects.choppit.model.entity.Recipe.RecipeComponent;
 import com.semartinez.projects.choppit.model.entity.Step;
+import com.semartinez.projects.choppit.model.pojo.RecipePojo;
 import com.semartinez.projects.choppit.model.repository.RecipeRepository;
+import com.semartinez.projects.choppit.service.DocumentWithStrings;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class MainViewModel extends AndroidViewModel implements LifecycleObserver {
@@ -29,6 +28,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   private final MutableLiveData<List<Step>> steps;
   private final MutableLiveData<List<Ingredient>> ingredients;
   private final MutableLiveData<File> html;
+  private final MutableLiveData<DocumentWithStrings> documentWithStrings;
   private final MutableLiveData<Throwable> throwable;
   private final MutableLiveData<Set<String>> permissions;
   private final MutableLiveData<String> status;
@@ -52,6 +52,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     pending = new CompositeDisposable();
     status = new MutableLiveData<>();
     repository = RecipeRepository.getInstance();
+    documentWithStrings = new MutableLiveData<>();
     resetData();
   }
 
@@ -69,6 +70,10 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
 
   public LiveData<List<Ingredient>> getIngredients() {
     return ingredients;
+  }
+
+  public LiveData<DocumentWithStrings> getDocumentWithStrings() {
+    return documentWithStrings;
   }
 
   public LiveData<File> getHtml() {
@@ -95,6 +100,8 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     steps.postValue(null);
     ingredients.postValue(null);
     recipe.postValue(null);
+    documentWithStrings.postValue(null);
+    html.postValue(null);
     throwable.postValue(null);
     status.postValue("");
   }
@@ -121,9 +128,12 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   public void generateHtml() {
     throwable.setValue(null);
     pending.add(
-        repository.generateHtml()
+        repository.generateDocument().subscribeOn(Schedulers.computation())
             .subscribe(
-                html::postValue,
+                value -> {
+                  documentWithStrings.postValue(value);
+                  status.postValue("processing");
+                },
                 throwable::postValue
             )
     );
@@ -139,28 +149,15 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     );
   }
 
-  public void finish(Map<String, List<? extends RecipeComponent>> data) {
-    if (data instanceof List) {
-
-    }
-
-    List<Ingredient> ingredientData = new ArrayList<>();
-    for (RecipeComponent recipeComponent : data.get("ingredients")) {
-      ingredientData.add((Ingredient) recipeComponent);
-    }
-    ingredients.setValue(ingredientData);
-
-    List<Step> stepData = new ArrayList<>();
-    for (RecipeComponent recipeComponent : data.get("steps")) {
-      stepData.add((Step) recipeComponent);
-    }
-    steps.setValue(stepData);
+  public void finish(RecipePojo data) {
+    ingredients.setValue(data.getIngredients());
+    steps.setValue(data.getSteps());
     status.postValue("finishing");
   }
 
   public void postRecipe() {
     this.recipe
-        .postValue(new Recipe(repository.getRecipeMeta()[0], repository.getRecipeMeta()[1], false,
+        .postValue(new Recipe(repository.getRecipeUrl(), repository.getRecipeTitle(), false,
             steps.getValue(), ingredients.getValue()));
     status.postValue("finished");
   }

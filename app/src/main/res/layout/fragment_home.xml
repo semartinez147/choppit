@@ -6,38 +6,45 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   app:layout_behavior="@string/appbar_scrolling_view_behavior"
-  tools:context=".controller.MainActivity">
+  tools:context=".controller.MainActivity"
+  android:background="@color/colorAccent">
 
   <ImageView
-    android:id="@+id/logo"
-    android:layout_marginTop="@dimen/narrow_space"
-    android:layout_width="wrap_content"
+    android:id="@+id/home_logo"
+    android:layout_width="0dp"
     android:layout_height="0dp"
-    android:adjustViewBounds="true"
-    android:contentDescription="@string/logo"
-    android:scaleType="fitCenter"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintBottom_toTopOf="@id/guideline"
-    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:srcCompat="@drawable/logo"/>
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_margin="@dimen/medium_space"
+    app:srcCompat="@drawable/ic_icon"
+    android:contentDescription="@string/logo"/>
 
   <androidx.constraintlayout.widget.Guideline
     android:id="@+id/guideline"
     android:layout_width="match_parent"
     android:layout_height="@dimen/narrow_space"
     android:orientation="horizontal"
-    app:layout_constraintGuide_percent=".33"/>
+    app:layout_constraintGuide_percent=".45"/>
+
+  <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="@id/url_layout"
+    app:layout_constraintEnd_toEndOf="@id/url_layout"
+    app:layout_constraintBottom_toTopOf="@id/url_layout"
+    android:layout_margin="4dp"
+    android:text="@string/home_input_hint"
+    />
 
   <com.google.android.material.textfield.TextInputLayout
     android:id="@+id/url_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/narrow_space"
-    app:hintAnimationEnabled="true"
     app:layout_constraintBottom_toTopOf="@id/new_recipe"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/logo">
+    app:layout_constraintTop_toBottomOf="@id/home_logo">
 
     <com.google.android.material.textfield.TextInputEditText
       android:id="@+id/url_input"
@@ -46,8 +53,6 @@
       android:layout_margin="@dimen/narrow_space"
       android:textSize="14sp"
       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-      android:hint="@string/url_input_hint"
-
       android:inputType="textUri"/>
   </com.google.android.material.textfield.TextInputLayout>
 
@@ -56,6 +61,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="@string/new_recipe"
+    android:textColor="@color/colorAccentDark"
+    android:backgroundTint="@color/colorPrimary"
     app:layout_constraintBottom_toTopOf="@id/my_cookbook"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -66,6 +73,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="@string/my_cookbook"
+    android:textColor="@color/colorAccentDark"
+    android:backgroundTint="@color/colorPrimary"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"

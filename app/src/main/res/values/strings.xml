@@ -1,7 +1,7 @@
 <resources>
   <string name="app_name">Choppit</string>
   <string name="title_home">Choppit Home</string>
-  <string name="url_input_hint">Paste a recipe link or start from scratch</string>
+  <string name="home_input_hint">Paste a recipe link here or tap New Recipe to start from scratch.</string>
   <string name="new_recipe">New Recipe</string>
   <string name="my_cookbook">My Cookbook</string>
   <string name="logo">Choppit Logo</string>
@@ -9,8 +9,8 @@
   <string name="title_editing">Recipe Editing</string>
   <string name="cookbook">Cookbook</string>
   <string name="recipe">Recipe</string>
-  <string name="ingredient_input_hint">Paste the text of any ingredient here</string>
-  <string name="step_input_hint">Paste text from any step here</string>
+  <string name="ingredient_input_hint">Ingredient text</string>
+  <string name="step_input_hint">Instruction text</string>
   <string name="save_button">Save Recipe</string>
   <string name="extract_button">Extract Recipe</string>
   <string name="title_selection">Detail Selection</string>
@@ -33,7 +33,6 @@
   <string name="processing">… processing the data</string>
   <string name="finishing">… finishing</string>
   <string name="octothorpe">#</string>
-  <string name="loading_info">Have patience!  Your recipe should be processed soon.</string>
   <string name="unit_hint">Unit</string>
   <string name="ingredient_hint">Ingredient</string>
   <string name="save_failed">Failed to save recipe!</string>
@@ -52,4 +51,8 @@
   <string name="save_recipe">Do you want to save a new recipe, or update the existing one?  A new recipe has to have a different title.</string>
   <string name="sp_key_recipe_font_size">Font Size</string>
   <string name="finished">… finished!</string>
+  <string name="string_selector">String Selector</string>
+  <string name="selection_message">Choppit extracted these text elements.\nTap below to copy text.</string>
+  <string name="no_string_selected">Please select text for an ingredient and a step.</string>
+  <string name="select_prompt">Is this text an ingredient or instruction in your recipe?</string>
 </resources>

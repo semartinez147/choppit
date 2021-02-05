@@ -23,7 +23,6 @@ import org.jetbrains.annotations.NotNull;
     }
 )
 
-//TODO change LinkedLists to ArrayLists
 public class Recipe extends BaseObservable {
 
   @ColumnInfo(name = "recipe_id")
@@ -176,10 +175,6 @@ public class Recipe extends BaseObservable {
     return recipe;
   }
 
-
-  public interface RecipeComponent {
-    // exists to group Ingredient and Step objects
-  }
 
   @NonNull
   @Override

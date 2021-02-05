@@ -1,10 +1,12 @@
 package com.semartinez.projects.choppit.controller.ui.editing;
 
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +15,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import com.semartinez.projects.choppit.R;
-import com.semartinez.projects.choppit.controller.ui.editing.LoadingFragmentDirections.LoadSel;
+import com.semartinez.projects.choppit.service.DocumentWithStrings;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 
 public class LoadingFragment extends Fragment implements Observer<String> {
@@ -24,7 +26,6 @@ public class LoadingFragment extends Fragment implements Observer<String> {
   private String instruction;
   private TextView status;
   private boolean fromHome;
-  private LoadSel select;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,10 +41,13 @@ public class LoadingFragment extends Fragment implements Observer<String> {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    Log.d(getClass().getName(), "onCreateView - " + url + " " + ingredient + " " + instruction);
     View root = inflater.inflate(R.layout.fragment_loading, container, false);
     status = root.findViewById(R.id.status);
     viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+    ImageView spinner = root.findViewById(R.id.load_logo);
+    AnimatedVectorDrawable d = (AnimatedVectorDrawable) spinner.getDrawable();
+
+    d.start();
     return root;
   }
 
@@ -76,6 +80,7 @@ public class LoadingFragment extends Fragment implements Observer<String> {
 
   @Override
   public void onChanged(String s) {
+    //TODO: update switch logic.
     switch (s) {
       case "connecting":
         Log.d("LoadingFrag", "connecting");
@@ -85,14 +90,21 @@ public class LoadingFragment extends Fragment implements Observer<String> {
       case "connected":
         status.setText(R.string.separating);
         viewModel.generateHtml();
-        viewModel.getHtml().observe(getViewLifecycleOwner(), h -> {
-          select = LoadingFragmentDirections.loadSel()
-              .setHtml(String.valueOf(h));
-          Navigation.findNavController(requireView()).navigate(select);
-        });
+        viewModel.getDocumentWithStrings().observe(getViewLifecycleOwner(),
+            new Observer<DocumentWithStrings>() {
+              @Override
+              public void onChanged(DocumentWithStrings d) {
+                if (d != null) {
+                  viewModel.getDocumentWithStrings().removeObserver(this);
+                  Navigation.findNavController(LoadingFragment.this.requireView()).navigate(LoadingFragmentDirections.loadSel());
+
+                }
+
+              }
+            });
+        status.setText(R.string.processing);
         break;
       case "processing":
-        status.setText(R.string.processing);
         Log.d("LoadingFrag", "processing");
         break;
       case "finishing":
@@ -100,7 +112,7 @@ public class LoadingFragment extends Fragment implements Observer<String> {
         viewModel.postRecipe();
         break;
       case "finished":
-//          status.setText(R.string.finished); TODO: check switch logic.
+//          status.setText(R.string.finished);
       default:
         status.setText(R.string.warming_up);
         break;

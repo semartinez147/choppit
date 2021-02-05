@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.semartinez.projects.choppit.controller.ui.DeleteDialog;
+import com.semartinez.projects.choppit.controller.ui.dialog.DeleteDialog;
 import com.semartinez.projects.choppit.databinding.FragmentCookbookBinding;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.view.CookbookRecyclerAdapter;
@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class CookbookFragment extends Fragment {
 
-  CookbookRecyclerAdapter cookbookRecyclerAdapter;
+  private CookbookRecyclerAdapter cookbookRecyclerAdapter;
   private MainViewModel viewModel;
   private final List<Recipe> recipes = new ArrayList<>();
   private FragmentCookbookBinding binding;

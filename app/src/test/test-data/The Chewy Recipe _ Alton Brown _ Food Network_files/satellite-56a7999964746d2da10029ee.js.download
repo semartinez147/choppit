@@ -1,0 +1,178 @@
+_satellite.pushAsyncScript(function(event, target, $variables){
+  //SNI.Analyitcs Namespace / Methods
+//Update: 20200123
+
+window.SNI = window.SNI || {};
+SNI.Analytics = SNI.Analytics || {};
+SNI.Analytics.hasLocalStorage = (function () {
+    var test = 'test';
+    try {
+        localStorage.setItem(test, test);
+        localStorage.removeItem(test);
+        return true;
+    } catch (e) {
+        return false;
+    }
+})();
+
+SNI.Analytics.moduleTrackLS = function (obj, options) {
+    var contextVars, i, origEvents, origVars;
+    if (!options.TargetUrl) {
+        options.TargetUrl = "on page interaction";
+    }
+    if (!options.LocUrl) {
+        options.LocUrl = document.location.href;
+    }
+	
+	
+	if (SNI.Analytics.hasLocalStorage && options.TargetUrl !== "on page interaction" && options.TargetUrl !== options.LocUrl && options.TargetUrl.indexOf(document.location.hostname) !== -1 && options.TargetUrl.indexOf('mailto:') !== 0 && options.LinkTitle.indexOf('Facebook Messenger') === -1) {
+    _satellite.notify("Saving event to local storage to fire on next page load");
+    localStorage.setItem("TRACKMOD", JSON.stringify(options));
+    } else {
+        contextVars = Object.keys(options).sort();
+        origEvents = s.linkTrackEvents;
+        origVars = s.linkTrackVars;
+        s.linkTrackEvents = "event24";
+        s.linkTrackVars = "";
+        if (options.Events && options.Events.length > 0) {
+            s.linkTrackEvents += "," + options.Events.join(",");
+        }
+        i = contextVars.length || 0;
+        while (i--) {
+            s.linkTrackVars += 'contextData.' + contextVars[i] + ',';
+            if (contextVars[i] != 'LinkTitle') {
+                s.contextData[contextVars[i]] = options[contextVars[i]].toString().replace("|", "").replace(/https?:\/\/([^.]*).*.com\/?/, "$1.../");
+            } else {
+                s.contextData[contextVars[i]] = options[contextVars[i]].toString().replace(/https?:\/\/([^.]*).*.com\/?/, "$1.../");
+            }
+            _satellite.notify(contextVars[i] + ":" + s.contextData[contextVars[i]], 1);
+        }
+        s.linkTrackVars += "prop53";
+        s.events = s.apl(s.events, "event24", ",", 2);
+        s.tl(obj, 'o', options.ModuleName);
+        // clear everything out
+        while (contextVars.length > 0) {
+            s.contextData[contextVars.pop()] = "";
+        }
+        s.events = s.events.replace("event24", "");
+        s.linkTrackEvents = origEvents;
+        s.linkTrackVars = origVars;
+    }
+};
+
+SNI.Analytics.fireEvent = function (events, opts) {
+    // events: comma-seperated list of events to include
+    // opts.trackvars: comma-seperated list of props and evars to include
+    // opts.linktitle: value for custom links report
+    if (!events || typeof events !== "string") {
+        return false;
+    }
+    opts = opts || {
+        trackvars: "prop5,prop6,prop7,prop8,prop9,prop10,prop11,prop12,prop13",
+        linktitle: "event tracking link"
+    };
+    if (typeof opts === "object") {
+        opts.trackvars = typeof opts.trackvars === "string" && opts.trackvars ? opts.trackvars + ",events" : "prop5,prop6,prop7,prop8,prop9,prop10,prop11,prop12,prop13,events";
+        opts.linktitle = typeof opts.linktitle === "string" && opts.linktitle ? opts.linktitle : "event tracking link";
+    }
+    s.linkTrackEvents = events;
+    s.linkTrackVars = opts.trackvars;
+    s.events = events;
+    s.tl(this, 'o', opts.linktitle);
+    return true;
+};
+SNI.Analytics.optlyEvent = function (events, opts) {
+    // events: comma-seperated list of events to include
+    // opts.trackvars: comma-seperated list of props and evars to include
+    // opts.linktitle: value for custom links report
+    if (!events || typeof events !== "string") {
+        return false;
+    }
+    opts = opts || {
+        trackvars: "prop5,prop6,prop7,prop8,prop9,prop10,prop11,prop12,prop13",
+        linktitle: "optimizely test link"
+    };
+    if (typeof opts === "object") {
+        opts.trackvars = typeof opts.trackvars === "string" && opts.trackvars ? opts.trackvars + ",events" : "prop5,prop6,prop7,prop8,prop9,prop10,prop11,prop12,prop13,events";
+        opts.linktitle = typeof opts.linktitle === "string" && opts.linktitle ? opts.linktitle : "optimizely test link";
+    }
+    s.linkTrackEvents = events;
+    s.linkTrackVars = opts.trackvars;
+    s.events = events;
+    s.tl(this, 'o', opts.linktitle);
+    return true;
+};
+
+// write an arbitrary set of analytics data to a 
+// localStorage record call TRACKLSANALYTICS
+if (SNI.Analytics.hasLocalStorage && typeof localStorage === "object") {
+    SNI.Analytics.trackViaLS = function (opts) {
+        var lsval = JSON.stringify(opts),
+            retval;
+        try {
+            localStorage.setItem("TRACKLSANALYTICS", lsval);
+            retval = true;
+        } catch (e) {
+            //console.log("couldn't write localStorage");
+            retval = false;
+        }
+        return retval;
+    };
+}
+
+SNI.Analytics.track = function sni_analytics_track() {
+    if (location.host.indexOf(".sni.") == -1) {
+        $.ajax({
+            url: window.location.origin + '/comscore.md5.25cae8f4235bdaab3ce06717dfb25199.js',
+            cache: false
+        })
+    }
+    s.t();
+};
+
+SNI.Analytics.trackLink = function sni_analytics_tracklink() {
+    s.tl();
+};
+
+SNI.Analytics.attachClickTracking = function sni_analytics_attachclicktracking(opts) {
+    var $container = $(opts.selector);
+    $(opts.selector).find("button,a").off('click.sni_analytics').on('click.sni_analytics', function () {
+        SNI.Analytics.moduleTrackLS(this, {
+            ModuleName: opts.namespace,
+            LinkTitle: $(this).attr("title") ? $(this).attr("title") : $(this).html(),
+            LinkPosition: $container.index(this),
+            TargetUrl: $(this).attr("href") && $(this).attr("href")
+        });
+    });
+    _satellite.notify("attachClickTracking: " + JSON.stringify(opts), 1);
+};
+
+$(function () {
+    if (typeof s === "object") {
+        s.trackModLocalStorage = function () {
+            var modName, contextVars, i;
+            try {
+                if (localStorage.getItem("TRACKMOD")) {
+                    modName = JSON.parse(localStorage.getItem("TRACKMOD")),
+                        contextVars = Object.keys(modName).sort(),
+                        i = contextVars.length || 0;
+                    while (i--) {
+                        s.contextData[contextVars[i]] = modName[contextVars[i]];
+                    }
+                    s.events = s.apl(s.events, "event24", ",", 2);
+                    if (typeof s.Integrate === "object" && typeof s.Integrate.removeTrackMod !== "object") {
+                        s.Integrate.add("removeTrackMod");
+                        s.Integrate.removeTrackMod.useVars = function () {
+                            _satellite.notify("DELETING TRACKMOD", 1);
+                            localStorage.removeItem("TRACKMOD");
+                        }
+                    }
+                    return true;
+                }
+            } catch (e) {
+                // couldn't read localstorage
+            }
+        };
+    }
+});
+});

@@ -40,25 +40,26 @@
 
   <ImageView
     android:id="@+id/small_logo"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="@dimen/icon_size"
+    android:layout_height="@dimen/icon_size"
     android:layout_marginTop="@dimen/wide_space"
-    android:layout_marginBottom="@dimen/wide_space"
+    android:layout_marginBottom="@dimen/medium_space"
     android:adjustViewBounds="true"
-    android:contentDescription="@string/logo"
     android:scaleType="fitCenter"
+    android:contentDescription="@string/logo"
+    android:elevation="@dimen/wide_space"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintBottom_toTopOf="@id/recipe_title"
-    app:srcCompat="@drawable/small_logo"
-    android:elevation="@dimen/wide_space"/>
+    app:srcCompat="@drawable/ic_icon"
+    />
 
     <TextView
       android:id="@+id/recipe_title"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      style="@style/TextAppearance.AppCompat.Display1"
+      style="@style/RecipeItem.Title"
       android:text="@{recipe.title}"
       app:layout_constraintTop_toBottomOf="@id/small_logo"
       app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +69,7 @@
       android:id="@+id/recipe_url"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      style="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
+      style="@style/RecipeItem.Url"
       android:text="@{recipe.url}"
       android:visibility="@{recipe.url == null ? View.GONE : View.VISIBLE}"
       app:layout_constraintTop_toBottomOf="@id/recipe_title"

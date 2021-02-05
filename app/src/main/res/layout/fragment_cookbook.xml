@@ -46,7 +46,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/divider"
-        app:srcCompat="@drawable/small_logo"
+        app:srcCompat="@drawable/ic_icon"
         android:elevation="16dp"/>
 
       <androidx.recyclerview.widget.RecyclerView
@@ -57,7 +57,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="@dimen/wide_space"
-        tools:listitem="@layout/cookbook_list_item"
+        tools:listitem="@layout/item_cookbook_list"
         />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

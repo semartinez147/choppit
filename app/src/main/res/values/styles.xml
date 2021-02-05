@@ -26,11 +26,13 @@
 <style name="RecipeItem.Header" parent = "RecipeItem">
   <item name="android:textSize">18sp</item>
   <item name="android:textStyle">italic</item>
+  <item name="android:textColor">@color/colorDark</item>
 </style>
 
   <style name="RecipeItem.Text" parent="RecipeItem">
     <item name="android:textSize">@dimen/font14sp</item>
     <item name="android:lineSpacingExtra">6sp</item>
+    <item name="android:textColor">@color/colorDark</item>
   </style>
 
   <style name="Droid">
