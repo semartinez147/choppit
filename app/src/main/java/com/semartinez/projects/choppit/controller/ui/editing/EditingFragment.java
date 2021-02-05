@@ -1,8 +1,5 @@
 package com.semartinez.projects.choppit.controller.ui.editing;
 
-import static com.semartinez.projects.choppit.BR.bindViewModel;
-import static com.semartinez.projects.choppit.BR.uiController;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,7 +57,7 @@ public class EditingFragment extends Fragment {
     }
     viewModel.getRecipe().observe(getViewLifecycleOwner(), result -> {
       if (result != null) {
-        recipe = viewModel.getRecipe().getValue();
+        recipe = result;
       } else {
         recipe = Recipe.getEmptyRecipe();
       }
@@ -70,8 +67,8 @@ public class EditingFragment extends Fragment {
 
     binding = FragmentEditingBinding.inflate(inflater);
     binding.setLifecycleOwner(this);
-    binding.setVariable(bindViewModel, viewModel);
-    binding.setVariable(uiController, this);
+    binding.setBindViewModel(viewModel);
+    binding.setUiController(this);
 
     Button saveButton = binding.editingSave;
     saveButton.setOnClickListener(v -> {

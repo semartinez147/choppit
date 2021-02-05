@@ -50,7 +50,6 @@ public class SelectDialog extends DialogFragment implements OnClickListener {
     return dialogView;
   }
 
-  // TODO implement call to SelectionFragment.mark_ methods
   @Override
   public void onClick(DialogInterface dialog, int which) {
     switch (which) {

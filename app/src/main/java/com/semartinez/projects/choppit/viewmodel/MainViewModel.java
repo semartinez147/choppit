@@ -130,7 +130,10 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     pending.add(
         repository.generateDocument().subscribeOn(Schedulers.computation())
             .subscribe(
-                documentWithStrings::postValue,
+                value -> {
+                  documentWithStrings.postValue(value);
+                  status.postValue("processing");
+                },
                 throwable::postValue
             )
     );

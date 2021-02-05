@@ -54,4 +54,5 @@
   <string name="string_selector">String Selector</string>
   <string name="selection_message">Choppit extracted these text elements.\nTap below to copy text.</string>
   <string name="no_string_selected">Please select text for an ingredient and a step.</string>
+  <string name="select_prompt">Is this text an ingredient or instruction in your recipe?</string>
 </resources>

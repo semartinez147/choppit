@@ -73,7 +73,6 @@ public class StepRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     notifyItemInserted(steps.size());
   }
 
-  // TODO: only deletes the first step
   public void deleteStep(int position) {
     steps.remove(position);
     notifyDataSetChanged();

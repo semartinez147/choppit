@@ -91,13 +91,12 @@ public class SelectionFragment extends Fragment {
   }
 
   private void sendToLoading(View v) {
-    if (binding.ingredientInput.getText().toString() != null
-        && binding.stepInput.getText().toString() != null) {
+    if (binding.ingredientInput.getText().toString() != null && binding.stepInput.getText().toString() != null) {
       SelectionFragmentDirections.SelLoad load = SelectionFragmentDirections.selLoad()
           .setIngredient(binding.ingredientInput.getText().toString())
           .setInstruction(binding.stepInput.getText().toString())
           .setFrom("sel");
-      Navigation.findNavController(v).navigate(load);
+      Navigation.findNavController(requireView()).navigate(load);
     } else {
       ((MainActivity) requireActivity()).showToast(getString(R.string.no_string_selected));
     }
