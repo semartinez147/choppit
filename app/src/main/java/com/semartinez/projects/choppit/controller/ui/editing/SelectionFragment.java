@@ -20,7 +20,7 @@ import com.semartinez.projects.choppit.databinding.FragmentSelectionBinding;
 import com.semartinez.projects.choppit.view.SelectionRecyclerAdapter;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import java.util.Collections;
-import java.util.Set;
+import java.util.List;
 import javax.annotation.Nonnull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -34,7 +34,7 @@ import org.jsoup.nodes.Document;
 public class SelectionFragment extends Fragment {
 
   private FragmentSelectionBinding binding;
-  private Set<String> strings;
+  private List<String> strings;
   private MainViewModel viewModel;
 
   @Override
@@ -50,7 +50,7 @@ public class SelectionFragment extends Fragment {
       Bundle savedInstanceState) {
     strings = (viewModel.getDocumentWithStrings().getValue().getStrings() != null ? viewModel
         .getDocumentWithStrings().getValue().getStrings()
-        : Collections.singleton("No text retrieved"));
+        : Collections.singletonList("No text retrieved"));
     viewModel.getDocumentWithStrings().removeObservers(getViewLifecycleOwner());
     binding = FragmentSelectionBinding.inflate(inflater);
     binding.selectionExtract.setOnClickListener(this::sendToLoading);

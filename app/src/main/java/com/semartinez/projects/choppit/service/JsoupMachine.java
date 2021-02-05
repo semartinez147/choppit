@@ -7,15 +7,18 @@ import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
 import com.semartinez.projects.choppit.model.entity.Step;
 import com.semartinez.projects.choppit.model.pojo.RecipePojo;
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-public class JsoupRetriever {
+public class JsoupMachine {
 
   // TODO add any new measurement enum values to the parentheses here.  Extract String to resource.
   public static final String MAGIC_INGREDIENT_REGEX = "^([\\d\\W]*)\\s(tsp|teaspoon|tbsp|tablespoon|oz|ounce|c|cup|lb|pound*)*s??\\b(.*)";
@@ -25,11 +28,14 @@ public class JsoupRetriever {
   private final List<Step> steps = new ArrayList<>();
   private final List<Ingredient> ingredients = new ArrayList<>();
 
-  JsoupRetriever() {
+  JsoupMachine() {
+  }
+  public static JsoupMachine getInstance() {
+    return InstanceHolder.INSTANCE;
   }
 
-  public static JsoupRetriever getInstance() {
-    return InstanceHolder.INSTANCE;
+  public Single<DocumentWithStrings> prepare(String url) {
+    return Single.fromCallable(new callMe(document, url)).subscribeOn(Schedulers.computation());
   }
 
   /**
@@ -69,12 +75,33 @@ public class JsoupRetriever {
     pojo.setIngredients(ingredients);
     pojo.setSteps(steps);
 
-/*    Map<String, List<? extends RecipeComponent>> data = new HashMap<>();
-
-    data.put("ingredients", ingredients);
-    data.put("steps", steps);*/
-
     return pojo;
+  }
+
+  private static class callMe implements Callable<DocumentWithStrings> {
+    private final Document document;
+    private final String url;
+
+    public callMe(Document doc, String url) {
+      this.document = doc;
+      this.url = url;
+    }
+
+    @Override
+    public DocumentWithStrings call() throws Exception {
+      if (document == null) {
+        throw new NullPointerException();
+        // Call reconnect if the breakpoint is ever triggered.
+      }
+      document.filter(new Strainer());
+
+      List<String> strings = new ArrayList<>(document.getAllElements().eachText());
+      if (strings.isEmpty()) {
+        throw new ZeroMatchesException();
+      }
+
+      return new DocumentWithStrings(url, document, strings);
+    }
   }
 
   private class RunIngredients implements Runnable {
@@ -178,7 +205,7 @@ public class JsoupRetriever {
 
   private static class InstanceHolder {
 
-    private static final JsoupRetriever INSTANCE = new JsoupRetriever();
+    private static final JsoupMachine INSTANCE = new JsoupMachine();
   }
 
 }

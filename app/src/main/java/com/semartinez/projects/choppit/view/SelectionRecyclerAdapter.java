@@ -8,19 +8,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import com.semartinez.projects.choppit.controller.ui.editing.SelectionFragment;
 import com.semartinez.projects.choppit.databinding.ItemSelectionListBinding;
-import java.util.Set;
+import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 public class SelectionRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
   private final Context context;
-  private final String[] strings;
+  private final List<String> strings;
   private final SelectionFragment selectionFragment;
 
-  public SelectionRecyclerAdapter(Context context, Set<String> strings,
+  public SelectionRecyclerAdapter(Context context, List<String> strings,
       SelectionFragment selectionFragment) {
     this.context = context;
-    this.strings = strings.toArray(new String[0]);
+    this.strings = strings;
     this.selectionFragment = selectionFragment;
   }
 
@@ -35,16 +35,16 @@ public class SelectionRecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
   @Override
   public void onBindViewHolder(@NonNull @NotNull ViewHolder viewHolder, int position) {
-    String string = strings[position];
+    String string = strings.get(position);
     ((SelectionViewHolder) viewHolder).bind(string, selectionFragment);
   }
 
   @Override
   public int getItemCount() {
-    return strings.length;
+    return strings.size();
   }
 
-  public String[] getStrings() {
+  public List<String> getStrings() {
     return strings;
   }
 

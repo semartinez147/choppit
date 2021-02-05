@@ -16,24 +16,25 @@ import com.semartinez.projects.choppit.model.entity.Step;
 import com.semartinez.projects.choppit.model.pojo.RecipePojo;
 import com.semartinez.projects.choppit.service.ChoppitDatabase;
 import com.semartinez.projects.choppit.service.DocumentWithStrings;
-import com.semartinez.projects.choppit.service.JsoupPrepper;
-import com.semartinez.projects.choppit.service.JsoupRetriever;
+import com.semartinez.projects.choppit.service.JsoupMachine;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 
 /**
  * The repository handles requests from the {@link com.semartinez.projects.choppit.viewmodel.MainViewModel}
- * and interacts with the {@link JsoupRetriever}.
+ * and interacts with the {@link JsoupMachine}.
  */
 public class RecipeRepository implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -42,8 +43,7 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
   private static Application context;
   private final ChoppitDatabase database;
   private final Executor networkPool;
-  private final JsoupRetriever retriever;
-  private final JsoupPrepper prepper;
+  private final JsoupMachine retriever;
   private final SharedPreferences preferences;
   private Document doc;
 
@@ -69,8 +69,7 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
     }
     database = ChoppitDatabase.getInstance();
     networkPool = Executors.newFixedThreadPool(NETWORK_THREAD_COUNT);
-    retriever = JsoupRetriever.getInstance();
-    prepper = JsoupPrepper.getInstance();
+    retriever = JsoupMachine.getInstance();
     preferences = PreferenceManager.getDefaultSharedPreferences(context);
     preferences.registerOnSharedPreferenceChangeListener(this);
   }
@@ -170,38 +169,27 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
       doc = null;
       try {
         doc = Jsoup.connect(url).get();
-      } catch (Exception e) {
-        Log.e("Choppit", e.toString() + " in Repository jsoup Runnable");
-        throw new ConnectionFailureException();
+      } catch (MalformedURLException e) {
+        throw new ConnectionFailureException("Not a valid link");
+      } catch (HttpStatusException e) {
+        throw new ConnectionFailureException("There was a problem with the website.");
+      } catch (IOException e) {
+        throw new ConnectionFailureException("An unknown error occurred.  Please try again.");
       }
       assert doc != null : "null document";
       retriever.setDocument(doc);
-      prepper.setDocument(doc);
     })
         .subscribeOn(Schedulers.from(networkPool));
   }
 
-//  public Single<File> generateHtml() {
-//    File html;
-//    try {
-//      html = prepper.prepare(doc.location());
-//    } catch (IOException e) {
-//      return Single.error(e);
-//    }
-//    return Single.just(html);
-//  }
 
   public Single<DocumentWithStrings> generateDocument() {
-    try {
-      return Single.just(prepper.prepare(doc.location())).subscribeOn(Schedulers.io());
-    } catch (IOException e) {
-      return Single.error(e);
-    }
+    return retriever.prepare(doc.location());
   }
 
   /**
    * This method is called by the {@link MainViewModel} and passes the user inputs to the {@link
-   * JsoupRetriever} for processing.  The resulting data is passed back up to the {@link
+   * JsoupMachine} for processing.  The resulting data is passed back up to the {@link
    * MainViewModel} and eventually displayed in the {@link EditingFragment}.
    *
    * @param ingredient  input by the user on the {@link SelectionFragment}
