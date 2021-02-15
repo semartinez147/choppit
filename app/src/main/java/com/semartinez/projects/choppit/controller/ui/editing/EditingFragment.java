@@ -50,7 +50,7 @@ public class EditingFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-
+    viewModel.resetStatus();
     EditingFragmentArgs args = EditingFragmentArgs.fromBundle(requireArguments());
     if (args.getRecipeId() != 0L) {
       viewModel.loadRecipe(args.getRecipeId());

@@ -106,6 +106,11 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     status.postValue("");
   }
 
+  public void resetStatus() {
+    status.postValue("");
+    throwable.postValue(null);
+  }
+
   /**
    * This method is called by the {@link com.semartinez.projects.choppit.controller.ui.editing.LoadingFragment}
    * to begin processing.  It passes the user's url to {@link RecipeRepository#connect}, and
@@ -119,7 +124,10 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     pending.add(
         repository.connect(url)
             .subscribe(
-                () -> status.postValue("connected"), // replaced "gathering"
+                () -> {
+                  status.postValue("connected");
+                  generateHtml();
+                },
                 throwable::postValue
             )
     );
@@ -132,7 +140,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
             .subscribe(
                 value -> {
                   documentWithStrings.postValue(value);
-                  status.postValue("processing");
+                  status.postValue("generated");
                 },
                 throwable::postValue
             )
@@ -150,9 +158,10 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   }
 
   public void finish(RecipePojo data) {
+    status.postValue("finishing");
     ingredients.setValue(data.getIngredients());
     steps.setValue(data.getSteps());
-    status.postValue("finishing");
+    postRecipe();
   }
 
   public void postRecipe() {

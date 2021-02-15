@@ -15,7 +15,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import com.semartinez.projects.choppit.R;
-import com.semartinez.projects.choppit.service.DocumentWithStrings;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 
 public class LoadingFragment extends Fragment implements Observer<String> {
@@ -58,6 +57,7 @@ public class LoadingFragment extends Fragment implements Observer<String> {
       viewModel.resetData();
       viewModel.makeItGo(url);
     } else {
+      status.setText(R.string.processing);
       viewModel.processData(ingredient, instruction);
     }
     observe();
@@ -65,12 +65,6 @@ public class LoadingFragment extends Fragment implements Observer<String> {
 
   private void observe() {
     viewModel.getStatus().observe(getViewLifecycleOwner(), this);
-    viewModel.getRecipe().observe(getViewLifecycleOwner(), recipe -> {
-      if (recipe != null) {
-        Navigation.findNavController(requireView())
-            .navigate(LoadingFragmentDirections.loadEdit());
-      }
-    });
     viewModel.getThrowable().observe(getViewLifecycleOwner(), throwable -> {
       if (throwable != null) {
         Navigation.findNavController(requireView()).navigateUp();
@@ -80,7 +74,6 @@ public class LoadingFragment extends Fragment implements Observer<String> {
 
   @Override
   public void onChanged(String s) {
-    //TODO: update switch logic.
     switch (s) {
       case "connecting":
         Log.d("LoadingFrag", "connecting");
@@ -89,30 +82,15 @@ public class LoadingFragment extends Fragment implements Observer<String> {
         break;
       case "connected":
         status.setText(R.string.separating);
-        viewModel.generateHtml();
-        viewModel.getDocumentWithStrings().observe(getViewLifecycleOwner(),
-            new Observer<DocumentWithStrings>() {
-              @Override
-              public void onChanged(DocumentWithStrings d) {
-                if (d != null) {
-                  viewModel.getDocumentWithStrings().removeObserver(this);
-                  Navigation.findNavController(LoadingFragment.this.requireView()).navigate(LoadingFragmentDirections.loadSel());
-
-                }
-
-              }
-            });
-        status.setText(R.string.processing);
         break;
-      case "processing":
-        Log.d("LoadingFrag", "processing");
+      case "generated":
+        Navigation.findNavController(requireView()).navigate(LoadingFragmentDirections.loadSel());
         break;
       case "finishing":
         status.setText(R.string.finishing);
-        viewModel.postRecipe();
         break;
       case "finished":
-//          status.setText(R.string.finished);
+        Navigation.findNavController(requireView()).navigate(LoadingFragmentDirections.loadEdit());
       default:
         status.setText(R.string.warming_up);
         break;
