@@ -94,7 +94,7 @@ public class JsoupMachine {
         // Call reconnect if the breakpoint is ever triggered.
       }
       document.filter(new Strainer());
-
+//  TODO: test parallelPreFilter method here
       List<String> strings = new ArrayList<>(document.getAllElements().eachText());
       if (strings.isEmpty()) {
         throw new ZeroMatchesException();
