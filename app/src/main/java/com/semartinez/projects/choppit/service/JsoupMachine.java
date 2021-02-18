@@ -15,7 +15,9 @@ import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class JsoupMachine {
@@ -96,8 +98,9 @@ public class JsoupMachine {
       }
       document.filter(new Strainer());
 //  TODO: test parallelPreFilter method here
-      List<String> strings = new ArrayList<>(document.getAllElements().eachText());
-      Log.d("FilterTimer", System.currentTimeMillis() - start + " millis. Original method. " + strings.size() + " string elements.");
+      List<String> strings = document.getAllElements().parallelStream().map(Element::ownText).distinct()
+          .collect(Collectors.toList());
+      Log.d("FilterTimer", System.currentTimeMillis() - start + " millis. parallelStream() + map() + distinct(). " + strings.size() + " string elements.");
       if (strings.isEmpty()) {
         throw new ZeroMatchesException();
       }
