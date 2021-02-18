@@ -8,7 +8,6 @@ import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
 import com.semartinez.projects.choppit.model.entity.Step;
 import com.semartinez.projects.choppit.model.pojo.RecipePojo;
 import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,7 +36,7 @@ public class JsoupMachine {
   }
 
   public Single<DocumentWithStrings> prepare(String url) {
-    return Single.fromCallable(new callMe(document, url)).subscribeOn(Schedulers.computation());
+    return Single.fromCallable(new callMe(document, url));
   }
 
   /**

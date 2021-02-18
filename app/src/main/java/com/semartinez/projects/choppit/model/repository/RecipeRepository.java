@@ -184,7 +184,7 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
 
 
   public Single<DocumentWithStrings> generateDocument() {
-    return retriever.prepare(doc.location());
+    return retriever.prepare(doc.location()).subscribeOn(Schedulers.computation());
   }
 
   /**

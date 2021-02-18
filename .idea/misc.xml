@@ -15,7 +15,7 @@
     <option name="OPTION_DOCUMENT_TAG_VERSION" value="true" />
     <option name="OTHER_OPTIONS" value="-bootclasspath &quot;C:\Program Files\Java\jdk1.8.0_232\jre\lib\rt.jar&quot;;C:\android\sdk\platforms\android-21\android.jar -link https://docs.oracle.com/javase/8/docs/api/ -link https://square.github.io/retrofit/2.x/retrofit/ -link https://javadoc.io/doc/com.squareup.okhttp3/okhttp/3.14.7/okhttp3/ -link http://reactivex.io/RxJava/javadoc/ -link https://jsoup.org/apidocs/ -linkoffline https://developer.android.com/reference/ C:\android\sdk\docs\reference -windowtitle &quot;Choppit API&quot;" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
