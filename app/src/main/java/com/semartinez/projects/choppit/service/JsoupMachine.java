@@ -89,6 +89,7 @@ public class JsoupMachine {
 
     @Override
     public DocumentWithStrings call() throws Exception {
+      long start = System.currentTimeMillis();
       if (document == null) {
         throw new NullPointerException();
         // Call reconnect if the breakpoint is ever triggered.
@@ -96,6 +97,7 @@ public class JsoupMachine {
       document.filter(new Strainer());
 //  TODO: test parallelPreFilter method here
       List<String> strings = new ArrayList<>(document.getAllElements().eachText());
+      Log.d("FilterTimer", System.currentTimeMillis() - start + " millis. Original method. " + strings.size() + " string elements.");
       if (strings.isEmpty()) {
         throw new ZeroMatchesException();
       }

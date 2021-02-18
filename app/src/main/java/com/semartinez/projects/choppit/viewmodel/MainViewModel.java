@@ -134,7 +134,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   }
 
   public void generateHtml() {
-    throwable.setValue(null);
+    throwable.postValue(null);
     pending.add(
         repository.generateDocument()
             .subscribe(
