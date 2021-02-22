@@ -16,8 +16,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
+import com.semartinez.projects.choppit.viewmodel.MainViewModel.State;
 
-public class LoadingFragment extends Fragment implements Observer<String> {
+public class LoadingFragment extends Fragment implements Observer<State> {
 
   private MainViewModel viewModel;
   private String url;
@@ -73,24 +74,25 @@ public class LoadingFragment extends Fragment implements Observer<String> {
   }
 
   @Override
-  public void onChanged(String s) {
+  public void onChanged(State s) {
     switch (s) {
-      case "connecting":
+      case CONNECTING:
         Log.d("LoadingFrag", "connecting");
         status.setText(R.string.connecting);
         observe();
         break;
-      case "connected":
+      case CONNECTED:
         status.setText(R.string.separating);
         break;
-      case "generated":
+      case GENERATED:
         Navigation.findNavController(requireView()).navigate(LoadingFragmentDirections.loadSel());
         break;
-      case "finishing":
+      case FINISHING:
         status.setText(R.string.finishing);
         break;
-      case "finished":
+      case FINISHED:
         Navigation.findNavController(requireView()).navigate(LoadingFragmentDirections.loadEdit());
+      case READY:
       default:
         status.setText(R.string.warming_up);
         break;

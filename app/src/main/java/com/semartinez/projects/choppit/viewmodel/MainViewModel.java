@@ -31,7 +31,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   private final MutableLiveData<DocumentWithStrings> documentWithStrings;
   private final MutableLiveData<Throwable> throwable;
   private final MutableLiveData<Set<String>> permissions;
-  private final MutableLiveData<String> status;
+  private final MutableLiveData<State> status;
   private final CompositeDisposable pending;
   private final RecipeRepository repository;
   private String sharedUrl = null;
@@ -80,12 +80,20 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     return html;
   }
 
-  public LiveData<String> getStatus() {
+  public LiveData<State> getStatus() {
     return status;
   }
 
   public LiveData<Throwable> getThrowable() {
     return throwable;
+  }
+
+  public String getSharedUrl() {
+    return sharedUrl;
+  }
+
+  public void setSharedUrl(String string) {
+    this.sharedUrl = string;
   }
 
   public LiveData<Set<String>> getPermissions() {
@@ -103,11 +111,11 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     documentWithStrings.postValue(null);
     html.postValue(null);
     throwable.postValue(null);
-    status.postValue("");
+    status.postValue(State.READY);
   }
 
   public void resetStatus() {
-    status.postValue("");
+    status.postValue(State.READY);
     throwable.postValue(null);
   }
 
@@ -120,12 +128,12 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
    */
   public void makeItGo(String url) {
     throwable.setValue(null);
-    status.postValue("connecting");
+    status.postValue(State.CONNECTING);
     pending.add(
         repository.connect(url)
             .subscribe(
                 () -> {
-                  status.postValue("connected");
+                  status.postValue(State.CONNECTED);
                   generateHtml();
                 },
                 throwable::postValue
@@ -139,7 +147,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
             .subscribe(
                 value -> {
                   documentWithStrings.postValue(value);
-                  status.postValue("generated");
+                  status.postValue(State.GENERATED);
                 },
                 throwable::postValue
             )
@@ -149,7 +157,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   public void processData(String ingredient, String instruction) {
     Log.d("MVM", "beginning processData");
     throwable.setValue(null);
-    status.postValue("processing");
+    status.postValue(State.PROCESSING);
     pending.add(
         repository.process(ingredient, instruction)
             .subscribe(this::finish)
@@ -157,7 +165,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   }
 
   public void finish(RecipePojo data) {
-    status.postValue("finishing");
+    status.postValue(State.FINISHING);
     ingredients.setValue(data.getIngredients());
     steps.setValue(data.getSteps());
     postRecipe();
@@ -167,7 +175,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     this.recipe
         .postValue(new Recipe(repository.getRecipeUrl(), repository.getRecipeTitle(), false,
             steps.getValue(), ingredients.getValue()));
-    status.postValue("finished");
+    status.postValue(State.FINISHED);
   }
 
   public void saveRecipe(Recipe newRecipe) {
@@ -223,16 +231,19 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
 //  }
 
 
-  public String getSharedUrl() {
-    return sharedUrl;
-  }
-
-  public void setSharedUrl(String string) {
-    this.sharedUrl = string;
-  }
-
   @OnLifecycleEvent(Event.ON_STOP)
   private void disposePending() {
     pending.clear();
+  }
+
+  public enum State {
+    READY,
+    CONNECTING,
+    CONNECTED,
+    GENERATED,
+    PROCESSING,
+    FINISHING,
+    FINISHED
+
   }
 }
