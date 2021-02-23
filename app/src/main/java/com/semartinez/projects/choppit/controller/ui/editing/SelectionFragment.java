@@ -37,23 +37,26 @@ public class SelectionFragment extends Fragment {
   private List<String> strings;
   private MainViewModel viewModel;
 
+
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     setRetainInstance(true);
     viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+    viewModel.resetStatus();
   }
 
   @Override
   public View onCreateView(@Nonnull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    strings = (viewModel.getDocumentWithStrings().getValue().getStrings() != null ? viewModel
-        .getDocumentWithStrings().getValue().getStrings()
+    strings = (viewModel.getStringsFromDocument().getValue() != null ? viewModel
+        .getStringsFromDocument().getValue()
         : Collections.singletonList("No text retrieved"));
-    viewModel.getDocumentWithStrings().removeObservers(getViewLifecycleOwner());
     binding = FragmentSelectionBinding.inflate(inflater);
-    binding.selectionExtract.setOnClickListener(this::sendToLoading);
+    binding.selectionExtract.setOnClickListener(v -> {
+      sendToLoading(binding.ingredientInput.getText().toString(), binding.stepInput.getText().toString());
+    });
     setupRecyclerView();
     return binding.getRoot();
   }
@@ -90,13 +93,10 @@ public class SelectionFragment extends Fragment {
     binding.stepInput.setText(instruction);
   }
 
-  private void sendToLoading(View v) {
-    if (binding.ingredientInput.getText().toString() != null && binding.stepInput.getText().toString() != null) {
-      SelectionFragmentDirections.SelLoad load = SelectionFragmentDirections.selLoad()
-          .setIngredient(binding.ingredientInput.getText().toString())
-          .setInstruction(binding.stepInput.getText().toString())
-          .setFrom("sel");
-      Navigation.findNavController(requireView()).navigate(load);
+  private void sendToLoading(String ingredient, String instruction) {
+    if (!ingredient.isEmpty() && !instruction.isEmpty()) {
+      viewModel.processData(ingredient, instruction);
+      Navigation.findNavController(requireView()).navigate(SelectionFragmentDirections.selLoad());
     } else {
       ((MainActivity) requireActivity()).showToast(getString(R.string.no_string_selected));
     }

@@ -3,10 +3,10 @@ package com.semartinez.projects.choppit.service;
 import android.util.Log;
 import com.semartinez.projects.choppit.controller.exception.TooManyMatchesException;
 import com.semartinez.projects.choppit.controller.exception.ZeroMatchesException;
+import com.semartinez.projects.choppit.model.entity.AssemblyRecipe;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
 import com.semartinez.projects.choppit.model.entity.Step;
-import com.semartinez.projects.choppit.model.pojo.RecipePojo;
 import io.reactivex.Single;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +28,7 @@ public class JsoupMachine {
   private List<String> listInstructions = new ArrayList<>();
   private final List<Step> steps = new ArrayList<>();
   private final List<Ingredient> ingredients = new ArrayList<>();
+  private AssemblyRecipe assemblyRecipe;
 
   JsoupMachine() {
   }
@@ -35,8 +36,12 @@ public class JsoupMachine {
     return InstanceHolder.INSTANCE;
   }
 
-  public Single<DocumentWithStrings> prepare(String url) {
-    return Single.fromCallable(new callMe(document, url));
+  public Single<List<String>> prepare(Document doc) {
+    document = doc;
+    assemblyRecipe = new AssemblyRecipe();
+    assemblyRecipe.setUrl(document.location());
+    assemblyRecipe.setTitle(document.title());
+    return Single.fromCallable(new callMe());
   }
 
   /**
@@ -52,7 +57,7 @@ public class JsoupMachine {
    *                    and *                    {@link com.semartinez.projects.choppit.model.repository.RecipeRepository}.
    * @return A {@link List} of {@link Step} objects with embedded {@link Ingredient}s.
    */
-  public RecipePojo process(String ingredient, String instruction) {
+  public AssemblyRecipe process(String ingredient, String instruction) {
     //TODO Error handling: test getClass errors for 0 or >1 result.
 
     RunIngredients i = new RunIngredients(ingredient);
@@ -72,39 +77,29 @@ public class JsoupMachine {
       e.printStackTrace();
     }
 
-    RecipePojo pojo = new RecipePojo();
-    pojo.setIngredients(ingredients);
-    pojo.setSteps(steps);
+    assemblyRecipe.setIngredients(ingredients);
+    assemblyRecipe.setSteps(steps);
+    assemblyRecipe.setId(0);
 
-    return pojo;
+    return assemblyRecipe;
   }
 
-  private static class callMe implements Callable<DocumentWithStrings> {
-    private final Document document;
-    private final String url;
-
-    public callMe(Document doc, String url) {
-      this.document = doc;
-      this.url = url;
-    }
+  private class callMe implements Callable<List<String>> {
 
     @Override
-    public DocumentWithStrings call() throws Exception {
-      long start = System.currentTimeMillis();
+    public List<String> call() throws Exception {
       if (document == null) {
         throw new NullPointerException();
         // Call reconnect if the breakpoint is ever triggered.
       }
       document.filter(new Strainer());
-//  TODO: test parallelPreFilter method here
       List<String> strings = document.getAllElements().parallelStream().map(Element::ownText).distinct()
           .collect(Collectors.toList());
-      Log.d("FilterTimer", System.currentTimeMillis() - start + " millis. parallelStream() + map() + distinct(). " + strings.size() + " string elements.");
       if (strings.isEmpty()) {
         throw new ZeroMatchesException();
       }
 
-      return new DocumentWithStrings(url, document, strings);
+      return strings;
     }
   }
 

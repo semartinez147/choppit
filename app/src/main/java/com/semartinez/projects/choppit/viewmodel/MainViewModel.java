@@ -9,12 +9,11 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
+import com.semartinez.projects.choppit.model.entity.AssemblyRecipe;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.entity.Step;
-import com.semartinez.projects.choppit.model.pojo.RecipePojo;
 import com.semartinez.projects.choppit.model.repository.RecipeRepository;
-import com.semartinez.projects.choppit.service.DocumentWithStrings;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import java.io.File;
@@ -28,7 +27,7 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   private final MutableLiveData<List<Step>> steps;
   private final MutableLiveData<List<Ingredient>> ingredients;
   private final MutableLiveData<File> html;
-  private final MutableLiveData<DocumentWithStrings> documentWithStrings;
+  private final MutableLiveData<List<String>> stringsFromDocument;
   private final MutableLiveData<Throwable> throwable;
   private final MutableLiveData<Set<String>> permissions;
   private final MutableLiveData<State> status;
@@ -52,50 +51,40 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     pending = new CompositeDisposable();
     status = new MutableLiveData<>();
     repository = RecipeRepository.getInstance();
-    documentWithStrings = new MutableLiveData<>();
+    stringsFromDocument = new MutableLiveData<>();
     resetData();
   }
 
   public LiveData<List<Recipe>> getAllRecipes() {
     return repository.getAll();
   }
-
   public LiveData<Recipe> getRecipe() {
     return recipe;
   }
-
   public LiveData<List<Step>> getSteps() {
     return steps;
   }
-
   public LiveData<List<Ingredient>> getIngredients() {
     return ingredients;
   }
-
-  public LiveData<DocumentWithStrings> getDocumentWithStrings() {
-    return documentWithStrings;
+  public LiveData<List<String>> getStringsFromDocument() {
+    return stringsFromDocument;
   }
-
   public LiveData<File> getHtml() {
     return html;
   }
-
   public LiveData<State> getStatus() {
     return status;
   }
-
   public LiveData<Throwable> getThrowable() {
     return throwable;
   }
-
   public String getSharedUrl() {
     return sharedUrl;
   }
-
   public void setSharedUrl(String string) {
     this.sharedUrl = string;
   }
-
   public LiveData<Set<String>> getPermissions() {
     return permissions;
   }
@@ -108,10 +97,9 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     steps.postValue(null);
     ingredients.postValue(null);
     recipe.postValue(null);
-    documentWithStrings.postValue(null);
+    stringsFromDocument.postValue(null);
     html.postValue(null);
     throwable.postValue(null);
-    status.postValue(State.READY);
   }
 
   public void resetStatus() {
@@ -128,25 +116,25 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
    */
   public void makeItGo(String url) {
     throwable.setValue(null);
-    status.postValue(State.CONNECTING);
+    status.setValue(State.CONNECTING);
     pending.add(
         repository.connect(url)
             .subscribe(
                 () -> {
                   status.postValue(State.CONNECTED);
-                  generateHtml();
+                  generateStrings();
                 },
                 throwable::postValue
             )
     );
   }
 
-  public void generateHtml() {
+  public void generateStrings() {
     pending.add(
-        repository.generateDocument()
+        repository.generateStrings()
             .subscribe(
                 value -> {
-                  documentWithStrings.postValue(value);
+                  stringsFromDocument.postValue(value);
                   status.postValue(State.GENERATED);
                 },
                 throwable::postValue
@@ -156,25 +144,20 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
 
   public void processData(String ingredient, String instruction) {
     Log.d("MVM", "beginning processData");
+    status.setValue(State.PROCESSING);
     throwable.setValue(null);
-    status.postValue(State.PROCESSING);
     pending.add(
         repository.process(ingredient, instruction)
-            .subscribe(this::finish)
+            .subscribe(data -> {
+                  status.postValue(State.FINISHING);
+                  finish(data);
+                },
+                throwable::postValue)
     );
   }
 
-  public void finish(RecipePojo data) {
-    status.postValue(State.FINISHING);
-    ingredients.setValue(data.getIngredients());
-    steps.setValue(data.getSteps());
-    postRecipe();
-  }
-
-  public void postRecipe() {
-    this.recipe
-        .postValue(new Recipe(repository.getRecipeUrl(), repository.getRecipeTitle(), false,
-            steps.getValue(), ingredients.getValue()));
+  public void finish(AssemblyRecipe data) {
+    recipe.postValue(new Recipe(data));
     status.postValue(State.FINISHED);
   }
 

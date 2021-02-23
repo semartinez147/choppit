@@ -59,8 +59,8 @@ public class Recipe extends BaseObservable {
     this.url = url;
     this.title = title;
     this.favorite = favorite;
-    this.steps = steps;
     this.ingredients = ingredients;
+    this.steps = steps;
   }
 
   public Recipe (RecipePojo recipePojo) {
@@ -68,11 +68,18 @@ public class Recipe extends BaseObservable {
     this.url = recipePojo.getRecipe().getUrl();
     this.title = recipePojo.getRecipe().getTitle();
     this.favorite = recipePojo.getRecipe().isFavorite();
-    this.steps = this.getSteps(recipePojo);
     this.ingredients = this.getIngredients(recipePojo);
+    this.steps = this.getSteps(recipePojo);
   }
 
-
+  public Recipe (AssemblyRecipe data) {
+    this.recipeId = data.getId();
+    this.url = data.getUrl();
+    this.title = data.getTitle();
+    this.favorite = data.isFavorite();
+    this.ingredients = data.getIngredients();
+    this.steps = data.getSteps();
+  }
 
   /* Stretch goal fields (nullable):
   private String meal;

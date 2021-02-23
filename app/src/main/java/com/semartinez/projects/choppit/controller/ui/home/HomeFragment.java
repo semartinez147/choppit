@@ -47,6 +47,7 @@ public class HomeFragment extends Fragment {
     assert getActivity() != null;
     MainViewModel viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
     viewModel.resetData();
+    viewModel.resetStatus();
     urlInput.setText(viewModel.getSharedUrl());
     return root;
   }
@@ -63,7 +64,7 @@ public class HomeFragment extends Fragment {
     newRecipe.setOnClickListener(v -> {
       url = urlInput.getText().toString().trim();
       HomeFragmentDirections.HomeLoad load = HomeFragmentDirections.homeLoad()
-          .setFrom("home")
+          .setFromHome(true)
           .setUrl(urlInput.getText().toString().trim());
       Navigation.findNavController(v)
           .navigate(url.isEmpty() ? HomeFragmentDirections.homeEdit() : load);

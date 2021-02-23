@@ -32,17 +32,9 @@
       app:argType="string"
       android:defaultValue=""/>
     <argument
-      android:name="ingredient"
-      app:argType="string"
-      android:defaultValue=""/>
-    <argument
-      android:name="instruction"
-      app:argType="string"
-      android:defaultValue=""/>
-    <argument
-      android:name="from"
-      app:argType="string"
-      android:defaultValue=""/>
+      android:name="from_home"
+      app:argType="boolean"
+      android:defaultValue="false"/>
     <action
       android:id="@+id/load_sel"
       app:popUpTo="@id/navigation_home"

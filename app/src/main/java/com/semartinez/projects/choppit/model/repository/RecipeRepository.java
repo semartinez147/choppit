@@ -10,12 +10,11 @@ import com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragment;
 import com.semartinez.projects.choppit.controller.ui.editing.EditingFragment;
 import com.semartinez.projects.choppit.controller.ui.editing.SelectionFragment;
 import com.semartinez.projects.choppit.model.dao.RecipeDao;
+import com.semartinez.projects.choppit.model.entity.AssemblyRecipe;
 import com.semartinez.projects.choppit.model.entity.Ingredient;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.entity.Step;
-import com.semartinez.projects.choppit.model.pojo.RecipePojo;
 import com.semartinez.projects.choppit.service.ChoppitDatabase;
-import com.semartinez.projects.choppit.service.DocumentWithStrings;
 import com.semartinez.projects.choppit.service.JsoupMachine;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import io.reactivex.Completable;
@@ -43,7 +42,7 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
   private static Application context;
   private final ChoppitDatabase database;
   private final Executor networkPool;
-  private final JsoupMachine retriever;
+  private final JsoupMachine jsoupMachine;
   private final SharedPreferences preferences;
   private Document doc;
 
@@ -55,21 +54,13 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
     return InstanceHolder.INSTANCE;
   }
 
-  public String getRecipeUrl() {
-    return doc.location();
-  }
-
-  public String getRecipeTitle() {
-    return doc.title();
-  }
-
   private RecipeRepository() {
     if (context == null) {
       throw new IllegalStateException();
     }
     database = ChoppitDatabase.getInstance();
     networkPool = Executors.newFixedThreadPool(NETWORK_THREAD_COUNT);
-    retriever = JsoupMachine.getInstance();
+    jsoupMachine = JsoupMachine.getInstance();
     preferences = PreferenceManager.getDefaultSharedPreferences(context);
     preferences.registerOnSharedPreferenceChangeListener(this);
   }
@@ -177,14 +168,13 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
         throw new ConnectionFailureException("An unknown error occurred.  Please try again.");
       }
       assert doc != null : "null document";
-      retriever.setDocument(doc);
     })
         .subscribeOn(Schedulers.from(networkPool));
   }
 
 
-  public Single<DocumentWithStrings> generateDocument() {
-    return retriever.prepare(doc.location()).subscribeOn(Schedulers.computation());
+  public Single<List<String>> generateStrings() {
+    return jsoupMachine.prepare(doc).subscribeOn(Schedulers.computation());
   }
 
   /**
@@ -196,10 +186,8 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
    * @param instruction input by the user on the {@link SelectionFragment}
    * @return a list of {@link Step} objects with attached {@link Ingredient}s.
    */
-  public Single<RecipePojo> process(String ingredient,
-      String instruction) {
-    RecipePojo data = retriever.process(ingredient, instruction);
-    return Single.just(data);
+  public Single<AssemblyRecipe> process(String ingredient, String instruction) {
+    return Single.just(jsoupMachine.process(ingredient, instruction)).subscribeOn(Schedulers.io());
   }
 
   @Override
