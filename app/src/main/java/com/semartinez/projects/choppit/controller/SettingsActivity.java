@@ -17,10 +17,15 @@ public class SettingsActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_settings);
-    Button button = findViewById(R.id.button);
-    button.setOnClickListener(v -> {
+    Button update = findViewById(R.id.update_button);
+    Button okay = findViewById(R.id.okay_button);
+    okay.setOnClickListener(v -> {
       Intent intent = new Intent(getApplicationContext(), MainActivity.class);
       startActivity(intent);
+    });
+
+    update.setOnClickListener(v -> {
+      // update font
     });
 
   }

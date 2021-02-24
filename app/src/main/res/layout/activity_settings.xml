@@ -33,15 +33,36 @@
     android:text="@string/cupcake_dolor_ipsum"
     style="@style/RecipeItem.Text"
     app:layout_constraintTop_toBottomOf="@id/settings_title"
-    app:layout_constraintBottom_toTopOf="@id/button"/>
+    />
+
+  <Spinner
+    android:id="@+id/settings_spinner"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:entries="@array/font_names_array"
+    android:layout_margin="@dimen/wide_space"
+    app:layout_constraintTop_toBottomOf="@id/settings_body"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    />
 
   <Button
-    android:id="@+id/button"
+    android:id="@+id/update_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/extrawide_space"
+    android:text="Update font"
+    app:layout_constraintBottom_toTopOf="@id/okay_button"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"/>
+
+  <Button
+    android:id="@+id/okay_button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/standard_margin"
     android:text="@string/okay"
-    app:layout_constraintTop_toBottomOf="@id/settings_body"
+    app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"/>
 
