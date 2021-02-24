@@ -16,7 +16,6 @@ import com.semartinez.projects.choppit.model.entity.Step;
 import com.semartinez.projects.choppit.model.repository.RecipeRepository;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import java.io.File;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,11 +25,10 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   private final MutableLiveData<Recipe> recipe;
   private final MutableLiveData<List<Step>> steps;
   private final MutableLiveData<List<Ingredient>> ingredients;
-  private final MutableLiveData<File> html;
   private final MutableLiveData<List<String>> stringsFromDocument;
+  private final MutableLiveData<State> status;
   private final MutableLiveData<Throwable> throwable;
   private final MutableLiveData<Set<String>> permissions;
-  private final MutableLiveData<State> status;
   private final CompositeDisposable pending;
   private final RecipeRepository repository;
   private String sharedUrl = null;
@@ -45,13 +43,12 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     recipe = new MutableLiveData<>();
     steps = new MutableLiveData<>();
     ingredients = new MutableLiveData<>();
-    html = new MutableLiveData<>();
+    stringsFromDocument = new MutableLiveData<>();
+    status = new MutableLiveData<>();
     throwable = new MutableLiveData<>();
     permissions = new MutableLiveData<>(new HashSet<>());
     pending = new CompositeDisposable();
-    status = new MutableLiveData<>();
     repository = RecipeRepository.getInstance();
-    stringsFromDocument = new MutableLiveData<>();
     resetData();
   }
 
@@ -70,15 +67,13 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   public LiveData<List<String>> getStringsFromDocument() {
     return stringsFromDocument;
   }
-  public LiveData<File> getHtml() {
-    return html;
-  }
   public LiveData<State> getStatus() {
     return status;
   }
   public LiveData<Throwable> getThrowable() {
     return throwable;
   }
+
   public String getSharedUrl() {
     return sharedUrl;
   }
@@ -98,7 +93,6 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     ingredients.postValue(null);
     recipe.postValue(null);
     stringsFromDocument.postValue(null);
-    html.postValue(null);
     throwable.postValue(null);
   }
 
