@@ -18,7 +18,6 @@ import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO access editing screen via long press or pencil icon
 
 /**
  * Displays the list of {@link Recipe}s stored in the local database
@@ -64,6 +63,7 @@ public class CookbookFragment extends Fragment {
     recyclerView.setAdapter(cookbookRecyclerAdapter);
   }
 
+  // TODO change method to prompt "delete or edit?"
   public void deleteRecipe(Recipe recipe) {
     new DeleteDialog(recipe, viewModel).show(requireActivity().getSupportFragmentManager(), recipe.getTitle()+" delete");
   }

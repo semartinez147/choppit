@@ -83,7 +83,7 @@ public class Recipe extends BaseObservable {
 
   /* Stretch goal fields (nullable):
   private String meal;
-  private List<String> tag;
+  private Set<String> tag;
   private String image;
   */
 
@@ -189,8 +189,7 @@ public class Recipe extends BaseObservable {
     return getTitle();
   }
 
-  // TODO delete everything below here for production.
-  /* PAY NO ATTENTION TO THE DATABASE METHODS BELOW */
+  // DEV dummy recipes to pre-fill the database.
 
   @SuppressWarnings("SpellCheckingInspection")
   private static final Ingredient[] phonyIngredients = {

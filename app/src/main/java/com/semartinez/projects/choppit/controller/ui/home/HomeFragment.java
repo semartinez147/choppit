@@ -56,7 +56,9 @@ public class HomeFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     myCookbook.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.home_cook));
-    if (urlInput.getText().toString().length() < 1) { // TODO disable for production
+
+    // DEV pre-fill url for testing if no url is shared
+    if (urlInput.getText().toString().length() < 1) {
       // urlInput.setText("https://www.foodnetwork.com/recipes/alton-brown/the-chewy-recipe-1909046");
       urlInput.setText(
           "https://www.foodnetwork.com/recipes/alton-brown/baked-macaroni-and-cheese-recipe-1939524");

@@ -65,7 +65,7 @@ public class SelectionFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    //  TODO disable for production
+    //  DEV pre-fill text input with strings from test recipe
     binding.ingredientInput.setText("1/2 pound elbow macaroni");
     binding.stepInput.setText("oven to 350");
 
