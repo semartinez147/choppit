@@ -1,5 +1,6 @@
 <resources>
   <string name="app_name">Choppit</string>
+  <string name="settings">Settings</string>
   <string name="title_home">Choppit Home</string>
   <string name="home_input_hint">Paste a recipe link here or tap New Recipe to start from scratch.</string>
   <string name="new_recipe">New Recipe</string>

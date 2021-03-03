@@ -7,11 +7,11 @@
     <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     <item name="colorAccent">@color/colorAccent</item>
     <item name="colorOnPrimarySurface">@color/colorOnPrimarySurface</item>
-    <item name="android:typeface">@font/quicksand</item>
+<!--    <item name="android:typeface">@font/quicksand</item>-->
   </style>
 
   <style name="RecipeItem" parent="AppTheme">
-    <item name="android:fontFamily">@font/droid_sans</item>
+    <item name="android:fontFamily">@font/droid</item>
   </style>
 
   <style name="RecipeItem.Title" parent="RecipeItem">
@@ -37,7 +37,7 @@
   </style>
 
   <style name="Droid">
-    <item name="fontFamily">@font/droid_sans</item>
+    <item name="fontFamily">@font/droid</item>
   </style>
 
   <style name="Lato">
@@ -53,7 +53,7 @@
   </style>
 
   <style name="Roboto">
-    <item name="fontFamily">@font/roboto_slab</item>
+    <item name="fontFamily">@font/roboto</item>
   </style>
 
 </resources>

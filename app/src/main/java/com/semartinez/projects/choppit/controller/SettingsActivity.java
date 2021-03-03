@@ -1,11 +1,10 @@
 package com.semartinez.projects.choppit.controller;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 import com.semartinez.projects.choppit.R;
+import com.semartinez.projects.choppit.controller.ui.SettingsFragment;
 
 // TODO write typeface-changing behavior
 // TODO implement font size change
@@ -17,19 +16,13 @@ public class SettingsActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_settings);
-    Button update = findViewById(R.id.update_button);
-    Button okay = findViewById(R.id.okay_button);
-    okay.setOnClickListener(v -> {
-      Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-      startActivity(intent);
-    });
+    if (savedInstanceState == null) {
+      getSupportFragmentManager().beginTransaction()
+          .replace(R.id.container, new SettingsFragment())
+          .commitNow();
 
-    update.setOnClickListener(v -> {
-      // update font
-    });
-
+    }
   }
-
 
 
   /**
@@ -37,7 +30,7 @@ public class SettingsActivity extends AppCompatActivity {
    * set the {@link android.graphics.Typeface} and text size to make reading the {@link
    * com.semartinez.projects.choppit.controller.ui.cookbook.RecipeFragment} easier.
    */
-  public static class SettingsFragment extends PreferenceFragmentCompat {
+  public static class PreferenceFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {

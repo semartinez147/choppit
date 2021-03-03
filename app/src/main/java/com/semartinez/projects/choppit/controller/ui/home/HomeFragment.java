@@ -78,7 +78,11 @@ public class HomeFragment extends Fragment {
   @Override
   public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putString("url", urlInput.getText().toString());
+    try {
+      outState.putString("url", urlInput.getText().toString());
+    } catch (NullPointerException e) {
+      outState.putString("url", "");
+    }
   }
 
 }

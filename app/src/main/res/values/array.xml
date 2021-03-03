@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <!--font names array-->
-  <string-array name="font_names_array">
+
+    <string-array name="font_names_array">
     <item>Droid Sans</item>
-    <item>Roboto</item>
-    <item>Quicksand</item>
     <item>Lora</item>
     <item>Lato</item>
+    <item>Quicksand</item>
+    <item>Roboto Slab</item>
   </string-array>
 
-  <string-array name="font_values_array">
-    <item>Droid</item>
-    <item>Roboto</item>
-    <item>Quicksand</item>
-    <item>Lato</item>
-    <item>Lora</item>
-  </string-array>
+
 
 </resources>
