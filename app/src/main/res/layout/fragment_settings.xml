@@ -29,7 +29,6 @@
     style="@style/RecipeItem.Text"
     app:layout_constraintTop_toBottomOf="@id/settings_title"
     />
-
   <Spinner
     android:id="@+id/settings_spinner"
     android:layout_width="wrap_content"

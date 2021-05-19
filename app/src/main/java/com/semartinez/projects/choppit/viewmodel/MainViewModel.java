@@ -73,7 +73,6 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
   public LiveData<Throwable> getThrowable() {
     return throwable;
   }
-
   public String getSharedUrl() {
     return sharedUrl;
   }

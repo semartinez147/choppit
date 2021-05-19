@@ -48,8 +48,8 @@ dependencies {
     implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
 
     // enables fragment navigation
-    implementation "androidx.navigation:navigation-fragment:2.3.3"
-    implementation "androidx.navigation:navigation-ui:2.3.3"
+    implementation "androidx.navigation:navigation-fragment:2.3.5"
+    implementation "androidx.navigation:navigation-ui:2.3.5"
 
     //Preference/settings dependencies
     implementation 'androidx.preference:preference:1.1.1'
@@ -63,6 +63,9 @@ dependencies {
     // HTML parsing library
     implementation 'org.jsoup:jsoup:1.13.1'
 
+    // Style/theme change library
+    implementation 'com.airbnb.android:paris:1.7.2'
+
     // NLP library - this is a stretch goal.
     // implementation 'org.apache.opennlp:opennlp-tools:1.9.3'
 
@@ -71,9 +74,9 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     // object-relational mapping bridges databases & java objects
-    implementation "androidx.room:room-runtime:2.2.6"
-    annotationProcessor "androidx.room:room-compiler:2.2.6"
-    implementation "androidx.room:room-rxjava2:2.2.6"
+    implementation "androidx.room:room-runtime:2.3.0"
+    annotationProcessor "androidx.room:room-compiler:2.3.0"
+    implementation "androidx.room:room-rxjava2:2.3.0"
 
     // lets Chrome inspect the app
     implementation 'com.facebook.stetho:stetho:1.5.1'

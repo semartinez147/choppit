@@ -45,7 +45,7 @@ public class JsoupMachine {
   }
 
   /**
-   * This method coordinates the processing work by calling {@link #getKlass(String, String)}, followed by
+   * This method coordinates the processing work by calling {@link #getClass(String, String)}, followed by
    * {@link #getClassContents(String)} and {@link #buildIngredients()} / {@link #buildSteps()} then
    * matching {@link Ingredient}s to {@link Step}s.
    *
@@ -111,7 +111,7 @@ public class JsoupMachine {
 
     @Override
     public void run() {
-      String ingredientClass = getKlass(ingredient, "ingredient");
+      String ingredientClass = JsoupMachine.this.getClass(ingredient, "ingredient");
       listRawIngredients = getClassContents(ingredientClass); // list all ingredients
       buildIngredients();
     }
@@ -125,7 +125,7 @@ public class JsoupMachine {
 
     @Override
     public void run() {
-      String instructionClass = getKlass(instruction, "step");
+      String instructionClass = JsoupMachine.this.getClass(instruction, "step");
       listInstructions = getClassContents(instructionClass); // list all ingredients
       buildSteps();
     }
@@ -140,7 +140,7 @@ public class JsoupMachine {
    * @param text is either the ingredient or instruction text input by the user
    * @return the HTML "class" attribute enclosing the input {@link String}.
    */
-  protected String getKlass(String text, String type) {
+  protected String getClass(String text, String type) {
     Elements e = document.select(String.format("*:containsOwn(%s)", text));
     if (e.size() == 1) {
       return e.get(0).attr("class");
@@ -154,7 +154,7 @@ public class JsoupMachine {
    * this method takes an HTML "class" attribute and compiles as {@link org.jsoup.nodes.Element}s
    * the contents of each matching HTML element.  Runs once on each text parameter.
    *
-   * @param klass the values returned by {@link #getKlass(String, String)}
+   * @param klass the values returned by {@link #getClass(String, String)}
    * @return the contents of each HTML element matching the provided "class" attribute as a {@link
    * String}.
    */

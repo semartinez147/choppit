@@ -23,6 +23,9 @@
   <dimen name="font20sp">20sp</dimen>
   <dimen name="font22sp">22sp</dimen>
   <dimen name="font24sp">24sp</dimen>
+  <dimen name="font26sp">26sp</dimen>
+  <dimen name="font28sp">28sp</dimen>
+  <dimen name="font30sp">30sp</dimen>
   <dimen name="icon_size">86dp</dimen>
 
 

@@ -19,6 +19,7 @@ import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.ui.dialog.InfoDialog;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.repository.RecipeRepository;
+import com.semartinez.projects.choppit.model.repository.StyleRepository;
 import com.semartinez.projects.choppit.service.ChoppitDatabase;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import io.reactivex.schedulers.Schedulers;
@@ -51,6 +52,11 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
     setupViewModel();
     shouldDisplayHomeUp();
     preloadDatabase();
+    loadStyles();
+  }
+
+  private void loadStyles() {
+    StyleRepository styles = StyleRepository.getInstance();
   }
 
   @Override
@@ -68,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
         showInfo(navController.getCurrentDestination().getId(),
             navController.getCurrentDestination().getLabel().toString());
         break;
-      case R.id.text_options:
+      case R.id.settings:
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
         break;

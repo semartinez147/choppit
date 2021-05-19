@@ -1,12 +1,9 @@
 package com.semartinez.projects.choppit.model.repository;
 
 import android.app.Application;
-import android.content.SharedPreferences;
 import android.util.Log;
 import androidx.lifecycle.LiveData;
-import androidx.preference.PreferenceManager;
 import com.semartinez.projects.choppit.controller.exception.ConnectionFailureException;
-import com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragment;
 import com.semartinez.projects.choppit.controller.ui.editing.EditingFragment;
 import com.semartinez.projects.choppit.controller.ui.editing.SelectionFragment;
 import com.semartinez.projects.choppit.model.dao.RecipeDao;
@@ -35,7 +32,7 @@ import org.jsoup.nodes.Document;
  * The repository handles requests from the {@link com.semartinez.projects.choppit.viewmodel.MainViewModel}
  * and interacts with the {@link JsoupMachine}.
  */
-public class RecipeRepository implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class RecipeRepository {
 
   private static final int NETWORK_THREAD_COUNT = 10;
 
@@ -43,7 +40,6 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
   private final ChoppitDatabase database;
   private final Executor networkPool;
   private final JsoupMachine jsoupMachine;
-  private final SharedPreferences preferences;
   private Document doc;
 
   public static void setContext(Application context) {
@@ -61,8 +57,7 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
     database = ChoppitDatabase.getInstance();
     networkPool = Executors.newFixedThreadPool(NETWORK_THREAD_COUNT);
     jsoupMachine = JsoupMachine.getInstance();
-    preferences = PreferenceManager.getDefaultSharedPreferences(context);
-    preferences.registerOnSharedPreferenceChangeListener(this);
+
   }
 
   public Single<Recipe> saveNew(Recipe recipe) {
@@ -98,31 +93,18 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
     return database.getRecipeDao().update(recipe).subscribeOn(Schedulers.io());
   }
 
-  /**
-   * @return all {@link Recipe}s for display in the {@link com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragment}.
+  /**  * @return all {@link Recipe}s for display in the {@link com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragment}.
    */
   public LiveData<List<Recipe>> getAll() {
     return database.getRecipeDao().select();
   }
 
 
-  /**
-   * Not implemented yet.  Will be used for search/sort in the {@link
-   * com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragment}.
-   *
-   * @return {@link Recipe}s where {@link Recipe#isFavorite()} is true.
-   */
   public LiveData<List<Recipe>> favList() {
     RecipeDao dao = database.getRecipeDao();
     return dao.favList();
   }
 
-  /**
-   * Not implemented yet.  Will be used for search/sort in the {@link CookbookFragment}.
-   *
-   * @param title a search string.
-   * @return a {@link Recipe} with a matching {@link Recipe#getTitle()}.
-   */
   public Maybe<Recipe> getOne(String title) {
     RecipeDao dao = database.getRecipeDao();
     return dao.select(title)
@@ -147,13 +129,6 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
         .subscribeOn(Schedulers.io());
   }
 
-  /**
-   * Calls the {@link Runnable} that processes the HTTP request.  Subscribes on {@link Thread}s from
-   * the {@link #networkPool} to avoid touching the UI.  There may be a more direct way to do this.
-   *
-   * @param url is input by the user in {@link com.semartinez.projects.choppit.controller.ui.home.HomeFragment}
-   * @return a {@link Completable} handled by the {@link com.semartinez.projects.choppit.viewmodel.MainViewModel}.
-   */
   public Completable connect(String url) {
     Log.d("Choppit", " Repository connect method");
     return Completable.fromRunnable(() -> {
@@ -188,34 +163,6 @@ public class RecipeRepository implements SharedPreferences.OnSharedPreferenceCha
    */
   public Single<AssemblyRecipe> process(String ingredient, String instruction) {
     return Single.just(jsoupMachine.process(ingredient, instruction)).subscribeOn(Schedulers.io());
-  }
-
-  @Override
-  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-/* Not fully implemented yet.
-
-    Resources.Theme theme = context.getTheme();
-    if (key.equals(context.getString(R.string.sp_key_recipe_font_style))) {
-      switch (sharedPreferences
-          .getString(context.getString(R.string.sp_key_recipe_font_style), "Droid")) {
-        case "Droid":
-          theme.applyStyle(R.style.Droid, true);
-          break;
-        case "Lato":
-          theme.applyStyle(R.style.Lato, true);
-          break;
-        case "Lora":
-          theme.applyStyle(R.style.Lora, true);
-          break;
-        case "Quicksand":
-          theme.applyStyle(R.style.Quicksand, true);
-          break;
-        case "Roboto":
-          theme.applyStyle(R.style.Roboto, true);
-          break;
-      }
-    }
-*/
   }
 
   private static class InstanceHolder {
