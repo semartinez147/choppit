@@ -19,6 +19,9 @@ import com.semartinez.projects.choppit.controller.ui.editing.EditingFragment;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 
+/**
+ * SaveDialog gives the user the option to save changes to a {@link Recipe}
+ */
 public class SaveDialog extends DialogFragment implements OnClickListener{
 
   private View dialogView;

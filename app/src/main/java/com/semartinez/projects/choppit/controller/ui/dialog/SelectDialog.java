@@ -15,6 +15,10 @@ import androidx.fragment.app.DialogFragment;
 import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.ui.editing.SelectionFragment;
 
+/**
+ * SelectDialog takes input from the {@link SelectionFragment} and marks it as text from an
+ * Ingredient or Step for further processing with Jsoup.
+ */
 public class SelectDialog extends DialogFragment implements OnClickListener {
 
   private View dialogView;

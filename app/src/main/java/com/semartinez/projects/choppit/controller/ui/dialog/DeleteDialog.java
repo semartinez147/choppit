@@ -13,6 +13,10 @@ import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 
+/**
+ * DeleteDialog is a popup in the {@link com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragment}
+ * that gives the option to delete a single {@link Recipe}.
+ */
 public class DeleteDialog extends DialogFragment {
 
   private View dialogView;
@@ -34,7 +38,8 @@ public class DeleteDialog extends DialogFragment {
         .setTitle("Delete " + recipe.getTitle() + "?")
         .setView(dialogView)
         .setNegativeButton("DELETE", (dlg, which) -> viewModel.deleteRecipe(recipe))
-        .setNeutralButton("CANCEL", (dlg, which) -> {})
+        .setNeutralButton("CANCEL", (dlg, which) -> {
+        })
         .create();
   }
 

@@ -12,6 +12,9 @@ import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.fragment.app.DialogFragment;
 import com.semartinez.projects.choppit.R;
 
+/**
+ * InfoDialog displays some help text depending on the active fragment when it's opened.
+ */
 public class InfoDialog extends DialogFragment {
 
   private View dialogView;
@@ -19,9 +22,8 @@ public class InfoDialog extends DialogFragment {
   private final String fragLabel;
 
   /**
-   * Displays basic user information relevant to the active screen.  Text is set by a {@link android.widget.Switch}
-   * @param navFragment is the Switch input, taken from the visible {@link androidx.fragment.app.Fragment} id when the Help button is pressed.
-   * @param fragLabel is populated from the navFragment and displayed in the {@link android.app.ActionBar}.
+   * @param navFragment is the Switch input, taken from the active Fragment id when the Help button is pressed.
+   * @param fragLabel is populated from the navFragment and displayed in the Action Bar.
    */
   public InfoDialog(int navFragment, String fragLabel) {
     currentLocation = navFragment;
