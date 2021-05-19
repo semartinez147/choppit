@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,7 +19,7 @@ import java.util.List;
 
 
 /**
- * Displays the list of {@link Recipe}s stored in the local database
+ * Cookbook Fragment displays the list of {@link Recipe}s stored in the local database
  */
 public class CookbookFragment extends Fragment {
 
@@ -30,19 +29,19 @@ public class CookbookFragment extends Fragment {
   private FragmentCookbookBinding binding;
 
 
+  /**
+   * This override of onCreateView creates bindings for the fragment UI.  It also retrieves a
+   * reference to the {@link MainViewModel} and requests the complete {@link Recipe} list from it.
+   * The result is loaded into {@link #recipes}, then the Recycler View and Recycler Adapter are
+   * created with that data.
+   */
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
-    binding = FragmentCookbookBinding.inflate(inflater);
     viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+    binding = FragmentCookbookBinding.inflate(inflater);
     binding.setBindViewModel(viewModel);
     binding.setUiController(this);
-    return binding.getRoot();
-  }
-
-  @Override
-  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
 
     viewModel.getAllRecipes().observe(getViewLifecycleOwner(), result -> {
       if (result != null) {
@@ -53,6 +52,7 @@ public class CookbookFragment extends Fragment {
       }
     });
 
+    return binding.getRoot();
   }
 
   private void setupRecyclerView() {
@@ -63,9 +63,15 @@ public class CookbookFragment extends Fragment {
     recyclerView.setAdapter(cookbookRecyclerAdapter);
   }
 
-  // TODO change method to prompt "delete or edit?"
+
+  /**
+   * Opens a Dialog with an option to delete the recipe
+   *
+   * @param recipe takes a Recipe for possible deletion.
+   */
   public void deleteRecipe(Recipe recipe) {
-    new DeleteDialog(recipe, viewModel).show(requireActivity().getSupportFragmentManager(), recipe.getTitle()+" delete");
+    new DeleteDialog(recipe, viewModel)
+        .show(requireActivity().getSupportFragmentManager(), recipe.getTitle() + " delete");
   }
 
 }

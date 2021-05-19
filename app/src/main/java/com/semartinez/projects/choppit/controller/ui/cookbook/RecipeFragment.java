@@ -1,8 +1,5 @@
 package com.semartinez.projects.choppit.controller.ui.cookbook;
 
-import static com.semartinez.projects.choppit.BR.bindViewModel;
-import static com.semartinez.projects.choppit.BR.uiController;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,8 +7,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,28 +19,31 @@ import com.semartinez.projects.choppit.view.StepRecyclerAdapter;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 
 
+/**
+ * RecipeFragment displays a single {@link Recipe}.
+ */
 public class RecipeFragment extends Fragment {
 
   private MainViewModel viewModel;
   private FragmentRecipeBinding binding;
   private Recipe recipe;
 
-
-  @Override
-  public void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setRetainInstance(true);
-    assert getActivity() != null;
-    viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
-
-
-  }
-
-  @Nullable
+  /**
+   * This override of onCreateView creates bindings for the fragment UI. It also  retrieves a
+   * reference to the {@link MainViewModel} and requests a {@link Recipe} from it.  The result is
+   * loaded into the UI binding and Recycler View.
+   */
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater,
       ViewGroup container, Bundle savedInstanceState) {
+    viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
     RecipeFragmentArgs args = RecipeFragmentArgs.fromBundle(requireArguments());
+
+    binding = FragmentRecipeBinding.inflate(inflater);
+    binding.setLifecycleOwner(this);
+    binding.setBindViewModel(viewModel);
+    binding.setUiController(this);
+
     viewModel.loadRecipe(args.getRecipeId());
     viewModel.getRecipe().observe(getViewLifecycleOwner(), result -> {
       if (result != null) {
@@ -54,12 +52,6 @@ public class RecipeFragment extends Fragment {
         binding.setRecipe(recipe);
       }
     });
-
-    binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipe, container, false);
-    binding.setLifecycleOwner(this);
-    binding.setVariable(bindViewModel, viewModel);
-    binding.setVariable(uiController, this);
-
     return binding.getRoot();
   }
 
