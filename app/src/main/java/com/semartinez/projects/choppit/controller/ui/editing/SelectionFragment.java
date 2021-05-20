@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -15,21 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.MainActivity;
 import com.semartinez.projects.choppit.controller.ui.dialog.SelectDialog;
-import com.semartinez.projects.choppit.controller.ui.home.HomeFragment;
 import com.semartinez.projects.choppit.databinding.FragmentSelectionBinding;
 import com.semartinez.projects.choppit.view.SelectionRecyclerAdapter;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nonnull;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 
-/**
- * This fragment loads a {@link WebView} of the contents of the {@link HomeFragment} url. Below the
- * WebView, it loads two text entry fields.  The inputted {@link String}s are used by {@link Jsoup}
- * to process the {@link Document} generated from the HTML
+/*
+ * TODO update docs in this Fragment
  */
 public class SelectionFragment extends Fragment {
 

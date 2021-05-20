@@ -2,7 +2,6 @@ package com.semartinez.projects.choppit.controller.ui.editing;
 
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +17,25 @@ import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel.State;
 
+/**
+ * LoadingFragment takes over the display while the backend works.  It passes data to the {@link
+ * MainViewModel}, then observes {@link MainViewModel#getStatus()} to display status messages in the
+ * UI and navigate when the backend is ready.
+ */
 public class LoadingFragment extends Fragment {
 
   private MainViewModel viewModel;
   private String url;
   private TextView status;
   private boolean fromHome;
-  private StateObserver observer;
 
+
+  /**
+   * This override of onCreate retrieves Navigation arguments which include the url submitted by the
+   * user and a boolean indicating whether the page navigating here was {@link
+   * com.semartinez.projects.choppit.controller.ui.home.HomeFragment} or not (which determines what
+   * processing methods are called next).
+   */
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -34,7 +44,10 @@ public class LoadingFragment extends Fragment {
     fromHome = args.getFromHome();
   }
 
-  @Nullable
+  /**
+   * This override of onCreateView inflates the Fragment using findViewById(), retrieves a reference
+   * to the {@link MainViewModel} and starts the loading animation.
+   */
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
@@ -43,26 +56,28 @@ public class LoadingFragment extends Fragment {
     viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
     ImageView spinner = root.findViewById(R.id.load_logo);
     AnimatedVectorDrawable d = (AnimatedVectorDrawable) spinner.getDrawable();
-
     d.start();
     return root;
   }
 
+  /**
+   * This override of onViewCreated clears data from the MainViewModel and calls the first method in
+   * the data processing flow if Loading was navigated to from the Home Fragment. It also attaches
+   * an observer to the MainViewModel fields that indicate progress in the backend.
+   */
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     if (fromHome) {
       viewModel.resetData();
       viewModel.makeItGo(url);
-    }
-    else {
-    Log.d("LoadingFlow", "not from home");
+    } else {
     }
     observe();
   }
 
   private void observe() {
-    observer = new StateObserver();
+    StateObserver observer = new StateObserver();
     viewModel.getStatus().observe(getViewLifecycleOwner(), observer);
     viewModel.getThrowable().observe(getViewLifecycleOwner(), throwable -> {
       if (throwable != null) {
@@ -77,7 +92,6 @@ public class LoadingFragment extends Fragment {
     public void onChanged(State s) {
       switch (s) {
         case CONNECTING:
-          Log.d("LoadingFrag", "connecting");
           status.setText(R.string.connecting);
           break;
         case CONNECTED:
@@ -93,7 +107,8 @@ public class LoadingFragment extends Fragment {
           status.setText(R.string.finishing);
           break;
         case FINISHED:
-          Navigation.findNavController(requireView()).navigate(LoadingFragmentDirections.loadEdit());
+          Navigation.findNavController(requireView())
+              .navigate(LoadingFragmentDirections.loadEdit());
           break;
         case READY:
           if (!fromHome) {

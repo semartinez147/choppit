@@ -1,7 +1,6 @@
 package com.semartinez.projects.choppit.controller.ui.editing;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +22,10 @@ import com.semartinez.projects.choppit.view.IngredientRecyclerAdapter;
 import com.semartinez.projects.choppit.view.StepRecyclerAdapter;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 
+/**
+ * EditingFragment is visually similar to the {@link com.semartinez.projects.choppit.controller.ui.cookbook.RecipeFragment},
+ * but allows the user to edit the fields.
+ */
 public class EditingFragment extends Fragment {
 
   private MainViewModel viewModel;
@@ -46,7 +49,11 @@ public class EditingFragment extends Fragment {
     inflater.inflate(R.menu.help_menu, menu);
   }
 
-  @Nullable
+  /**
+   * This override of onCreateView creates bindings for the fragment UI. It also  retrieves a
+   * reference to the {@link MainViewModel} and requests a {@link Recipe} from it.  The result is
+   * loaded into the UI binding and Recycler View.
+   */
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
@@ -98,25 +105,42 @@ public class EditingFragment extends Fragment {
     stepRecyclerView.setAdapter(stepRecyclerAdapter);
   }
 
+  /**
+   * This navigation method takes the user to the Cookbook after saving a recipe.
+   * @param v uses a View reference.
+   */
   public void navAfterSave(View v) {
     viewModel.resetData();
     Navigation.findNavController(v).navigate(R.id.edit_cook);
   }
 
+  /**
+   * Allows a new Step to be added to the end of the instructions.
+   */
   public void addStep() {
     stepRecyclerAdapter.addStep();
   }
 
+  /**
+   * Allows a new Ingredient to be added to the list.
+   */
   public void addIngredient() {
     ingredientRecyclerAdapter.addIngredient();
   }
 
+  /**
+   * Deletes a Step from the list.
+   * @param position is the position in the list where the delete button it tapped
+   */
   public void deleteStep(int position) {
     stepRecyclerAdapter.deleteStep(position);
   }
 
+  /**
+   * Deletes an Ingredient from the list.
+   * @param position is the position in the list where the delete button it tapped
+   */
   public void deleteIngredient(int position) {
-    Log.d("deleteIngredient", "method call");
     ingredientRecyclerAdapter.deleteIngredient(position);
   }
 
@@ -125,6 +149,9 @@ public class EditingFragment extends Fragment {
     save.show(getChildFragmentManager(), SaveDialog.class.getName());
   }
 
+  /**
+   * @return the Recipe loaded into the fragment for editing.
+   */
   public Recipe getRecipe() {
     return recipe;
   }
