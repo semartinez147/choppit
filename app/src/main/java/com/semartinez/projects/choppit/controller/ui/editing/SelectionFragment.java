@@ -22,8 +22,9 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 
-/*
- * TODO update docs in this Fragment
+/**
+ * SelectionFragment displays the list of text elements scraped by Jsoup and prompts the user to
+ * select a step and an ingredient from the list so that matching elements can be retrieved.
  */
 public class SelectionFragment extends Fragment {
 
@@ -32,29 +33,40 @@ public class SelectionFragment extends Fragment {
   private MainViewModel viewModel;
 
 
+  //  TODO: experiment with this.
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     setRetainInstance(true);
-    viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-    viewModel.resetStatus();
   }
 
+  /**
+   * This override of onCreateView inflates the Fragment using View Binding, retrieves a reference
+   * to the {@link MainViewModel} to clear its status field (which the LoadingFragment reads) and
+   * display the text elements scraped from the HTML.
+   */
   @Override
   public View onCreateView(@Nonnull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
+    viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+    viewModel.resetStatus();
     strings = (viewModel.getStringsFromDocument().getValue() != null ? viewModel
         .getStringsFromDocument().getValue()
         : Collections.singletonList("No text retrieved"));
     binding = FragmentSelectionBinding.inflate(inflater);
     binding.selectionExtract.setOnClickListener(v -> {
-      sendToLoading(binding.ingredientInput.getText().toString(), binding.stepInput.getText().toString());
+      sendToLoading(binding.ingredientInput.getText().toString(),
+          binding.stepInput.getText().toString());
     });
     setupRecyclerView();
     return binding.getRoot();
   }
 
+  /**
+   * This override of onViewCreated inserts preset text values to simplify development and
+   * debugging.  It should be removed for production.
+   */
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
@@ -62,7 +74,6 @@ public class SelectionFragment extends Fragment {
     //  DEV pre-fill text input with strings from test recipe
     binding.ingredientInput.setText("1/2 pound elbow macaroni");
     binding.stepInput.setText("oven to 350");
-
   }
 
   private void setupRecyclerView() {
@@ -74,15 +85,31 @@ public class SelectionFragment extends Fragment {
     selectionRecyclerView.setAdapter(selectionRecyclerAdapter);
   }
 
+
+  /**
+   * Generates a DialogFragment that handles designating a specific string as Step or Ingredient
+   * text.
+   *
+   * @param text is the content of the user's selection.
+   */
   public void markString(String text) {
     new SelectDialog(text, this)
         .show(requireActivity().getSupportFragmentManager(), SelectDialog.class.getName());
   }
 
+
+  /**
+   * Populates the Ingredient field with text from {@link SelectDialog}
+   * @param ingredient is the string received from SelectDialog.
+   */
   public void markAsIngredient(String ingredient) {
     binding.ingredientInput.setText(ingredient);
   }
 
+  /**
+   * Populates the Step field with text from {@link SelectDialog}
+   * @param instruction is the string received from SelectDialog.
+   */
   public void markAsStep(String instruction) {
     binding.stepInput.setText(instruction);
   }

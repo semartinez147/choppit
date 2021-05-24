@@ -19,13 +19,12 @@ import com.semartinez.projects.choppit.R;
 import com.semartinez.projects.choppit.controller.ui.dialog.InfoDialog;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.repository.RecipeRepository;
-import com.semartinez.projects.choppit.model.repository.StyleRepository;
 import com.semartinez.projects.choppit.service.ChoppitDatabase;
 import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * This activity houses the UI {@link androidx.fragment.app.Fragment}s.  It also establishes {@link
+ * This activity houses the UI Fragments  It also establishes {@link
  * #onOptionsItemSelected(MenuItem)} behavior.  Help button {@link android.app.AlertDialog} contents
  * is set by the label of the active {@link androidx.fragment.app.Fragment} when the button is
  * pressed.
@@ -35,7 +34,14 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
   private NavController navController;
   private String sharedUrl = null;
   AppBarConfiguration appBarConfiguration;
+  private final int help = R.id.help;
+  private final int settings = R.id.settings;
 
+  /**
+   * This override of onCreate receives a shared URL and prepares the UI, Navigation components and
+   * ViewModel.  It also calls a method to generate filler recipes, but that method call will be
+   * removed for production.
+   */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -51,13 +57,11 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
     setupNavigation();
     setupViewModel();
     shouldDisplayHomeUp();
+
+    //DEV fills several dummy Recipes into the database for testing & debugging.
     preloadDatabase();
-    loadStyles();
   }
 
-  private void loadStyles() {
-    StyleRepository styles = StyleRepository.getInstance();
-  }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
@@ -70,11 +74,11 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     boolean handled = true;
     switch (item.getItemId()) {
-      case R.id.help:
+      case help:
         showInfo(navController.getCurrentDestination().getId(),
             navController.getCurrentDestination().getLabel().toString());
         break;
-      case R.id.settings:
+      case settings:
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
         break;
@@ -155,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
   }
 
   private void shouldDisplayHomeUp() {
-    boolean canGoBack = getSupportFragmentManager().getBackStackEntryCount()>0;
+    boolean canGoBack = getSupportFragmentManager().getBackStackEntryCount() > 0;
     getSupportActionBar().setDisplayHomeAsUpEnabled(canGoBack);
   }
 
