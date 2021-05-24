@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
   private String sharedUrl = null;
   AppBarConfiguration appBarConfiguration;
   private final int help = R.id.help;
-  private final int settings = R.id.settings;
 
   /**
    * This override of onCreate receives a shared URL and prepares the UI, Navigation components and
@@ -73,21 +72,17 @@ public class MainActivity extends AppCompatActivity implements OnBackStackChange
   @Override
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     boolean handled = true;
-    switch (item.getItemId()) {
-      case help:
-        showInfo(navController.getCurrentDestination().getId(),
-            navController.getCurrentDestination().getLabel().toString());
-        break;
-      case settings:
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
-        break;
-      case android.R.id.home:
-        onBackPressed();
-        return true;
-      default:
-        handled = super.onOptionsItemSelected(item);
+
+    if (item.getItemId() == R.id.help) {
+      showInfo(navController.getCurrentDestination().getId(),
+          navController.getCurrentDestination().getLabel().toString());
+    } else if (item.getItemId() == android.R.id.home) {
+      onBackPressed();
+      handled = true;
+    } else {
+      handled = super.onOptionsItemSelected(item);
     }
+
     return handled;
   }
 
