@@ -22,7 +22,7 @@ import com.semartinez.projects.choppit.viewmodel.MainViewModel;
 /**
  * SaveDialog gives the user the option to save changes to a {@link Recipe}
  */
-public class SaveDialog extends DialogFragment implements OnClickListener{
+public class SaveDialog extends DialogFragment implements OnClickListener {
 
   private View dialogView;
   private final Recipe recipe;
@@ -62,19 +62,24 @@ public class SaveDialog extends DialogFragment implements OnClickListener{
   }
 
   private void errorToast() {
-    Toast toast = Toast.makeText(getContext(), "Can't save a new recipe with the same title.", Toast.LENGTH_LONG);
+    Toast toast = Toast
+        .makeText(getContext(), "Can't save a new recipe with the same title.", Toast.LENGTH_LONG);
     toast.setGravity(Gravity.BOTTOM, 0,
         getResources().getDimensionPixelOffset(R.dimen.toast_vertical_margin));
     toast.show();
   }
 
+  /**
+   * This override of onClick sets button functions to either save a new recipe, overwrite the
+   * existing recipe, or back out of the dialog.
+   */
   @Override
   public void onClick(DialogInterface dialog, int which) {
     switch (which) {
       case -1: { //overwrite
         recipe.setTitle(title.getText().toString());
         viewModel.updateRecipe(recipe);
-        ((EditingFragment)requireParentFragment()).navAfterSave(view);
+        ((EditingFragment) requireParentFragment()).navAfterSave(view);
         break;
       }
       case -2: { //save new
@@ -84,7 +89,7 @@ public class SaveDialog extends DialogFragment implements OnClickListener{
           recipe.setRecipeId(0);
           viewModel.saveRecipe(recipe);
         }
-        ((EditingFragment)requireParentFragment()).navAfterSave(view);
+        ((EditingFragment) requireParentFragment()).navAfterSave(view);
         break;
       }
       case -3:
