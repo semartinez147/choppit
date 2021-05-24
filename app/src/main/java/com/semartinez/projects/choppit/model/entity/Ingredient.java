@@ -78,7 +78,7 @@ public class Ingredient {
   }
 
   /**
-   * @return the IngredientId.
+   * @return the id of the Ingredient.
    */
   public long getId() {
     return id;
@@ -92,7 +92,7 @@ public class Ingredient {
   }
 
   /**
-   * @return the RecipeId of the parent Recipe
+   * @return the recipeId of the parent Recipe
    */
   public long getRecipeId() {
     return recipeId;
