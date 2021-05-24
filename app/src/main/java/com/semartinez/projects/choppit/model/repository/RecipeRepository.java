@@ -42,10 +42,16 @@ public class RecipeRepository {
   private final JsoupMachine jsoupMachine;
   private Document doc;
 
+  /**
+   * @param context is ChoppitApplication.
+   */
   public static void setContext(Application context) {
     RecipeRepository.context = context;
   }
 
+  /**
+   * @return a singleton instance of this class.
+   */
   public static RecipeRepository getInstance() {
     return InstanceHolder.INSTANCE;
   }
@@ -60,6 +66,13 @@ public class RecipeRepository {
 
   }
 
+  /**
+   * This save method adds a new Recipe to the database and applies its generated id to the recipeId
+   * field in all of its Steps and Ingredients.
+   *
+   * @param recipe is received from the EditingFragment
+   * @return the Recipe object, with auto-generated recipeId if successful.
+   */
   public Single<Recipe> saveNew(Recipe recipe) {
     return database.getRecipeDao().insert(recipe)
         .subscribeOn(Schedulers.io())
@@ -89,46 +102,66 @@ public class RecipeRepository {
         });
   }
 
+  /**
+   * @param recipe is received from the EditingFragment.
+   * @return 1 as a Single<Integer> if the update is successful, otherwise a Single<Throwable>.
+   */
   public Single<Integer> update(Recipe recipe) {
     return database.getRecipeDao().update(recipe).subscribeOn(Schedulers.io());
   }
 
-  /**  * @return all {@link Recipe}s for display in the {@link com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragment}.
+  /**
+   * @return all {@link Recipe}s for display in the {@link com.semartinez.projects.choppit.controller.ui.cookbook.CookbookFragment}.
    */
   public LiveData<List<Recipe>> getAll() {
     return database.getRecipeDao().select();
   }
 
 
-  public LiveData<List<Recipe>> favList() {
+  private LiveData<List<Recipe>> favList() {
     RecipeDao dao = database.getRecipeDao();
     return dao.favList();
   }
 
-  public Maybe<Recipe> getOne(String title) {
+  private Maybe<Recipe> getOne(String title) {
     RecipeDao dao = database.getRecipeDao();
     return dao.select(title)
         .subscribeOn(Schedulers.io());
   }
 
-  public Single<Recipe> getById(Long id) {
+  private Single<Recipe> getById(Long id) {
     RecipeDao dao = database.getRecipeDao();
     return dao.getOne(id)
         .subscribeOn(Schedulers.io());
   }
 
+  /**
+   * @param id database search parameter received from either the RecipeFragment or EditingFragment
+   * @return a Single<Recipe> if the update is successful, otherwise a Single<Throwable>
+   */
   public Single<Recipe> loadDetails(long id) {
     RecipeDao dao = database.getRecipeDao();
     return dao.loadRecipeData(id)
         .subscribeOn(Schedulers.io()).map(Recipe::new);
   }
 
+  /**
+   * @param recipe received by the DeleteDialog.
+   * @return a Single<Integer> if the update is successful, otherwise a Single<Throwable>
+   */
   public Single<Integer> delete(Recipe recipe) {
     RecipeDao dao = database.getRecipeDao();
     return dao.delete(recipe)
         .subscribeOn(Schedulers.io());
   }
 
+  /**
+   * This is the first step is processing a website.  It calls Jsoup's connect method and stores the
+   * result in {@link #doc} if the connection is successful.
+   *
+   * @param url is received from the user.
+   * @return a ReactiveX Completable.
+   */
   public Completable connect(String url) {
     Log.d("Choppit", " Repository connect method");
     return Completable.fromRunnable(() -> {
@@ -148,14 +181,19 @@ public class RecipeRepository {
   }
 
 
+  /**
+   * This method sends the retrieved document to the {@link JsoupMachine} to extract String elements.
+   *
+   * @return a Single containing the Strings that match Choppit's extraction filter, or a throwable.
+   */
   public Single<List<String>> generateStrings() {
     return jsoupMachine.prepare(doc).subscribeOn(Schedulers.computation());
   }
 
   /**
-   * This method is called by the {@link MainViewModel} and passes the user inputs to the {@link
-   * JsoupMachine} for processing.  The resulting data is passed back up to the {@link
-   * MainViewModel} and eventually displayed in the {@link EditingFragment}.
+   * This method passes the user inputs to the {@link JsoupMachine} for processing.  The resulting
+   * data is passed back up to the {@link MainViewModel} and eventually displayed in the {@link
+   * EditingFragment}.
    *
    * @param ingredient  input by the user on the {@link SelectionFragment}
    * @param instruction input by the user on the {@link SelectionFragment}
