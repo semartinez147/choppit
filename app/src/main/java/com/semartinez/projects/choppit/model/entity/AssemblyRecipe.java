@@ -1,9 +1,10 @@
 package com.semartinez.projects.choppit.model.entity;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * AssemblyRecipe is a POJO-ish object used to collect data as a {@link Recipe} is being assembled
+ */
 public class AssemblyRecipe {
   private long id = 0;
   private String url;
@@ -13,7 +14,6 @@ public class AssemblyRecipe {
   private List<Ingredient> ingredients;
 
   private List<String> reduction;
-  private Map<String, String> samples;
 
   public long getId() {
     return id;
@@ -60,15 +60,4 @@ public class AssemblyRecipe {
     this.reduction = reduction;
   }
 
-  public Map<String, String> getSamples() {
-    return samples;
-  }
-
-  public void setSamples(Map<String, String> samples) {
-    if (samples == null) {
-      samples = new HashMap<>();
-    }
-    this.samples.put("ingredient", samples.get("ingredient"));
-    this.samples.put("instruction", samples.get("instruction"));
-  }
 }
