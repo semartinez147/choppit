@@ -68,7 +68,7 @@ android.applicationVariants.all { variant ->
         exclude '**/R\$**'
         exclude '**/BuildConfig*'
 
-        destinationDir = file("$projectDir/../docs/api")
+        destinationDir = file("$projectDir/../../choppit-docs/api")
 
         options {
             windowTitle = "$appName (${project.android.defaultConfig.versionName})"
@@ -77,7 +77,7 @@ android.applicationVariants.all { variant ->
             author = false
             links 'https://docs.oracle.com/javase/8/docs/api/'
             links 'http://reactivex.io/RxJava/javadoc/'
-            links 'https://jsoup.org/apidocs/'
+//            links 'https://jsoup.org/apidocs/' does not have a package list.
             links 'https://www.javadoc.io/doc/com.google.code.gson/gson/latest/com.google.gson/'
             linksOffline 'https://developer.android.com/reference', "$projectDir/.."
         }
