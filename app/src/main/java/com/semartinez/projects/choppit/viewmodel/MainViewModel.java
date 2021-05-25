@@ -20,6 +20,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Implementation of AndroidViewModel.  MainViewModel handles asynchronous calls to {@link
+ * RecipeRepository} methods and contains various {@link MutableLiveData} fields.
+ */
 public class MainViewModel extends AndroidViewModel implements LifecycleObserver {
 
   private final MutableLiveData<Recipe> recipe;
@@ -52,42 +56,79 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     resetData();
   }
 
+  /**
+   * @return LiveData containing all Recipes returned from the database by {@link
+   * RecipeRepository#getAll()}.
+   */
   public LiveData<List<Recipe>> getAllRecipes() {
     return repository.getAll();
   }
+
+  /**
+   * @return LiveData containing a single Recipe.
+   */
   public LiveData<Recipe> getRecipe() {
     return recipe;
   }
+
+  /**
+   * @return LiveData containing a list of Steps.
+   */
   public LiveData<List<Step>> getSteps() {
     return steps;
   }
+
+  /**
+   * @return LiveData containing a list of Ingredients.
+   */
   public LiveData<List<Ingredient>> getIngredients() {
     return ingredients;
   }
+
+  /**
+   * @return LiveData containing a list of Strings
+   */
   public LiveData<List<String>> getStringsFromDocument() {
     return stringsFromDocument;
   }
+
+  /**
+   * @return LiveData containing a State.
+   */
   public LiveData<State> getStatus() {
     return status;
   }
+
+  /**
+   * @return LiveData containing a Throwable
+   */
   public LiveData<Throwable> getThrowable() {
     return throwable;
   }
+
+  /**
+   * @return a URL received by an Android Intent.
+   */
   public String getSharedUrl() {
     return sharedUrl;
   }
+
+  /**
+   * @param string a URL received by an Android Intent.
+   */
   public void setSharedUrl(String string) {
     this.sharedUrl = string;
   }
-  public LiveData<Set<String>> getPermissions() {
+
+  private LiveData<Set<String>> getPermissions() {
     return permissions;
   }
 
   /**
-   * Returns all {@link MutableLiveData} values to default to clear data from prior activities.
+   * Returns all {@link MutableLiveData} values (except Status) to default to clear data from prior
+   * activities.
    */
   public void resetData() {
-    Log.d("Choppit", "MVM resetData");
     steps.postValue(null);
     ingredients.postValue(null);
     recipe.postValue(null);
@@ -95,6 +136,9 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     throwable.postValue(null);
   }
 
+  /**
+   * Returns Status to default to clear progress from prior activities.
+   */
   public void resetStatus() {
     status.postValue(State.READY);
     throwable.postValue(null);
@@ -102,8 +146,11 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
 
   /**
    * This method is called by the {@link com.semartinez.projects.choppit.controller.ui.editing.LoadingFragment}
-   * to begin processing.  It passes the user's url to {@link RecipeRepository#connect}, and
-   * notifies the Loading Fragment before and after using {@link #status} values.
+   * on navigation from the HomeFragment to begin processing.  It passes the user's url to {@link
+   * RecipeRepository#connect}, and notifies the Loading Fragment by posting {@link #status} values
+   * as MutableLiveData.
+   *
+   * On success, calls {@link #generateStrings()} and updates status.  On failure, a Throwable is posted instead.
    *
    * @param url is taken from user input on the {@link com.semartinez.projects.choppit.controller.ui.home.HomeFragment}.
    */
@@ -122,6 +169,13 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     );
   }
 
+  /**
+   * This method is called if {@link #makeItGo(String)} completes successfully. It calls {@link
+   * RecipeRepository#generateStrings()}.
+   * <p>
+   * On success, post the resulting Strings as MutableLiveData and updates status.  On failure, a Throwable is posted
+   * instead.
+   */
   public void generateStrings() {
     pending.add(
         repository.generateStrings()
@@ -135,6 +189,17 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     );
   }
 
+  /**
+   * This method is called by the {@link com.semartinez.projects.choppit.controller.ui.editing.SelectionFragment}
+   * when navigating back to the LoadingFragment.  It passes user-selected Strings to the backend to
+   * help identify what text should be extracted from the HTML.
+   * <p>
+   * On success, {@link #finish(AssemblyRecipe)} is called and the next status value is posted.  On
+   * failure, a Throwable is posted.
+   *
+   * @param ingredient  user-selected ingredient text.
+   * @param instruction user-selected instruction text.
+   */
   public void processData(String ingredient, String instruction) {
     Log.d("MVM", "beginning processData");
     status.setValue(State.PROCESSING);
@@ -149,11 +214,19 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
     );
   }
 
+  /**
+   * Posts a completed Recipe and the final status value.
+   *
+   * @param data a completed AssemblyRecipe.
+   */
   public void finish(AssemblyRecipe data) {
     recipe.postValue(new Recipe(data));
     status.postValue(State.FINISHED);
   }
 
+  /**
+   * @param newRecipe is a Recipe to be saved as a new database entity.
+   */
   public void saveRecipe(Recipe newRecipe) {
     throwable.setValue(null);
     repository.saveNew(newRecipe)
@@ -161,6 +234,9 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
         .subscribe();
   }
 
+  /**
+   * @param recipe is a Recipe to be updated in the database.
+   */
   public void updateRecipe(Recipe recipe) {
     repository.update(recipe)
         .doOnError(throwable::postValue)
@@ -168,6 +244,11 @@ public class MainViewModel extends AndroidViewModel implements LifecycleObserver
         .subscribe();
   }
 
+  /**
+   * On success, posts a retrieved Recipe.  On failure, a Throwable is posted.
+   *
+   * @param id is a RecipeId passed by either the EditingFragment or RecipeFragment.
+   */
   public void loadRecipe(Long id) {
     throwable.setValue(null);
     pending.add(
