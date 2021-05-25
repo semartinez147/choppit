@@ -48,6 +48,8 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<CookbookViewHo
   }
 
   /**
+   * @param parent   where the new ViewHolder will be added.
+   * @param viewType is not used in this override.
    * @return a ViewHolder for each item to be displayed
    */
   @NonNull
@@ -107,8 +109,8 @@ public class CookbookRecyclerAdapter extends RecyclerView.Adapter<CookbookViewHo
     }
 
     /**
-     * This method attaches a specific {@link Recipe} to a specific entry in the {@link
-     * CookbookFragment}.
+     * This method attaches a specific {@link Recipe} to a specific binding and attaches the
+     * CookbookFragment to handle user input.
      *
      * @param recipe is received from the database
      */
