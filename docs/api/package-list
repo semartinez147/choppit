@@ -1,0 +1,14 @@
+com.semartinez.projects.choppit
+com.semartinez.projects.choppit.controller
+com.semartinez.projects.choppit.controller.exception
+com.semartinez.projects.choppit.controller.ui.cookbook
+com.semartinez.projects.choppit.controller.ui.dialog
+com.semartinez.projects.choppit.controller.ui.editing
+com.semartinez.projects.choppit.controller.ui.home
+com.semartinez.projects.choppit.model.dao
+com.semartinez.projects.choppit.model.entity
+com.semartinez.projects.choppit.model.pojo
+com.semartinez.projects.choppit.model.repository
+com.semartinez.projects.choppit.service
+com.semartinez.projects.choppit.view
+com.semartinez.projects.choppit.viewmodel
