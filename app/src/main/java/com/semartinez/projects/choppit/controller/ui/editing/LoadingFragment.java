@@ -71,7 +71,6 @@ public class LoadingFragment extends Fragment {
     if (fromHome) {
       viewModel.resetData();
       viewModel.makeItGo(url);
-    } else {
     }
     observe();
   }

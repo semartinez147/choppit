@@ -34,8 +34,6 @@ import org.jsoup.select.Elements;
  */
 public class JsoupMachine {
 
-  // TODO add any new measurement enum values to the parentheses here.  Extract String to resource.
-  public static final String MAGIC_INGREDIENT_REGEX = "^([\\d\\W]*)\\s(tsp|teaspoon|tbsp|tablespoon|oz|ounce|c|cup|lb|pound*)*s??\\b(.*)";
   private Document document;
   private List<String> listRawIngredients = new ArrayList<>();
   private List<String> listInstructions = new ArrayList<>();
@@ -214,7 +212,7 @@ public class JsoupMachine {
    * Creates an Ingredient by separating the ingredient String into a quantity, unit, and name.
    */
   protected void buildIngredients() {
-    Pattern pattern = Pattern.compile(MAGIC_INGREDIENT_REGEX);
+    Pattern pattern = Pattern.compile(Constants.INGREDIENT_REGEX);
     List<String> rawIngredients = this.listRawIngredients;
     for (String rawIngredient : rawIngredients) {
       Matcher matcher = pattern.matcher(rawIngredient);

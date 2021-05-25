@@ -1,5 +1,12 @@
 package com.semartinez.projects.choppit.controller.ui.dialog;
 
+import static com.semartinez.projects.choppit.service.Constants.NAV_COOK;
+import static com.semartinez.projects.choppit.service.Constants.NAV_EDIT;
+import static com.semartinez.projects.choppit.service.Constants.NAV_HOME;
+import static com.semartinez.projects.choppit.service.Constants.NAV_LOAD;
+import static com.semartinez.projects.choppit.service.Constants.NAV_REC;
+import static com.semartinez.projects.choppit.service.Constants.NAV_SEL;
+
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,8 +29,9 @@ public class InfoDialog extends DialogFragment {
   private final String fragLabel;
 
   /**
-   * @param navFragment is the Switch input, taken from the active Fragment id when the Help button is pressed.
-   * @param fragLabel is populated from the navFragment and displayed in the Action Bar.
+   * @param navFragment is the Switch input, taken from the active Fragment id when the Help button
+   *                    is pressed.
+   * @param fragLabel   is populated from the navFragment and displayed in the Action Bar.
    */
   public InfoDialog(int navFragment, String fragLabel) {
     currentLocation = navFragment;
@@ -57,28 +65,28 @@ public class InfoDialog extends DialogFragment {
 
     TextView info = dialogView.findViewById(R.id.dialog_info);
 
-    switch(currentLocation) {
-      case R.id.navigation_home:
-      info.setText(R.string.home_info);
-      break;
-      case R.id.navigation_selection:
-      info.setText(R.string.selection_info);
-      break;
-      case R.id.navigation_loading:
+    switch (currentLocation) {
+      case NAV_HOME:
+        info.setText(R.string.home_info);
+        break;
+      case NAV_SEL:
+        info.setText(R.string.selection_info);
+        break;
+      case NAV_LOAD:
         info.setText(R.string.loading_info);
         break;
-      case R.id.navigation_editing:
-      info.setText(R.string.editing_info);
-      break;
-      case R.id.navigation_cookbook:
-      info.setText(R.string.cookbook_info);
-      break;
-      case R.id.navigation_recipe:
+      case NAV_EDIT:
+        info.setText(R.string.editing_info);
+        break;
+      case NAV_COOK:
+        info.setText(R.string.cookbook_info);
+        break;
+      case NAV_REC:
         info.setText(R.string.recipe_info);
         break;
       default:
-      info.setText(R.string.default_info);
-      break;
+        info.setText(R.string.default_info);
+        break;
     }
   }
 }
