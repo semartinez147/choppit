@@ -19,6 +19,19 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+/**
+ * JsoupMachine does all the heavy lifting in the backend.  The first step after retrieving a
+ * document in the {@link com.semartinez.projects.choppit.model.repository.RecipeRepository} is to
+ * create a new {@link AssemblyRecipe}.  This object collects the output from the other methods here
+ * so that it can be passed back to the frontend.  The raw HTML is filtered to eliminate things like
+ * videos and ads, and the plain text of the remaining elements is added to the AssemblyRecipe and
+ * passed back to the UI.  The {@code class} attribute of the Strings the user selects are used to
+ * sort through the filtered HTML elements.  Everything with a matching {@code class} attribute is
+ * collected in one of two lists.  Raw ingredients are separated using Regex into a measurement
+ * quantity, measurement unit, and ingredient name, then converted to an {@link Ingredient}.  Recipe
+ * instructions along with their position in the list create {@link Step}s.  The completed
+ * AssemblyRecipe is then passed back to the UI for further editing by the user.
+ */
 public class JsoupMachine {
 
   // TODO add any new measurement enum values to the parentheses here.  Extract String to resource.
@@ -32,33 +45,41 @@ public class JsoupMachine {
 
   JsoupMachine() {
   }
+
+  /**
+   * @return a singleton instance of this class.
+   */
   public static JsoupMachine getInstance() {
     return InstanceHolder.INSTANCE;
   }
 
+  /**
+   * This is the first method called in the processing chain.  It creates a new {@link
+   * AssemblyRecipe} using the URL and title of the document, then initiates a callable that filters
+   * HTML elements.
+   *
+   * @param doc is received from {@link com.semartinez.projects.choppit.model.repository.RecipeRepository}
+   *            after a successful connection attempt.
+   * @return a list of Strings extracted from the HTML.
+   */
   public Single<List<String>> prepare(Document doc) {
     document = doc;
     assemblyRecipe = new AssemblyRecipe();
     assemblyRecipe.setUrl(document.location());
     assemblyRecipe.setTitle(document.title());
-    return Single.fromCallable(new callMe());
+    return Single.fromCallable(new CallMe());
   }
 
   /**
-   * This method coordinates the processing work by calling {@link #getClass(String, String)}, followed by
-   * {@link #getClassContents(String)} and {@link #buildIngredients()} / {@link #buildSteps()} then
-   * matching {@link Ingredient}s to {@link Step}s.
+   * This method sets up two threads; one extracts ingredient text and the other extracts
+   * instruction text.  Both are processed into Ingredient and Step objects. When both have
+   * finished, the resulting Ingredients and Steps are added to an AssemblyRecipe.
    *
-   * @param ingredient  parameter received from {@link com.semartinez.projects.choppit.controller.ui.home.HomeFragment}
-   *                    user input via {@link com.semartinez.projects.choppit.viewmodel.MainViewModel}
-   *                    and {@link com.semartinez.projects.choppit.model.repository.RecipeRepository}.
-   * @param instruction parameter received from {@link com.semartinez.projects.choppit.controller.ui.home.HomeFragment}
-   *                    *                    user input via {@link com.semartinez.projects.choppit.viewmodel.MainViewModel}
-   *                    and *                    {@link com.semartinez.projects.choppit.model.repository.RecipeRepository}.
-   * @return A {@link List} of {@link Step} objects with embedded {@link Ingredient}s.
+   * @param ingredient  received from user input on the SelectionFragment.
+   * @param instruction received from user input on the SelectionFragment.
+   * @return an AssemblyRecipe object containing
    */
   public AssemblyRecipe process(String ingredient, String instruction) {
-    //TODO Error handling: test getClass errors for 0 or >1 result.
 
     RunIngredients i = new RunIngredients(ingredient);
     RunSteps s = new RunSteps(instruction);
@@ -84,7 +105,10 @@ public class JsoupMachine {
     return assemblyRecipe;
   }
 
-  private class callMe implements Callable<List<String>> {
+  /**
+   * CallMe is a nested class to improve readability and encapsulation.
+   */
+  private class CallMe implements Callable<List<String>> {
 
     @Override
     public List<String> call() throws Exception {
@@ -93,7 +117,8 @@ public class JsoupMachine {
         // Call reconnect if the breakpoint is ever triggered.
       }
       document.filter(new Strainer());
-      List<String> strings = document.getAllElements().parallelStream().map(Element::ownText).distinct()
+      List<String> strings = document.getAllElements().parallelStream().map(Element::ownText)
+          .distinct()
           .collect(Collectors.toList());
       if (strings.isEmpty()) {
         throw new ZeroMatchesException();
@@ -103,8 +128,13 @@ public class JsoupMachine {
     }
   }
 
+  /**
+   * RunIngredients is a nested class to improve readability and encapsulation.
+   */
   private class RunIngredients implements Runnable {
+
     String ingredient;
+
     public RunIngredients(String ingredient) {
       this.ingredient = ingredient;
     }
@@ -117,8 +147,13 @@ public class JsoupMachine {
     }
   }
 
+  /**
+   * RunSteps is a nested class to improve readability and encapsulation.
+   */
   private class RunSteps implements Runnable {
+
     String instruction;
+
     public RunSteps(String instruction) {
       this.instruction = instruction;
     }
@@ -146,7 +181,7 @@ public class JsoupMachine {
       return e.get(0).attr("class");
     } else {
       Log.e("Retriever failed:", "found " + e.size() + " matching classes");
-      throw e.isEmpty()? new ZeroMatchesException(type) : new TooManyMatchesException(type);
+      throw e.isEmpty() ? new ZeroMatchesException(type) : new TooManyMatchesException(type);
     }
   }
 
@@ -163,6 +198,9 @@ public class JsoupMachine {
     return e.eachText();
   }
 
+  /**
+   * Creates a Step out of an instruction String and its position (starting at 1) in the list.
+   */
   protected void buildSteps() {
     for (int i = 0, j = 1; i < this.listInstructions.size(); i++, j++) {
       Step step = new Step();
@@ -172,6 +210,9 @@ public class JsoupMachine {
     }
   }
 
+  /**
+   * Creates an Ingredient by separating the ingredient String into a quantity, unit, and name.
+   */
   protected void buildIngredients() {
     Pattern pattern = Pattern.compile(MAGIC_INGREDIENT_REGEX);
     List<String> rawIngredients = this.listRawIngredients;
@@ -197,6 +238,9 @@ public class JsoupMachine {
     }
   }
 
+  /**
+   * @param document is passed from the RecipeRepository after a successful connection.
+   */
   public void setDocument(Document document) {
     Log.d("Choppit", "Retriever document setter");
     this.document = document;

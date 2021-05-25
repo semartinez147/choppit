@@ -4,6 +4,12 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.NodeFilter;
 
+/**
+ * This class was written before I had any knowledge of HTML structure and basically uses brute
+ * force to eliminate anything that doesn't look like potentially useful text.  The first item on my
+ * to-do list is to write a new version that just selects ordered & unordered lists, but this
+ * iteration may be useful as a fallback for weirdly-formatted websites.
+ */
 public class Strainer implements NodeFilter {
 
   @Override

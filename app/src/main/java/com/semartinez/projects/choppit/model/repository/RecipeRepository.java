@@ -43,7 +43,7 @@ public class RecipeRepository {
   private Document doc;
 
   /**
-   * @param context is ChoppitApplication.
+   * @param context ChoppitApplication.
    */
   public static void setContext(Application context) {
     RecipeRepository.context = context;

@@ -13,6 +13,9 @@ import com.semartinez.projects.choppit.model.entity.Ingredient.Unit;
 import com.semartinez.projects.choppit.model.entity.Recipe;
 import com.semartinez.projects.choppit.model.entity.Step;
 
+/**
+ * This is my Room Database.  There are many like it, but this one is mine.
+ */
 @Database(
     entities = {Ingredient.class, Recipe.class, Step.class},
     version = 1
@@ -24,11 +27,17 @@ public abstract class ChoppitDatabase extends RoomDatabase {
 
   private static Application context;
 
+   /**
+   * @param context ChoppitApplication.
+   */
   public static void setContext(Application context) {
     ChoppitDatabase.context = context;
   }
 
 
+  /**
+   * @return a singleton instance of this class.
+   */
   public static ChoppitDatabase getInstance() {
 
     return InstanceHolder.INSTANCE;
